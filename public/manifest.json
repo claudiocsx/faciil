@@ -1,0 +1,19 @@
+{
+  "name": "Faciil - Loja de Tecnologia",
+  "short_name": "Faciil",
+  "description": "Acessórios tech com entrega via Uber Flash",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#1DF2FF",
+  "icons": [
+    {
+      "src": "/Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["shopping"],
+  "lang": "pt-BR"
+}

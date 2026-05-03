@@ -1,0 +1,134 @@
+import React, { useState } from 'react';
+import { ShoppingCart, Heart, Star, Zap } from 'lucide-react';
+
+const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  const discount = product.originalPrice 
+    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
+    : 0;
+
+  const stars = product.rating || 4.5;
+  const reviews = product.reviews || 0;
+
+  return (
+    <div 
+      className="group relative glass-card rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => onViewDetail(product)}
+    >
+      {/* Imagem */}
+      <div className="relative aspect-square bg-bg-elevated overflow-hidden">
+        <img 
+          src={product.image} 
+          alt={product.name}
+          className={`w-full h-full object-cover transition-all duration-500 ${isHovered ? 'scale-110 opacity-90' : 'scale-100'}`}
+        />
+        
+        <div className={`absolute inset-0 bg-gradient-to-t from-bg-deep via-transparent to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-0'}`} />
+
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          {discount > 0 && (
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 10px rgba(255,184,0,0.4)' }}>
+              -{discount}%
+            </span>
+          )}
+          {product.stock <= 5 && product.stock > 0 && (
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 10px rgba(255,184,0,0.4)' }}>
+              Últimas!
+            </span>
+          )}
+          {product.stock === 0 && (
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black glass-card text-text-dim">
+              Esgotado
+            </span>
+          )}
+          {product.isNew && (
+            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black flex items-center gap-1" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 10px rgba(29,242,255,0.4)' }}>
+              <Zap size={12} /> Novo
+            </span>
+          )}
+        </div>
+
+        {/* Wishlist */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all ${
+            liked 
+              ? 'text-red-500' 
+              : 'bg-white/5 text-text-secondary hover:text-red-400 border border-white/10'
+          }`}
+        >
+          <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
+        </button>
+
+        {/* Quick Add to Cart */}
+        <div className={`absolute bottom-0 left-0 right-0 p-3 transition-all duration-300 ${
+          isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+        }`}>
+          <button
+            onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+            disabled={product.stock === 0}
+            className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed text-black"
+            style={{ 
+              backgroundColor: '#39FF14',
+              boxShadow: '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)'
+            }}
+          >
+            <ShoppingCart size={16} />
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="p-4 space-y-2.5">
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1DF2FF' }}>
+          {product.category}
+        </span>
+
+        <h3 className="font-bold text-text-primary text-sm line-clamp-2 transition-colors hover:text-neon-cyan">
+          {product.name}
+        </h3>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star 
+                key={i} 
+                size={14} 
+                className={i < Math.floor(stars) ? 'text-neon-amber fill-neon-amber' : 'text-text-dim'} 
+              />
+            ))}
+          </div>
+          {reviews > 0 && (
+            <span className="text-xs text-text-dim">({reviews})</span>
+          )}
+        </div>
+
+        {/* Price */}
+        <div className="space-y-1 pt-1 border-t border-border-subtle">
+          {product.originalPrice && (
+            <p className="text-xs text-text-dim line-through">
+              R$ {product.originalPrice.toFixed(2)}
+            </p>
+          )}
+          <div className="flex items-baseline gap-2">
+            <p className="text-2xl font-black" style={{ color: '#ADFF2F' }}>
+              R$ {product.price.toFixed(2)}
+            </p>
+          </div>
+          <p className="text-xs text-text-dim">
+            ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
