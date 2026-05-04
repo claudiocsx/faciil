@@ -34,7 +34,6 @@ const StorePage = () => {
       onRemoveItem={removeFromCart}
       onViewDetail={(product) => navigate(`/produto/${product.id}`, { state: product })}
       onOrders={() => navigate('/pedidos')}
-      onAdmin={() => navigate('/login')}
       whatsappNumber={WHATSAPP_NUMBER}
       onSaveOrder={handleSaveOrder}
     />
