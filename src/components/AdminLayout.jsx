@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import NotificationPanel from './NotificationPanel';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Ticket, PlusCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 import Logo from './Logo';
 
 const AdminLayout = () => {
@@ -9,6 +12,16 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifCount, setNotifCount] = useState(0);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, 'notifications'), (snap) => {
+      const unread = snap.docs.filter(d => !d.data().read).length;
+      setNotifCount(unread);
+    });
+    return unsub;
+  }, []);
 
   const currentModule = location.pathname.split('/admin/')[1] || 'dashboard';
 
@@ -151,10 +164,17 @@ const AdminLayout = () => {
                 <Store size={16} />
                 Ver Loja
               </button>
-              <button className="relative p-2 text-text-dim hover:text-text-secondary transition-colors">
-                <Bell size={20} />
-                <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB800' }}>3</span>
-              </button>
+              <div className="relative">
+                <button onClick={() => setNotifOpen(!notifOpen)} className="relative p-2 text-text-dim hover:text-text-secondary transition-colors">
+                  <Bell size={20} />
+                  {notifCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB800' }}>
+                      {notifCount > 9 ? '9+' : notifCount}
+                    </span>
+                  )}
+                </button>
+                <NotificationPanel isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
+              </div>
             </div>
           </div>
         </header>

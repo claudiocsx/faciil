@@ -12,6 +12,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [selectedCategory, setSelectedCategory] = useState('Tudo');
   const [sortBy, setSortBy] = useState('featured');
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [showOffers, setShowOffers] = useState(false);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
