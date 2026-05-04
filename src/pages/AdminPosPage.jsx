@@ -97,7 +97,7 @@ const AdminPosPage = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] gap-4">
+    <div className="flex flex-col lg:flex-row h-[calc(100vh-8rem)] gap-4">
       {/* Products List */}
       <div className="flex-1 flex flex-col glass-card rounded-xl overflow-hidden">
         <div className="p-4 border-b border-border-subtle">
@@ -128,7 +128,7 @@ const AdminPosPage = () => {
       </div>
 
       {/* Cart & Checkout */}
-      <div className="w-96 flex flex-col glass-card rounded-xl overflow-hidden">
+      <div className="w-full lg:w-96 flex flex-col glass-card rounded-xl overflow-hidden">
         <div className="p-4 border-b border-border-subtle">
           <h3 className="font-bold text-text-primary">Nova Venda</h3>
         </div>
