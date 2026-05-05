@@ -70,7 +70,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="border-b sticky top-0 z-40 bg-white/85 backdrop-blur-xl" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+      <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo Faciil com Raio */}
