@@ -189,21 +189,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               )}
             </div>
 
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Buscar produtos..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
-                />
-              </div>
-            </div>
+            <div className="flex-1" />
 
             <div className="flex items-center gap-2">
               <select
