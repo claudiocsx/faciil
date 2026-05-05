@@ -159,29 +159,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Filters */}
-      <section className="sticky top-16 z-30 backdrop-blur-xl border-b" style={{ backgroundColor: 'rgba(5,5,5,0.9)', borderColor: 'rgba(59,139,185,0.1)' }}>
+      <section className="sticky top-16 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
               <button
                 onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all glass-card text-text-primary hover:border-neon-cyan/40"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
               >
-                <SlidersHorizontal size={16} style={{ color: 'var(--color-neon-cyan)' }} />
+                <SlidersHorizontal size={16} style={{ color: '#FFB347' }} />
                 {selectedCategory}
-                <ChevronDown size={14} className="text-text-dim" />
+                <ChevronDown size={14} className="text-gray-400" />
               </button>
-             
+              
               {categoryDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-bg-elevated border border-border-glow rounded-xl shadow-2xl py-2 z-40">
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 z-40 border" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
                   {TECH_CATEGORIES.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); }}
-                      className={`w-full px-4 py-2.5 text-left text-sm hover:bg-white/5 transition-colors ${
-                        selectedCategory === cat ? 'font-bold' : 'text-text-secondary'
-                      }`}
-                      style={selectedCategory === cat ? { color: '#FFB347' } : {}}
+                      className="w-full text-left px-4 py-2 text-sm transition-colors hover:bg-black/5"
+                      style={{ color: selectedCategory === cat ? '#FFB347' : '#1A2238' }}
                     >
                       {cat}
                     </button>
@@ -190,36 +189,64 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               )}
             </div>
 
-            <div className="hidden md:flex items-center gap-2 overflow-x-auto flex-1">
-              {TECH_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all"
-                  style={
-                    selectedCategory === cat
-                      ? { backgroundColor: '#FFB347', color: '#000',  }
-                      : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#999', border: '1px solid rgba(255,255,255,0.1)' }
-                  }
-                >
-                  {cat}
-                </button>
-              ))}
+            <div className="flex-1 max-w-xl">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Buscar produtos..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
+                />
+              </div>
             </div>
 
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="ml-auto px-4 py-2.5 rounded-xl text-sm font-medium text-text-primary outline-none"
-              style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-            >
-              <option value="featured" className="bg-bg-elevated">Destaques</option>
-              <option value="newest" className="bg-bg-elevated">Novidades</option>
-              <option value="price-asc" className="bg-bg-elevated">Menor Preço</option>
-              <option value="price-desc" className="bg-bg-elevated">Maior Preço</option>
-              <option value="name" className="bg-bg-elevated">A-Z</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+                style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238', appearance: 'none' }}
+              >
+                <option value="featured">Destaques</option>
+                <option value="newest">Novidades</option>
+                <option value="price-asc">Menor Preço</option>
+                <option value="price-desc">Maior Preço</option>
+                <option value="name">A-Z</option>
+              </select>
+            </div>
           </div>
+
+          {/* Filtros Ativos */}
+          {(selectedCategory !== 'Tudo' || searchTerm) && (
+            <div className="flex items-center gap-2 mt-3">
+              <span className="text-sm text-gray-500">Filtros:</span>
+              {selectedCategory !== 'Tudo' && (
+                <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                  style={{ backgroundColor: 'rgba(255,179,71,0.1)', color: '#FFB347', border: '1px solid rgba(255,179,71,0.2)' }}>
+                  {selectedCategory}
+                  <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-black ml-1 font-bold">×</button>
+                </span>
+              )}
+              {searchTerm && (
+                <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                  style={{ backgroundColor: 'rgba(26,34,56,0.05)', color: '#1A2238', border: '1px solid rgba(0,0,0,0.1)' }}>
+                  Busca: "{searchTerm}"
+                  <button onClick={() => setSearchTerm('')} className="hover:text-black ml-1 font-bold">×</button>
+                </span>
+              )}
+              <button
+                onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
+                className="text-xs text-gray-500 hover:text-amber underline"
+              >
+                Limpar todos
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
