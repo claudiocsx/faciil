@@ -54,7 +54,7 @@ const AdminClientsPage = () => {
         <button
           onClick={() => { setFormData({ id: null, name: '', phone: '', neighborhood: '', address: '' }); setShowForm(true); }}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-black transition-all"
-          style={{ backgroundColor: '#4DD0E1', boxShadow: '0 0 10px rgba(77,208,225,0.4)' }}
+          style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}
         >
           <Plus size={16} /> Novo Cliente
         </button>
@@ -111,7 +111,7 @@ const AdminClientsPage = () => {
           </div>
           <div className="flex gap-2 pt-2">
             <button type="button" onClick={() => setShowForm(false)} className="flex-1 py-2 rounded-lg text-xs font-bold glass-card text-text-secondary">Cancelar</button>
-            <button type="submit" className="flex-1 py-2 rounded-lg text-xs font-bold text-black" style={{ backgroundColor: '#81C784' }}>Salvar</button>
+            <button type="submit" className="flex-1 py-2 rounded-lg text-xs font-bold text-black" style={{ backgroundColor: '#5A9E5A' }}>Salvar</button>
           </div>
         </form>
       )}

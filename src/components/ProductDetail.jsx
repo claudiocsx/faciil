@@ -18,7 +18,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#050505' }}>
-      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(77,208,225,0.1)' }}>
+      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(59,139,185,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
             <button
@@ -30,7 +30,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
             </button>
 
             <div className="flex items-center gap-2">
-              <div className="drop-shadow-[0_0_6px rgba(77,208,225,0.6)]">
+              <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                 <Logo size={28} />
               </div>
               <span className="font-black text-lg text-text-primary hidden sm:block">Faciil</span>
@@ -58,11 +58,11 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
             <div className="p-4 sm:p-6 space-y-4">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#4DD0E1' }}>
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#3B8B9' }}>
                   {product.category}
                 </span>
                 {product.isNew && (
-                  <span className="px-2 py-0.5 rounded text-xs font-bold text-black" style={{ backgroundColor: '#4DD0E1' }}>
+                  <span className="px-2 py-0.5 rounded text-xs font-bold text-black" style={{ backgroundColor: '#3B8B9' }}>
                     Novo
                   </span>
                 )}
@@ -87,14 +87,14 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 <span className="text-xs text-text-dim">({product.reviews || 0})</span>
               </div>
 
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(174,213,129,0.05)', border: '1px solid rgba(174,213,129,0.15)' }}>
+              <div className="p-3 rounded-lg" style={{ backgroundColor: 'rgba(138,168,46,0.05)', border: '1px solid rgba(138,168,46,0.15)' }}>
                 {product.originalPrice && (
                   <p className="text-xs text-text-dim line-through">
                     R$ {product.originalPrice.toFixed(2)}
                   </p>
                 )}
                 <div className="flex items-baseline gap-2">
-                  <p className="text-2xl font-black" style={{ color: '#AED581' }}>
+                  <p className="text-2xl font-black" style={{ color: '#8AA82E' }}>
                     R$ {product.price.toFixed(2)}
                   </p>
                 </div>
@@ -137,8 +137,8 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 disabled={availableStock === 0}
                 className="relative z-10 w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
-                  backgroundColor: '#81C784',
-                  boxShadow: '0 0 12px rgba(129,199,132,0.5), 0 0 24px rgba(129,199,132,0.2)',
+                  backgroundColor: '#5A9E5A',
+                  boxShadow: '0 0 12px rgba(90,158,90,0.5), 0 0 24px rgba(90,158,90,0.2)',
                   color: '#000'
                 }}
               >
@@ -152,7 +152,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   { icon: RotateCcw, text: '30 dias devolução' }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-1.5 text-xs text-text-dim">
-                    <item.icon size={14} style={{ color: '#4DD0E1' }} />
+                    <item.icon size={14} style={{ color: '#3B8B9' }} />
                     <span>{item.text}</span>
                   </div>
                 ))}

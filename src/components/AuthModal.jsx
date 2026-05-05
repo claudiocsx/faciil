@@ -50,8 +50,8 @@ const AuthModal = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(5,5,5,0.85)', backdropFilter: 'blur(8px)' }}>
-      <div className="w-full max-w-md rounded-2xl" style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(77,208,225,0.15)', boxShadow: '0 0 30px rgba(77,208,225,0.1), 0 25px 50px rgba(0,0,0,0.5)' }}>
-        <div className="p-6 border-b" style={{ borderColor: 'rgba(77,208,225,0.1)' }}>
+      <div className="w-full max-w-md rounded-2xl" style={{ backgroundColor: '#050505', border: '1px solid rgba(59,139,185,0.15)', boxShadow: '0 0 30px rgba(59,139,185,0.1), 0 25px 50px rgba(0,0,0,0.5)' }}>
+        <div className="p-6 border-b" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-black text-text-primary">
@@ -79,7 +79,7 @@ const AuthModal = ({ onClose }) => {
                   onChange={(e) => handleInputChange('name', e.target.value)}
                   className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all"
                   style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(77,208,225,0.4)'}
+                  onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
                   onBlur={(e) => e.target.style.borderColor = errors.name ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}
                   placeholder="Seu nome"
                 />
@@ -98,7 +98,7 @@ const AuthModal = ({ onClose }) => {
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 className="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all"
                 style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-                onFocus={(e) => e.target.style.borderColor = 'rgba(77,208,225,0.4)'}
+                onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
                 onBlur={(e) => e.target.style.borderColor = errors.email ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}
                 placeholder="seu@email.com"
               />
@@ -116,7 +116,7 @@ const AuthModal = ({ onClose }) => {
                 onChange={(e) => handleInputChange('password', e.target.value)}
                 className="w-full pl-10 pr-12 py-3 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all"
                 style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-                onFocus={(e) => e.target.style.borderColor = 'rgba(77,208,225,0.4)'}
+                onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
                 onBlur={(e) => e.target.style.borderColor = errors.password ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}
                 placeholder="Sua senha"
               />
@@ -151,7 +151,7 @@ const AuthModal = ({ onClose }) => {
             type="submit"
             disabled={loading}
             className="w-full py-3.5 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-            style={{ backgroundColor: '#4DD0E1', boxShadow: '0 0 12px rgba(77,208,225,0.5), 0 0 24px rgba(77,208,225,0.2)' }}
+            style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 12px rgba(59,139,185,0.5), 0 0 24px rgba(59,139,185,0.2)' }}
           >
             {loading ? (
               <><div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Processando...</>
@@ -159,7 +159,7 @@ const AuthModal = ({ onClose }) => {
           </button>
         </form>
 
-        <div className="p-6 border-t text-center" style={{ borderColor: 'rgba(77,208,225,0.1)' }}>
+        <div className="p-6 border-t text-center" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
           <p className="text-sm text-text-dim">
             {isLogin ? 'Não tem conta?' : 'Já tem conta?'}
           </p>
@@ -167,7 +167,7 @@ const AuthModal = ({ onClose }) => {
             type="button"
             onClick={() => setIsLogin(!isLogin)}
             className="font-bold text-sm mt-1 transition-colors"
-            style={{ color: '#4DD0E1' }}
+            style={{ color: '#3B8B9' }}
           >
             {isLogin ? 'Criar conta' : 'Fazer login'}
           </button>

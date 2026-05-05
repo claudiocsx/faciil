@@ -17,7 +17,7 @@ const AdminProductsPage = () => {
         <button
           onClick={() => navigate('/admin/products/new')}
           className="px-6 py-3 text-black rounded-xl font-bold text-sm flex items-center gap-2 transition-all hover:shadow-lg"
-          style={{ backgroundColor: '#4DD0E1', boxShadow: '0 0 10px rgba(77,208,225,0.4)' }}
+          style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}
         >
           + Novo Produto
         </button>
@@ -29,9 +29,9 @@ const AdminProductsPage = () => {
             <img src={p.image} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-bg-elevated" />
             <div className="flex-1 min-w-0">
               <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>
-              <p className="text-sm font-bold" style={{ color: '#AED581' }}>R$ {p.price.toFixed(2)}</p>
+              <p className="text-sm font-bold" style={{ color: '#8AA82E' }}>R$ {p.price.toFixed(2)}</p>
               <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
-              {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#4DD0E1' }}>📦 {p.supplier}</p>}
+              {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#3B8B9' }}>📦 {p.supplier}</p>}
               {p.costPrice && <p className="text-xs text-orange-400">Custo: R$ {p.costPrice.toFixed(2)}</p>}
             </div>
             <div className="flex flex-col gap-1">
