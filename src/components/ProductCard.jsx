@@ -45,7 +45,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
             </span>
           )}
           {product.isNew && (
-            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 8px rgba(29,242,255,0.4)' }}>
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#00D4FF', boxShadow: '0 0 8px rgba(0,212,255,0.4)' }}>
               <Zap size={12} /> Novo
             </span>
           )}
@@ -84,10 +84,10 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
               justAdded ? 'bg-green-500 scale-105' : ''
             }`}
             style={{ 
-              backgroundColor: justAdded ? '#10B981' : '#39FF14',
+              backgroundColor: justAdded ? '#10B981' : '#00E676',
               boxShadow: justAdded 
                 ? '0 0 12px rgba(16,185,129,0.5)' 
-                : '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)'
+                : '0 0 12px rgba(0,230,118,0.5), 0 0 24px rgba(0,230,118,0.2)'
             }}
           >
             {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
@@ -98,7 +98,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
 
       {/* Info */}
       <div className="p-4 space-y-2.5">
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#1DF2FF' }}>
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#00D4FF' }}>
           {product.category}
         </span>
 
@@ -130,7 +130,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
             </p>
           )}
           <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-black" style={{ color: '#ADFF2F' }}>
+            <p className="text-2xl font-black" style={{ color: '#C6FF00' }}>
               R$ {product.price.toFixed(2)}
             </p>
           </div>

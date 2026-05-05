@@ -148,8 +148,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           onClick={() => { setOrderSuccess(false); onClose(); }}
         />
         <div className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-deep border-l border-border-glow shadow-2xl z-50 flex flex-col items-center justify-center p-8 text-center">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'rgba(57,255,20,0.1)' }}>
-            <CheckCircle size={40} style={{ color: '#39FF14' }} />
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'rgba(0,230,118,0.1)' }}>
+            <CheckCircle size={40} style={{ color: '#00E676' }} />
           </div>
           <h2 className="text-2xl font-bold text-text-primary mb-3">Pedido Enviado!</h2>
           <p className="text-text-dim mb-2">Seu pedido foi enviado via WhatsApp.</p>
@@ -157,7 +157,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           <button
             onClick={() => { setOrderSuccess(false); onClose(); }}
             className="w-full py-3 rounded-xl font-bold text-sm text-black transition-all"
-            style={{ backgroundColor: '#39FF14', boxShadow: '0 0 12px rgba(57,255,20,0.5)' }}
+            style={{ backgroundColor: '#00E676', boxShadow: '0 0 12px rgba(0,230,118,0.5)' }}
           >
             Continuar Comprando
           </button>
@@ -176,8 +176,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
       <div className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-deep border-l border-border-glow shadow-2xl z-50 flex flex-col">
         <div className="flex items-center justify-between p-4 border-b border-border-subtle">
           <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(57,255,20,0.1)' }}>
-              <ShoppingBag size={18} style={{ color: '#39FF14' }} />
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(0,230,118,0.1)' }}>
+              <ShoppingBag size={18} style={{ color: '#00E676' }} />
             </div>
             <div>
               <h2 className="text-base font-bold text-text-primary">Carrinho</h2>
@@ -192,7 +192,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
         <div className="flex-1 overflow-y-auto">
           {cart.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-6">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'rgba(29,242,255,0.05)' }}>
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'rgba(0,212,255,0.05)' }}>
                 <ShoppingBag size={28} className="text-text-dim" />
               </div>
               <h3 className="text-base font-bold text-text-primary mb-2">Carrinho vazio</h3>
@@ -200,7 +200,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               <button
                 onClick={onClose}
                 className="mt-4 px-6 py-2.5 font-semibold text-sm rounded-xl text-black transition-all"
-                style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 10px rgba(29,242,255,0.4)' }}
+                style={{ backgroundColor: '#00D4FF', boxShadow: '0 0 10px rgba(0,212,255,0.4)' }}
               >
                 Continuar Comprando
               </button>
@@ -214,7 +214,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold text-sm text-text-primary truncate">{item.name}</h4>
-                    <p className="text-sm font-bold mt-1" style={{ color: '#ADFF2F' }}>
+                    <p className="text-sm font-bold mt-1" style={{ color: '#C6FF00' }}>
                       R$ {(item.price * item.quantity).toFixed(2)}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
@@ -250,7 +250,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                     onClick={() => { setDeliveryMethod('delivery'); setShowForm(true); }}
                     className="p-2.5 rounded-lg text-xs font-bold flex flex-col items-center gap-1.5 transition-all"
                     style={deliveryMethod === 'delivery'
-                      ? { backgroundColor: 'rgba(29,242,255,0.15)', color: '#1DF2FF', border: '1px solid rgba(29,242,255,0.3)' }
+                      ? { backgroundColor: 'rgba(0,212,255,0.15)', color: '#00D4FF', border: '1px solid rgba(0,212,255,0.3)' }
                       : { backgroundColor: 'rgba(255,255,255,0.03)', color: '#999', border: '1px solid rgba(255,255,255,0.08)' }
                     }
                   >
@@ -261,7 +261,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                     onClick={() => { setDeliveryMethod('pickup'); setShowForm(true); }}
                     className="p-2.5 rounded-lg text-xs font-bold flex flex-col items-center gap-1.5 transition-all"
                     style={deliveryMethod === 'pickup'
-                      ? { backgroundColor: 'rgba(57,255,20,0.15)', color: '#39FF14', border: '1px solid rgba(57,255,20,0.3)' }
+                      ? { backgroundColor: 'rgba(0,230,118,0.15)', color: '#00E676', border: '1px solid rgba(0,230,118,0.3)' }
                       : { backgroundColor: 'rgba(255,255,255,0.03)', color: '#999', border: '1px solid rgba(255,255,255,0.08)' }
                     }
                   >
@@ -270,7 +270,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                   </button>
                 </div>
                 {deliveryMethod === 'delivery' && (
-                  <p className="text-xs text-text-dim text-center">Taxa fixa de entrega: <span className="font-bold" style={{ color: '#ADFF2F' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
+                  <p className="text-xs text-text-dim text-center">Taxa fixa de entrega: <span className="font-bold" style={{ color: '#C6FF00' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
                 )}
               </div>
 
@@ -336,12 +336,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
               <div className="p-3 glass-card rounded-xl space-y-3">
                 <div className="flex items-center gap-2">
-                  <Tag size={16} style={{ color: '#1DF2FF' }} />
+                  <Tag size={16} style={{ color: '#00D4FF' }} />
                   <span className="text-sm font-bold text-text-primary">Cupom de Desconto</span>
                 </div>
                 {appliedCoupon ? (
-                  <div className="flex items-center justify-between p-2 rounded-lg" style={{ backgroundColor: 'rgba(57,255,20,0.1)', border: '1px solid rgba(57,255,20,0.3)' }}>
-                    <span className="text-xs font-bold" style={{ color: '#39FF14' }}>
+                  <div className="flex items-center justify-between p-2 rounded-lg" style={{ backgroundColor: 'rgba(0,230,118,0.1)', border: '1px solid rgba(0,230,118,0.3)' }}>
+                    <span className="text-xs font-bold" style={{ color: '#00E676' }}>
                       {appliedCoupon.code} (-R$ {discount.toFixed(2)})
                     </span>
                     <button onClick={handleRemoveCoupon} className="text-xs text-red-400 font-bold hover:underline">Remover</button>
@@ -360,7 +360,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                       onClick={handleApplyCoupon}
                       disabled={couponLoading}
                       className="px-3 py-2 rounded-lg text-xs font-bold text-black transition-all"
-                      style={{ backgroundColor: '#1DF2FF' }}
+                      style={{ backgroundColor: '#00D4FF' }}
                     >
                       {couponLoading ? '...' : <Check size={16} />}
                     </button>
@@ -382,25 +382,25 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               {deliveryMethod === 'delivery' && (
                 <div className="flex justify-between">
                   <span className="text-text-dim">Entrega (Uber Flash)</span>
-                  <span className="font-bold" style={{ color: '#ADFF2F' }}>R$ {DELIVERY_FEE.toFixed(2)}</span>
+                  <span className="font-bold" style={{ color: '#C6FF00' }}>R$ {DELIVERY_FEE.toFixed(2)}</span>
                 </div>
               )}
               {discount > 0 && (
-                <div className="flex justify-between" style={{ color: '#39FF14' }}>
+                <div className="flex justify-between" style={{ color: '#00E676' }}>
                   <span>Desconto ({appliedCoupon.code})</span>
                   <span className="font-bold">-R$ {discount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between text-base font-bold text-text-primary pt-2 border-t border-border-subtle">
                 <span>Total</span>
-                <span style={{ color: '#ADFF2F' }}>R$ {total.toFixed(2)}</span>
+                <span style={{ color: '#C6FF00' }}>R$ {total.toFixed(2)}</span>
               </div>
             </div>
 
             <button
               onClick={handleWhatsAppCheckout}
               className="w-full py-3 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-105"
-              style={{ backgroundColor: '#39FF14', boxShadow: '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)' }}
+              style={{ backgroundColor: '#00E676', boxShadow: '0 0 12px rgba(0,230,118,0.5), 0 0 24px rgba(0,230,118,0.2)' }}
             >
               <MessageCircle size={18} />
               {deliveryMethod === 'delivery' ? 'Pedir com Entrega' : 'Pedir para Retirada'}

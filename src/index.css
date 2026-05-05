@@ -1,23 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-neon-cyan: #1DF2FF;
-  --color-neon-green: #39FF14;
-  --color-neon-lime: #ADFF2F;
-  --color-neon-amber: #FFB800;
-  --color-bg-deep: #0F0F0F;
-  --color-bg-card: #1A1A1A;
-  --color-bg-elevated: #252525;
-  --color-border-glow: rgba(29, 242, 255, 0.2);
-  --color-border-subtle: #2A2A2A;
-  --color-text-primary: #F0F0F0;
+  --color-neon-cyan: #00D4FF;
+  --color-neon-green: #00E676;
+  --color-neon-lime: #C6FF00;
+  --color-neon-amber: #FFB300;
+  --color-neon-error: #FF6B6B;
+  --color-bg-deep: #121212;
+  --color-bg-card: #1E1E1E;
+  --color-bg-elevated: #2A2A2A;
+  --color-border-glow: rgba(0, 212, 255, 0.15);
+  --color-border-subtle: #333333;
+  --color-text-primary: #E0E0E0;
   --color-text-secondary: #B0B0B0;
-  --color-text-dim: #808080;
+  --color-text-dim: #757575;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #2A2A2A #0F0F0F;
+  scrollbar-color: #333333 #121212;
 }
 
 *::-webkit-scrollbar {
@@ -25,55 +26,55 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #0F0F0F;
+  background: #121212;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #2A2A2A;
+  background: #333333;
   border-radius: 3px;
 }
 
 body {
   margin: 0;
-  background-color: #0F0F0F;
-  color: #F0F0F0;
+  background-color: #121212;
+  color: #E0E0E0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(29, 242, 255, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.12);
 }
 
 .glass-card:hover {
-  border-color: rgba(29, 242, 255, 0.4);
-  box-shadow: 0 0 15px rgba(29, 242, 255, 0.15);
+  border-color: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
 }
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(29, 242, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(29, 242, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .glow-cyan {
-  box-shadow: 0 0 10px rgba(29, 242, 255, 0.5), 0 0 20px rgba(29, 242, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.15);
 }
 
 .glow-green {
-  box-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.2);
+  box-shadow: 0 0 10px rgba(0, 230, 118, 0.4), 0 0 20px rgba(0, 230, 118, 0.15);
 }
 
 .glow-amber {
-  box-shadow: 0 0 10px rgba(255, 184, 0, 0.5), 0 0 20px rgba(255, 184, 0, 0.2);
+  box-shadow: 0 0 10px rgba(255, 179, 0, 0.4), 0 0 20px rgba(255, 179, 0, 0.15);
 }
 
 .glow-text-cyan {
-  text-shadow: 0 0 10px rgba(29, 242, 255, 0.5), 0 0 20px rgba(29, 242, 255, 0.3);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2);
 }
 
 .glow-text-green {
-  text-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.3);
+  text-shadow: 0 0 10px rgba(0, 230, 118, 0.4), 0 0 20px rgba(0, 230, 118, 0.2);
 }

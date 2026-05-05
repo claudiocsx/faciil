@@ -198,13 +198,13 @@ const AdminPosPage = () => {
           <button
             onClick={handleFinalize} disabled={processing || cart.length === 0 || !selectedClient}
             className="w-full py-3 text-black rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
-            style={{ backgroundColor: 'var(--color-neon-green)', boxShadow: '0 0 10px rgba(57,255,20,0.4)' }}
+            style={{ backgroundColor: 'var(--color-neon-green)', boxShadow: '0 0 10px rgba(0,230,118,0.4)' }}
           >
             <Check size={18} /> Finalizar Venda
           </button>
           {selectedClient && (
             <label className="flex items-center gap-2 justify-center cursor-pointer select-none">
-              <input type="checkbox" checked={sendWhatsapp} onChange={(e) => setSendWhatsapp(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
+              <input type="checkbox" checked={sendWhatsapp} onChange={(e) => setSendWhatsapp(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: '#00D4FF' }} />
               <span className="text-xs text-text-secondary">Enviar recibo via WhatsApp</span>
             </label>
           )}

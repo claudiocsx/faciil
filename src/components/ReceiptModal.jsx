@@ -79,7 +79,7 @@ const ReceiptModal = ({ order, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)' }}>
-      <div className="w-full max-w-sm rounded-xl shadow-2xl overflow-hidden" style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(29,242,255,0.2)' }}>
+      <div className="w-full max-w-sm rounded-xl shadow-2xl overflow-hidden" style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(0,212,255,0.2)' }}>
         <div className="flex items-center justify-between p-4 border-b border-border-subtle">
           <h3 className="text-lg font-bold text-text-primary">Recibo #{order.id}</h3>
           <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors text-text-secondary">
@@ -116,10 +116,10 @@ const ReceiptModal = ({ order, onClose }) => {
         </div>
 
         <div className="p-4 bg-bg-elevated flex gap-2">
-          <button onClick={handleWhatsApp} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#39FF14', color: '#000' }}>
+          <button onClick={handleWhatsApp} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#00E676', color: '#000' }}>
             <MessageCircle size={16} /> WhatsApp
           </button>
-          <button onClick={handlePrint} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#1DF2FF', color: '#000' }}>
+          <button onClick={handlePrint} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#00D4FF', color: '#000' }}>
             <Printer size={16} /> Imprimir
           </button>
         </div>

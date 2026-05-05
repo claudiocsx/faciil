@@ -18,7 +18,7 @@ const ProductDetailPage = () => {
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#050505' }}>
         <div className="text-center">
           <h2 className="text-2xl font-bold text-text-primary mb-4">Produto não encontrado</h2>
-          <button onClick={() => navigate('/')} className="px-6 py-3 text-black rounded-xl font-bold" style={{ backgroundColor: '#1DF2FF' }}>
+          <button onClick={() => navigate('/')} className="px-6 py-3 text-black rounded-xl font-bold" style={{ backgroundColor: '#00D4FF' }}>
             Voltar para a Loja
           </button>
         </div>
