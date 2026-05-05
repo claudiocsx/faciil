@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
+import Toast from './Toast';
 import Logo from './Logo';
 
 const TECH_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
@@ -13,6 +14,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [sortBy, setSortBy] = useState('featured');
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [showOffers, setShowOffers] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -34,7 +37,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, [products, searchTerm, selectedCategory, sortBy]);
 
   return (
-    <div className="min-h-screen grid-bg" style={{ backgroundColor: '#050505' }}>
+    <div className="min-h-screen grid-bg" style={{ backgroundColor: 'var(--color-bg-deep)' }}>
+      <Toast message={toastMessage} isVisible={toastVisible} onClose={() => setToastVisible(false)} />
+      
       <CartSidebar
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
@@ -46,7 +51,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       />
 
       {/* Delivery Banner */}
-      <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(57,255,20,0.08)', color: '#39FF14' }}>
+      <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(57,255,20,0.08)', color: 'var(--color-neon-green)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2">
           <span>🛵 Entregas via Uber Flash em toda a cidade</span>
           <span className="hidden sm:inline">•</span>
@@ -64,7 +69,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               </div>
               <span className="font-black text-xl text-text-primary">Faciil</span>
             </div>
-
+            
             <div className="flex-1 max-w-xl">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
@@ -106,25 +111,43 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 className="relative p-2.5 rounded-xl transition-all hover:bg-white/5"
                 style={{ border: '1px solid rgba(29,242,255,0.1)' }}
               >
-              <ShoppingCart size={20} style={{ color: '#1DF2FF' }} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#39FF14', boxShadow: '0 0 8px rgba(57,255,20,0.5)' }}>
-                  {totalItems}
-                </span>
-              )}
-            </button>
+                <ShoppingCart size={20} style={{ color: '#1DF2FF' }} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)', boxShadow: '0 0 8px rgba(173,255,47,0.5)' }}>
+                    {totalItems}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Hero Banner */}
-      <section className="relative overflow-hidden">
+      {/* Hero Banner - Moderno */}
+      <section className="relative overflow-hidden py-16 lg:py-24">
         <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(29,242,255,0.15) 0%, rgba(57,255,20,0.1) 50%, rgba(255,184,0,0.05) 100%)' }} />
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(29,242,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(57,255,20,0.08) 0%, transparent 50%)' }} />
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-24 relative">
+        
+        {/* Ícones flutuantes */}
+        <div className="absolute top-20 left-10 opacity-20 animate-bounce" style={{ animationDuration: '3s' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(29,242,255,0.2)' }}>
+            <span className="text-2xl">⌚</span>
+          </div>
+        </div>
+        <div className="absolute top-32 right-20 opacity-20 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(57,255,20,0.2)' }}>
+            <span className="text-xl">📱</span>
+          </div>
+        </div>
+        <div className="absolute bottom-20 left-1/4 opacity-15 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
+          <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ backgroundColor: 'rgba(255,184,0,0.2)' }}>
+            <span className="text-lg">🔌</span>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 relative">
           <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 10px rgba(29,242,255,0.4)' }}>
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 10px rgba(29,242,255,0.4)' }}>
               Novidades da Semana
             </span>
             <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-4 text-text-primary glow-text-cyan">
@@ -134,10 +157,17 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               Os melhores acessórios tech com preços imperdíveis. Frete grátis para todo o Brasil.
             </p>
             <div className="flex flex-wrap gap-3">
-              <button className="px-8 py-3.5 text-black rounded-xl font-bold text-sm transition-all" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 12px rgba(29,242,255,0.5), 0 0 24px rgba(29,242,255,0.2)' }}>
+              <button 
+                onClick={() => { setShowOffers(!showOffers); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
+                className="px-8 py-3.5 text-black rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 12px rgba(29,242,255,0.5), 0 0 24px rgba(29,242,255,0.2)' }}
+              >
                 Ver Ofertas
               </button>
-              <button className="px-8 py-3.5 rounded-xl font-bold text-sm glass-card text-text-primary hover:border-neon-cyan/40 transition-all">
+              <button 
+                onClick={() => { setShowOffers(false); setSelectedCategory('Tudo'); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
+                className="px-8 py-3.5 rounded-xl font-bold text-sm glass-card text-text-primary hover:border-neon-cyan/40 transition-all hover:scale-105"
+              >
                 Lançamentos
               </button>
             </div>
@@ -154,11 +184,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all glass-card text-text-primary hover:border-neon-cyan/40"
               >
-                <SlidersHorizontal size={16} style={{ color: '#1DF2FF' }} />
+                <SlidersHorizontal size={16} style={{ color: 'var(--color-neon-cyan)' }} />
                 {selectedCategory}
                 <ChevronDown size={14} className="text-text-dim" />
               </button>
-              
+             
               {categoryDropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 w-48 bg-bg-elevated border border-border-glow rounded-xl shadow-2xl py-2 z-40">
                   {TECH_CATEGORIES.map((cat) => (
@@ -211,7 +241,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Products Grid */}
-      <main className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+      <main id="products-section" className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-text-primary">
             {selectedCategory === 'Tudo' ? 'Todos os Produtos' : selectedCategory}
@@ -221,59 +251,66 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </span>
         </div>
 
-        {filteredProducts.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: 'rgba(29,242,255,0.05)' }}>
-              <Search size={32} className="text-text-dim" />
-            </div>
-            <h3 className="text-lg font-bold text-text-primary mb-2">Nenhum produto encontrado</h3>
-            <p className="text-text-dim">Tente ajustar seus filtros ou buscar por outro termo</p>
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {filteredProducts.map(p => (
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+                    onViewDetail={() => onViewDetail(p)}
+                  />
+            ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAddToCart={onAddToCart}
-                onViewDetail={onViewDetail}
-              />
-            ))}
+          <div className="text-center py-16">
+            <p className="text-text-dim">Nenhum produto encontrado.</p>
           </div>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t mt-12" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      {/* Footer E-commerce Profissional */}
+      <footer className="py-12 border-t text-text-dim" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h4 className="font-bold text-text-primary mb-4">FaciilTech</h4>
-              <p className="text-sm text-text-dim">Os melhores acessórios tech com preços imperdíveis.</p>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="drop-shadow-[0_0_6px rgba(29,242,255,0.6)]">
+                  <Logo size={32} />
+                </div>
+                <span className="font-black text-xl text-text-primary">Faciil</span>
+              </div>
+              <p className="text-sm">A melhor loja de acessórios tech com preços imbatíveis.</p>
             </div>
             <div>
-              <h4 className="font-bold text-text-primary mb-4">Institucional</h4>
-              <ul className="space-y-2 text-sm text-text-dim">
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Sobre nós</a></li>
+              <h4 className="font-bold text-text-primary mb-4">Links Rápidos</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-neon-cyan transition-colors">Início</a></li>
+                <li><a href="#products-section" className="hover:text-neon-cyan transition-colors">Produtos</a></li>
+                <li><a href="#" className="hover:text-neon-cyan transition-colors">Ofertas</a></li>
+                <li><a href="#" className="hover:text-neon-cyan transition-colors">Contato</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-text-primary mb-4">Suporte</h4>
+              <ul className="space-y-2 text-sm">
+                <li><a href="#" className="hover:text-neon-cyan transition-colors">FAQ</a></li>
                 <li><a href="#" className="hover:text-neon-cyan transition-colors">Política de Privacidade</a></li>
                 <li><a href="#" className="hover:text-neon-cyan transition-colors">Termos de Uso</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-text-primary mb-4">Ajuda</h4>
-              <ul className="space-y-2 text-sm text-text-dim">
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">FAQ</a></li>
                 <li><a href="#" className="hover:text-neon-cyan transition-colors">Trocas e Devoluções</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Fale Conosco</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-bold text-text-primary mb-4">Pagamento</h4>
-              <p className="text-sm text-text-dim">Aceitamos PIX, cartão de crédito e boleto.</p>
+              <h4 className="font-bold text-text-primary mb-4">Contato</h4>
+              <ul className="space-y-2 text-sm">
+                <li>📧 contato@faciil.com</li>
+                <li>📱 (11) 99999-9999</li>
+                <li>📍 São Paulo, SP</li>
+              </ul>
             </div>
           </div>
-          <div className="border-t mt-8 pt-8 text-center text-sm text-text-dim" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            © 2026 FaciilTech. Todos os direitos reservados.
+          <div className="pt-8 border-t text-center text-xs" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+            <p>© 2026 Faciil Tech. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

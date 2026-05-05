@@ -369,7 +369,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
             <button
               onClick={handleWhatsAppCheckout}
-              className="w-full py-3 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all"
+              className="w-full py-3 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-105"
               style={{ backgroundColor: '#39FF14', boxShadow: '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)' }}
             >
               <MessageCircle size={18} />
@@ -377,10 +377,11 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
             </button>
 
             <button
-              onClick={onClose}
-              className="w-full py-2 text-text-dim font-semibold text-sm hover:text-text-secondary transition-colors"
+              onClick={() => { setShowCouponModal(true); }}
+              className="w-full py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5 text-text-dim hover:text-neon-cyan"
             >
-              Continuar Comprando
+              <Tag size={14} className="inline mr-1" />
+              {appliedCoupon ? `Cupom: ${appliedCoupon.code}` : 'Adicionar Cupom'}
             </button>
           </div>
         )}

@@ -72,7 +72,7 @@ const Dashboard = () => {
               <p className="text-xl font-black text-text-primary mt-2">{formatCurrency(stats.revenueToday)}</p>
             </div>
             <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(29,242,255,0.1)' }}>
-              <TrendingUp size={20} style={{ color: '#1DF2FF' }} />
+              <TrendingUp size={20} style={{ color: 'var(--color-neon-cyan)' }} />
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@ const Dashboard = () => {
               <p className="text-xl font-black text-text-primary mt-2">{formatCurrency(stats.revenueMonth)}</p>
             </div>
             <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(57,255,20,0.1)' }}>
-              <TrendingUp size={20} style={{ color: '#39FF14' }} />
+              <TrendingUp size={20} style={{ color: 'var(--color-neon-green)' }} />
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ const Dashboard = () => {
               <p className="text-xl font-black text-text-primary mt-2">{stats.totalOrders}</p>
             </div>
             <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(173,255,47,0.1)' }}>
-              <ShoppingCart size={20} style={{ color: '#ADFF2F' }} />
+              <ShoppingCart size={20} style={{ color: 'var(--color-neon-lime)' }} />
             </div>
           </div>
         </div>
@@ -108,7 +108,7 @@ const Dashboard = () => {
               <p className="text-xl font-black text-text-primary mt-2">{clients.length}</p>
             </div>
             <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,184,0,0.1)' }}>
-              <Users size={20} style={{ color: '#FFB800' }} />
+              <Users size={20} style={{ color: 'var(--color-neon-amber)' }} />
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ const Dashboard = () => {
         {/* Low Stock Alert */}
         <div className="glass-card p-5 rounded-xl lg:col-span-1">
           <div className="flex items-center gap-2 mb-4">
-            <AlertTriangle size={18} style={{ color: '#FFB800' }} />
+            <AlertTriangle size={18} style={{ color: 'var(--color-neon-amber)' }} />
             <h3 className="font-bold text-text-primary">Estoque Baixo</h3>
           </div>
           <div className="space-y-3 max-h-64 overflow-y-auto">
@@ -143,7 +143,7 @@ const Dashboard = () => {
         {/* Recent Orders */}
         <div className="glass-card p-5 rounded-xl lg:col-span-2">
           <div className="flex items-center gap-2 mb-4">
-            <Clock size={18} style={{ color: '#1DF2FF' }} />
+            <Clock size={18} style={{ color: 'var(--color-neon-cyan)' }} />
             <h3 className="font-bold text-text-primary">Pedidos Recentes</h3>
           </div>
           <div className="space-y-2 max-h-64 overflow-y-auto">
@@ -157,7 +157,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold" style={{ color: '#ADFF2F' }}>{formatCurrency(o.total || 0)}</p>
+                  <p className="text-sm font-bold" style={{ color: 'var(--color-neon-lime)' }}>{formatCurrency(o.total || 0)}</p>
                   <span className="text-xs text-text-dim">{o.type === 'manual' ? 'PDV' : 'Online'}</span>
                 </div>
               </div>

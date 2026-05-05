@@ -5,19 +5,19 @@
   --color-neon-green: #39FF14;
   --color-neon-lime: #ADFF2F;
   --color-neon-amber: #FFB800;
-  --color-bg-deep: #050505;
-  --color-bg-card: #0A0A0A;
-  --color-bg-elevated: #121212;
-  --color-border-glow: rgba(29, 242, 255, 0.15);
-  --color-border-subtle: #1A1A1A;
-  --color-text-primary: #E0E0E0;
-  --color-text-secondary: #999999;
-  --color-text-dim: #666666;
+  --color-bg-deep: #0F0F0F;
+  --color-bg-card: #1A1A1A;
+  --color-bg-elevated: #252525;
+  --color-border-glow: rgba(29, 242, 255, 0.2);
+  --color-border-subtle: #2A2A2A;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-dim: #808080;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1A1A1A #050505;
+  scrollbar-color: #2A2A2A #0F0F0F;
 }
 
 *::-webkit-scrollbar {
@@ -25,29 +25,37 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #050505;
+  background: #0F0F0F;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #1A1A1A;
+  background: #2A2A2A;
   border-radius: 3px;
 }
 
 body {
   margin: 0;
-  background-color: #050505;
-  color: #E0E0E0;
+  background-color: #0F0F0F;
+  color: #F0F0F0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-@keyframes glow-pulse {
-  0%, 100% { box-shadow: 0 0 5px rgba(29, 242, 255, 0.3), 0 0 10px rgba(29, 242, 255, 0.1); }
-  50% { box-shadow: 0 0 10px rgba(29, 242, 255, 0.5), 0 0 20px rgba(29, 242, 255, 0.2); }
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(29, 242, 255, 0.15);
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+.glass-card:hover {
+  border-color: rgba(29, 242, 255, 0.4);
+  box-shadow: 0 0 15px rgba(29, 242, 255, 0.15);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(29, 242, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29, 242, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
 .glow-cyan {
@@ -68,22 +76,4 @@ body {
 
 .glow-text-green {
   text-shadow: 0 0 10px rgba(57, 255, 20, 0.5), 0 0 20px rgba(57, 255, 20, 0.3);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(29, 242, 255, 0.1);
-}
-
-.glass-card:hover {
-  border-color: rgba(29, 242, 255, 0.3);
-  box-shadow: 0 0 15px rgba(29, 242, 255, 0.1);
-}
-
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(29, 242, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(29, 242, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
 }

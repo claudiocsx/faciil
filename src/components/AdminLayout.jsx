@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import NotificationPanel from './NotificationPanel';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Ticket, PlusCircle } from 'lucide-react';
+import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Ticket, PlusCircle, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import Logo from './Logo';
+import { useTheme } from '../contexts/ThemeContext';
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
@@ -14,6 +15,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifCount, setNotifCount] = useState(0);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'notifications'), (snap) => {
@@ -37,11 +39,11 @@ const AdminLayout = () => {
   const isActive = (id) => currentModule === id || (id === 'dashboard' && currentModule === '');
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: '#050505' }}>
+    <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-bg-deep)' }}>
       {/* Sidebar Desktop */}
-      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'rgba(29,242,255,0.1)', backgroundColor: '#0A0A0A' }}>
+      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'var(--color-border-glow)', backgroundColor: 'var(--color-bg-card)' }}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
             <div className="flex items-center gap-3">
               <div className="drop-shadow-[0_0_6px rgba(29,242,255,0.6)]">
                 <Logo size={32} />
@@ -50,7 +52,7 @@ const AdminLayout = () => {
             </div>
           </div>
 
-          <div className="px-4 py-4 border-b" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+          <div className="px-4 py-4 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold" style={{ backgroundColor: '#1DF2FF' }}>
                 {user?.name?.charAt(0).toUpperCase()}
@@ -72,8 +74,8 @@ const AdminLayout = () => {
                   key={item.id}
                   onClick={() => navigate(item.path)}
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                  style={active ? { backgroundColor: 'rgba(29,242,255,0.1)', color: '#1DF2FF', border: '1px solid rgba(29,242,255,0.2)' } : { color: '#999', backgroundColor: 'transparent', border: '1px solid transparent' }}
-                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.03)'; }}
+                  style={active ? { backgroundColor: 'rgba(29,242,255,0.1)', color: '#1DF2FF', border: '1px solid rgba(29,242,255,0.2)' } : { color: 'var(--color-text-secondary)', backgroundColor: 'transparent', border: '1px solid transparent' }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'var(--glass-bg)'; }}
                   onMouseLeave={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
                   <Icon size={18} />
@@ -83,7 +85,7 @@ const AdminLayout = () => {
             })}
           </nav>
 
-          <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+          <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'var(--color-border-glow)' }}>
             <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-text-dim hover:text-text-secondary rounded-xl transition-all hover:bg-white/5">
               <Store size={18} />
               Ver Loja
@@ -103,8 +105,8 @@ const AdminLayout = () => {
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/70" onClick={() => setSidebarOpen(false)} />
-          <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: '#0A0A0A', borderRight: '1px solid rgba(29,242,255,0.1)' }}>
-            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'rgba(29,242,255,0.1)' }}>
+          <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: 'var(--color-bg-card)', borderRight: '1px solid var(--color-border-glow)' }}>
+            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
               <div className="flex items-center gap-3">
                 <div className="drop-shadow-[0_0_6px rgba(29,242,255,0.6)]">
                   <Logo size={32} />
@@ -124,7 +126,7 @@ const AdminLayout = () => {
                     key={item.id}
                     onClick={() => { navigate(item.path); setSidebarOpen(false); }}
                     className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                    style={active ? { backgroundColor: 'rgba(29,242,255,0.1)', color: '#1DF2FF' } : { color: '#999' }}
+                    style={active ? { backgroundColor: 'rgba(29,242,255,0.1)', color: '#1DF2FF' } : { color: 'var(--color-text-secondary)' }}
                   >
                     <Icon size={18} />
                     {item.label}
@@ -138,7 +140,7 @@ const AdminLayout = () => {
 
       {/* Main */}
       <div className="flex-1 flex flex-col">
-        <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'rgba(29,242,255,0.1)', backgroundColor: '#0A0A0A' }}>
+        <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'var(--color-border-glow)', backgroundColor: 'var(--color-bg-card)' }}>
           <div className="flex items-center justify-between h-full">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-text-dim hover:text-text-secondary">
               <Menu size={20} />
@@ -148,9 +150,9 @@ const AdminLayout = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
                 <input type="text" placeholder="Buscar..." className="w-full pl-10 pr-4 py-2 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(29,242,255,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                  onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}
                 />
               </div>
             </div>
@@ -175,6 +177,14 @@ const AdminLayout = () => {
                 </button>
                 <NotificationPanel isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
               </div>
+
+              <button
+                onClick={toggleTheme}
+                className="p-2 text-text-dim hover:text-text-secondary transition-colors"
+                title={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
+              >
+                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
             </div>
           </div>
         </header>

@@ -29,26 +29,26 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
         
         <div className={`absolute inset-0 bg-gradient-to-t from-bg-deep via-transparent to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-0'}`} />
 
-        {/* Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
+        {/* Badges - Modernos */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
           {discount > 0 && (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 10px rgba(255,184,0,0.4)' }}>
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 8px rgba(255,184,0,0.4)' }}>
               -{discount}%
             </span>
           )}
-          {product.stock <= 5 && product.stock > 0 && (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 10px rgba(255,184,0,0.4)' }}>
-              Últimas!
+          {product.isNew && (
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 8px rgba(29,242,255,0.4)' }}>
+              <Zap size={12} /> Novo
             </span>
           )}
           {product.stock === 0 && (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-black glass-card text-text-dim">
+            <span className="px-3 py-1 rounded-full text-xs font-bold glass-card text-text-dim">
               Esgotado
             </span>
           )}
-          {product.isNew && (
-            <span className="px-2.5 py-1 rounded-lg text-xs font-black text-black flex items-center gap-1" style={{ backgroundColor: '#1DF2FF', boxShadow: '0 0 10px rgba(29,242,255,0.4)' }}>
-              <Zap size={12} /> Novo
+          {product.stock > 0 && product.stock <= 5 && (
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold" style={{ backgroundColor: '#FFB800', boxShadow: '0 0 8px rgba(255,184,0,0.4)' }}>
+              Últimas!
             </span>
           )}
         </div>

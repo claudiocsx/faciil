@@ -120,7 +120,7 @@ const AdminPosPage = () => {
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
               </div>
               <p className="text-xs font-bold text-text-primary truncate">{p.name}</p>
-              <p className="text-sm font-bold mt-1" style={{ color: '#ADFF2F' }}>R$ {p.price.toFixed(2)}</p>
+              <p className="text-sm font-bold mt-1" style={{ color: 'var(--color-neon-lime)' }}>R$ {p.price.toFixed(2)}</p>
               <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
             </button>
           ))}
@@ -193,12 +193,12 @@ const AdminPosPage = () => {
         <div className="p-4 border-t border-border-subtle space-y-3 bg-bg-elevated">
           <div className="flex justify-between text-lg font-bold text-text-primary">
             <span>Total</span>
-            <span style={{ color: '#ADFF2F' }}>R$ {total.toFixed(2)}</span>
+            <span style={{ color: 'var(--color-neon-lime)' }}>R$ {total.toFixed(2)}</span>
           </div>
           <button
             onClick={handleFinalize} disabled={processing || cart.length === 0 || !selectedClient}
             className="w-full py-3 text-black rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
-            style={{ backgroundColor: '#39FF14', boxShadow: '0 0 10px rgba(57,255,20,0.4)' }}
+            style={{ backgroundColor: 'var(--color-neon-green)', boxShadow: '0 0 10px rgba(57,255,20,0.4)' }}
           >
             <Check size={18} /> Finalizar Venda
           </button>
