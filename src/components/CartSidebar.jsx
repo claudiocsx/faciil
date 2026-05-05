@@ -56,6 +56,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
       setItemToRemove(null);
     }
   };
+
+  const handleApplyCoupon = async () => {
     if (!couponCode.trim()) return;
     setCouponLoading(true);
     setCouponError('');
