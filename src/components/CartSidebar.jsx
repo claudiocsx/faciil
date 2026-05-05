@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag, Check } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag, Check, CheckCircle } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
@@ -18,6 +18,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const [couponError, setCouponError] = useState('');
+
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -124,6 +126,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
     const url = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
+    
+    setOrderSuccess(true);
   };
 
   useEffect(() => {
@@ -135,6 +139,32 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  if (orderSuccess) {
+    return (
+      <>
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"
+          onClick={() => { setOrderSuccess(false); onClose(); }}
+        />
+        <div className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-deep border-l border-border-glow shadow-2xl z-50 flex flex-col items-center justify-center p-8 text-center">
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'rgba(57,255,20,0.1)' }}>
+            <CheckCircle size={40} style={{ color: '#39FF14' }} />
+          </div>
+          <h2 className="text-2xl font-bold text-text-primary mb-3">Pedido Enviado!</h2>
+          <p className="text-text-dim mb-2">Seu pedido foi enviado via WhatsApp.</p>
+          <p className="text-sm text-text-dim mb-8">Em breve retornaremos o contato confirmando o pedido.</p>
+          <button
+            onClick={() => { setOrderSuccess(false); onClose(); }}
+            className="w-full py-3 rounded-xl font-bold text-sm text-black transition-all"
+            style={{ backgroundColor: '#39FF14', boxShadow: '0 0 12px rgba(57,255,20,0.5)' }}
+          >
+            Continuar Comprando
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -374,14 +404,6 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
             >
               <MessageCircle size={18} />
               {deliveryMethod === 'delivery' ? 'Pedir com Entrega' : 'Pedir para Retirada'}
-            </button>
-
-            <button
-              onClick={() => { setShowCouponModal(true); }}
-              className="w-full py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5 text-text-dim hover:text-neon-cyan"
-            >
-              <Tag size={14} className="inline mr-1" />
-              {appliedCoupon ? `Cupom: ${appliedCoupon.code}` : 'Adicionar Cupom'}
             </button>
           </div>
         )}

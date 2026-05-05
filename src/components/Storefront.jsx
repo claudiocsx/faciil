@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2 } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
 import Logo from './Logo';
+import ProductSkeleton from './ProductSkeleton';
 
 const TECH_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 
@@ -251,7 +252,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </span>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {products.length === 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {[...Array(10)].map((_, i) => (
+              <ProductSkeleton key={i} />
+            ))}
+          </div>
+        ) : filteredProducts.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {filteredProducts.map(p => (
                   <ProductCard
@@ -263,8 +270,19 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             ))}
           </div>
         ) : (
-          <div className="text-center py-16">
-            <p className="text-text-dim">Nenhum produto encontrado.</p>
+          <div className="text-center py-16 space-y-4">
+            <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(29,242,255,0.05)' }}>
+              <Package size={32} className="text-text-dim" />
+            </div>
+            <p className="text-text-dim text-lg">Nenhum produto encontrado</p>
+            <p className="text-sm text-text-dim">Tente ajustar os filtros ou buscar por outro termo</p>
+            <button
+              onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
+              className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"
+              style={{ backgroundColor: 'rgba(29,242,255,0.1)', color: '#1DF2FF', border: '1px solid rgba(29,242,255,0.3)' }}
+            >
+              Limpar Filtros
+            </button>
           </div>
         )}
       </main>

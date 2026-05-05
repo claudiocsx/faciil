@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Heart, Star, Zap } from 'lucide-react';
+import { ShoppingCart, Heart, Star, Zap, Check } from 'lucide-react';
 
 const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
@@ -11,6 +12,13 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
 
   const stars = product.rating || 4.5;
   const reviews = product.reviews || 0;
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    onAddToCart(product);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
 
   return (
     <div 
@@ -70,16 +78,20 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
           isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
         }`}>
           <button
-            onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}
+            onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed text-black"
+            className={`w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed text-black ${
+              justAdded ? 'bg-green-500 scale-105' : ''
+            }`}
             style={{ 
-              backgroundColor: '#39FF14',
-              boxShadow: '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)'
+              backgroundColor: justAdded ? '#10B981' : '#39FF14',
+              boxShadow: justAdded 
+                ? '0 0 12px rgba(16,185,129,0.5)' 
+                : '0 0 12px rgba(57,255,20,0.5), 0 0 24px rgba(57,255,20,0.2)'
             }}
           >
-            <ShoppingCart size={16} />
-            Adicionar ao Carrinho
+            {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
+            {justAdded ? 'Adicionado!' : 'Adicionar ao Carrinho'}
           </button>
         </div>
       </div>
