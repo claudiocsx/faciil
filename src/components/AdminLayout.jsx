@@ -86,7 +86,7 @@ const AdminLayout = () => {
           </nav>
 
           <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'var(--color-border-glow)' }}>
-            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-text-dim hover:text-text-secondary rounded-xl transition-all hover:bg-white/5">
+            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all hover:scale-105" style={{ backgroundColor: '#5A9E5A', color: '#000' }}>
               <Store size={18} />
               Ver Loja
             </button>
@@ -160,8 +160,8 @@ const AdminLayout = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/')}
-                className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm font-bold rounded-xl transition-all text-black"
-                style={{ backgroundColor: '#3B8B9',  }}
+                className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-xl transition-all hover:scale-105 text-black"
+                style={{ backgroundColor: '#5A9E5A',  }}
               >
                 <Store size={16} />
                 Ver Loja
