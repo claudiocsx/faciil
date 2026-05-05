@@ -1,39 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --font-family-base: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-  
   --color-midnight: #1A2238;
   --color-amber: #FFB347;
   --color-off-white: #FDFDFD;
   --color-slate: #4A5568;
-  
-  --color-bg-main: #FDFDFD;
-  --color-bg-card: #FFFFFF;
-  --color-bg-elevated: #F4F4F5;
-  --color-border-main: rgba(0, 0, 0, 0.04);
-  --color-border-hover: rgba(255, 179, 71, 0.3);
-  --color-text-primary: #1A2238;
-  --color-text-secondary: #4A5568;
-  --color-text-dim: #71717A;
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #D4D4D8 #FDFDFD;
-}
-
-*::-webkit-scrollbar {
-  width: 6px;
-}
-
-*::-webkit-scrollbar-track {
-  background: #FDFDFD;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: #D4D4D8;
-  border-radius: 3px;
+  --color-gray-50: #FAFAFA;
+  --color-gray-100: #F4F4F5;
+  --color-gray-200: #E4E4E7;
+  --color-gray-300: #D4D4D8;
+  --color-gray-400: #A1A1AA;
+  --color-gray-500: #71717A;
 }
 
 body {
@@ -43,10 +20,11 @@ body {
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* Ajuste de cards de produto */
 .product-card {
   background: white;
   border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0,0,0,0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
 }
@@ -56,10 +34,11 @@ body {
   box-shadow: 0 15px 30px rgba(26, 34, 56, 0.08);
 }
 
+/* Glass effect para admin */
 .glass-card {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0,0,0,0.04);
 }
 
 .glass-card:hover {

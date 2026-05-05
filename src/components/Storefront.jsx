@@ -70,133 +70,51 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-4">
-            {/* Logo Faciil com Raio */}
-            <div className="flex items-center font-semibold text-2xl tracking-tight" style={{ color: '#1A2238' }}>
-              <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-              <span>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
-            </div>
-              <span className="font-black text-xl text-text-primary">Faciil</span>
-            </div>
-            
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Buscar produtos..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-midnight placeholder-text-dim transition-all outline-none"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)' }}
-                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
-                />
-              </div>
-            </div>
+      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+          {/* Logo Faciil com Raio */}
+          <div className="flex items-center font-semibold text-2xl tracking-tight text-midnight">
+            <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>fac<span className="text-amber">ii</span>l</span>
+          </div>
 
-            <div className="flex items-center gap-2">
-              {onAdmin && (
-                <button
-                  onClick={onAdmin}
-                  className="hidden md:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
-                  style={{ border: '1px solid rgba(0,0,0,0.04)' }}
-                >
-                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Painel Admin</span>
-                </button>
-              )}
-              {onOrders && (
-                <button
-                  onClick={onOrders}
-                  className="hidden sm:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
-                  style={{ border: '1px solid rgba(0,0,0,0.04)' }}
-                >
-                  <ClipboardList size={18} style={{ color: '#1A2238' }} />
-                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Pedidos</span>
-                </button>
-              )}
-              <button
-                onClick={() => setCartOpen(true)}
-                className="relative p-2.5 rounded-xl transition-all hover:bg-black/5"
-                style={{ border: '1px solid rgba(0,0,0,0.04)' }}
-              >
-                <ShoppingCart size={20} style={{ color: '#1A2238' }} />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
-                    {totalItems}
-                  </span>
-                )}
-              </button>
-              )}
-              <button
-                onClick={() => setCartOpen(true)}
-                className="relative p-2.5 rounded-xl transition-all hover:bg-white/5"
-                style={{ border: '1px solid rgba(59,139,185,0.1)' }}
-              >
-                <ShoppingCart size={20} style={{ color: '#FFB347' }} />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)',  }}>
-                    {totalItems}
-                  </span>
-                )}
-              </button>
+          {/* Busca & Carrinho */}
+          <div className="flex items-center space-x-4">
+            <div className="hidden md:flex bg-gray-100 rounded-full px-4 py-2 items-center">
+              <Search className="w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Buscar..."
+                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-48"
+              />
             </div>
+            <button className="relative p-2" onClick={() => setCartOpen(true)}>
+              <ShoppingCart className="w-6 h-6 text-midnight" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-amber text-midnight text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </header>
 
       {/* Hero Banner - Moderno */}
-      <section className="relative overflow-hidden py-16 lg:py-24">
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(59,139,185,0.15) 0%, rgba(90,158,90,0.1) 50%, rgba(255,184,0,0.05) 100%)' }} />
-        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(59,139,185,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(90,158,90,0.08) 0%, transparent 50%)' }} />
-        
-        {/* Ícones flutuantes */}
-        <div className="absolute top-20 left-10 opacity-20 animate-bounce" style={{ animationDuration: '3s' }}>
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(59,139,185,0.2)' }}>
-            <span className="text-2xl">⌚</span>
+      <section className="p-4 md:p-8">
+        <div className="max-w-6xl mx-auto bg-midnight rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row items-center p-8 md:p-16 text-white relative">
+          <div className="z-10 text-center md:text-left md:w-1/2">
+            <span className="inline-block bg-amber/20 text-amber px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Acesso Antecipado</span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">Escolha <span className="text-amber">faciil</span>, viva moderno.</h1>
+            <p className="text-gray-300 text-sm md:text-lg mb-8 max-w-sm">Curadoria exclusiva de acessórios que aceleram a sua rotina.</p>
+            <button className="bg-amber text-midnight px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-white transition">Explorar Tudo</button>
           </div>
-        </div>
-        <div className="absolute top-32 right-20 opacity-20 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(90,158,90,0.2)' }}>
-            <span className="text-xl">📱</span>
-          </div>
-        </div>
-        <div className="absolute bottom-20 left-1/4 opacity-15 animate-bounce" style={{ animationDuration: '3.5s', animationDelay: '0.5s' }}>
-          <div className="w-8 h-8 rounded-md flex items-center justify-center" style={{ backgroundColor: 'rgba(255,184,0,0.2)' }}>
-            <span className="text-lg">🔌</span>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 relative">
-          <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)',  }}>
-              Novidades da Semana
-            </span>
-            <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-4 text-text-primary glow-text-cyan">
-              Tecnologia que cabe no seu bolso
-            </h1>
-            <p className="text-lg text-text-secondary mb-8">
-              Os melhores acessórios tech com preços imperdíveis. Frete grátis para todo o Brasil.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <button 
-                onClick={() => { setShowOffers(!showOffers); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
-                className="px-8 py-3.5 text-black rounded-xl font-bold text-sm transition-all hover:scale-105" 
-                style={{ backgroundColor: 'var(--color-neon-cyan)',  }}
-              >
-                Ver Ofertas
-              </button>
-              <button 
-                onClick={() => { setShowOffers(false); setSelectedCategory('Tudo'); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
-                className="px-8 py-3.5 rounded-xl font-bold text-sm glass-card text-text-primary hover:border-neon-cyan/40 transition-all hover:scale-105"
-              >
-                Lançamentos
-              </button>
-            </div>
+          <div className="mt-8 md:mt-0 md:w-1/2">
+            <img src="https://images.unsplash.com/photo-154686831-d1be1c463959?auto=format&fit=crop&w=800&q=80" alt="Produto Destaque" className="w-full max-w-md mx-auto drop-shadow-2xl rotate-2" />
           </div>
         </div>
       </section>
@@ -305,13 +223,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
 
         {products.length === 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {[...Array(10)].map((_, i) => (
               <ProductSkeleton key={i} />
             ))}
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
             {filteredProducts.map(p => (
                   <ProductCard
                     key={p.id}
@@ -341,48 +259,21 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </main>
 
       {/* Footer E-commerce Profissional */}
-      <footer className="py-12 border-t text-text-dim" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
-                  <Logo size={32} />
-                </div>
-                <span className="font-black text-xl text-text-primary">Faciil</span>
-              </div>
-              <p className="text-sm">A melhor loja de acessórios tech com preços imbatíveis.</p>
-            </div>
-            <div>
-              <h4 className="font-bold text-text-primary mb-4">Links Rápidos</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Início</a></li>
-                <li><a href="#products-section" className="hover:text-neon-cyan transition-colors">Produtos</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Ofertas</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Contato</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-text-primary mb-4">Suporte</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Termos de Uso</a></li>
-                <li><a href="#" className="hover:text-neon-cyan transition-colors">Trocas e Devoluções</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-text-primary mb-4">Contato</h4>
-              <ul className="space-y-2 text-sm">
-                <li>📧 contato@faciil.com</li>
-                <li>📱 (11) 99999-9999</li>
-                <li>📍 São Paulo, SP</li>
-              </ul>
-            </div>
+      <footer className="bg-white py-12 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 text-center">
+          <div className="flex items-center justify-center font-semibold text-xl text-midnight mb-4">
+            <svg className="text-amber mr-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>fac<span className="text-amber">ii</span>l</span>
           </div>
-          <div className="pt-8 border-t text-center text-xs" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
-            <p>© 2026 Faciil Tech. Todos os direitos reservados.</p>
+          <p className="text-xs text-gray-400 uppercase tracking-[0.2em] mb-8">Sua escolha inteligente em tecnologia</p>
+          <div className="flex justify-center space-x-6 text-gray-500 mb-8">
+            <a href="#" className="hover:text-amber transition"><small>Suporte</small></a>
+            <a href="#" className="hover:text-amber transition"><small>Termos</small></a>
+            <a href="#" className="hover:text-amber transition"><small>Envio</small></a>
           </div>
+          <div className="text-[10px] text-gray-300">© 2026 Faciil. Brasil.</div>
         </div>
       </footer>
 
