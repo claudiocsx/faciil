@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingCart, Heart, Star, Zap, Check } from 'lucide-react';
 
-const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
+const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -12,6 +12,15 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
 
   const stars = product.rating || 4.5;
   const reviews = product.reviews || 0;
+
+  const highlightText = (text, term) => {
+    if (!term) return text;
+    const regex = new RegExp(`(${term})`, 'gi');
+    const parts = text.split(regex);
+    return parts.map((part, i) => 
+      regex.test(part) ? <mark key={i} className="bg-yellow-400/30 text-white rounded px-0.5">{part}</mark> : part
+    );
+  };
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
@@ -103,7 +112,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail }) => {
         </span>
 
         <h3 className="font-bold text-text-primary text-sm line-clamp-2 transition-colors hover:text-neon-cyan">
-          {product.name}
+          {highlightText(product.name, searchTerm)}
         </h3>
 
         {/* Rating */}

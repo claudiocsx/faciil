@@ -20,6 +20,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
   const [couponError, setCouponError] = useState('');
 
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState(null);
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -45,7 +46,16 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleApplyCoupon = async () => {
+  const handleRemoveClick = (itemId) => {
+    setItemToRemove(itemId);
+  };
+
+  const confirmRemove = () => {
+    if (itemToRemove) {
+      onRemoveItem(itemToRemove);
+      setItemToRemove(null);
+    }
+  };
     if (!couponCode.trim()) return;
     setCouponLoading(true);
     setCouponError('');
@@ -235,7 +245,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                     </div>
                   </div>
                   <button
-                    onClick={() => onRemoveItem(item.id)}
+                    onClick={() => handleRemoveClick(item.id)}
                     className="self-start p-1.5 text-text-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 size={14} />
@@ -408,6 +418,34 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           </div>
         )}
       </div>
+
+      {/* Modal de Confirmação de Remoção */}
+      {itemToRemove && (
+        <>
+          <div className="fixed inset-0 bg-black/80 z-[60]" onClick={() => setItemToRemove(null)} />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[61] w-full max-w-xs p-6 rounded-2xl text-center space-y-4" style={{ backgroundColor: '#1E1E1E', border: '1px solid #333333' }}>
+            <Trash2 size={40} className="mx-auto text-red-400" />
+            <h3 className="text-lg font-bold text-text-primary">Remover Item?</h3>
+            <p className="text-sm text-text-dim">Tem certeza que deseja remover este item do carrinho?</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setItemToRemove(null)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
+                style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#B0B0B0', border: '1px solid #333333' }}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmRemove}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
+                style={{ backgroundColor: '#FF6B6B' }}
+              >
+                Remover
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2 } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -17,6 +17,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [showOffers, setShowOffers] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -243,6 +252,33 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Products Grid */}
       <main id="products-section" className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+        {/* Filtros Ativos */}
+        {(selectedCategory !== 'Tudo' || searchTerm) && (
+          <div className="flex items-center gap-2 mb-6 flex-wrap">
+            <span className="text-sm text-text-dim">Filtros:</span>
+            {selectedCategory !== 'Tudo' && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                style={{ backgroundColor: 'rgba(0,212,255,0.15)', color: '#00D4FF', border: '1px solid rgba(0,212,255,0.3)' }}>
+                {selectedCategory}
+                <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-white ml-1">×</button>
+              </span>
+            )}
+            {searchTerm && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                style={{ backgroundColor: 'rgba(0,230,118,0.15)', color: '#00E676', border: '1px solid rgba(0,230,118,0.3)' }}>
+                Busca: "{searchTerm}"
+                <button onClick={() => setSearchTerm('')} className="hover:text-white ml-1">×</button>
+              </span>
+            )}
+            <button
+              onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
+              className="text-xs text-text-dim hover:text-neon-cyan underline"
+            >
+              Limpar todos
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-text-primary">
             {selectedCategory === 'Tudo' ? 'Todos os Produtos' : selectedCategory}
@@ -264,6 +300,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   <ProductCard
                     key={p.id}
                     product={p}
+                    searchTerm={searchTerm}
                     onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
                     onViewDetail={() => onViewDetail(p)}
                   />
@@ -332,6 +369,17 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </footer>
+
+      {/* Botão Voltar ao Topo */}
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
+          style={{ backgroundColor: '#00E676', boxShadow: '0 0 12px rgba(0,230,118,0.5)' }}
+        >
+          <ArrowUp size={20} className="text-black" />
+        </button>
+      )}
     </div>
   );
 };
