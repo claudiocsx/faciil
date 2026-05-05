@@ -169,7 +169,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           <button
             onClick={() => { setOrderSuccess(false); onClose(); }}
             className="w-full py-3 rounded-xl font-bold text-sm text-black transition-all"
-            style={{ backgroundColor: '#5A9E5A', boxShadow: '0 0 12px rgba(90,158,90,0.5)' }}
+            style={{ backgroundColor: '#5A9E5A',  }}
           >
             Continuar Comprando
           </button>
@@ -212,7 +212,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               <button
                 onClick={onClose}
                 className="mt-4 px-6 py-2.5 font-semibold text-sm rounded-xl text-black transition-all"
-                style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}
+                style={{ backgroundColor: '#3B8B9',  }}
               >
                 Continuar Comprando
               </button>
@@ -412,7 +412,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
             <button
               onClick={handleWhatsAppCheckout}
               className="w-full py-3 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-105"
-              style={{ backgroundColor: '#5A9E5A', boxShadow: '0 0 12px rgba(90,158,90,0.5), 0 0 24px rgba(90,158,90,0.2)' }}
+              style={{ backgroundColor: '#5A9E5A',  }}
             >
               <MessageCircle size={18} />
               {deliveryMethod === 'delivery' ? 'Pedir com Entrega' : 'Pedir para Retirada'}

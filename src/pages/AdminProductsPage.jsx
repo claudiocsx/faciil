@@ -17,7 +17,7 @@ const AdminProductsPage = () => {
         <button
           onClick={() => navigate('/admin/products/new')}
           className="px-6 py-3 text-black rounded-xl font-bold text-sm flex items-center gap-2 transition-all hover:shadow-lg"
-          style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}
+          style={{ backgroundColor: '#3B8B9',  }}
         >
           + Novo Produto
         </button>

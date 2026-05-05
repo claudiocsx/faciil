@@ -123,7 +123,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               >
                 <ShoppingCart size={20} style={{ color: '#3B8B9' }} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)', boxShadow: '0 0 8px rgba(138,168,46,0.5)' }}>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)',  }}>
                     {totalItems}
                   </span>
                 )}
@@ -157,7 +157,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
         <div className="max-w-7xl mx-auto px-4 lg:px-8 relative">
           <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}>
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)',  }}>
               Novidades da Semana
             </span>
             <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-4 text-text-primary glow-text-cyan">
@@ -170,7 +170,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <button 
                 onClick={() => { setShowOffers(!showOffers); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
                 className="px-8 py-3.5 text-black rounded-xl font-bold text-sm transition-all hover:scale-105" 
-                style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 12px rgba(59,139,185,0.5), 0 0 24px rgba(59,139,185,0.2)' }}
+                style={{ backgroundColor: 'var(--color-neon-cyan)',  }}
               >
                 Ver Ofertas
               </button>
@@ -225,7 +225,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   className="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all"
                   style={
                     selectedCategory === cat
-                      ? { backgroundColor: '#3B8B9', color: '#000', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }
+                      ? { backgroundColor: '#3B8B9', color: '#000',  }
                       : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#999', border: '1px solid rgba(255,255,255,0.1)' }
                   }
                 >
@@ -375,7 +375,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: '#5A9E5A', boxShadow: '0 0 12px rgba(90,158,90,0.5)' }}
+          style={{ backgroundColor: '#5A9E5A',  }}
         >
           <ArrowUp size={20} className="text-black" />
         </button>

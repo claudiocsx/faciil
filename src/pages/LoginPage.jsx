@@ -24,7 +24,7 @@ const LoginPage = () => {
         <button
           onClick={() => setShowAuthModal(true)}
           className="w-full py-3 px-4 text-black font-bold rounded-xl transition-all"
-          style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 12px rgba(59,139,185,0.5)' }}
+          style={{ backgroundColor: '#3B8B9',  }}
         >
           Entrar no Painel Admin
         </button>

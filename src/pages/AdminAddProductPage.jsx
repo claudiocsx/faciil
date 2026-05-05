@@ -169,7 +169,7 @@ const AdminAddProductPage = () => {
 
         <div className="flex gap-3 pt-4">
           <button type="button" onClick={() => navigate('/admin/products')} className="flex-1 py-3 glass-card rounded-xl font-bold text-text-secondary">Cancelar</button>
-          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#5A9E5A', boxShadow: '0 0 10px rgba(90,158,90,0.4)' }}>
+          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#5A9E5A',  }}>
             {saving ? 'Salvando...' : (editingProduct ? 'Atualizar' : 'Salvar Produto')}
           </button>
         </div>

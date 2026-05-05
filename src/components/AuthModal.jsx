@@ -50,7 +50,7 @@ const AuthModal = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(5,5,5,0.85)', backdropFilter: 'blur(8px)' }}>
-      <div className="w-full max-w-md rounded-2xl" style={{ backgroundColor: '#050505', border: '1px solid rgba(59,139,185,0.15)', boxShadow: '0 0 30px rgba(59,139,185,0.1), 0 25px 50px rgba(0,0,0,0.5)' }}>
+      <div className="w-full max-w-md rounded-2xl" style={{ backgroundColor: '#050505', border: '1px solid rgba(59,139,185,0.15)',  }}>
         <div className="p-6 border-b" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
           <div className="flex items-center justify-between">
             <div>
@@ -151,7 +151,7 @@ const AuthModal = ({ onClose }) => {
             type="submit"
             disabled={loading}
             className="w-full py-3.5 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-50"
-            style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 12px rgba(59,139,185,0.5), 0 0 24px rgba(59,139,185,0.2)' }}
+            style={{ backgroundColor: '#3B8B9',  }}
           >
             {loading ? (
               <><div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Processando...</>

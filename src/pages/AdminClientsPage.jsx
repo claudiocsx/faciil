@@ -54,7 +54,7 @@ const AdminClientsPage = () => {
         <button
           onClick={() => { setFormData({ id: null, name: '', phone: '', neighborhood: '', address: '' }); setShowForm(true); }}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-black transition-all"
-          style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 10px rgba(59,139,185,0.4)' }}
+          style={{ backgroundColor: '#3B8B9',  }}
         >
           <Plus size={16} /> Novo Cliente
         </button>

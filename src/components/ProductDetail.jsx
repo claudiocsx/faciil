@@ -138,7 +138,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 className="relative z-10 w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: '#5A9E5A',
-                  boxShadow: '0 0 12px rgba(90,158,90,0.5), 0 0 24px rgba(90,158,90,0.2)',
+                  ,
                   color: '#000'
                 }}
               >

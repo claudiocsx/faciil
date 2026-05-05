@@ -161,7 +161,7 @@ const AdminLayout = () => {
               <button
                 onClick={() => navigate('/')}
                 className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm font-bold rounded-xl transition-all text-black"
-                style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 8px rgba(59,139,185,0.3)' }}
+                style={{ backgroundColor: '#3B8B9',  }}
               >
                 <Store size={16} />
                 Ver Loja

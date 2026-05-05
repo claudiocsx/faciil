@@ -51,7 +51,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
               <React.Fragment key={s.num}>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
-                    style={step >= s.num ? { backgroundColor: '#3B8B9', color: '#000', boxShadow: '0 0 10px rgba(59,139,185,0.4)' } : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#666' }}>
+                    style={step >= s.num ? { backgroundColor: '#3B8B9', color: '#000',  } : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#666' }}>
                     {step > s.num ? <Check size={16} /> : s.num}
                   </div>
                   <span className="text-sm font-medium hidden sm:block" style={step >= s.num ? { color: '#3B8B9' } : { color: '#666' }}>{s.label}</span>
@@ -100,7 +100,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                     </div>
                   ))}
                 </div>
-                <button onClick={() => setStep(2)} className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 12px rgba(59,139,185,0.5)' }}>
+                <button onClick={() => setStep(2)} className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#3B8B9',  }}>
                   Continuar <ChevronRight size={18} />
                 </button>
               </div>
@@ -121,7 +121,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                       key={m.id}
                       onClick={() => setPaymentMethod(m.id)}
                       className="p-4 rounded-xl border-2 text-center transition-all"
-                      style={paymentMethod === m.id ? { borderColor: '#3B8B9', backgroundColor: 'rgba(59,139,185,0.05)', boxShadow: '0 0 10px rgba(59,139,185,0.2)' } : { borderColor: 'rgba(255,255,255,0.08)' }}
+                      style={paymentMethod === m.id ? { borderColor: '#3B8B9', backgroundColor: 'rgba(59,139,185,0.05)',  } : { borderColor: 'rgba(255,255,255,0.08)' }}
                     >
                       <m.icon size={24} className="mx-auto mb-2" style={{ color: paymentMethod === m.id ? '#3B8B9' : '#666' }} />
                       <p className="text-sm font-bold" style={{ color: paymentMethod === m.id ? '#3B8B9' : '#E0E0E0' }}>{m.label}</p>
@@ -131,7 +131,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => setStep(1)} className="flex-1 py-4 glass-card text-text-secondary rounded-xl font-bold hover:border-neon-cyan/40 transition-all">Voltar</button>
-                  <button onClick={() => setStep(3)} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#3B8B9', boxShadow: '0 0 12px rgba(59,139,185,0.5)' }}>
+                  <button onClick={() => setStep(3)} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#3B8B9',  }}>
                     Revisar Pedido <ChevronRight size={18} />
                   </button>
                 </div>
@@ -161,7 +161,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => setStep(2)} className="flex-1 py-4 glass-card text-text-secondary rounded-xl font-bold hover:border-neon-cyan/40 transition-all">Voltar</button>
-                  <button onClick={handleSubmit} disabled={loading} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50" style={{ backgroundColor: '#5A9E5A', boxShadow: '0 0 12px rgba(90,158,90,0.5)' }}>
+                  <button onClick={handleSubmit} disabled={loading} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50" style={{ backgroundColor: '#5A9E5A',  }}>
                     {loading ? (
                       <><div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Processando...</>
                     ) : (

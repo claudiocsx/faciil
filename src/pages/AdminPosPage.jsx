@@ -198,7 +198,7 @@ const AdminPosPage = () => {
           <button
             onClick={handleFinalize} disabled={processing || cart.length === 0 || !selectedClient}
             className="w-full py-3 text-black rounded-xl font-bold flex items-center justify-center gap-2 disabled:opacity-50"
-            style={{ backgroundColor: 'var(--color-neon-green)', boxShadow: '0 0 10px rgba(90,158,90,0.4)' }}
+            style={{ backgroundColor: 'var(--color-neon-green)',  }}
           >
             <Check size={18} /> Finalizar Venda
           </button>
