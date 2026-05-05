@@ -71,7 +71,7 @@ const Dashboard = () => {
               <p className="text-xs font-medium text-text-dim uppercase tracking-wide">Faturamento Hoje</p>
               <p className="text-xl font-black text-text-primary mt-2">{formatCurrency(stats.revenueToday)}</p>
             </div>
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(0,212,255,0.1)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(77,208,225,0.1)' }}>
               <TrendingUp size={20} style={{ color: 'var(--color-neon-cyan)' }} />
             </div>
           </div>
@@ -83,7 +83,7 @@ const Dashboard = () => {
               <p className="text-xs font-medium text-text-dim uppercase tracking-wide">Faturamento Mês</p>
               <p className="text-xl font-black text-text-primary mt-2">{formatCurrency(stats.revenueMonth)}</p>
             </div>
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(0,230,118,0.1)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(129,199,132,0.1)' }}>
               <TrendingUp size={20} style={{ color: 'var(--color-neon-green)' }} />
             </div>
           </div>
@@ -95,7 +95,7 @@ const Dashboard = () => {
               <p className="text-xs font-medium text-text-dim uppercase tracking-wide">Total Pedidos</p>
               <p className="text-xl font-black text-text-primary mt-2">{stats.totalOrders}</p>
             </div>
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(198,255,0,0.1)' }}>
+            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(174,213,129,0.1)' }}>
               <ShoppingCart size={20} style={{ color: 'var(--color-neon-lime)' }} />
             </div>
           </div>

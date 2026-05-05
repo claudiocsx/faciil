@@ -61,7 +61,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       />
 
       {/* Delivery Banner */}
-      <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(0,230,118,0.08)', color: 'var(--color-neon-green)' }}>
+      <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(129,199,132,0.08)', color: 'var(--color-neon-green)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2">
           <span>🛵 Entregas via Uber Flash em toda a cidade</span>
           <span className="hidden sm:inline">•</span>
@@ -70,11 +70,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(0,212,255,0.1)' }}>
+      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(77,208,225,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             <div className="flex items-center gap-3 flex-shrink-0">
-              <div className="drop-shadow-[0_0_8px rgba(0,212,255,0.6)]">
+              <div className="drop-shadow-[0_0_8px rgba(77,208,225,0.6)]">
                 <Logo size={36} />
               </div>
               <span className="font-black text-xl text-text-primary">Faciil</span>
@@ -89,9 +89,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar produtos..."
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-text-primary placeholder-text-dim transition-all outline-none"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(0,212,255,0.1)' }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(0,212,255,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,212,255,0.1)'}
+                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(77,208,225,0.1)' }}
+                  onFocus={(e) => e.target.style.borderColor = 'rgba(77,208,225,0.4)'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(77,208,225,0.1)'}
                 />
               </div>
             </div>
@@ -119,11 +119,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <button
                 onClick={() => setCartOpen(true)}
                 className="relative p-2.5 rounded-xl transition-all hover:bg-white/5"
-                style={{ border: '1px solid rgba(0,212,255,0.1)' }}
+                style={{ border: '1px solid rgba(77,208,225,0.1)' }}
               >
-                <ShoppingCart size={20} style={{ color: '#00D4FF' }} />
+                <ShoppingCart size={20} style={{ color: '#4DD0E1' }} />
                 {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)', boxShadow: '0 0 8px rgba(198,255,0,0.5)' }}>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)', boxShadow: '0 0 8px rgba(174,213,129,0.5)' }}>
                     {totalItems}
                   </span>
                 )}
@@ -135,17 +135,17 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Hero Banner - Moderno */}
       <section className="relative overflow-hidden py-16 lg:py-24">
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(0,230,118,0.1) 50%, rgba(255,184,0,0.05) 100%)' }} />
-        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(0,212,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(0,230,118,0.08) 0%, transparent 50%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(77,208,225,0.15) 0%, rgba(129,199,132,0.1) 50%, rgba(255,184,0,0.05) 100%)' }} />
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(77,208,225,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(129,199,132,0.08) 0%, transparent 50%)' }} />
         
         {/* Ícones flutuantes */}
         <div className="absolute top-20 left-10 opacity-20 animate-bounce" style={{ animationDuration: '3s' }}>
-          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(0,212,255,0.2)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(77,208,225,0.2)' }}>
             <span className="text-2xl">⌚</span>
           </div>
         </div>
         <div className="absolute top-32 right-20 opacity-20 animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(0,230,118,0.2)' }}>
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(129,199,132,0.2)' }}>
             <span className="text-xl">📱</span>
           </div>
         </div>
@@ -157,7 +157,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
         <div className="max-w-7xl mx-auto px-4 lg:px-8 relative">
           <div className="max-w-2xl">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 10px rgba(0,212,255,0.4)' }}>
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider mb-6 text-black glow-text-cyan" style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 10px rgba(77,208,225,0.4)' }}>
               Novidades da Semana
             </span>
             <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-4 text-text-primary glow-text-cyan">
@@ -170,7 +170,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <button 
                 onClick={() => { setShowOffers(!showOffers); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }} 
                 className="px-8 py-3.5 text-black rounded-xl font-bold text-sm transition-all hover:scale-105" 
-                style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 12px rgba(0,212,255,0.5), 0 0 24px rgba(0,212,255,0.2)' }}
+                style={{ backgroundColor: 'var(--color-neon-cyan)', boxShadow: '0 0 12px rgba(77,208,225,0.5), 0 0 24px rgba(77,208,225,0.2)' }}
               >
                 Ver Ofertas
               </button>
@@ -186,7 +186,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Filters */}
-      <section className="sticky top-16 z-30 backdrop-blur-xl border-b" style={{ backgroundColor: 'rgba(5,5,5,0.9)', borderColor: 'rgba(0,212,255,0.1)' }}>
+      <section className="sticky top-16 z-30 backdrop-blur-xl border-b" style={{ backgroundColor: 'rgba(5,5,5,0.9)', borderColor: 'rgba(77,208,225,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
@@ -208,7 +208,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       className={`w-full px-4 py-2.5 text-left text-sm hover:bg-white/5 transition-colors ${
                         selectedCategory === cat ? 'font-bold' : 'text-text-secondary'
                       }`}
-                      style={selectedCategory === cat ? { color: '#00D4FF' } : {}}
+                      style={selectedCategory === cat ? { color: '#4DD0E1' } : {}}
                     >
                       {cat}
                     </button>
@@ -225,7 +225,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   className="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all"
                   style={
                     selectedCategory === cat
-                      ? { backgroundColor: '#00D4FF', color: '#000', boxShadow: '0 0 10px rgba(0,212,255,0.4)' }
+                      ? { backgroundColor: '#4DD0E1', color: '#000', boxShadow: '0 0 10px rgba(77,208,225,0.4)' }
                       : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#999', border: '1px solid rgba(255,255,255,0.1)' }
                   }
                 >
@@ -258,14 +258,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <span className="text-sm text-text-dim">Filtros:</span>
             {selectedCategory !== 'Tudo' && (
               <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(0,212,255,0.15)', color: '#00D4FF', border: '1px solid rgba(0,212,255,0.3)' }}>
+                style={{ backgroundColor: 'rgba(77,208,225,0.15)', color: '#4DD0E1', border: '1px solid rgba(77,208,225,0.3)' }}>
                 {selectedCategory}
                 <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-white ml-1">×</button>
               </span>
             )}
             {searchTerm && (
               <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(0,230,118,0.15)', color: '#00E676', border: '1px solid rgba(0,230,118,0.3)' }}>
+                style={{ backgroundColor: 'rgba(129,199,132,0.15)', color: '#81C784', border: '1px solid rgba(129,199,132,0.3)' }}>
                 Busca: "{searchTerm}"
                 <button onClick={() => setSearchTerm('')} className="hover:text-white ml-1">×</button>
               </span>
@@ -308,7 +308,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         ) : (
           <div className="text-center py-16 space-y-4">
-            <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(0,212,255,0.05)' }}>
+            <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(77,208,225,0.05)' }}>
               <Package size={32} className="text-text-dim" />
             </div>
             <p className="text-text-dim text-lg">Nenhum produto encontrado</p>
@@ -316,7 +316,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
               className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"
-              style={{ backgroundColor: 'rgba(0,212,255,0.1)', color: '#00D4FF', border: '1px solid rgba(0,212,255,0.3)' }}
+              style={{ backgroundColor: 'rgba(77,208,225,0.1)', color: '#4DD0E1', border: '1px solid rgba(77,208,225,0.3)' }}
             >
               Limpar Filtros
             </button>
@@ -325,12 +325,12 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </main>
 
       {/* Footer E-commerce Profissional */}
-      <footer className="py-12 border-t text-text-dim" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
+      <footer className="py-12 border-t text-text-dim" style={{ borderColor: 'rgba(77,208,225,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="drop-shadow-[0_0_6px rgba(0,212,255,0.6)]">
+                <div className="drop-shadow-[0_0_6px rgba(77,208,225,0.6)]">
                   <Logo size={32} />
                 </div>
                 <span className="font-black text-xl text-text-primary">Faciil</span>
@@ -364,7 +364,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               </ul>
             </div>
           </div>
-          <div className="pt-8 border-t text-center text-xs" style={{ borderColor: 'rgba(0,212,255,0.1)' }}>
+          <div className="pt-8 border-t text-center text-xs" style={{ borderColor: 'rgba(77,208,225,0.1)' }}>
             <p>© 2026 Faciil Tech. Todos os direitos reservados.</p>
           </div>
         </div>
@@ -375,7 +375,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: '#00E676', boxShadow: '0 0 12px rgba(0,230,118,0.5)' }}
+          style={{ backgroundColor: '#81C784', boxShadow: '0 0 12px rgba(129,199,132,0.5)' }}
         >
           <ArrowUp size={20} className="text-black" />
         </button>

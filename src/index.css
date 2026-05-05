@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-neon-cyan: #00D4FF;
-  --color-neon-green: #00E676;
-  --color-neon-lime: #C6FF00;
-  --color-neon-amber: #FFB300;
-  --color-neon-error: #FF6B6B;
-  --color-bg-deep: #121212;
-  --color-bg-card: #1E1E1E;
-  --color-bg-elevated: #2A2A2A;
-  --color-border-glow: rgba(0, 212, 255, 0.15);
-  --color-border-subtle: #333333;
-  --color-text-primary: #E0E0E0;
-  --color-text-secondary: #B0B0B0;
-  --color-text-dim: #757575;
+  --color-neon-cyan: #4DD0E1;
+  --color-neon-green: #81C784;
+  --color-neon-lime: #AED581;
+  --color-neon-amber: #FFB74D;
+  --color-neon-error: #E57373;
+  --color-bg-deep: #0A0A0A;
+  --color-bg-card: #141414;
+  --color-bg-elevated: #1F1F1F;
+  --color-border-glow: rgba(77, 208, 225, 0.1);
+  --color-border-subtle: #1F1F1F;
+  --color-text-primary: #CCCCCC;
+  --color-text-secondary: #999999;
+  --color-text-dim: #666666;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #333333 #121212;
+  scrollbar-color: #1F1F1F #0A0A0A;
 }
 
 *::-webkit-scrollbar {
@@ -26,57 +26,77 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #121212;
+  background: #0A0A0A;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #333333;
+  background: #1F1F1F;
+  border-radius: 3px;
+}
+
+body {
+  margin:0;
+  background-color: #0A0A0A;
+  color: #CCCCCC;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
   border-radius: 3px;
 }
 
 body {
   margin: 0;
-  background-color: #121212;
+  background-color: #0A0A0A;
   color: #E0E0E0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(77, 208, 225, 0.08);
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 212, 255, 0.3);
-  box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+  border-color: rgba(77, 208, 225, 0.2);
+  box-shadow: 0 0 10px rgba(77, 208, 225, 0.08);
 }
 
 .grid-bg {
   background-image:
-    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(77, 208, 225, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 208, 225, 0.03) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
 .glow-cyan {
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.15);
+  box-shadow: 0 0 8px rgba(77, 208, 225, 0.3), 0 0 16px rgba(77, 208, 225, 0.1);
 }
 
 .glow-green {
-  box-shadow: 0 0 10px rgba(0, 230, 118, 0.4), 0 0 20px rgba(0, 230, 118, 0.15);
+  box-shadow: 0 0 8px rgba(129, 199, 132, 0.3), 0 0 16px rgba(129, 199, 132, 0.1);
 }
 
 .glow-amber {
-  box-shadow: 0 0 10px rgba(255, 179, 0, 0.4), 0 0 20px rgba(255, 179, 0, 0.15);
+  box-shadow: 0 0 8px rgba(255, 183, 77, 0.3), 0 0 16px rgba(255, 183, 77, 0.1);
 }
 
 .glow-text-cyan {
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4), 0 0 20px rgba(0, 212, 255, 0.2);
+  text-shadow: 0 0 8px rgba(77, 208, 225, 0.3), 0 0 16px rgba(77, 208, 225, 0.15);
 }
 
 .glow-text-green {
-  text-shadow: 0 0 10px rgba(0, 230, 118, 0.4), 0 0 20px rgba(0, 230, 118, 0.2);
+  text-shadow: 0 0 8px rgba(129, 199, 132, 0.3), 0 0 16px rgba(129, 199, 132, 0.15);
 }
 
 @keyframes shimmer {

@@ -16,7 +16,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#050505' }}>
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="text-center max-w-md relative">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 drop-shadow-[0_0_12px rgba(0,212,255,0.6)]" style={{ backgroundColor: 'rgba(0,212,255,0.05)' }}>
+        <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 drop-shadow-[0_0_12px rgba(77,208,225,0.6)]" style={{ backgroundColor: 'rgba(77,208,225,0.05)' }}>
           <Logo size={80} />
         </div>
         <h1 className="text-3xl font-black text-text-primary mb-4">Faciil</h1>
@@ -24,7 +24,7 @@ const LoginPage = () => {
         <button
           onClick={() => setShowAuthModal(true)}
           className="w-full py-3 px-4 text-black font-bold rounded-xl transition-all"
-          style={{ backgroundColor: '#00D4FF', boxShadow: '0 0 12px rgba(0,212,255,0.5)' }}
+          style={{ backgroundColor: '#4DD0E1', boxShadow: '0 0 12px rgba(77,208,225,0.5)' }}
         >
           Entrar no Painel Admin
         </button>

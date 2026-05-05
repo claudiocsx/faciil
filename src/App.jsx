@@ -22,7 +22,7 @@ import AdminPosPage from './pages/AdminPosPage';
 const LoadingScreen = () => (
   <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-bg-deep)' }}>
     <div className="flex flex-col items-center gap-4">
-      <Loader2 className="animate-spin w-12 h-12" style={{ color: '#00D4FF' }} />
+      <Loader2 className="animate-spin w-12 h-12" style={{ color: '#4DD0E1' }} />
       <p className="text-text-dim font-medium">Carregando Faciil...</p>
     </div>
   </div>
