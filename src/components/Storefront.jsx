@@ -70,28 +70,31 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(59,139,185,0.1)' }}>
+      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(253,253,253,0.8)', borderColor: 'rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <div className="drop-shadow-[0_0_8px rgba(59,139,185,0.6)]">
-                <Logo size={36} />
-              </div>
+            {/* Logo Faciil com Raio */}
+            <div className="flex items-center font-semibold text-2xl tracking-tight" style={{ color: '#1A2238' }}>
+              <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
+            </div>
               <span className="font-black text-xl text-text-primary">Faciil</span>
             </div>
             
             <div className="flex-1 max-w-xl">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar produtos..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-text-primary placeholder-text-dim transition-all outline-none"
-                  style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(59,139,185,0.1)' }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.1)'}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm text-midnight placeholder-text-dim transition-all outline-none"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)' }}
+                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
                 />
               </div>
             </div>
@@ -100,21 +103,34 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               {onAdmin && (
                 <button
                   onClick={onAdmin}
-                  className="hidden md:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-white/5 text-text-dim hover:text-neon-cyan"
-                  style={{ border: '1px solid rgba(255,255,255,0.05)' }}
+                  className="hidden md:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
+                  style={{ border: '1px solid rgba(0,0,0,0.04)' }}
                 >
-                  <span className="text-xs font-medium">Painel Admin</span>
+                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Painel Admin</span>
                 </button>
               )}
               {onOrders && (
                 <button
                   onClick={onOrders}
-                  className="hidden sm:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-white/5 text-text-dim hover:text-text-secondary"
-                  style={{ border: '1px solid rgba(255,255,255,0.05)' }}
+                  className="hidden sm:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
+                  style={{ border: '1px solid rgba(0,0,0,0.04)' }}
                 >
-                  <ClipboardList size={18} />
-                  <span className="text-xs font-medium">Pedidos</span>
+                  <ClipboardList size={18} style={{ color: '#1A2238' }} />
+                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Pedidos</span>
                 </button>
+              )}
+              <button
+                onClick={() => setCartOpen(true)}
+                className="relative p-2.5 rounded-xl transition-all hover:bg-black/5"
+                style={{ border: '1px solid rgba(0,0,0,0.04)' }}
+              >
+                <ShoppingCart size={20} style={{ color: '#1A2238' }} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+                    {totalItems}
+                  </span>
+                )}
+              </button>
               )}
               <button
                 onClick={() => setCartOpen(true)}
