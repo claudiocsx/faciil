@@ -142,17 +142,16 @@ const AdminLayout = () => {
       <div className="flex-1 flex flex-col">
         <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
           <div className="flex items-center justify-between h-full">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-text-dim hover:text-text-secondary">
+            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2" style={{ color: '#1A2238' }}>
               <Menu size={20} />
             </button>
-
+            
             <div className="flex-1 max-w-md mx-4 lg:mx-8 hidden sm:block">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" size={18} />
-                <input type="text" placeholder="Buscar..." className="w-full pl-10 pr-4 py-2 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all"
-                  style={{ backgroundColor: 'var(--glass-bg)', border: '1px solid var(--glass-border)' }}
-                  onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
-                  onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
+                <input type="text" placeholder="Buscar..." className="w-full pl-10 pr-4 py-2 rounded-xl text-sm outline-none transition-all" style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
                 />
               </div>
             </div>
@@ -161,30 +160,22 @@ const AdminLayout = () => {
               <button
                 onClick={() => navigate('/')}
                 className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-xl transition-all hover:scale-105 text-black"
-                style={{ backgroundColor: '#1A2238',  }}
+                style={{ backgroundColor: '#FFB347' }}
               >
                 <Store size={16} />
                 Ver Loja
               </button>
               <div className="relative">
-                <button onClick={() => setNotifOpen(!notifOpen)} className="relative p-2 text-text-dim hover:text-text-secondary transition-colors">
+                <button onClick={() => setNotifOpen(!notifOpen)} className="relative p-2 transition-colors" style={{ color: '#1A2238' }}>
                   <Bell size={20} />
                   {notifCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB800' }}>
+                    <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
                       {notifCount > 9 ? '9+' : notifCount}
                     </span>
                   )}
                 </button>
                 <NotificationPanel isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
               </div>
-
-              <button
-                onClick={toggleTheme}
-                className="p-2 text-text-dim hover:text-text-secondary transition-colors"
-                title={theme === 'dark' ? 'Ativar modo claro' : 'Ativar modo escuro'}
-              >
-                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
             </div>
           </div>
         </header>
