@@ -189,8 +189,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               )}
             </div>
 
-            <div className="flex-1" />
-
             <div className="flex items-center gap-2">
               <select
                 value={sortBy}
@@ -208,7 +206,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
 
           {/* Filtros Ativos */}
-          {(selectedCategory !== 'Tudo' || searchTerm) && (
+          {(selectedCategory !== 'Tudo') && (
             <div className="flex items-center gap-2 mt-3">
               <span className="text-sm text-gray-500">Filtros:</span>
               {selectedCategory !== 'Tudo' && (
@@ -216,13 +214,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   style={{ backgroundColor: 'rgba(255,179,71,0.1)', color: '#FFB347', border: '1px solid rgba(255,179,71,0.2)' }}>
                   {selectedCategory}
                   <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-black ml-1 font-bold">×</button>
-                </span>
-              )}
-              {searchTerm && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                  style={{ backgroundColor: 'rgba(26,34,56,0.05)', color: '#1A2238', border: '1px solid rgba(0,0,0,0.1)' }}>
-                  Busca: "{searchTerm}"
-                  <button onClick={() => setSearchTerm('')} className="hover:text-black ml-1 font-bold">×</button>
                 </span>
               )}
               <button
