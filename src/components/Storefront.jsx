@@ -70,51 +70,90 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          {/* Logo Faciil com Raio */}
-          <div className="flex items-center font-semibold text-2xl tracking-tight text-midnight">
-            <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-            <span>fac<span className="text-amber">ii</span>l</span>
-          </div>
-
-          {/* Busca & Carrinho */}
-          <div className="flex items-center space-x-4">
-            <div className="hidden md:flex bg-gray-100 rounded-full px-4 py-2 items-center">
-              <Search className="w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Buscar..."
-                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-48"
-              />
+      <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="flex items-center justify-between h-16 gap-4">
+            <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="drop-shadow-[0_0_6px rgba(255,179,71,0.6)]">
+                <Logo size={36} />
+              </div>
+              <span className="font-black text-xl" style={{ color: '#1A2238' }}>Faciil</span>
             </div>
-            <button className="relative p-2" onClick={() => setCartOpen(true)}>
-              <ShoppingCart className="w-6 h-6 text-midnight" />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-amber text-midnight text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
+
+            <div className="flex-1 max-w-xl">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Buscar produtos..."
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {onOrders && (
+                <button
+                  onClick={onOrders}
+                  className="hidden sm:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
+                  style={{ border: '1px solid rgba(0,0,0,0.04)' }}
+                >
+                  <ClipboardList size={18} style={{ color: '#1A2238' }} />
+                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Pedidos</span>
+                </button>
               )}
-            </button>
+              <button
+                onClick={() => setCartOpen(true)}
+                className="relative p-2.5 rounded-xl transition-all hover:bg-black/5"
+                style={{ border: '1px solid rgba(0,0,0,0.04)' }}
+              >
+                <ShoppingCart size={20} style={{ color: '#1A2238' }} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Hero Banner - Moderno */}
-      <section className="p-4 md:p-8">
-        <div className="max-w-6xl mx-auto bg-midnight rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row items-center p-8 md:p-16 text-white relative">
-          <div className="z-10 text-center md:text-left md:w-1/2">
-            <span className="inline-block bg-amber/20 text-amber px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4">Acesso Antecipado</span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">Escolha <span className="text-amber">faciil</span>, viva moderno.</h1>
-            <p className="text-gray-300 text-sm md:text-lg mb-8 max-w-sm">Curadoria exclusiva de acessórios que aceleram a sua rotina.</p>
-            <button className="bg-amber text-midnight px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider hover:bg-white transition">Explorar Tudo</button>
-          </div>
-          <div className="mt-8 md:mt-0 md:w-1/2">
-            <img src="https://images.unsplash.com/photo-154686831-d1be1c463959?auto=format&fit=crop&w=800&q=80" alt="Produto Destaque" className="w-full max-w-md mx-auto drop-shadow-2xl rotate-2" />
+      <section className="py-8 px-4 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative overflow-hidden rounded-[2.5rem] p-8 md:p-16 text-white flex flex-col md:flex-row items-center" style={{ backgroundColor: '#1A2238' }}>
+            <div className="md:w-1/2 z-10 text-center md:text-left">
+              <span className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4" style={{ backgroundColor: 'rgba(255,179,71,0.2)', color: '#FFB347' }}>Acesso Antecipado</span>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Escolha <span style={{ color: '#FFB347' }}>faciil</span>, viva moderno.
+              </h1>
+              <p className="text-gray-300 text-sm md:text-lg mb-8 max-w-sm">
+                Curadoria exclusiva de acessórios que aceleram a sua rotina.
+              </p>
+              <button 
+                onClick={() => { setShowOffers(false); setSelectedCategory('Tudo'); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }}
+                className="px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider transition-all hover:scale-105" 
+                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+              >
+                Explorar Tudo
+              </button>
+            </div>
+            <div className="mt-8 md:mt-0 md:w-1/2 flex justify-center">
+              <div className="relative">
+                <div className="absolute -z-10 w-64 h-64 rounded-full opacity-20" style={{ backgroundColor: '#FFB347' }}></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1546868831-d1be1c463959?auto=format&fit=crop&w=800&q=80" 
+                  alt="Produto Destaque" 
+                  className="w-full max-w-md mx-auto drop-shadow-2xl transform rotate-2"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -262,9 +301,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <footer className="bg-white py-12 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 text-center">
           <div className="flex items-center justify-center font-semibold text-xl text-midnight mb-4">
-            <svg className="text-amber mr-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
+            <div className="drop-shadow-[0_0_6px rgba(255,179,71,0.6)]">
+              <Logo size={32} />
+            </div>
             <span>fac<span className="text-amber">ii</span>l</span>
           </div>
           <p className="text-xs text-gray-400 uppercase tracking-[0.2em] mb-8">Sua escolha inteligente em tecnologia</p>
