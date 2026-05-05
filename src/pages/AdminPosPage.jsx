@@ -204,7 +204,7 @@ const AdminPosPage = () => {
           </button>
           {selectedClient && (
             <label className="flex items-center gap-2 justify-center cursor-pointer select-none">
-              <input type="checkbox" checked={sendWhatsapp} onChange={(e) => setSendWhatsapp(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: '#3B8B9' }} />
+              <input type="checkbox" checked={sendWhatsapp} onChange={(e) => setSendWhatsapp(e.target.checked)} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
               <span className="text-xs text-text-secondary">Enviar recibo via WhatsApp</span>
             </label>
           )}

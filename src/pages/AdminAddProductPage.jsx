@@ -120,10 +120,10 @@ const AdminAddProductPage = () => {
               onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
               className="relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all hover:bg-white/5"
-              style={{ borderColor: dragActive ? '#3B8B9' : 'rgba(255,255,255,0.1)', backgroundColor: dragActive ? 'rgba(59,139,185,0.05)' : 'transparent' }}
+              style={{ borderColor: dragActive ? '#FFB347' : 'rgba(255,255,255,0.1)', backgroundColor: dragActive ? 'rgba(59,139,185,0.05)' : 'transparent' }}
             >
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInput} className="hidden" />
-              <Upload size={28} className="mx-auto mb-2" style={{ color: '#3B8B9' }} />
+              <Upload size={28} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
               <p className="text-text-primary font-semibold">Clique ou arraste uma imagem</p>
             </div>
           )}
@@ -163,13 +163,13 @@ const AdminAddProductPage = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#3B8B9' }} />
+          <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
           <span className="text-sm text-text-secondary">Marcar como Novo</span>
         </div>
 
         <div className="flex gap-3 pt-4">
           <button type="button" onClick={() => navigate('/admin/products')} className="flex-1 py-3 glass-card rounded-xl font-bold text-text-secondary">Cancelar</button>
-          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#5A9E5A',  }}>
+          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#1A2238',  }}>
             {saving ? 'Salvando...' : (editingProduct ? 'Atualizar' : 'Salvar Produto')}
           </button>
         </div>

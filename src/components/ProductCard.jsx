@@ -54,7 +54,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             </span>
           )}
           {product.isNew && (
-            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#3B8B9',  }}>
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#FFB347',  }}>
               <Zap size={12} /> Novo
             </span>
           )}
@@ -93,7 +93,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
               justAdded ? 'bg-green-500 scale-105' : ''
             }`}
             style={{ 
-              backgroundColor: justAdded ? '#10B981' : '#5A9E5A',
+              backgroundColor: justAdded ? '#10B981' : '#1A2238',
               boxShadow: justAdded 
                 ? '0 0 12px rgba(16,185,129,0.5)' 
                 : '0 0 12px rgba(90,158,90,0.5), 0 0 24px rgba(90,158,90,0.2)'
@@ -107,7 +107,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
       {/* Info */}
       <div className="p-4 space-y-2.5">
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#3B8B9' }}>
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#FFB347' }}>
           {product.category}
         </span>
 
@@ -139,7 +139,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             </p>
           )}
           <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-black" style={{ color: '#8AA82E' }}>
+            <p className="text-2xl font-black" style={{ color: '#FFB347' }}>
               R$ {product.price.toFixed(2)}
             </p>
           </div>

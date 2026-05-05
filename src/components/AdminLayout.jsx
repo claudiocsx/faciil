@@ -39,11 +39,11 @@ const AdminLayout = () => {
   const isActive = (id) => currentModule === id || (id === 'dashboard' && currentModule === '');
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-bg-deep)' }}>
+    <div className="min-h-screen flex" style={{ backgroundColor: '#FDFDFD' }}>
       {/* Sidebar Desktop */}
-      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'var(--color-border-glow)', backgroundColor: 'var(--color-bg-card)' }}>
+      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
+          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-3">
               <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                 <Logo size={32} />
@@ -52,14 +52,14 @@ const AdminLayout = () => {
             </div>
           </div>
 
-          <div className="px-4 py-4 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
+          <div className="px-4 py-4 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold" style={{ backgroundColor: '#3B8B9' }}>
+              <div className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold" style={{ backgroundColor: '#FFB347' }}>
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-text-primary truncate">{user?.name}</p>
-                <p className="text-xs uppercase font-semibold" style={{ color: '#5A9E5A' }}>{user?.role}</p>
+                <p className="text-xs uppercase font-semibold" style={{ color: '#1A2238' }}>{user?.role}</p>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@ const AdminLayout = () => {
                   key={item.id}
                   onClick={() => navigate(item.path)}
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                  style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#3B8B9', border: '1px solid rgba(59,139,185,0.2)' } : { color: 'var(--color-text-secondary)', backgroundColor: 'transparent', border: '1px solid transparent' }}
+                  style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.2)' } : { color: '#4A5568', backgroundColor: 'transparent', border: '1px solid transparent' }}
                   onMouseEnter={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'var(--glass-bg)'; }}
                   onMouseLeave={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
@@ -85,8 +85,8 @@ const AdminLayout = () => {
             })}
           </nav>
 
-          <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'var(--color-border-glow)' }}>
-            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all hover:scale-105" style={{ backgroundColor: '#5A9E5A', color: '#000' }}>
+          <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all hover:scale-105" style={{ backgroundColor: '#1A2238', color: '#000' }}>
               <Store size={18} />
               Ver Loja
             </button>
@@ -105,8 +105,8 @@ const AdminLayout = () => {
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/70" onClick={() => setSidebarOpen(false)} />
-          <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: 'var(--color-bg-card)', borderRight: '1px solid var(--color-border-glow)' }}>
-            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'var(--color-border-glow)' }}>
+          <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
               <div className="flex items-center gap-3">
                 <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                   <Logo size={32} />
@@ -126,7 +126,7 @@ const AdminLayout = () => {
                     key={item.id}
                     onClick={() => { navigate(item.path); setSidebarOpen(false); }}
                     className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                    style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#3B8B9' } : { color: 'var(--color-text-secondary)' }}
+                    style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347' } : { color: '#4A5568' }}
                   >
                     <Icon size={18} />
                     {item.label}
@@ -140,7 +140,7 @@ const AdminLayout = () => {
 
       {/* Main */}
       <div className="flex-1 flex flex-col">
-        <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'var(--color-border-glow)', backgroundColor: 'var(--color-bg-card)' }}>
+        <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
           <div className="flex items-center justify-between h-full">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-text-dim hover:text-text-secondary">
               <Menu size={20} />
@@ -161,7 +161,7 @@ const AdminLayout = () => {
               <button
                 onClick={() => navigate('/')}
                 className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-xl transition-all hover:scale-105 text-black"
-                style={{ backgroundColor: '#5A9E5A',  }}
+                style={{ backgroundColor: '#1A2238',  }}
               >
                 <Store size={16} />
                 Ver Loja

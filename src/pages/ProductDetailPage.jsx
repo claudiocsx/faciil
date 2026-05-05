@@ -15,10 +15,10 @@ const ProductDetailPage = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#050505' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
         <div className="text-center">
           <h2 className="text-2xl font-bold text-text-primary mb-4">Produto não encontrado</h2>
-          <button onClick={() => navigate('/')} className="px-6 py-3 text-black rounded-xl font-bold" style={{ backgroundColor: '#3B8B9' }}>
+          <button onClick={() => navigate('/')} className="px-6 py-3 text-black rounded-xl font-bold" style={{ backgroundColor: '#FFB347' }}>
             Voltar para a Loja
           </button>
         </div>

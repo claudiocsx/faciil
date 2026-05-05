@@ -17,7 +17,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
   const stars = product.rating || 4.5;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#050505' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#FDFDFD' }}>
       <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(59,139,185,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
@@ -58,11 +58,11 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
             <div className="p-4 sm:p-6 space-y-4">
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#3B8B9' }}>
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#FFB347' }}>
                   {product.category}
                 </span>
                 {product.isNew && (
-                  <span className="px-2 py-0.5 rounded text-xs font-bold text-black" style={{ backgroundColor: '#3B8B9' }}>
+                  <span className="px-2 py-0.5 rounded text-xs font-bold text-black" style={{ backgroundColor: '#FFB347' }}>
                     Novo
                   </span>
                 )}
@@ -94,7 +94,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   </p>
                 )}
                 <div className="flex items-baseline gap-2">
-                  <p className="text-2xl font-black" style={{ color: '#8AA82E' }}>
+                  <p className="text-2xl font-black" style={{ color: '#FFB347' }}>
                     R$ {product.price.toFixed(2)}
                   </p>
                 </div>
@@ -137,7 +137,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 disabled={availableStock === 0}
                 className="relative z-10 w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed"
                 style={{
-                  backgroundColor: '#5A9E5A',
+                  backgroundColor: '#1A2238',
                   color: '#000'
                 }}
               >
@@ -151,7 +151,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   { icon: RotateCcw, text: '30 dias devolução' }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-1.5 text-xs text-text-dim">
-                    <item.icon size={14} style={{ color: '#3B8B9' }} />
+                    <item.icon size={14} style={{ color: '#FFB347' }} />
                     <span>{item.text}</span>
                   </div>
                 ))}

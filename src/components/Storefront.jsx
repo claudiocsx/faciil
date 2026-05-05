@@ -47,7 +47,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, [products, searchTerm, selectedCategory, sortBy]);
 
   return (
-    <div className="min-h-screen grid-bg" style={{ backgroundColor: 'var(--color-bg-deep)' }}>
+    <div className="min-h-screen grid-bg" style={{ backgroundColor: '#FDFDFD' }}>
       <Toast message={toastMessage} isVisible={toastVisible} onClose={() => setToastVisible(false)} />
       
       <CartSidebar
@@ -121,7 +121,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 className="relative p-2.5 rounded-xl transition-all hover:bg-white/5"
                 style={{ border: '1px solid rgba(59,139,185,0.1)' }}
               >
-                <ShoppingCart size={20} style={{ color: '#3B8B9' }} />
+                <ShoppingCart size={20} style={{ color: '#FFB347' }} />
                 {totalItems > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-neon-lime)',  }}>
                     {totalItems}
@@ -208,7 +208,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       className={`w-full px-4 py-2.5 text-left text-sm hover:bg-white/5 transition-colors ${
                         selectedCategory === cat ? 'font-bold' : 'text-text-secondary'
                       }`}
-                      style={selectedCategory === cat ? { color: '#3B8B9' } : {}}
+                      style={selectedCategory === cat ? { color: '#FFB347' } : {}}
                     >
                       {cat}
                     </button>
@@ -225,7 +225,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   className="px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all"
                   style={
                     selectedCategory === cat
-                      ? { backgroundColor: '#3B8B9', color: '#000',  }
+                      ? { backgroundColor: '#FFB347', color: '#000',  }
                       : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#999', border: '1px solid rgba(255,255,255,0.1)' }
                   }
                 >
@@ -258,14 +258,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <span className="text-sm text-text-dim">Filtros:</span>
             {selectedCategory !== 'Tudo' && (
               <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(59,139,185,0.15)', color: '#3B8B9', border: '1px solid rgba(59,139,185,0.3)' }}>
+                style={{ backgroundColor: 'rgba(59,139,185,0.15)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.3)' }}>
                 {selectedCategory}
                 <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-white ml-1">×</button>
               </span>
             )}
             {searchTerm && (
               <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(90,158,90,0.15)', color: '#5A9E5A', border: '1px solid rgba(90,158,90,0.3)' }}>
+                style={{ backgroundColor: 'rgba(90,158,90,0.15)', color: '#1A2238', border: '1px solid rgba(90,158,90,0.3)' }}>
                 Busca: "{searchTerm}"
                 <button onClick={() => setSearchTerm('')} className="hover:text-white ml-1">×</button>
               </span>
@@ -316,7 +316,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <button
               onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
               className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"
-              style={{ backgroundColor: 'rgba(59,139,185,0.1)', color: '#3B8B9', border: '1px solid rgba(59,139,185,0.3)' }}
+              style={{ backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.3)' }}
             >
               Limpar Filtros
             </button>
@@ -374,7 +374,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <button
         onClick={onAdmin}
         className="fixed bottom-6 left-6 px-4 py-2 rounded-lg text-xs font-bold z-40 transition-all hover:scale-105"
-        style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#707070', border: '1px solid #1A1A1A' }}
+        style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#4A5568', border: '1px solid #FFFFFF' }}
       >
         Admin
       </button>
@@ -384,7 +384,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: '#5A9E5A',  }}
+          style={{ backgroundColor: '#1A2238',  }}
         >
           <ArrowUp size={20} className="text-black" />
         </button>

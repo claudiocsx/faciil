@@ -1,24 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-neon-cyan: #4A90A0;
-  --color-neon-green: #5A8A5A;
-  --color-neon-lime: #7A8A5A;
-  --color-neon-amber: #B8860B;
-  --color-neon-error: #A05050;
-  --color-bg-deep: #050505;
-  --color-bg-card: #0A0A0A;
-  --color-bg-elevated: #0F0F0F;
-  --color-border-glow: rgba(74, 144, 160, 0.05);
-  --color-border-subtle: #1A1A1A;
-  --color-text-primary: #A0A0A0;
-  --color-text-secondary: #707070;
-  --color-text-dim: #505050;
+  --font-family-base: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --color-midnight: #1A2238;
+  --color-amber: #FFB347;
+  --color-off-white: #FDFDFD;
+  --color-slate: #4A5568;
+  
+  --color-bg-main: #FDFDFD;
+  --color-bg-card: #FFFFFF;
+  --color-bg-elevated: #F4F4F5;
+  --color-border-main: rgba(0, 0, 0, 0.04);
+  --color-border-hover: rgba(255, 179, 71, 0.3);
+  --color-text-primary: #1A2238;
+  --color-text-secondary: #4A5568;
+  --color-text-dim: #71717A;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1A1A1A #050505;
+  scrollbar-color: #D4D4D8 #FDFDFD;
 }
 
 *::-webkit-scrollbar {
@@ -26,22 +28,41 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #050505;
+  background: #FDFDFD;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #1A1A1A;
+  background: #D4D4D8;
   border-radius: 3px;
 }
 
 body {
   margin: 0;
-  background-color: #050505;
-  color: #A0A0A0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #FDFDFD;
+  color: #1A2238;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.product-card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(26, 34, 56, 0.08);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(74, 144, 160, 0.05);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 179, 71, 0.3);
+  box-shadow: 0 0 15px rgba(255, 179, 71, 0.1);
 }

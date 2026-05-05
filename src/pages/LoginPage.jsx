@@ -13,7 +13,7 @@ const LoginPage = () => {
   if (user) return <Navigate to="/admin" replace />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#050505' }}>
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#FDFDFD' }}>
       <div className="absolute inset-0 grid-bg opacity-30" />
       <div className="text-center max-w-md relative">
         <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 drop-shadow-[0_0_12px rgba(59,139,185,0.6)]" style={{ backgroundColor: 'rgba(59,139,185,0.05)' }}>
@@ -24,7 +24,7 @@ const LoginPage = () => {
         <button
           onClick={() => setShowAuthModal(true)}
           className="w-full py-3 px-4 text-black font-bold rounded-xl transition-all"
-          style={{ backgroundColor: '#3B8B9',  }}
+          style={{ backgroundColor: '#FFB347',  }}
         >
           Entrar no Painel Admin
         </button>
