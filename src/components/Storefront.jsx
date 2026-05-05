@@ -370,6 +370,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </footer>
 
+      {/* Botão Painel Admin */}
+      <button
+        onClick={onAdmin}
+        className="fixed bottom-6 left-6 px-4 py-2 rounded-lg text-xs font-bold z-40 transition-all hover:scale-105"
+        style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#707070', border: '1px solid #1A1A1A' }}
+      >
+        Admin
+      </button>
+
       {/* Botão Voltar ao Topo */}
       {showScrollTop && (
         <button
