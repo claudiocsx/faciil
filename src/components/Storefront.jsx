@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -173,57 +173,79 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carousel Ofertas & Cupons - Estilo Mercado Livre */}
-      <section className="py-3">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            {/* Ofertas em Cards Horizontais */}
-            {bannersLoading ? (
-              <div className="flex gap-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="flex-shrink-0 w-40 h-48 rounded-xl animate-pulse" style={{ backgroundColor: '#F8FAFC' }} />
-                ))}
-              </div>
-            ) : (
-              <>
-                {getCarouselOffers().map((offer) => (
-                  <button
-                    key={`offer-${offer.id}`}
-                    onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                    className="flex-shrink-0 w-40 rounded-xl overflow-hidden transition-all hover:scale-[1.02] hover:shadow-lg"
-                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
-                  >
-                    <div className="relative">
-                      <img src={offer.image} alt={offer.title} className="w-full h-32 object-cover" />
-                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                        OFERTA
-                      </span>
+      {/* Carousel Ofertas & Cupons - Slider Completo */}
+      <section className="py-3 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative">
+            {/* Banner Container */}
+            <div className="overflow-hidden rounded-2xl" style={{ backgroundColor: '#1A2238', height: '320px' }}>
+              <div className="flex h-full transition-transform duration-500" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
+                {/* Ofertas */}
+                {getCarouselOffers().map((offer, index) => (
+                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full">
+                    <div className="flex items-center justify-between h-full px-8 md:px-16">
+                      <div className="flex-1">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                          <Tag size={12} /> Oferta
+                        </span>
+                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2">{offer.title}</h2>
+                        <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                        <button 
+                          onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                          className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                        >
+                          Ver Oferta
+                        </button>
+                      </div>
+                      <div className="hidden md:block w-1/3">
+                        <img src={offer.image} alt={offer.title} className="w-full h-64 object-contain" />
+                      </div>
                     </div>
-                    <div className="p-3 text-left">
-                      <h3 className="text-sm font-bold line-clamp-1" style={{ color: '#1A2238' }}>{offer.title}</h3>
-                      <p className="text-sm font-extrabold mt-1" style={{ color: '#1A2238' }}>{offer.subtitle}</p>
-                    </div>
-                  </button>
+                  </div>
                 ))}
                 
-                {/* Cupons em Cards */}
+                {/* Cupons */}
                 {getCarouselCoupons().map((coupon) => (
-                  <button
-                    key={`coupon-${coupon.id}`}
-                    onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                    className="flex-shrink-0 w-40 rounded-xl p-4 transition-all hover:scale-[1.02] hover:shadow-lg"
-                    style={{ backgroundColor: coupon.color || '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
-                  >
-                    <div className="text-center">
-                      <p className="text-[10px] font-bold uppercase opacity-70" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>Cupom</p>
-                      <p className="text-lg font-black mt-1" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>{coupon.code}</p>
-                      <p className="text-sm font-bold mt-1" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFB347' }}>{coupon.discount}</p>
-                      <p className="text-[10px] mt-2 opacity-70" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>Clique para copiar</p>
+                  <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full">
+                    <div className="flex flex-col items-center justify-center h-full px-8 text-center">
+                      <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-sm font-bold uppercase mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
+                        <Percent size={14} /> Cupom
+                      </div>
+                      <h2 className="text-5xl md:text-7xl font-black text-white mb-2">{coupon.code}</h2>
+                      <p className="text-3xl md:text-5xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                      <button 
+                        onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                        className="px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105" 
+                        style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 20px rgba(255,179,71,0.4)' }}
+                      >
+                        Copiar Cupom
+                      </button>
                     </div>
-                  </button>
+                  </div>
                 ))}
-              </>
-            )}
+              </div>
+            </div>
+            
+            {/* Navigation */}
+            <button onClick={prevCarousel} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all">
+              <ChevronLeft size={24} style={{ color: '#1A2238' }} />
+            </button>
+            <button onClick={nextCarousel} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all">
+              <ChevronRight size={24} style={{ color: '#1A2238' }} />
+            </button>
+            
+            {/* Dots */}
+            <div className="flex justify-center gap-2 py-3">
+              {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentCarousel(i)}
+                  className={`h-2 rounded-full transition-all ${i === currentCarousel ? 'w-8' : 'w-2 bg-white/40'}`}
+                  style={{ backgroundColor: i === currentCarousel ? '#FFB347' : undefined }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
