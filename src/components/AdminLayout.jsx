@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import NotificationPanel from './NotificationPanel';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Ticket, PlusCircle, Sun, Moon } from 'lucide-react';
+import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Ticket, PlusCircle, Sun, Moon, Image } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -31,6 +31,7 @@ const AdminLayout = () => {
     { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/admin' },
     { id: 'pos', icon: PlusCircle, label: 'PDV (Venda Manual)', path: '/admin/pos' },
     { id: 'products', icon: Package, label: 'Produtos', path: '/admin/products' },
+    { id: 'banners', icon: Image, label: 'Banners', path: '/admin/banners' },
     { id: 'coupons', icon: Ticket, label: 'Cupons', path: '/admin/coupons' },
     { id: 'clients', icon: Users, label: 'Clientes', path: '/admin/clients' },
     { id: 'orders', icon: ShoppingCart, label: 'Pedidos', path: '/admin/orders' },
