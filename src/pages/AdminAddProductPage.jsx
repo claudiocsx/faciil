@@ -94,12 +94,13 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.image) return alert('Adicione uma imagem do produto.');
+    if (!formData.image && !imagePreview) return alert('Adicione uma imagem do produto.');
     
     setSaving(true);
     try {
       const productData = {
         ...formData,
+        image: formData.image || imagePreview,
         images: extraImages,
         price: parseFloat(formData.price),
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
@@ -140,10 +141,16 @@ const AdminAddProductPage = () => {
               </button>
             </div>
           ) : (
-            <label
-              className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
-              style={{ borderColor: dragActive ? '#FFB347' : 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
-            >
+            <div className="space-y-2">
+              <label
+                className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
+                style={{ borderColor: dragActive ? '#FFB347' : 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
+                <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
+                <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
+              </label>
               <input 
                 ref={fileInputRef} 
                 type="file" 
@@ -151,10 +158,7 @@ const AdminAddProductPage = () => {
                 onChange={handleFileInput} 
                 className="hidden" 
               />
-              <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
-              <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
-              <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-            </label>
+            </div>
           )}
         </div>
 
