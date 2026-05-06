@@ -31,13 +31,18 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
   return (
     <div 
-      className="group relative glass-card rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
+      className="group relative rounded-3xl overflow-hidden transition-all duration-300 cursor-pointer"
+      style={{ 
+        backgroundColor: '#FFFFFF',
+        border: '1px solid rgba(0,0,0,0.04)',
+        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onViewDetail(product)}
     >
       {/* Imagem */}
-      <div className="relative aspect-square bg-bg-elevated overflow-hidden">
+      <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
         <img 
           src={product.image} 
           alt={product.name}
@@ -106,12 +111,12 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
       </div>
 
       {/* Info */}
-      <div className="p-4 space-y-2.5">
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#FFB347' }}>
+      <div className="p-4 space-y-2">
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#94A3B8' }}>
           {product.category}
         </span>
 
-        <h3 className="font-bold text-text-primary text-sm line-clamp-2 transition-colors hover:text-neon-cyan">
+        <h3 className="font-bold text-sm line-clamp-2 transition-colors" style={{ color: '#1A2238' }}>
           {highlightText(product.name, searchTerm)}
         </h3>
 
@@ -122,28 +127,29 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
               <Star 
                 key={i} 
                 size={14} 
-                className={i < Math.floor(stars) ? 'text-neon-amber fill-neon-amber' : 'text-text-dim'} 
+                fill={i < Math.floor(stars) ? '#FFB347' : 'none'} 
+                style={{ color: i < Math.floor(stars) ? '#FFB347' : '#CBD5E1' }}
               />
             ))}
           </div>
           {reviews > 0 && (
-            <span className="text-xs text-text-dim">({reviews})</span>
+            <span className="text-xs" style={{ color: '#94A3B8' }}>({reviews})</span>
           )}
         </div>
 
         {/* Price */}
-        <div className="space-y-1 pt-1 border-t border-border-subtle">
+        <div className="space-y-1 pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
           {product.originalPrice && (
-            <p className="text-xs text-text-dim line-through">
+            <p className="text-xs line-through" style={{ color: '#94A3B8' }}>
               R$ {product.originalPrice.toFixed(2)}
             </p>
           )}
           <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-black" style={{ color: '#FFB347' }}>
+            <p className="text-2xl font-extrabold" style={{ color: '#1A2238' }}>
               R$ {product.price.toFixed(2)}
             </p>
           </div>
-          <p className="text-xs text-text-dim">
+          <p className="text-xs" style={{ color: '#94A3B8' }}>
             ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
           </p>
         </div>

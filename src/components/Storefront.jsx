@@ -95,13 +95,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </div>
 
       {/* Header */}
-      <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo Faciil Original */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <Logo size={22} />
-              <span className="font-black text-xl" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
+              <span className="font-black text-xl tracking-tight" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347', letterSpacing: '-1px' }}>ii</span>l</span>
             </div>
 
             {/* Busca & Carrinho */}
@@ -236,7 +236,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Filters */}
-      <section className="sticky top-16 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <section className="sticky top-16 z-30 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
@@ -247,7 +247,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               >
                 <SlidersHorizontal size={16} style={{ color: '#FFB347' }} />
                 {selectedCategory}
-                <ChevronDown size={14} className="text-gray-400" />
+                <ChevronDown size={14} style={{ color: '#94A3B8' }} />
               </button>
               
               {categoryDropdownOpen && (
@@ -285,7 +285,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           {/* Filtros Ativos */}
           {(selectedCategory !== 'Tudo') && (
             <div className="flex items-center gap-2 mt-3">
-              <span className="text-sm text-gray-500">Filtros:</span>
+              <span className="text-sm" style={{ color: '#94A3B8' }}>Filtros:</span>
               {selectedCategory !== 'Tudo' && (
                 <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
                   style={{ backgroundColor: 'rgba(255,179,71,0.1)', color: '#FFB347', border: '1px solid rgba(255,179,71,0.2)' }}>
@@ -295,7 +295,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               )}
               <button
                 onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
-                className="text-xs text-gray-500 hover:text-amber underline"
+                className="text-xs underline transition-colors"
+                style={{ color: '#94A3B8' }}
               >
                 Limpar todos
               </button>
