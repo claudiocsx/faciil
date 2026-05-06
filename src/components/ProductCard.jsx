@@ -5,6 +5,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [userRating, setUserRating] = useState(0);
 
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
@@ -12,6 +13,12 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
   const stars = product.rating || 4.5;
   const reviews = product.reviews || 0;
+  const displayRating = userRating > 0 ? userRating : stars;
+
+  const handleRate = (e, rating) => {
+    e.stopPropagation();
+    setUserRating(rating);
+  };
 
   const highlightText = (text, term) => {
     if (!term) return text;
@@ -121,12 +128,17 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         <div className="flex items-center gap-1.5">
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
-              <Star 
-                key={i} 
-                size={14} 
-                fill={i < Math.floor(stars) ? '#FFB347' : 'none'} 
-                style={{ color: i < Math.floor(stars) ? '#FFB347' : '#CBD5E1' }}
-              />
+              <button
+                key={i}
+                onClick={(e) => handleRate(e, i + 1)}
+                className="hover:scale-110 transition-transform"
+              >
+                <Star 
+                  size={14} 
+                  fill={i < displayRating ? '#FFB347' : 'none'} 
+                  style={{ color: i < displayRating ? '#FFB347' : '#CBD5E1' }}
+                />
+              </button>
             ))}
           </div>
           {reviews > 0 && (

@@ -6,6 +6,8 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
   const [liked, setLiked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
 
   if (!product) return null;
 
@@ -19,9 +21,15 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
     : 0;
 
   const stars = product.rating || 4.5;
+  const displayRating = userRating > 0 ? userRating : stars;
 
   const nextImage = () => setSelectedImage((prev) => (prev + 1) % productImages.length);
   const prevImage = () => setSelectedImage((prev) => (prev - 1 + productImages.length) % productImages.length);
+
+  const handleRateProduct = (rating) => {
+    setUserRating(rating);
+    setRatingSubmitted(true);
+  };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FDFDFD' }}>
@@ -131,19 +139,27 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 {product.name}
               </h1>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <div className="flex items-center gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={14} 
-                      fill={i < Math.floor(stars) ? '#FFB347' : 'none'} 
-                      style={{ color: i < Math.floor(stars) ? '#FFB347' : '#CBD5E1' }} 
-                    />
+                    <button
+                      key={i}
+                      onClick={() => !ratingSubmitted && handleRateProduct(i + 1)}
+                      className={`transition-transform ${!ratingSubmitted ? 'hover:scale-110 cursor-pointer' : 'cursor-default'}`}
+                    >
+                      <Star 
+                        size={18} 
+                        fill={i < displayRating ? '#FFB347' : 'none'} 
+                        style={{ color: i < displayRating ? '#FFB347' : '#CBD5E1' }}
+                      />
+                    </button>
                   ))}
                 </div>
-                <span className="text-xs font-bold" style={{ color: '#1A2238' }}>{stars}</span>
+                <span className="text-xs font-bold" style={{ color: '#1A2238' }}>{displayRating.toFixed(1)}</span>
                 <span className="text-xs" style={{ color: '#94A3B8' }}>({product.reviews || 0} avaliações)</span>
+                {ratingSubmitted && userRating > 0 && (
+                  <span className="text-xs font-medium px-2 py-1 rounded-full" style={{ backgroundColor: '#10B981', color: '#FFFFFF' }}>Obrigado!</span>
+                )}
               </div>
 
               <div className="p-4 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
