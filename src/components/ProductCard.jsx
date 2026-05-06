@@ -125,24 +125,30 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         </h3>
 
         {/* Rating */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1 group">
           <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
               <button
                 key={i}
                 onClick={(e) => handleRate(e, i + 1)}
-                className="hover:scale-110 transition-transform"
+                className="transition-all hover:scale-125"
               >
                 <Star 
                   size={14} 
                   fill={i < displayRating ? '#FFB347' : 'none'} 
-                  style={{ color: i < displayRating ? '#FFB347' : '#CBD5E1' }}
+                  style={{ 
+                    color: i < displayRating ? '#FFB347' : '#CBD5E1',
+                    transition: 'all 0.15s ease'
+                  }}
                 />
               </button>
             ))}
           </div>
           {reviews > 0 && (
             <span className="text-xs" style={{ color: '#94A3B8' }}>({reviews})</span>
+          )}
+          {userRating > 0 && (
+            <span className="text-[10px] font-medium" style={{ color: '#10B981' }}>✓</span>
           )}
         </div>
 
