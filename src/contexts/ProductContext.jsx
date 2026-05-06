@@ -25,11 +25,17 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const addProduct = async (product) => {
-    console.log('addProduct chamado com:', product?.name, product?.image ? 'tem imagem' : 'SEM IMAGEM');
-    await addDoc(collection(db, 'products'), {
-      ...product,
-      createdAt: new Date().toISOString()
-    });
+    try {
+      console.log('addProduct called:', product?.name);
+      const docRef = await addDoc(collection(db, 'products'), {
+        ...product,
+        createdAt: new Date().toISOString()
+      });
+      console.log('Produto salvo com ID:', docRef.id);
+    } catch (error) {
+      console.error('Erro ao salvar produto:', error);
+      throw error;
+    }
   };
 
   const removeProduct = async (id) => {
@@ -37,7 +43,12 @@ export const ProductProvider = ({ children }) => {
   };
 
   const updateProduct = async (id, data) => {
-    await updateDoc(doc(db, 'products', id), data);
+    try {
+      await updateDoc(doc(db, 'products', id), data);
+    } catch (error) {
+      console.error('Erro ao atualizar:', error);
+      throw error;
+    }
   };
 
   return (
