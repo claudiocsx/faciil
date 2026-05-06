@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp, ChevronLeft, ChevronRight, Tag, Percent } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -173,96 +173,57 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carousel Ofertas & Cupons */}
-      <section className="py-4 px-4 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="relative overflow-hidden rounded-2xl" style={{ backgroundColor: '#1A2238', minHeight: '280px' }}>
-            <div className="flex items-center h-full">
-              {/* Navigation Left */}
-              <button onClick={prevCarousel} className="absolute left-2 z-10 p-2 rounded-full hover:bg-white/10 transition-all">
-                <ChevronLeft size={20} className="text-white" />
-              </button>
-              
-              {/* Carousel Content */}
-              <div className="w-full overflow-hidden px-12">
-                <div 
-                  className="flex transition-transform duration-500" 
-                  style={{ transform: `translateX(-${currentCarousel * 100}%)` }}
-                >
-                  {/* Ofertas */}
-                  {bannersLoading ? (
-                    <div className="w-full flex-shrink-0 py-8 text-center text-white">
-                      <Loader2 className="animate-spin w-6 h-6 mx-auto" style={{ color: '#FFB347' }} />
-                    </div>
-                  ) : (
-                    <>
-                      {getCarouselOffers().map((offer) => (
-                        <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 py-6">
-                          <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="flex-1 text-center md:text-left">
-                              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase mb-3" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                                <Tag size={10} />
-                                Oferta
-                              </div>
-                              <h2 className="text-xl md:text-3xl font-bold text-white mb-1">{offer.title}</h2>
-                              <p className="text-lg md:text-2xl font-bold" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
-                              <button 
-                                onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="mt-3 px-4 py-2 rounded-xl font-bold text-xs transition-all" 
-                                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                              >
-                                Ver Oferta
-                              </button>
-                            </div>
-                            <div className="flex justify-center">
-                              <img src={offer.image} alt={offer.title} className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover" />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                      
-                      {/* Cupons */}
-                      {getCarouselCoupons().map((coupon) => (
-                        <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 py-6">
-                          <div className="flex flex-col items-center text-center">
-                            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase mb-3" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
-                              <Percent size={10} />
-                              Cupom
-                            </div>
-                            <h2 className="text-2xl md:text-4xl font-black text-white mb-1">{coupon.code}</h2>
-                            <p className="text-xl md:text-3xl font-bold" style={{ color: '#FFB347' }}>{coupon.discount}</p>
-                            <button 
-                              onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                              className="mt-3 px-4 py-2 rounded-xl font-bold text-xs transition-all" 
-                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                            >
-                              Copiar
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
+      {/* Carousel Ofertas & Cupons - Estilo Mercado Livre */}
+      <section className="py-3">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+            {/* Ofertas em Cards Horizontais */}
+            {bannersLoading ? (
+              <div className="flex gap-3">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="flex-shrink-0 w-40 h-48 rounded-xl animate-pulse" style={{ backgroundColor: '#F8FAFC' }} />
+                ))}
               </div>
-              
-              {/* Navigation Right */}
-              <button onClick={nextCarousel} className="absolute right-2 z-10 p-2 rounded-full hover:bg-white/10 transition-all">
-                <ChevronRight size={20} className="text-white" />
-              </button>
-            </div>
-            
-            {/* Dots Indicator */}
-            <div className="flex justify-center gap-1.5 py-3">
-              {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentCarousel(i)}
-                  className={`h-1.5 rounded-full transition-all ${i === currentCarousel ? 'w-6' : 'w-1.5'}`}
-                  style={{ backgroundColor: i === currentCarousel ? '#FFB347' : 'rgba(255,255,255,0.3)' }}
-                />
-              ))}
-            </div>
+            ) : (
+              <>
+                {getCarouselOffers().map((offer) => (
+                  <button
+                    key={`offer-${offer.id}`}
+                    onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                    className="flex-shrink-0 w-40 rounded-xl overflow-hidden transition-all hover:scale-[1.02] hover:shadow-lg"
+                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
+                  >
+                    <div className="relative">
+                      <img src={offer.image} alt={offer.title} className="w-full h-32 object-cover" />
+                      <span className="absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                        OFERTA
+                      </span>
+                    </div>
+                    <div className="p-3 text-left">
+                      <h3 className="text-sm font-bold line-clamp-1" style={{ color: '#1A2238' }}>{offer.title}</h3>
+                      <p className="text-sm font-extrabold mt-1" style={{ color: '#1A2238' }}>{offer.subtitle}</p>
+                    </div>
+                  </button>
+                ))}
+                
+                {/* Cupons em Cards */}
+                {getCarouselCoupons().map((coupon) => (
+                  <button
+                    key={`coupon-${coupon.id}`}
+                    onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                    className="flex-shrink-0 w-40 rounded-xl p-4 transition-all hover:scale-[1.02] hover:shadow-lg"
+                    style={{ backgroundColor: coupon.color || '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
+                  >
+                    <div className="text-center">
+                      <p className="text-[10px] font-bold uppercase opacity-70" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>Cupom</p>
+                      <p className="text-lg font-black mt-1" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>{coupon.code}</p>
+                      <p className="text-sm font-bold mt-1" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFB347' }}>{coupon.discount}</p>
+                      <p className="text-[10px] mt-2 opacity-70" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>Clique para copiar</p>
+                    </div>
+                  </button>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </section>
