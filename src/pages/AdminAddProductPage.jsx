@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Camera, Upload, X, Plus, Image } from 'lucide-react';
+import { Upload, X, Plus } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 
 const CATEGORIES = ['Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
-
 const MAX_IMAGES = 4;
 
 const AdminAddProductPage = () => {
@@ -38,63 +37,21 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const compressImage = (file, maxWidth = 400, quality = 0.7) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new window.Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const scaleSize = maxWidth / Math.max(img.width, img.height);
-          canvas.width = img.width * scaleSize;
-          canvas.height = img.height * scaleSize;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
-        };
-        img.onerror = reject;
-        img.src = e.target.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-const handleImageFile = (file) => {
-    console.log('handleImageFile chamado', file);
+  const handleImageFile = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      console.log('FileReader loaded', e.target.result?.substring(0, 50));
       const result = e.target.result;
       setImagePreview(result);
       setFormData(prev => ({ ...prev, image: result }));
-      console.log('Imagem definida no state');
     };
     reader.readAsDataURL(file);
   };
 
   const handleFileInput = (e) => {
-    console.log('handleFileInput chamado', e.target.files);
     const file = e.target.files?.[0];
     if (file) handleImageFile(file);
   };
-
-  const removeImage = () => {
-    console.log('removeImage chamado');
-    setImagePreview(null);
-    setFormData(prev => ({ ...prev, image: '' }));
-  };
-    reader.readAsDataURL(file);
-  };
-
-  const handleFileInput = (e) => {
-    const file = e.target.files?.[0];
-    if (file) handleImageFile(file);
-  };
-  const handleDrop = (e) => { e.preventDefault(); setDragActive(false); handleImageFile(e.dataTransfer.files[0]); };
-  const handleDragOver = (e) => { e.preventDefault(); setDragActive(true); };
-  const handleDragLeave = () => setDragActive(false);
 
   const removeImage = () => {
     setImagePreview(null);
@@ -104,9 +61,12 @@ const handleImageFile = (file) => {
   const handleExtraImageFile = async (file) => {
     if (!file || !file.type.startsWith('image/')) return;
     if (extraImages.length >= MAX_IMAGES) return alert(`Máximo de ${MAX_IMAGES} imagens extras.`);
-    const compressedBase64 = await compressImage(file);
-    setExtraImages(prev => [...prev, compressedBase64]);
-    setFormData(prev => ({ ...prev, images: [...prev.images, compressedBase64] }));
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setExtraImages(prev => [...prev, e.target.result]);
+      setFormData(prev => ({ ...prev, images: [...prev.images, e.target.result] }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const removeExtraImage = (index) => {
@@ -120,44 +80,16 @@ const handleImageFile = (file) => {
     if (file) handleExtraImageFile(file);
   };
 
-  const handleExtraDrop = (e) => { 
-    e.preventDefault(); 
-    setDragActive(false); 
-    const file = e.dataTransfer.files?.[0];
-    if (file) handleExtraImageFile(file);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit iniciado');
-    console.log('imagePreview:', imagePreview ? 'SIM' : 'NÃO');
-    console.log('formData.image:', formData.image ? 'SIM' : 'NÃO');
     const finalImage = imagePreview || formData.image;
-    console.log('finalImage:', finalImage ? 'SIM' : 'NÃO');
-    
-    if (!finalImage) {
-      const confirm = window.confirm('Sem imagem. Deseja salvar mesmo assim?');
-      if (!confirm) return;
-    }
     
     setSaving(true);
     try {
-      const productData = {
-        ...formData,
-        image: finalImage,
-        images: extraImages,
-        price: parseFloat(formData.price),
-        costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
-        originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
-        stock: parseInt(formData.stock),
-        rating: 5.0,
-        reviews: 0
-      };
-
       if (editingProduct) {
-        await updateProduct(editingProduct.id, productData);
+        await updateProduct(editingProduct.id, { ...formData, image: finalImage, images: extraImages });
       } else {
-        await addProduct(productData);
+        await addProduct({ ...formData, image: finalImage, images: extraImages, price: parseFloat(formData.price), costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null, originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null, stock: parseInt(formData.stock), rating: 5.0, reviews: 0 });
       }
       navigate('/admin/products');
     } catch (err) {
@@ -174,7 +106,6 @@ const handleImageFile = (file) => {
       </div>
 
       <form onSubmit={handleSubmit} className="p-6 rounded-2xl space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-        {/* Imagem Principal */}
         <div>
           <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>Foto Principal do Produto</label>
           {imagePreview ? (
@@ -207,7 +138,6 @@ const handleImageFile = (file) => {
           )}
         </div>
 
-        {/* Imagens Extras */}
         <div>
           <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>
             Fotos Adicionais ({extraImages.length}/{MAX_IMAGES})
