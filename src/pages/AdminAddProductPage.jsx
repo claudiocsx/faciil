@@ -39,10 +39,10 @@ const AdminAddProductPage = () => {
   };
 
   const compressImage = (file, maxWidth = 400, quality = 0.7) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new window.Image();
+        const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
           const scaleSize = maxWidth / Math.max(img.width, img.height);
@@ -52,20 +52,35 @@ const AdminAddProductPage = () => {
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           resolve(canvas.toDataURL('image/jpeg', quality));
         };
+        img.onerror = reject;
         img.src = e.target.result;
       };
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
   };
 
   const handleImageFile = async (file) => {
     if (!file || !file.type.startsWith('image/')) return;
-    const compressedBase64 = await compressImage(file);
-    setImagePreview(compressedBase64);
-    setFormData(prev => ({ ...prev, image: compressedBase64 }));
+    try {
+      const compressedBase64 = await compressImage(file);
+      setImagePreview(compressedBase64);
+      setFormData(prev => ({ ...prev, image: compressedBase64 }));
+    } catch (err) {
+      console.error('Erro ao processar imagem:', err);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+        setFormData(prev => ({ ...prev, image: e.target.result }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleFileInput = (e) => handleImageFile(e.target.files[0]);
+  const handleFileInput = (e) => {
+    const file = e.target.files?.[0];
+    if (file) handleImageFile(file);
+  };
   const handleDrop = (e) => { e.preventDefault(); setDragActive(false); handleImageFile(e.dataTransfer.files[0]); };
   const handleDragOver = (e) => { e.preventDefault(); setDragActive(true); };
   const handleDragLeave = () => setDragActive(false);
@@ -89,18 +104,29 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, images: newImages }));
   };
 
-  const handleExtraFileInput = (e) => handleExtraImageFile(e.target.files[0]);
-  const handleExtraDrop = (e) => { e.preventDefault(); setDragActive(false); handleExtraImageFile(e.dataTransfer.files[0]); };
+  const handleExtraFileInput = (e) => {
+    const file = e.target.files?.[0];
+    if (file) handleExtraImageFile(file);
+  };
+
+  const handleExtraDrop = (e) => { 
+    e.preventDefault(); 
+    setDragActive(false); 
+    const file = e.dataTransfer.files?.[0];
+    if (file) handleExtraImageFile(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.image && !imagePreview) return alert('Adicione uma imagem do produto.');
+    const hasImage = formData.image || imagePreview;
+    if (!hasImage) return alert('Adicione uma imagem do produto.');
     
     setSaving(true);
     try {
+      const finalImage = formData.image || imagePreview;
       const productData = {
         ...formData,
-        image: formData.image || imagePreview,
+        image: finalImage,
         images: extraImages,
         price: parseFloat(formData.price),
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
@@ -154,7 +180,8 @@ const AdminAddProductPage = () => {
               <input 
                 ref={fileInputRef} 
                 type="file" 
-                accept="image/*" 
+                accept="image/*"
+                capture="environment"
                 onChange={handleFileInput} 
                 className="hidden" 
               />
@@ -184,11 +211,13 @@ const AdminAddProductPage = () => {
               <label
                 className="block aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all cursor-pointer"
                 style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
+                onClick={() => extraFileInputRef.current?.click()}
               >
                 <input 
                   ref={extraFileInputRef} 
                   type="file" 
-                  accept="image/*" 
+                  accept="image/*"
+                  capture="environment"
                   onChange={handleExtraFileInput} 
                   className="hidden" 
                 />
