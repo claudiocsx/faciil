@@ -224,17 +224,17 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                     <div className="flex items-center justify-between mt-2">
                       <div className="flex items-center gap-1 rounded-lg p-1" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
                         <button
-                          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 rounded transition-colors"
+                          onClick={() => onUpdateQuantity(item.id, item.quantity - 1, item.stock)}
+                          className="p-1 rounded transition-colors hover:bg-black/5"
                           style={{ color: '#94A3B8' }}
                         >
                           <Minus size={12} />
                         </button>
                         <span className="w-6 text-center text-xs font-bold" style={{ color: '#1A2238' }}>{item.quantity}</span>
                         <button
-                          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                          onClick={() => onUpdateQuantity(item.id, item.quantity + 1, item.stock)}
                           disabled={item.quantity >= item.stock}
-                          className="p-1 rounded transition-colors disabled:opacity-30"
+                          className="p-1 rounded transition-colors disabled:opacity-30 hover:bg-black/5"
                           style={{ color: '#94A3B8' }}
                         >
                           <Plus size={12} />
