@@ -132,10 +132,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo Faciil Original */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity"
+            >
               <Logo size={22} />
               <span className="font-black text-xl tracking-tight" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347', letterSpacing: '-1px' }}>ii</span>l</span>
-            </div>
+            </button>
 
             {/* Busca & Carrinho */}
             <div className="flex-1 max-w-xl">
