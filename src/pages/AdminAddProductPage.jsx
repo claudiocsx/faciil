@@ -60,14 +60,31 @@ const AdminAddProductPage = () => {
     });
   };
 
-  const handleImageFile = (file) => {
+const handleImageFile = (file) => {
+    console.log('handleImageFile chamado', file);
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
+      console.log('FileReader loaded', e.target.result?.substring(0, 50));
       const result = e.target.result;
       setImagePreview(result);
       setFormData(prev => ({ ...prev, image: result }));
+      console.log('Imagem definida no state');
     };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileInput = (e) => {
+    console.log('handleFileInput chamado', e.target.files);
+    const file = e.target.files?.[0];
+    if (file) handleImageFile(file);
+  };
+
+  const removeImage = () => {
+    console.log('removeImage chamado');
+    setImagePreview(null);
+    setFormData(prev => ({ ...prev, image: '' }));
+  };
     reader.readAsDataURL(file);
   };
 
@@ -112,7 +129,11 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit iniciado');
+    console.log('imagePreview:', imagePreview ? 'SIM' : 'NÃO');
+    console.log('formData.image:', formData.image ? 'SIM' : 'NÃO');
     const finalImage = imagePreview || formData.image;
+    console.log('finalImage:', finalImage ? 'SIM' : 'NÃO');
     
     if (!finalImage) {
       const confirm = window.confirm('Sem imagem. Deseja salvar mesmo assim?');
