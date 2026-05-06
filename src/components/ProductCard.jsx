@@ -38,11 +38,13 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
   return (
     <div 
-      className="group relative rounded-3xl overflow-hidden transition-all duration-300 cursor-pointer"
+      className={`group relative rounded-3xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'animate-bounce' : ''}`}
       style={{ 
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(0,0,0,0.04)',
-        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
+        boxShadow: justAdded 
+          ? '0 8px 30px rgba(255,179,71,0.5)' 
+          : '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
