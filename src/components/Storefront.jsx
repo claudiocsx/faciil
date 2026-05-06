@@ -73,10 +73,16 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
-            <div className="flex items-center gap-3 flex-shrink-0">
-              <div className="drop-shadow-[0_0_6px rgba(255,179,71,0.6)]">
-                <Logo size={36} />
-              </div>
+          <div className="flex items-center font-semibold text-2xl tracking-tight" style={{ color: '#1A2238' }}>
+            <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
+          </div>
+            <span className="font-black text-xl" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
+          </div>
+            <span className="font-black text-xl" style={{ color: '#1A2238' }}>Fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
+          </div>
               <span className="font-black text-xl" style={{ color: '#1A2238' }}>Faciil</span>
             </div>
 
@@ -305,9 +311,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <footer className="bg-white py-12 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 text-center">
           <div className="flex items-center justify-center font-semibold text-xl text-midnight mb-4">
-            <div className="drop-shadow-[0_0_6px rgba(255,179,71,0.6)]">
-              <Logo size={32} />
-            </div>
+            <svg className="text-amber mr-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
             <span>fac<span className="text-amber">ii</span>l</span>
           </div>
           <p className="text-xs text-gray-400 uppercase tracking-[0.2em] mb-8">Sua escolha inteligente em tecnologia</p>
