@@ -139,22 +139,27 @@ const AdminAddProductPage = () => {
               </button>
             </div>
           ) : (
-            <div
-              onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}
-              onClick={() => fileInputRef.current?.click()}
-              className="relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all"
+            <label
+              className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
               style={{ borderColor: dragActive ? '#FFB347' : 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
             >
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInput} className="hidden" />
-              <Upload size={28} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
-              <p className="text-text-primary font-semibold">Clique ou arraste uma imagem</p>
-            </div>
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                accept="image/*" 
+                onChange={handleFileInput} 
+                className="hidden" 
+              />
+              <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
+              <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
+              <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
+            </label>
           )}
         </div>
 
         {/* Imagens Extras */}
         <div>
-          <label className="block text-sm font-medium text-text-dim mb-2">
+          <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>
             Fotos Adicionais ({extraImages.length}/{MAX_IMAGES})
           </label>
           <div className="grid grid-cols-4 gap-2 mb-2">
@@ -171,24 +176,22 @@ const AdminAddProductPage = () => {
               </div>
             ))}
             {extraImages.length < MAX_IMAGES && (
-              <button
-                type="button"
-                onClick={() => extraFileInputRef.current?.click()}
-                className="aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all hover:bg-white/5"
-                style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+              <label
+                className="block aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all cursor-pointer"
+                style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
               >
+                <input 
+                  ref={extraFileInputRef} 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleExtraFileInput} 
+                  className="hidden" 
+                />
                 <Plus size={20} style={{ color: '#FFB347' }} />
                 <span className="text-[10px]" style={{ color: '#94A3B8' }}>Adicionar</span>
-              </button>
+              </label>
             )}
           </div>
-          <input 
-            ref={extraFileInputRef} 
-            type="file" 
-            accept="image/*" 
-            onChange={handleExtraFileInput} 
-            className="hidden" 
-          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
