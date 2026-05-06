@@ -100,6 +100,7 @@ const AdminAddProductPage = () => {
     try {
       const productData = {
         ...formData,
+        images: extraImages,
         price: parseFloat(formData.price),
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
