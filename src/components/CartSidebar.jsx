@@ -11,7 +11,6 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
   const [neighborhood, setNeighborhood] = useState('');
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
-  const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState({});
   
   const [couponCode, setCouponCode] = useState('');
@@ -142,7 +141,6 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
   useEffect(() => {
     if (!isOpen) {
-      setShowForm(false);
       setAppliedCoupon(null);
       setCouponCode('');
     }
@@ -256,7 +254,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
-                    onClick={() => { setDeliveryMethod('delivery'); setShowForm(true); }}
+                    onClick={() => setDeliveryMethod('delivery')}
                     className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'delivery'
                       ? { backgroundColor: '#FFB347', color: '#1A2238' }
@@ -267,7 +265,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                     Uber Flash
                   </button>
                   <button
-                    onClick={() => { setDeliveryMethod('pickup'); setShowForm(true); }}
+                    onClick={() => setDeliveryMethod('pickup')}
                     className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'pickup'
                       ? { backgroundColor: '#FFB347', color: '#1A2238' }
@@ -283,7 +281,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 )}
               </div>
 
-              {showForm && (
+              {cart.length > 0 && (
                 <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                   <div className="space-y-2">
                     <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
