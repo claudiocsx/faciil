@@ -88,24 +88,21 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         </button>
 
         {/* Quick Add to Cart */}
-        <div className={`absolute bottom-0 left-0 right-0 p-3 transition-all duration-300 ${
-          isHovered ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
-        }`}>
+        <div className="absolute bottom-4 left-3 right-3">
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className={`w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-30 disabled:cursor-not-allowed text-black ${
-              justAdded ? 'bg-green-500 scale-105' : ''
+            className={`w-full py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+              justAdded ? 'scale-105' : 'hover:scale-[1.02]'
             }`}
             style={{ 
-              backgroundColor: justAdded ? '#10B981' : '#1A2238',
-              boxShadow: justAdded 
-                ? '0 0 12px rgba(16,185,129,0.5)' 
-                : '0 0 12px rgba(90,158,90,0.5), 0 0 24px rgba(90,158,90,0.2)'
+              backgroundColor: justAdded ? '#1A2238' : '#FFB347',
+              color: justAdded ? '#FFFFFF' : '#1A2238',
+              boxShadow: '0 4px 12px rgba(255,179,71,0.3)'
             }}
           >
             {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
-            {justAdded ? 'Adicionado!' : 'Adicionar ao Carrinho'}
+            {justAdded ? 'No Carrinho!' : 'Comprar'}
           </button>
         </div>
       </div>
