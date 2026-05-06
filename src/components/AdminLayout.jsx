@@ -28,8 +28,8 @@ const AdminLayout = () => {
   const currentModule = location.pathname.split('/admin/')[1] || 'dashboard';
 
   const menuItems = [
-    { id: 'dashboard', icon: Home, label: 'Dashboard', path: '/admin' },
-    { id: 'pos', icon: PlusCircle, label: 'PDV (Venda Manual)', path: '/admin/pos' },
+    { id: 'dashboard', icon: Home, label: 'Início', path: '/admin' },
+    { id: 'pos', icon: PlusCircle, label: 'PDV', path: '/admin/pos' },
     { id: 'products', icon: Package, label: 'Produtos', path: '/admin/products' },
     { id: 'banners', icon: Image, label: 'Banners', path: '/admin/banners' },
     { id: 'coupons', icon: Ticket, label: 'Cupons', path: '/admin/coupons' },
@@ -42,31 +42,29 @@ const AdminLayout = () => {
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: '#FDFDFD' }}>
       {/* Sidebar Desktop */}
-      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
+      <div className="hidden lg:flex lg:flex-col lg:w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+          <div className="flex items-center justify-center h-20 px-6" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-3">
-              <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
-                <Logo size={32} />
-              </div>
-              <span className="font-black text-xl text-text-primary">Faciil</span>
+              <Logo size={36} />
+              <span className="font-black text-2xl" style={{ color: '#1A2238' }}>faciil</span>
             </div>
           </div>
 
-          <div className="px-4 py-4 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold" style={{ backgroundColor: '#FFB347' }}>
+          <div className="p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className="flex items-center gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#F8FAFC' }}>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-bold text-text-primary truncate">{user?.name}</p>
-                <p className="text-xs uppercase font-semibold" style={{ color: '#1A2238' }}>{user?.role}</p>
+                <p className="text-sm font-bold truncate" style={{ color: '#1A2238' }}>{user?.name}</p>
+                <p className="text-xs font-bold uppercase" style={{ color: '#94A3B8' }}>{user?.role}</p>
               </div>
             </div>
           </div>
 
-          <nav className="flex-1 px-3 py-4 space-y-1">
-            <p className="px-3 text-xs font-black text-text-dim uppercase tracking-widest mb-3">Menu</p>
+          <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <p className="px-3 text-xs font-black uppercase tracking-widest mb-3" style={{ color: '#94A3B8' }}>Menu</p>
             {menuItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.id);
@@ -74,26 +72,33 @@ const AdminLayout = () => {
                 <button
                   key={item.id}
                   onClick={() => navigate(item.path)}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                  style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.2)' } : { color: '#4A5568', backgroundColor: 'transparent', border: '1px solid transparent' }}
-                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'var(--glass-bg)'; }}
+                  className="w-full flex items-center gap-3 px-3 py-3 text-sm font-bold rounded-2xl transition-all"
+                  style={active 
+                    ? { backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' } 
+                    : { color: '#4A5568', backgroundColor: 'transparent' }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.backgroundColor = '#F8FAFC'; }}
                   onMouseLeave={(e) => { if (!active) e.currentTarget.style.backgroundColor = 'transparent'; }}
                 >
-                  <Icon size={18} />
+                  <Icon size={20} />
                   {item.label}
                 </button>
               );
             })}
           </nav>
 
-          <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-            <button onClick={() => navigate('/')} className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold rounded-xl transition-all hover:scale-105" style={{ backgroundColor: '#1A2238', color: '#000' }}>
+          <div className="p-4 mt-auto space-y-2">
+            <button 
+              onClick={() => navigate('/')} 
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all hover:scale-[1.02]"
+              style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
+            >
               <Store size={18} />
               Ver Loja
             </button>
             <button
               onClick={() => { logout(); navigate('/'); }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all"
+              style={{ color: '#EF4444', backgroundColor: '#FEF2F2' }}
             >
               <LogOut size={18} />
               Sair
@@ -141,16 +146,20 @@ const AdminLayout = () => {
 
       {/* Main */}
       <div className="flex-1 flex flex-col">
-        <header className="border-b h-16 px-4 lg:px-6" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
+        <header className="sticky top-0 z-30 h-16 px-4 lg:px-6 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
           <div className="flex items-center justify-between h-full">
             <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2" style={{ color: '#1A2238' }}>
-              <Menu size={20} />
+              <Menu size={24} />
             </button>
             
-            <div className="flex-1 max-w-md mx-4 lg:mx-8 hidden sm:block">
+            <div className="flex-1 max-w-md mx-4 lg:mx-8 hidden md:block">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
-                <input type="text" placeholder="Buscar..." className="w-full pl-10 pr-4 py-2 rounded-xl text-sm outline-none transition-all" style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#94A3B8' }} />
+                <input 
+                  type="text" 
+                  placeholder="Buscar produtos, pedidos, clientes..." 
+                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl text-sm outline-none transition-all"
+                  style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                   onFocus={(e) => e.target.style.borderColor = '#FFB347'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
                 />
@@ -160,17 +169,21 @@ const AdminLayout = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/')}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-bold rounded-xl transition-all hover:scale-105 text-black"
-                style={{ backgroundColor: '#FFB347' }}
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-2xl transition-all hover:scale-105"
+                style={{ backgroundColor: '#F8FAFC', color: '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
               >
                 <Store size={16} />
                 Ver Loja
               </button>
               <div className="relative">
-                <button onClick={() => setNotifOpen(!notifOpen)} className="relative p-2 transition-colors" style={{ color: '#1A2238' }}>
+                <button 
+                  onClick={() => setNotifOpen(!notifOpen)} 
+                  className="relative p-2.5 rounded-2xl transition-all hover:bg-black/5"
+                  style={{ backgroundColor: '#F8FAFC', color: '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
+                >
                   <Bell size={20} />
                   {notifCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+                    <span className="absolute -top-1 -right-1 w-5 h-5 text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                       {notifCount > 9 ? '9+' : notifCount}
                     </span>
                   )}
