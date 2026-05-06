@@ -5,6 +5,8 @@ import CartSidebar from './CartSidebar';
 import Toast from './Toast';
 import Logo from './Logo';
 import ProductSkeleton from './ProductSkeleton';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const TECH_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 
@@ -33,6 +35,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [toastMessage, setToastMessage] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [currentCarousel, setCurrentCarousel] = useState(0);
+  const [bannerOffers, setBannerOffers] = useState([]);
+  const [bannerCoupons, setBannerCoupons] = useState([]);
+  const [bannersLoading, setBannersLoading] = useState(true);
+
+  useEffect(() => {
+    loadBanners();
+  }, []);
+
+  const loadBanners = async () => {
+    try {
+      const offersSnap = await getDocs(collection(db, 'banners_offers'));
+      const couponsSnap = await getDocs(collection(db, 'banners_coupons'));
+      setBannerOffers(offersSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setBannerCoupons(couponsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+    } catch (err) {
+      console.error('Erro ao carregar banners:', err);
+    }
+    setBannersLoading(false);
+  };
+
+  const getCarouselOffers = () => bannerOffers.length > 0 ? bannerOffers : CAROUSEL_OFFERS;
+  const getCarouselCoupons = () => bannerCoupons.length > 0 ? bannerCoupons : CAROUSEL_COUPONS;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,12 +67,12 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, []);
 
   const nextCarousel = () => {
-    const total = CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length;
+    const total = getCarouselOffers().length + getCarouselCoupons().length;
     setCurrentCarousel((prev) => (prev + 1) % total);
   };
 
   const prevCarousel = () => {
-    const total = CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length;
+    const total = getCarouselOffers().length + getCarouselCoupons().length;
     setCurrentCarousel((prev) => (prev - 1 + total) % total);
   };
 
@@ -166,51 +190,59 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   style={{ transform: `translateX(-${currentCarousel * 100}%)` }}
                 >
                   {/* Ofertas */}
-                  {CAROUSEL_OFFERS.map((offer) => (
-                    <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
-                      <div className="flex flex-col md:flex-row items-center gap-8">
-                        <div className="flex-1 text-center md:text-left">
-                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                            <Tag size={14} />
-                            Oferta
+                  {bannersLoading ? (
+                    <div className="w-full flex-shrink-0 p-8 md:p-12 text-center text-white">
+                      <Loader2 className="animate-spin w-8 h-8 mx-auto" style={{ color: '#FFB347' }} />
+                    </div>
+                  ) : (
+                    <>
+                      {getCarouselOffers().map((offer) => (
+                        <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
+                          <div className="flex flex-col md:flex-row items-center gap-8">
+                            <div className="flex-1 text-center md:text-left">
+                              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                                <Tag size={14} />
+                                Oferta
+                              </div>
+                              <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">{offer.title}</h2>
+                              <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                              <button 
+                                onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                              >
+                                Ver Oferta
+                              </button>
+                            </div>
+                            <div className="flex-1 flex justify-center">
+                              <img src={offer.image} alt={offer.title} className="w-full max-w-xs rounded-2xl object-cover" />
+                            </div>
                           </div>
-                          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">{offer.title}</h2>
-                          <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
-                          <button 
-                            onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                            className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
-                            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                          >
-                            Ver Oferta
-                          </button>
                         </div>
-                        <div className="flex-1 flex justify-center">
-                          <img src={offer.image} alt={offer.title} className="w-full max-w-xs rounded-2xl object-cover" />
+                      ))}
+                      
+                      {/* Cupons */}
+                      {getCarouselCoupons().map((coupon) => (
+                        <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
+                          <div className="flex flex-col items-center text-center">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
+                              <Percent size={14} />
+                              Cupom
+                            </div>
+                            <h2 className="text-3xl md:text-5xl font-black text-white mb-2">{coupon.code}</h2>
+                            <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                            <button 
+                              onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                              className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                            >
+                              Copiar Cupom
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
-                  
-                  {/* Cupons */}
-                  {CAROUSEL_COUPONS.map((coupon) => (
-                    <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
-                      <div className="flex flex-col items-center text-center">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: coupon.color, color: '#1A2238' }}>
-                          <Percent size={14} />
-                          Cupom
-                        </div>
-                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2">{coupon.code}</h2>
-                        <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
-                        <button 
-                          onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                          className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
-                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                        >
-                          Copiar Cupom
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                      ))}
+                    </>
+                  )}
                 </div>
               </div>
               
@@ -222,7 +254,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             
             {/* Dots Indicator */}
             <div className="flex justify-center gap-2 pb-6">
-              {[...Array(CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length)].map((_, i) => (
+              {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentCarousel(i)}

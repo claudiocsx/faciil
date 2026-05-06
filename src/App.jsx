@@ -18,6 +18,7 @@ import AdminAddProductPage from './pages/AdminAddProductPage';
 import AdminCouponsPage from './pages/AdminCouponsPage';
 import AdminClientsPage from './pages/AdminClientsPage';
 import AdminPosPage from './pages/AdminPosPage';
+import AdminBannersPage from './pages/AdminBannersPage';
 
 const LoadingScreen = () => (
   <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
@@ -59,6 +60,7 @@ function AppRoutes() {
         <Route path="products" element={<AdminProductsPage />} />
         <Route path="products/new" element={<AdminAddProductPage />} />
         <Route path="coupons" element={<AdminCouponsPage />} />
+        <Route path="banners" element={<AdminBannersPage />} />
         <Route path="orders" element={<AdminOrdersPage />} />
         <Route path="clients" element={<AdminClientsPage />} />
         <Route path="pos" element={<AdminPosPage />} />
