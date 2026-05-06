@@ -42,7 +42,7 @@ const AdminAddProductPage = () => {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
           const scaleSize = maxWidth / Math.max(img.width, img.height);
