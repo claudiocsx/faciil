@@ -73,19 +73,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <header className="border-b sticky top-0 z-40" style={{ backgroundColor: '#FFFFFF', borderColor: 'rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16 gap-4">
-          <div className="flex items-center font-semibold text-2xl tracking-tight" style={{ color: '#1A2238' }}>
-            <svg className="text-amber mr-1" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-            <span>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
-          </div>
-            <span className="font-black text-xl" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
-          </div>
-            <span className="font-black text-xl" style={{ color: '#1A2238' }}>Fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
-          </div>
-              <span className="font-black text-xl" style={{ color: '#1A2238' }}>Faciil</span>
+            {/* Logo Faciil Original */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <Logo size={22} className="text-amber" style={{ color: '#FFB347' }} />
+              <span className="font-black text-xl" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
             </div>
 
+            {/* Busca & Carrinho */}
             <div className="flex-1 max-w-xl">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
@@ -119,9 +113,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}
               >
                 <ShoppingCart size={20} style={{ color: '#1A2238' }} />
-                {totalItems > 0 && (
+                {cart.reduce((sum, item) => sum + item.quantity, 0) > 0 && (
                   <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
-                    {totalItems}
+                    {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 )}
               </button>
