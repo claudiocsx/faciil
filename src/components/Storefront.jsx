@@ -120,7 +120,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Delivery Banner */}
       <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(90,158,90,0.08)', color: 'var(--color-neon-green)' }}>
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2 text-xs font-semibold" style={{ color: '#1A2238' }}>
           <span>🛵 Entregas via Uber Flash em Crato - CE</span>
           <span className="hidden sm:inline">•</span>
           <span className="hidden sm:inline">Retirada grátis no centro do Crato</span>
@@ -129,53 +129,63 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-4">
+        <div className="max-w-7xl mx-auto px-3 lg:px-8">
+          <div className="flex items-center justify-between h-14 lg:h-16 gap-2 lg:gap-4">
             {/* Logo Faciil Original */}
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-1 lg:gap-2 flex-shrink-0 hover:opacity-80 transition-opacity"
             >
-              <Logo size={22} />
-              <span className="font-black text-xl tracking-tight" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347', letterSpacing: '-1px' }}>ii</span>l</span>
+              <Logo size={20} />
+              <span className="font-black text-base lg:text-xl tracking-tight" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347', letterSpacing: '-1px' }}>ii</span>l</span>
             </button>
 
-            {/* Busca & Carrinho */}
-            <div className="flex-1 max-w-xl">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#4A5568' }} />
+            {/* Busca - hidden em mobile */}
+            <div className="hidden md:flex flex-1 max-w-xl">
+              <div className="relative w-full">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={16} style={{ color: '#94A3B8' }} />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Buscar produtos..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all"
-                  style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                  className="w-full pl-9 pr-3 py-2 rounded-xl text-sm outline-none transition-all"
+                  style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                   onFocus={(e) => e.target.style.borderColor = '#FFB347'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
                 />
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* Botões */}
+            <div className="flex items-center gap-1 lg:gap-2">
+              {/* Busca no mobile */}
+              <button 
+                onClick={() => setSearchTerm(prompt('Buscar produto:') || '')}
+                className="md:hidden p-2 rounded-xl transition-all hover:bg-black/5"
+                style={{ border: '1px solid rgba(0,0,0,0.04)' }}
+              >
+                <Search size={18} style={{ color: '#1A2238' }} />
+              </button>
+              
               {onOrders && (
                 <button
                   onClick={onOrders}
-                  className="hidden sm:flex items-center gap-2 p-2.5 rounded-xl transition-all hover:bg-black/5"
+                  className="hidden lg:flex items-center gap-1 lg:gap-2 p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
                   style={{ border: '1px solid rgba(0,0,0,0.04)' }}
                 >
-                  <ClipboardList size={18} style={{ color: '#1A2238' }} />
+                  <ClipboardList size={16} style={{ color: '#1A2238' }} />
                   <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Pedidos</span>
                 </button>
               )}
               <button
                 onClick={() => setCartOpen(true)}
-                className="relative p-2.5 rounded-xl transition-all hover:bg-black/5"
+                className="relative p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}
               >
-                <ShoppingCart size={20} style={{ color: '#1A2238' }} />
+                <ShoppingCart size={18} style={{ color: '#1A2238' }} />
                 {cart.reduce((sum, item) => sum + item.quantity, 0) > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+                  <span className="absolute -top-1 -right-1 w-4 h-4 lg:w-5 lg:h-5 text-[10px] lg:text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                     {cart.reduce((sum, item) => sum + item.quantity, 0)}
                   </span>
                 )}
