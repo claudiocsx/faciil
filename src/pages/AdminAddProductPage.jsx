@@ -1,15 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Camera, Upload, X } from 'lucide-react';
+import { Camera, Upload, X, Plus, Image } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 
 const CATEGORIES = ['Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
+
+const MAX_IMAGES = 4;
 
 const AdminAddProductPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { addProduct, updateProduct } = useProducts();
   const fileInputRef = useRef(null);
+  const extraFileInputRef = useRef(null);
   
   const editingProduct = location.state;
 
@@ -22,9 +25,11 @@ const AdminAddProductPage = () => {
     stock: editingProduct?.stock || '',
     category: editingProduct?.category || 'Smartwatches',
     image: editingProduct?.image || '',
+    images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || null);
+  const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
   const [dragActive, setDragActive] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -70,6 +75,23 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
+  const handleExtraImageFile = async (file) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    if (extraImages.length >= MAX_IMAGES) return alert(`Máximo de ${MAX_IMAGES} imagens extras.`);
+    const compressedBase64 = await compressImage(file);
+    setExtraImages(prev => [...prev, compressedBase64]);
+    setFormData(prev => ({ ...prev, images: [...prev.images, compressedBase64] }));
+  };
+
+  const removeExtraImage = (index) => {
+    const newImages = extraImages.filter((_, i) => i !== index);
+    setExtraImages(newImages);
+    setFormData(prev => ({ ...prev, images: newImages }));
+  };
+
+  const handleExtraFileInput = (e) => handleExtraImageFile(e.target.files[0]);
+  const handleExtraDrop = (e) => { e.preventDefault(); setDragActive(false); handleExtraImageFile(e.dataTransfer.files[0]); };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.image) return alert('Adicione uma imagem do produto.');
@@ -106,8 +128,9 @@ const AdminAddProductPage = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="glass-card p-6 rounded-2xl space-y-4">
+        {/* Imagem Principal */}
         <div>
-          <label className="block text-sm font-medium text-text-dim mb-2">Foto do Produto</label>
+          <label className="block text-sm font-medium text-text-dim mb-2">Foto Principal do Produto</label>
           {imagePreview ? (
             <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
               <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover" />
@@ -127,6 +150,45 @@ const AdminAddProductPage = () => {
               <p className="text-text-primary font-semibold">Clique ou arraste uma imagem</p>
             </div>
           )}
+        </div>
+
+        {/* Imagens Extras */}
+        <div>
+          <label className="block text-sm font-medium text-text-dim mb-2">
+            Fotos Adicionais ({extraImages.length}/{MAX_IMAGES})
+          </label>
+          <div className="grid grid-cols-4 gap-2 mb-2">
+            {extraImages.map((img, i) => (
+              <div key={i} className="relative rounded-lg overflow-hidden aspect-square">
+                <img src={img} alt={`Extra ${i + 1}`} className="w-full h-full object-cover" />
+                <button 
+                  type="button" 
+                  onClick={() => removeExtraImage(i)} 
+                  className="absolute top-1 right-1 p-1 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            ))}
+            {extraImages.length < MAX_IMAGES && (
+              <button
+                type="button"
+                onClick={() => extraFileInputRef.current?.click()}
+                className="aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all hover:bg-white/5"
+                style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+              >
+                <Plus size={20} style={{ color: '#FFB347' }} />
+                <span className="text-[10px]" style={{ color: '#94A3B8' }}>Adicionar</span>
+              </button>
+            )}
+          </div>
+          <input 
+            ref={extraFileInputRef} 
+            type="file" 
+            accept="image/*" 
+            onChange={handleExtraFileInput} 
+            className="hidden" 
+          />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

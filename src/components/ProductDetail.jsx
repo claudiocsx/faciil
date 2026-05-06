@@ -9,7 +9,9 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
   if (!product) return null;
 
-  const productImages = [product.image, product.image, product.image, product.image].slice(0, 4);
+  const productImages = product.images?.length > 0 
+    ? [product.image, ...product.images].slice(0, 4)
+    : [product.image, product.image, product.image, product.image].slice(0, 4);
   const availableStock = product.stock || 999;
 
   const discount = product.originalPrice 
