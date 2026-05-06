@@ -131,7 +131,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
       message += `🏠 *Endereço:* ${address}, ${addressNumber}\n\n`;
       message += `Aguardo confirmação do envio via Uber Flash!`;
     } else {
-      message += `\nVou retirar no local!`;
+      message += `\nVou retirar no centro do Crato!`;
     }
 
     const url = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;

@@ -112,9 +112,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Delivery Banner */}
       <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(90,158,90,0.08)', color: 'var(--color-neon-green)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2">
-          <span>🛵 Entregas via Uber Flash em toda a cidade</span>
+          <span>🛵 Entregas via Uber Flash em Crato - CE</span>
           <span className="hidden sm:inline">•</span>
-          <span className="hidden sm:inline">Retirada grátis no local disponível</span>
+          <span className="hidden sm:inline">Retirada grátis no centro do Crato</span>
         </div>
       </div>
 
