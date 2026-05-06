@@ -3,7 +3,7 @@ import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag,
 import { db } from '../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
-const DELIVERY_FEE = 5.00; // Taxa fixa de entrega
+const DELIVERY_FEE = 5.00;
 
 const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder }) => {
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
@@ -46,9 +46,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRemoveClick = (itemId) => {
-    setItemToRemove(itemId);
-  };
+  const handleRemoveClick = (itemId) => setItemToRemove(itemId);
 
   const confirmRemove = () => {
     if (itemToRemove) {
@@ -124,7 +122,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
     }
     
     message += `\n💰 *Total: R$ ${total.toFixed(2)}*\n`;
-    message += `💳 ou 3x de R$ ${(total / 3).toFixed(2)}\n\n`;
+    message += `💳 ou 3x de R$ {(total / 3).toFixed(2)}\n\n`;
 
     message += `👤 *Cliente:* ${customerName}\n`;
 
@@ -155,21 +153,18 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
   if (orderSuccess) {
     return (
       <>
-        <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"
-          onClick={() => { setOrderSuccess(false); onClose(); }}
-        />
-        <div className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-deep border-l border-border-glow shadow-2xl z-50 flex flex-col items-center justify-center p-8 text-center">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'rgba(90,158,90,0.1)' }}>
-            <CheckCircle size={40} style={{ color: '#1A2238' }} />
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" onClick={() => { setOrderSuccess(false); onClose(); }} />
+        <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col items-center justify-center p-8 text-center" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mb-6" style={{ backgroundColor: 'rgba(255,179,71,0.1)' }}>
+            <CheckCircle size={40} style={{ color: '#FFB347' }} />
           </div>
-          <h2 className="text-2xl font-bold text-text-primary mb-3">Pedido Enviado!</h2>
-          <p className="text-text-dim mb-2">Seu pedido foi enviado via WhatsApp.</p>
-          <p className="text-sm text-text-dim mb-8">Em breve retornaremos o contato confirmando o pedido.</p>
+          <h2 className="text-2xl font-black mb-3" style={{ color: '#1A2238' }}>Pedido Enviado!</h2>
+          <p className="text-sm mb-2" style={{ color: '#94A3B8' }}>Seu pedido foi enviado via WhatsApp.</p>
+          <p className="text-sm mb-8" style={{ color: '#94A3B8' }}>Em breve retornaremos o contato.</p>
           <button
             onClick={() => { setOrderSuccess(false); onClose(); }}
-            className="w-full py-3 rounded-xl font-bold text-sm text-black transition-all"
-            style={{ backgroundColor: '#1A2238',  }}
+            className="w-full py-4 rounded-2xl font-bold text-sm transition-all hover:scale-[1.02]"
+            style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
           >
             Continuar Comprando
           </button>
@@ -180,165 +175,167 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
   return (
     <>
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" onClick={onClose} />
 
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-deep border-l border-border-glow shadow-2xl z-50 flex flex-col">
-        <div className="flex items-center justify-between p-4 border-b border-border-subtle">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(90,158,90,0.1)' }}>
-              <ShoppingBag size={18} style={{ color: '#1A2238' }} />
+      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+              <ShoppingBag size={20} style={{ color: '#1A2238' }} />
             </div>
             <div>
-              <h2 className="text-base font-bold text-text-primary">Carrinho</h2>
-              <p className="text-xs text-text-dim">{totalItems} {totalItems === 1 ? 'item' : 'itens'}</p>
+              <h2 className="text-base font-black" style={{ color: '#1A2238' }}>Carrinho</h2>
+              <p className="text-xs" style={{ color: '#94A3B8' }}>{totalItems} {totalItems === 1 ? 'item' : 'itens'}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-bg-elevated rounded-lg transition-colors text-text-secondary">
-            <X size={18} />
+          <button onClick={onClose} className="p-2 rounded-lg transition-colors hover:bg-black/5" style={{ color: '#1A2238' }}>
+            <X size={20} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           {cart.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center px-6">
-              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: 'rgba(59,139,185,0.05)' }}>
-                <ShoppingBag size={28} className="text-text-dim" />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4" style={{ backgroundColor: '#F8FAFC' }}>
+                <ShoppingBag size={32} style={{ color: '#CBD5E1' }} />
               </div>
-              <h3 className="text-base font-bold text-text-primary mb-2">Carrinho vazio</h3>
-              <p className="text-sm text-text-dim">Adicione produtos para começar</p>
+              <h3 className="text-base font-black mb-2" style={{ color: '#1A2238' }}>Carrinho vazio</h3>
+              <p className="text-sm mb-4" style={{ color: '#94A3B8' }}>Adicione produtos para começar</p>
               <button
                 onClick={onClose}
-                className="mt-4 px-6 py-2.5 font-semibold text-sm rounded-xl text-black transition-all"
-                style={{ backgroundColor: '#FFB347',  }}
+                className="px-6 py-3 font-bold text-sm rounded-2xl transition-all hover:scale-105"
+                style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
               >
-                Continuar Comprando
+                Explorar Produtos
               </button>
             </div>
           ) : (
             <div className="p-4 space-y-3">
               {cart.map((item) => (
-                <div key={item.id} className="flex gap-3 glass-card p-3 rounded-xl">
-                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-bg-elevated flex-shrink-0">
+                <div key={item.id} className="flex gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-sm text-text-primary truncate">{item.name}</h4>
-                    <p className="text-sm font-bold mt-1" style={{ color: '#FFB347' }}>
+                    <h4 className="font-bold text-sm line-clamp-2" style={{ color: '#1A2238' }}>{item.name}</h4>
+                    <p className="text-sm font-extrabold mt-1" style={{ color: '#1A2238' }}>
                       R$ {(item.price * item.quantity).toFixed(2)}
                     </p>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center justify-between mt-2">
+                      <div className="flex items-center gap-1 rounded-lg p-1" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
+                        <button
+                          onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                          className="p-1 rounded transition-colors"
+                          style={{ color: '#94A3B8' }}
+                        >
+                          <Minus size={12} />
+                        </button>
+                        <span className="w-6 text-center text-xs font-bold" style={{ color: '#1A2238' }}>{item.quantity}</span>
+                        <button
+                          onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                          disabled={item.quantity >= item.stock}
+                          className="p-1 rounded transition-colors disabled:opacity-30"
+                          style={{ color: '#94A3B8' }}
+                        >
+                          <Plus size={12} />
+                        </button>
+                      </div>
                       <button
-                        onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 hover:bg-white/10 rounded transition-colors text-text-secondary"
+                        onClick={() => handleRemoveClick(item.id)}
+                        className="p-2 rounded-lg transition-colors hover:bg-red-50"
+                        style={{ color: '#EF4444' }}
                       >
-                        <Minus size={12} />
-                      </button>
-                      <span className="w-6 text-center text-sm font-bold text-text-primary">{item.quantity}</span>
-                      <button
-                        onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                        disabled={item.quantity >= item.stock}
-                        className="p-1 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-text-secondary"
-                      >
-                        <Plus size={12} />
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleRemoveClick(item.id)}
-                    className="self-start p-1.5 text-text-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={14} />
-                  </button>
                 </div>
               ))}
 
-              <div className="p-3 glass-card rounded-xl space-y-3">
-                <p className="text-sm font-bold text-text-primary">Como deseja receber?</p>
+              <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => { setDeliveryMethod('delivery'); setShowForm(true); }}
-                    className="p-2.5 rounded-lg text-xs font-bold flex flex-col items-center gap-1.5 transition-all"
+                    className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'delivery'
-                      ? { backgroundColor: 'rgba(59,139,185,0.15)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.3)' }
-                      : { backgroundColor: 'rgba(255,255,255,0.03)', color: '#999', border: '1px solid rgba(255,255,255,0.08)' }
+                      ? { backgroundColor: '#FFB347', color: '#1A2238' }
+                      : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
                     }
                   >
-                    <MapPin size={18} />
+                    <MapPin size={20} />
                     Uber Flash
                   </button>
                   <button
                     onClick={() => { setDeliveryMethod('pickup'); setShowForm(true); }}
-                    className="p-2.5 rounded-lg text-xs font-bold flex flex-col items-center gap-1.5 transition-all"
+                    className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'pickup'
-                      ? { backgroundColor: 'rgba(90,158,90,0.15)', color: '#1A2238', border: '1px solid rgba(90,158,90,0.3)' }
-                      : { backgroundColor: 'rgba(255,255,255,0.03)', color: '#999', border: '1px solid rgba(255,255,255,0.08)' }
+                      ? { backgroundColor: '#FFB347', color: '#1A2238' }
+                      : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
                     }
                   >
-                    <Store size={18} />
+                    <Store size={20} />
                     Retirada
                   </button>
                 </div>
                 {deliveryMethod === 'delivery' && (
-                  <p className="text-xs text-text-dim text-center">Taxa fixa de entrega: <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
+                  <p className="text-xs text-center" style={{ color: '#94A3B8' }}>Taxa fixa: <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
                 )}
               </div>
 
               {showForm && (
-                <div className="p-3 glass-card rounded-xl space-y-3">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-text-dim">Seu Nome</label>
+                <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
                     <input
                       type="text"
                       value={customerName}
                       onChange={(e) => { setCustomerName(e.target.value); if (errors.customerName) setErrors(prev => ({ ...prev, customerName: null })); }}
-                      className={`w-full px-3 py-2 rounded-lg text-sm text-text-primary outline-none transition-all`}
-                      style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${errors.customerName ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}` }}
+                      className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                      style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.customerName ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                       placeholder="Digite seu nome"
                     />
-                    {errors.customerName && <p className="text-xs text-red-400">{errors.customerName}</p>}
+                    {errors.customerName && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.customerName}</p>}
                   </div>
 
                   {deliveryMethod === 'delivery' && (
                     <>
-                      <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-text-dim">Bairro</label>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Bairro</label>
                         <input
                           type="text"
                           value={neighborhood}
                           onChange={(e) => { setNeighborhood(e.target.value); if (errors.neighborhood) setErrors(prev => ({ ...prev, neighborhood: null })); }}
-                          className={`w-full px-3 py-2 rounded-lg text-sm text-text-primary outline-none transition-all`}
-                          style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${errors.neighborhood ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}` }}
+                          className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                          style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.neighborhood ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                           placeholder="Seu bairro"
                         />
-                        {errors.neighborhood && <p className="text-xs text-red-400">{errors.neighborhood}</p>}
+                        {errors.neighborhood && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.neighborhood}</p>}
                       </div>
                       <div className="flex gap-2">
-                        <div className="flex-1 space-y-1.5">
-                          <label className="text-xs font-semibold text-text-dim">Endereço</label>
+                        <div className="flex-1 space-y-2">
+                          <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Endereço</label>
                           <input
                             type="text"
                             value={address}
                             onChange={(e) => { setAddress(e.target.value); if (errors.address) setErrors(prev => ({ ...prev, address: null })); }}
-                            className={`w-full px-3 py-2 rounded-lg text-sm text-text-primary outline-none transition-all`}
-                            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${errors.address ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}` }}
+                            className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                            style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.address ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                             placeholder="Rua, Avenida..."
                           />
-                          {errors.address && <p className="text-xs text-red-400">{errors.address}</p>}
+                          {errors.address && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.address}</p>}
                         </div>
-                        <div className="w-20 space-y-1.5">
-                          <label className="text-xs font-semibold text-text-dim">Número</label>
+                        <div className="w-20 space-y-2">
+                          <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Nº</label>
                           <input
                             type="text"
                             value={addressNumber}
                             onChange={(e) => { setAddressNumber(e.target.value); if (errors.addressNumber) setErrors(prev => ({ ...prev, addressNumber: null })); }}
-                            className={`w-full px-3 py-2 rounded-lg text-sm text-text-primary outline-none transition-all`}
-                            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: `1px solid ${errors.addressNumber ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.08)'}` }}
+                            className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                            style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.addressNumber ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                             placeholder="Nº"
                           />
-                          {errors.addressNumber && <p className="text-xs text-red-400">{errors.addressNumber}</p>}
+                          {errors.addressNumber && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.addressNumber}</p>}
                         </div>
                       </div>
                     </>
@@ -346,17 +343,17 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 </div>
               )}
 
-              <div className="p-3 glass-card rounded-xl space-y-3">
+              <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <div className="flex items-center gap-2">
                   <Tag size={16} style={{ color: '#FFB347' }} />
-                  <span className="text-sm font-bold text-text-primary">Cupom de Desconto</span>
+                  <span className="text-sm font-bold" style={{ color: '#1A2238' }}>Cupom de Desconto</span>
                 </div>
                 {appliedCoupon ? (
-                  <div className="flex items-center justify-between p-2 rounded-lg" style={{ backgroundColor: 'rgba(90,158,90,0.1)', border: '1px solid rgba(90,158,90,0.3)' }}>
-                    <span className="text-xs font-bold" style={{ color: '#1A2238' }}>
+                  <div className="flex items-center justify-between p-3 rounded-xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #FFB347' }}>
+                    <span className="text-sm font-bold" style={{ color: '#1A2238' }}>
                       {appliedCoupon.code} (-R$ {discount.toFixed(2)})
                     </span>
-                    <button onClick={handleRemoveCoupon} className="text-xs text-red-400 font-bold hover:underline">Remover</button>
+                    <button onClick={handleRemoveCoupon} className="text-xs font-bold" style={{ color: '#EF4444' }}>Remover</button>
                   </div>
                 ) : (
                   <div className="flex gap-2">
@@ -364,55 +361,56 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                       type="text"
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                      className="flex-1 px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+                      className="flex-1 px-3 py-3 rounded-xl text-sm outline-none"
+                      style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                       placeholder="Ex: FACIIL10"
                     />
                     <button
                       onClick={handleApplyCoupon}
                       disabled={couponLoading}
-                      className="px-3 py-2 rounded-lg text-xs font-bold text-black transition-all"
-                      style={{ backgroundColor: '#FFB347' }}
+                      className="px-4 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
+                      style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                     >
-                      {couponLoading ? '...' : <Check size={16} />}
+                      {couponLoading ? '...' : 'Aplicar'}
                     </button>
                   </div>
                 )}
-                {couponError && <p className="text-xs text-red-400">{couponError}</p>}
+                {couponError && <p className="text-xs" style={{ color: '#EF4444' }}>{couponError}</p>}
               </div>
             </div>
           )}
         </div>
 
         {cart.length > 0 && (
-          <div className="border-t border-border-subtle p-4 space-y-3 bg-bg-elevated">
-            <div className="space-y-1.5 text-sm">
-              <div className="flex justify-between text-text-dim">
+          <div className="p-4 space-y-4" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', backgroundColor: '#F8FAFC' }}>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between" style={{ color: '#94A3B8' }}>
                 <span>Subtotal</span>
                 <span>R$ {subtotal.toFixed(2)}</span>
               </div>
               {deliveryMethod === 'delivery' && (
                 <div className="flex justify-between">
-                  <span className="text-text-dim">Entrega (Uber Flash)</span>
+                  <span style={{ color: '#94A3B8' }}>Entrega (Uber Flash)</span>
                   <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span>
                 </div>
               )}
               {discount > 0 && (
-                <div className="flex justify-between" style={{ color: '#1A2238' }}>
+                <div className="flex justify-between" style={{ color: '#10B981' }}>
                   <span>Desconto ({appliedCoupon.code})</span>
                   <span className="font-bold">-R$ {discount.toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-base font-bold text-text-primary pt-2 border-t border-border-subtle">
+              <div className="flex justify-between text-lg font-black pt-2" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}>
                 <span>Total</span>
-                <span style={{ color: '#FFB347' }}>R$ {total.toFixed(2)}</span>
+                <span>R$ {total.toFixed(2)}</span>
               </div>
+              <p className="text-xs text-center" style={{ color: '#94A3B8' }}>ou 3x de R$ {(total / 3).toFixed(2)} sem juros</p>
             </div>
 
             <button
               onClick={handleWhatsAppCheckout}
-              className="w-full py-3 text-black rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-105"
-              style={{ backgroundColor: '#1A2238',  }}
+              className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+              style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
             >
               <MessageCircle size={18} />
               {deliveryMethod === 'delivery' ? 'Pedir com Entrega' : 'Pedir para Retirada'}
@@ -421,26 +419,25 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
         )}
       </div>
 
-      {/* Modal de Confirmação de Remoção */}
       {itemToRemove && (
         <>
           <div className="fixed inset-0 bg-black/80 z-[60]" onClick={() => setItemToRemove(null)} />
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[61] w-full max-w-xs p-6 rounded-2xl text-center space-y-4" style={{ backgroundColor: '#FFFFFF', border: '1px solid #F4F4F5' }}>
-            <Trash2 size={40} className="mx-auto text-red-400" />
-            <h3 className="text-lg font-bold text-text-primary">Remover Item?</h3>
-            <p className="text-sm text-text-dim">Tem certeza que deseja remover este item do carrinho?</p>
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[61] w-full max-w-xs p-6 rounded-2xl text-center space-y-4 bg-white">
+            <Trash2 size={40} className="mx-auto" style={{ color: '#EF4444' }} />
+            <h3 className="text-lg font-black" style={{ color: '#1A2238' }}>Remover Item?</h3>
+            <p className="text-sm" style={{ color: '#94A3B8' }}>Tem certeza que deseja remover este item?</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setItemToRemove(null)}
-                className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all"
-                style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#B0B0B0', border: '1px solid #F4F4F5' }}
+                className="flex-1 py-3 rounded-xl font-bold text-sm"
+                style={{ backgroundColor: '#F8FAFC', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }}
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmRemove}
-                className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white transition-all"
-                style={{ backgroundColor: '#DC2626' }}
+                className="flex-1 py-3 rounded-xl font-bold text-sm text-white"
+                style={{ backgroundColor: '#EF4444' }}
               >
                 Remover
               </button>
