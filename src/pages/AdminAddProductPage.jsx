@@ -133,7 +133,6 @@ const AdminAddProductPage = () => {
                 ref={fileInputRef} 
                 type="file" 
                 accept="image/*"
-                capture="environment"
                 onChange={handleFileInput} 
                 className="hidden" 
               />
@@ -168,7 +167,6 @@ const AdminAddProductPage = () => {
                   ref={extraFileInputRef} 
                   type="file" 
                   accept="image/*"
-                  capture="environment"
                   onChange={handleExtraFileInput} 
                   className="hidden" 
                 />
