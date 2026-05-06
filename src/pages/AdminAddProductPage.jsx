@@ -60,21 +60,15 @@ const AdminAddProductPage = () => {
     });
   };
 
-  const handleImageFile = async (file) => {
+  const handleImageFile = (file) => {
     if (!file || !file.type.startsWith('image/')) return;
-    try {
-      const compressedBase64 = await compressImage(file);
-      setImagePreview(compressedBase64);
-      setFormData(prev => ({ ...prev, image: compressedBase64 }));
-    } catch (err) {
-      console.error('Erro ao processar imagem:', err);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target.result);
-        setFormData(prev => ({ ...prev, image: e.target.result }));
-      };
-      reader.readAsDataURL(file);
-    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target.result;
+      setImagePreview(result);
+      setFormData(prev => ({ ...prev, image: result }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleFileInput = (e) => {
@@ -118,12 +112,15 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const hasImage = formData.image || imagePreview;
-    if (!hasImage) return alert('Adicione uma imagem do produto.');
+    const finalImage = imagePreview || formData.image;
+    
+    if (!finalImage) {
+      const confirm = window.confirm('Sem imagem. Deseja salvar mesmo assim?');
+      if (!confirm) return;
+    }
     
     setSaving(true);
     try {
-      const finalImage = formData.image || imagePreview;
       const productData = {
         ...formData,
         image: finalImage,
