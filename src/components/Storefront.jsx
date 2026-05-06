@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ClipboardList, Package, Loader2, ArrowUp, ChevronLeft, ChevronRight, Tag, Percent } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -7,6 +7,20 @@ import Logo from './Logo';
 import ProductSkeleton from './ProductSkeleton';
 
 const TECH_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
+
+const CAROUSEL_OFFERS = [
+  { id: 1, title: 'Smartwatch Pro', subtitle: '30% OFF', image: 'https://images.unsplash.com/photo-1546868831-d1be1c463959?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
+  { id: 2, title: 'Fone Bluetooth', subtitle: '25% OFF', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
+  { id: 3, title: 'Carregador Turbo', subtitle: '20% OFF', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
+  { id: 4, title: 'Capa Premium', subtitle: '15% OFF', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
+];
+
+const CAROUSEL_COUPONS = [
+  { id: 1, code: 'FACIIL10', discount: '10% OFF', color: '#1A2238' },
+  { id: 2, code: 'PRIMEIRA', discount: '15% OFF', color: '#FFB347' },
+  { id: 3, code: 'TECNOLOGIA', discount: '20% OFF', color: '#1A2238' },
+  { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF', color: '#FFB347' },
+];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, onAdmin, whatsappNumber, onSaveOrder }) => {
   const [cartOpen, setCartOpen] = useState(false);
@@ -18,6 +32,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [currentCarousel, setCurrentCarousel] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +41,16 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const nextCarousel = () => {
+    const total = CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length;
+    setCurrentCarousel((prev) => (prev + 1) % total);
+  };
+
+  const prevCarousel = () => {
+    const total = CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length;
+    setCurrentCarousel((prev) => (prev - 1 + total) % total);
+  };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -124,35 +149,87 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Hero Banner - Moderno */}
-      <section className="py-8 px-4 lg:px-8">
+      {/* Carousel Ofertas & Cupons */}
+      <section className="py-6 px-4 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="relative overflow-hidden rounded-[2.5rem] p-8 md:p-16 text-white flex flex-col md:flex-row items-center" style={{ backgroundColor: '#1A2238' }}>
-            <div className="md:w-1/2 z-10 text-center md:text-left">
-              <span className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-4" style={{ backgroundColor: 'rgba(255,179,71,0.2)', color: '#FFB347' }}>Acesso Antecipado</span>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Escolha <span style={{ color: '#FFB347' }}>faciil</span>, viva moderno.
-              </h1>
-              <p className="text-gray-300 text-sm md:text-lg mb-8 max-w-sm">
-                Curadoria exclusiva de acessórios que aceleram a sua rotina.
-              </p>
-              <button 
-                onClick={() => { setShowOffers(false); setSelectedCategory('Tudo'); window.document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' }); }}
-                className="px-8 py-4 rounded-2xl font-bold text-sm uppercase tracking-wider transition-all hover:scale-105" 
-                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-              >
-                Explorar Tudo
+          <div className="relative overflow-hidden rounded-3xl" style={{ backgroundColor: '#1A2238' }}>
+            <div className="flex items-center">
+              {/* Navigation Left */}
+              <button onClick={prevCarousel} className="absolute left-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all">
+                <ChevronLeft size={24} className="text-white" />
+              </button>
+              
+              {/* Carousel Content */}
+              <div className="w-full overflow-hidden">
+                <div 
+                  className="flex transition-transform duration-500" 
+                  style={{ transform: `translateX(-${currentCarousel * 100}%)` }}
+                >
+                  {/* Ofertas */}
+                  {CAROUSEL_OFFERS.map((offer) => (
+                    <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
+                      <div className="flex flex-col md:flex-row items-center gap-8">
+                        <div className="flex-1 text-center md:text-left">
+                          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                            <Tag size={14} />
+                            Oferta
+                          </div>
+                          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">{offer.title}</h2>
+                          <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                          <button 
+                            onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                          >
+                            Ver Oferta
+                          </button>
+                        </div>
+                        <div className="flex-1 flex justify-center">
+                          <img src={offer.image} alt={offer.title} className="w-full max-w-xs rounded-2xl object-cover" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {/* Cupons */}
+                  {CAROUSEL_COUPONS.map((coupon) => (
+                    <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 p-8 md:p-12">
+                      <div className="flex flex-col items-center text-center">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: coupon.color, color: '#1A2238' }}>
+                          <Percent size={14} />
+                          Cupom
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2">{coupon.code}</h2>
+                        <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                        <button 
+                          onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                          className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                        >
+                          Copiar Cupom
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Navigation Right */}
+              <button onClick={nextCarousel} className="absolute right-4 z-10 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all">
+                <ChevronRight size={24} className="text-white" />
               </button>
             </div>
-            <div className="mt-8 md:mt-0 md:w-1/2 flex justify-center">
-              <div className="relative">
-                <div className="absolute -z-10 w-64 h-64 rounded-full opacity-20" style={{ backgroundColor: '#FFB347' }}></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1546868831-d1be1c463959?auto=format&fit=crop&w=800&q=80" 
-                  alt="Produto Destaque" 
-                  className="w-full max-w-md mx-auto drop-shadow-2xl transform rotate-2"
+            
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 pb-6">
+              {[...Array(CAROUSEL_OFFERS.length + CAROUSEL_COUPONS.length)].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentCarousel(i)}
+                  className={`w-2 h-2 rounded-full transition-all ${i === currentCarousel ? 'w-8' : 'w-2'} ${i === currentCarousel ? '' : 'bg-white/30'}`}
+                  style={{ backgroundColor: i === currentCarousel ? '#FFB347' : undefined }}
                 />
-              </div>
+              ))}
             </div>
           </div>
         </div>
