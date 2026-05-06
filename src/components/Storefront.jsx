@@ -24,7 +24,7 @@ const CAROUSEL_COUPONS = [
   { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF', color: '#FFB347' },
 ];
 
-const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, onAdmin, whatsappNumber, onSaveOrder }) => {
+const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Tudo');
@@ -413,23 +413,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </footer>
 
-      {/* Botão Painel Admin */}
-      <button
-        onClick={onAdmin}
-        className="fixed bottom-6 left-6 px-4 py-2 rounded-lg text-xs font-bold z-40 transition-all hover:scale-105"
-        style={{ backgroundColor: 'rgba(255,255,255,0.05)', color: '#4A5568', border: '1px solid #FFFFFF' }}
-      >
-        Admin
-      </button>
-
       {/* Botão Voltar ao Topo */}
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-40 transition-all duration-300 hover:scale-110"
-          style={{ backgroundColor: '#1A2238',  }}
+          className="fixed bottom-6 right-6 w-12 h-12 rounded-2xl flex items-center justify-center z-40 transition-all duration-300 hover:scale-110 shadow-lg"
+          style={{ backgroundColor: '#FFB347', boxShadow: '0 4px 12px rgba(255,179,71,0.4)' }}
         >
-          <ArrowUp size={20} className="text-black" />
+          <ArrowUp size={22} style={{ color: '#1A2238' }} />
         </button>
       )}
     </div>
