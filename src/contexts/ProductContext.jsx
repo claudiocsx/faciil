@@ -25,6 +25,7 @@ export const ProductProvider = ({ children }) => {
   }, []);
 
   const addProduct = async (product) => {
+    console.log('addProduct chamado com:', product?.name, product?.image ? 'tem imagem' : 'SEM IMAGEM');
     await addDoc(collection(db, 'products'), {
       ...product,
       createdAt: new Date().toISOString()

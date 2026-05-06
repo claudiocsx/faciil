@@ -83,6 +83,9 @@ const AdminAddProductPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const finalImage = imagePreview || formData.image;
+    console.log('handleSubmit - imagePreview:', imagePreview ? 'SIM' : 'NÃO');
+    console.log('handleSubmit - formData.image:', formData.image ? 'SIM' : 'NÃO');
+    console.log('handleSubmit - finalImage:', finalImage ? 'SIM' : 'NÃO');
     
     setSaving(true);
     try {
