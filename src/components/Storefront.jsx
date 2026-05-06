@@ -43,6 +43,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     loadBanners();
   }, []);
 
+  useEffect(() => {
+    const total = getCarouselOffers().length + getCarouselCoupons().length;
+    if (total === 0) return;
+    const interval = setInterval(() => {
+      setCurrentCarousel((prev) => (prev + 1) % total);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [bannerOffers.length, bannerCoupons.length]);
+
   const loadBanners = async () => {
     try {
       const offersSnap = await getDocs(collection(db, 'banners_offers'));
