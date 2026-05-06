@@ -75,7 +75,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           <div className="flex items-center justify-between h-16 gap-4">
             {/* Logo Faciil Original */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              <Logo size={22} className="text-amber" style={{ color: '#FFB347' }} />
+              <Logo size={22} />
               <span className="font-black text-xl" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347' }}>ii</span>l</span>
             </div>
 
