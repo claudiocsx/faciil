@@ -31,7 +31,7 @@ const AdminAddProductPage = () => {
   const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
   const [dragActive, setDragActive] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
+  const [imageSelected, setImageSelected] = useState(!!editingProduct?.image);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,6 +46,7 @@ const AdminAddProductPage = () => {
       console.log('FileReader loaded, result length:', e.target.result?.length);
       const result = e.target.result;
       setImagePreview(result);
+      setImageSelected(true);
       setFormData(prev => ({ ...prev, image: result }));
     };
     reader.onerror = (e) => {
@@ -55,19 +56,17 @@ const AdminAddProductPage = () => {
   };
 
   const handleFileInput = (e) => {
-    console.log('handleFileInput called with files:', e.target.files);
+    console.log('handleFileInput called', e.target.files);
     const file = e.target.files?.[0];
     if (file) {
-      console.log('File selected:', file.name);
+      console.log('File to handle:', file.name);
       handleImageFile(file);
     }
   };
 
   const triggerFileSelect = () => {
-    console.log('triggerFileSelect clicked, count:', clickCount);
-    setClickCount(c => c + 1);
-    const input = document.getElementById('image-input-' + clickCount);
-    if (input) input.click();
+    console.log('triggerFileSelect clicked');
+    fileInputRef.current?.click();
   };
 
   const removeImage = () => {
@@ -138,21 +137,22 @@ const AdminAddProductPage = () => {
           ) : (
             <div className="space-y-2">
               <input 
+                ref={fileInputRef} 
                 type="file" 
                 accept="image/*"
                 onChange={handleFileInput}
-                id={'image-input-' + clickCount}
                 className="hidden" 
               />
-              <div
+              <button 
+                type="button"
                 onClick={triggerFileSelect}
-                className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
+                className="w-full border-2 border-dashed rounded-xl p-6 text-center transition-all"
                 style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
               >
                 <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
                 <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
                 <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-              </div>
+              </button>
             </div>
           )}
         </div>
