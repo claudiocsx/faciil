@@ -197,11 +197,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </header>
 
       {/* Carousel Ofertas & Cupons - Slider Completo */}
-      <section className="py-3 px-4">
+      <section className="px-0 sm:px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="relative">
+          <div className="relative sm:rounded-2xl overflow-hidden">
             {/* Banner Container */}
-            <div className="overflow-hidden rounded-xl" style={{ backgroundColor: '#1A2238', height: '320px' }}>
+            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238', height: '420px' }}>
               <div className="flex h-full transition-transform duration-500" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {/* Ofertas */}
                 {getCarouselOffers().map((offer, index) => (
@@ -210,16 +210,16 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
                     )}
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
-                      <div className="max-w-lg">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                          <Tag size={12} /> Oferta
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-20">
+                      <div className="max-w-xl">
+                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase mb-5" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                          <Tag size={14} /> Oferta Especial
                         </span>
-                        <h2 className="text-3xl md:text-5xl font-black text-white mb-2">{offer.title}</h2>
-                        <p className="text-2xl md:text-4xl font-bold mb-6" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                        <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-3 leading-tight">{offer.title}</h2>
+                        <p className="text-2xl md:text-4xl lg:text-5xl font-bold mb-7" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
                         <button 
                           onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                          className="px-6 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105" 
+                          className="px-8 py-4 rounded-xl font-bold text-base transition-all hover:scale-105 hover:shadow-xl" 
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Ver Oferta
@@ -232,15 +232,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 {/* Cupons */}
                 {getCarouselCoupons().map((coupon) => (
                   <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full">
-                    <div className="flex flex-col items-center justify-center h-full px-8 text-center">
-                      <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full text-sm font-bold uppercase mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
-                        <Percent size={14} /> Cupom
+                    <div className="flex flex-col items-center justify-center h-full px-8 text-center" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 100%)' }}>
+                      <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold uppercase mb-5" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
+                        <Percent size={14} /> Cupom de Desconto
                       </div>
-                      <h2 className="text-5xl md:text-7xl font-black text-white mb-2">{coupon.code}</h2>
-                      <p className="text-3xl md:text-5xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                      <h2 className="text-6xl md:text-8xl font-black text-white mb-2 tracking-tight">{coupon.code}</h2>
+                      <p className="text-3xl md:text-5xl font-bold mb-8" style={{ color: '#FFB347' }}>{coupon.discount}</p>
                       <button 
                         onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                        className="px-8 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105" 
+                        className="px-10 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105 hover:shadow-xl" 
                         style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 20px rgba(255,179,71,0.4)' }}
                       >
                         Copiar Cupom
