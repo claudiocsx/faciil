@@ -14,7 +14,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product, qty = 1) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
-      const stock = product.stock || 999;
+      const stock = product.stock ?? 999;
       if (existing) {
         const newQty = existing.quantity + qty;
         if (newQty > stock) return prev;

@@ -14,7 +14,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
   const allImages = [product.image, ...(product.images || [])].filter(v => v && !v.startsWith('blob:'));
   const productImages = allImages.length > 0 ? allImages.slice(0, 4) : [''];
-  const availableStock = product.stock || 999;
+  const availableStock = product.stock ?? 999;
 
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
