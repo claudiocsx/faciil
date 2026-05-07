@@ -20,6 +20,28 @@ const AdminBannersPage = () => {
     image: '',
     link: '#products-section'
   });
+  const [uploading, setUploading] = useState(false);
+
+  const compressImage = (file, maxSize = 800, quality = 0.7) =>
+    new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let { width, height } = img;
+          if (width > height && width > maxSize) { height *= maxSize / width; width = maxSize; }
+          if (height > width && height > maxSize) { width *= maxSize / height; height = maxSize; }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
 
   const [couponForm, setCouponForm] = useState({
     code: '',
@@ -140,47 +162,67 @@ const AdminBannersPage = () => {
           </button>
         </div>
 
-        {showOfferForm && (
-          <form onSubmit={handleSaveOffer} className="mb-4 p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="grid grid-cols-2 gap-3 mb-3">
-              <input
-                type="text"
-                value={offerForm.title}
-                onChange={(e) => setOfferForm({ ...offerForm, title: e.target.value })}
-                placeholder="Título"
-                className="px-3 py-2 rounded-xl text-sm"
-                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                required
-              />
-              <input
-                type="text"
-                value={offerForm.subtitle}
-                onChange={(e) => setOfferForm({ ...offerForm, subtitle: e.target.value })}
-                placeholder="Subtítulo (ex: 30% OFF)"
-                className="px-3 py-2 rounded-xl text-sm"
-                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                required
-              />
-            </div>
-            <input
-              type="url"
-              value={offerForm.image}
-              onChange={(e) => setOfferForm({ ...offerForm, image: e.target.value })}
-              placeholder="URL da imagem"
-              className="w-full px-3 py-2 rounded-xl text-sm mb-3"
-              style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-              required
-            />
-            <div className="flex gap-2">
-              <button type="button" onClick={() => setShowOfferForm(false)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }}>
-                Cancelar
-              </button>
-              <button type="submit" className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                {editingItem ? 'Atualizar' : 'Salvar'}
-              </button>
-            </div>
-          </form>
-        )}
+            {showOfferForm && (
+              <form onSubmit={handleSaveOffer} className="mb-4 p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <input
+                    type="text"
+                    value={offerForm.title}
+                    onChange={(e) => setOfferForm({ ...offerForm, title: e.target.value })}
+                    placeholder="Título"
+                    className="px-3 py-2 rounded-xl text-sm"
+                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                    required
+                  />
+                  <input
+                    type="text"
+                    value={offerForm.subtitle}
+                    onChange={(e) => setOfferForm({ ...offerForm, subtitle: e.target.value })}
+                    placeholder="Subtítulo (ex: 30% OFF)"
+                    className="px-3 py-2 rounded-xl text-sm"
+                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                    required
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="flex items-center justify-center gap-2 w-full px-3 py-4 rounded-xl text-sm cursor-pointer transition-all hover:opacity-80" style={{ backgroundColor: '#FFFFFF', border: '1px dashed rgba(0,0,0,0.15)', color: '#94A3B8' }}>
+                    <Image size={18} />
+                    <span>{offerForm.image ? 'Imagem selecionada' : 'Clique para selecionar imagem'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setUploading(true);
+                          const base64 = await compressImage(file);
+                          setOfferForm({ ...offerForm, image: base64 });
+                          setUploading(false);
+                        }
+                      }}
+                    />
+                  </label>
+                  {uploading && <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>Comprimindo imagem...</p>}
+                  {offerForm.image && (
+                    <div className="mt-2 relative inline-block">
+                      <img src={offerForm.image} alt="Preview" className="h-20 rounded-lg object-cover" />
+                      <button type="button" onClick={() => setOfferForm({ ...offerForm, image: '' })} className="absolute -top-2 -right-2 p-0.5 rounded-full bg-red-500 text-white" style={{ lineHeight: 0 }}>
+                        <X size={12} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => setShowOfferForm(false)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }}>
+                    Cancelar
+                  </button>
+                  <button type="submit" disabled={!offerForm.image || uploading} className="flex-1 py-2 rounded-xl font-bold text-sm disabled:opacity-40" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                    {uploading ? 'Enviando...' : editingItem ? 'Atualizar' : 'Salvar'}
+                  </button>
+                </div>
+              </form>
+            )}
 
         <div className="grid grid-cols-2 gap-3">
           {offers.map((offer) => (
