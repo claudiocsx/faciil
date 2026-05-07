@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
-import { TrendingUp, Package, ShoppingCart, Users, ArrowUpRight, AlertTriangle, Clock } from 'lucide-react';
+import { TrendingUp, Package, ShoppingCart, Users, ArrowUpRight, AlertTriangle, Clock, Upload } from 'lucide-react';
 
 const Dashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -125,8 +125,17 @@ const Dashboard = () => {
             {stats.lowStock.length > 0 ? stats.lowStock.map(p => (
               <div key={p.id} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-10 h-10 rounded bg-bg-elevated overflow-hidden flex-shrink-0">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
+                    {(() => {
+                      const img = p.image || p.images?.[0];
+                      return img && !img.startsWith('blob:') ? (
+                        <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Upload size={14} className="text-gray-300" />
+                        </div>
+                      );
+                    })()}
                   </div>
                   <p className="text-sm font-medium text-text-primary truncate">{p.name}</p>
                 </div>

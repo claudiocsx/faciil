@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronDown, ChevronUp, Copy, MessageCircle, Bike } from 'lucide-react';
+import { Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronDown, ChevronUp, Copy, MessageCircle, Bike, Upload } from 'lucide-react';
 import Logo from './Logo';
 
 const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
@@ -103,8 +103,17 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
                 <div className="space-y-2">
                   {order.items?.map((item, index) => (
                     <div key={index} className="flex items-center gap-3 p-2 rounded-lg" style={{ backgroundColor: 'rgba(255,255,255,0.03)' }}>
-                      <div className="w-10 h-10 rounded-md overflow-hidden bg-bg-elevated flex-shrink-0">
-                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                      <div className="w-10 h-10 rounded-md overflow-hidden bg-gray-100 flex-shrink-0">
+                        {(() => {
+                          const img = item.image || item.images?.[0];
+                          return img && !img.startsWith('blob:') ? (
+                            <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Upload size={14} className="text-gray-300" />
+                            </div>
+                          );
+                        })()}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-sm text-text-primary truncate">{item.name}</p>

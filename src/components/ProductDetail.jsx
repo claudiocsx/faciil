@@ -11,9 +11,8 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
 
   if (!product) return null;
 
-  const productImages = product.images?.length > 0 
-    ? [product.image, ...product.images].slice(0, 4)
-    : [product.image, product.image, product.image, product.image].slice(0, 4);
+  const allImages = [product.image, ...(product.images || [])].filter(v => v && !v.startsWith('blob:'));
+  const productImages = allImages.length > 0 ? allImages.slice(0, 4) : [''];
   const availableStock = product.stock || 999;
 
   const discount = product.originalPrice 
@@ -62,7 +61,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-4 sm:py-6">
-        <div className="rounded-3xl overflow-hidden" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="rounded-xl overflow-hidden" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
           <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Gallery de Imagens */}
             <div className="relative" style={{ backgroundColor: '#F8FAFC' }}>
@@ -162,7 +161,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 )}
               </div>
 
-              <div className="p-4 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div className="p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <div className="flex items-baseline gap-3">
                   <p className="text-3xl font-extrabold" style={{ color: '#1A2238' }}>
                     R$ {product.price.toFixed(2)}
@@ -225,7 +224,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   onAddToCart(product, quantity);
                 }}
                 disabled={availableStock === 0}
-                className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: '#FFB347',
                   color: '#1A2238',

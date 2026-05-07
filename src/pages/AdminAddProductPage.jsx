@@ -1,10 +1,48 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Upload, X, Plus } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 
 const CATEGORIES = ['Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 const MAX_IMAGES = 4;
+
+const fileToBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+
+const compressImage = (file, maxSize = 800, quality = 0.7) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+        if (width > maxSize || height > maxSize) {
+          if (width > height) {
+            height = Math.round((height / width) * maxSize);
+            width = maxSize;
+          } else {
+            width = Math.round((width / height) * maxSize);
+            height = maxSize;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
 
 const AdminAddProductPage = () => {
   const navigate = useNavigate();
@@ -14,6 +52,8 @@ const AdminAddProductPage = () => {
   const editingProduct = location.state;
   const fileInputRef = useRef(null);
   const extraFileInputRef = useRef(null);
+  const pendingMainFile = useRef(null);
+  const pendingExtraFiles = useRef([]);
 
   const [formData, setFormData] = useState({
     name: editingProduct?.name || '',
@@ -30,37 +70,55 @@ const AdminAddProductPage = () => {
   const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    const main = pendingMainFile.current;
+    const extra = [...pendingExtraFiles.current];
+    return () => {
+      if (main && formData.image?.startsWith?.('blob:')) URL.revokeObjectURL(formData.image);
+      extra.forEach((f, i) => {
+        if (f && extraImages[i]?.startsWith?.('blob:')) URL.revokeObjectURL(extraImages[i]);
+      });
+    };
+  }, [formData.image, extraImages]);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const handleFileInputChange = (e) => {
-    console.log('handleFileInputChange called');
     const file = e.target.files?.[0];
     if (file) {
-      console.log('File selected:', file.name);
-      const url = URL.createObjectURL(file);
-      setFormData(prev => ({ ...prev, image: url }));
+      if (pendingMainFile.current) URL.revokeObjectURL(formData.image);
+      pendingMainFile.current = file;
+      setFormData(prev => ({ ...prev, image: URL.createObjectURL(file) }));
     }
+    e.target.value = '';
   };
 
   const handleExtraFileInputChange = (e) => {
-    console.log('handleExtraFileInputChange called');
     const file = e.target.files?.[0];
     if (file && extraImages.length < MAX_IMAGES) {
-      console.log('Extra file selected:', file.name);
-      const url = URL.createObjectURL(file);
-      setExtraImages(prev => [...prev, url]);
-      setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
+      pendingExtraFiles.current.push(file);
+      setExtraImages(prev => [...prev, URL.createObjectURL(file)]);
+      setFormData(prev => ({ ...prev, images: [...prev.images, URL.createObjectURL(file)] }));
     }
+    e.target.value = '';
   };
 
   const removeImage = () => {
+    if (pendingMainFile.current) {
+      URL.revokeObjectURL(formData.image);
+      pendingMainFile.current = null;
+    }
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
   const removeExtraImage = (index) => {
+    if (pendingExtraFiles.current[index]) {
+      URL.revokeObjectURL(extraImages[index]);
+      pendingExtraFiles.current.splice(index, 1);
+    }
     const newImages = extraImages.filter((_, i) => i !== index);
     setExtraImages(newImages);
     setFormData(prev => ({ ...prev, images: newImages }));
@@ -68,23 +126,27 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handleSubmit - formData.image:', formData.image ? 'TEM' : 'NÃO TEM');
-    console.log('handleSubmit - fileInputRef.current?.files:', fileInputRef.current?.files);
-    
-    // Try to get image from ref if not in state
-    let finalImage = formData.image;
-    if (!finalImage && fileInputRef.current?.files?.[0]) {
-      const file = fileInputRef.current.files[0];
-      console.log('Getting image from ref:', file.name);
-      finalImage = URL.createObjectURL(file);
-      console.log('Image from ref URL:', finalImage);
-    }
-    
     setSaving(true);
     try {
+      setSaving(true);
+      let image = formData.image || null;
+      if (pendingMainFile.current) {
+        image = await compressImage(pendingMainFile.current);
+      }
+
+      const images = await Promise.all(
+        extraImages.map(async (url, i) => {
+          if (pendingExtraFiles.current[i]) {
+            return await compressImage(pendingExtraFiles.current[i]);
+          }
+          return url;
+        })
+      );
+
       const productData = {
         ...formData,
-        image: finalImage,
+        image,
+        images,
         price: parseFloat(formData.price) || 0,
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
@@ -111,7 +173,7 @@ const AdminAddProductPage = () => {
         <p style={{ color: '#94A3B8' }}>{editingProduct ? 'Atualize as informações do item' : 'Adicione um novo item ao catálogo'}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 rounded-2xl space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+      <form onSubmit={handleSubmit} className="p-6 rounded-xl space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
         <div>
           <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>Foto Principal do Produto</label>
           {formData.image ? (
@@ -122,18 +184,12 @@ const AdminAddProductPage = () => {
               </button>
             </div>
           ) : (
-            <label className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all" style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}>
-              <input 
-                ref={fileInputRef} 
-                type="file" 
-                accept="image/*"
-                onChange={handleFileInputChange}
-                className="hidden" 
-              />
+            <div onClick={() => fileInputRef.current?.click()} className="text-center py-4 rounded-xl cursor-pointer" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
               <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
               <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
               <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-            </label>
+              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInputChange} className="hidden" />
+            </div>
           )}
         </div>
 
@@ -167,31 +223,31 @@ const AdminAddProductPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Nome do Produto</label>
-            <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Preço (R$)</label>
-            <input type="number" name="price" required step="0.01" value={formData.price} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="number" name="price" required step="0.01" value={formData.price} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Preço Anterior</label>
-            <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Preço de Custo</label>
-            <input type="number" name="costPrice" step="0.01" value={formData.costPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="number" name="costPrice" step="0.01" value={formData.costPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Fornecedor</label>
-            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Estoque</label>
-            <input type="number" name="stock" required value={formData.stock} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
+            <input type="number" name="stock" required value={formData.stock} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }} />
           </div>
           <div>
             <label className="text-sm font-bold" style={{ color: '#1A2238' }}>Categoria</label>
-            <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}>
+            <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-lg text-sm outline-none" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}>
               {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>

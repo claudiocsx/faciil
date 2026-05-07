@@ -140,7 +140,7 @@ const AdminBannersPage = () => {
         </div>
 
         {showOfferForm && (
-          <form onSubmit={handleSaveOffer} className="mb-4 p-4 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+          <form onSubmit={handleSaveOffer} className="mb-4 p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 type="text"
@@ -218,7 +218,7 @@ const AdminBannersPage = () => {
         </div>
 
         {showCouponForm && (
-          <form onSubmit={handleSaveCoupon} className="mb-4 p-4 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+          <form onSubmit={handleSaveCoupon} className="mb-4 p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
             <div className="grid grid-cols-2 gap-3 mb-3">
               <input
                 type="text"

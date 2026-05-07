@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProductSkeleton = () => {
   return (
-    <div className="glass-card rounded-2xl overflow-hidden">
+    <div className="glass-card rounded-xl overflow-hidden">
       <div className="relative aspect-square bg-bg-elevated overflow-hidden">
         <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>

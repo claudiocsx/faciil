@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Trash2, Edit } from 'lucide-react';
+import { Trash2, Edit, Upload } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 
 const AdminProductsPage = () => {
@@ -24,34 +24,43 @@ const AdminProductsPage = () => {
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map(p => (
-          <div key={p.id} className="glass-card p-4 rounded-xl flex items-center gap-4 group">
-            <img src={p.image} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-bg-elevated" />
-            <div className="flex-1 min-w-0">
-              <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>
-              <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {p.price.toFixed(2)}</p>
-              <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
-              {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#FFB347' }}>📦 {p.supplier}</p>}
-              {p.costPrice && <p className="text-xs text-orange-400">Custo: R$ {p.costPrice.toFixed(2)}</p>}
+        {products.map(p => {
+          const img = p.image || p.images?.[0];
+          return (
+            <div key={p.id} className="glass-card p-4 rounded-xl flex items-center gap-4 group">
+              {img && !img.startsWith('blob:') ? (
+                <img src={img} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-gray-100" />
+              ) : (
+                <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
+                  <Upload size={20} className="text-gray-300" />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>
+                <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {p.price.toFixed(2)}</p>
+                <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
+                {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#FFB347' }}>📦 {p.supplier}</p>}
+                {p.costPrice && <p className="text-xs text-orange-400">Custo: R$ {p.costPrice.toFixed(2)}</p>}
+              </div>
+              <div className="flex flex-col gap-1">
+                <button
+                  onClick={() => navigate('/admin/products/new', { state: p })}
+                  className="p-2 text-text-dim hover:text-neon-cyan hover:bg-white/10 rounded-lg transition-all"
+                  title="Editar produto"
+                >
+                  <Edit size={18} />
+                </button>
+                <button
+                  onClick={() => { if (confirm('Excluir este produto?')) removeProduct(p.id); }}
+                  className="p-2 text-text-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+                  title="Remover produto"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <button
-                onClick={() => navigate('/admin/products/new', { state: p })}
-                className="p-2 text-text-dim hover:text-neon-cyan hover:bg-white/10 rounded-lg transition-all"
-                title="Editar produto"
-              >
-                <Edit size={18} />
-              </button>
-              <button
-                onClick={() => { if (confirm('Excluir este produto?')) removeProduct(p.id); }}
-                className="p-2 text-text-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
-                title="Remover produto"
-              >
-                <Trash2 size={18} />
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
         {products.length === 0 && (
           <p className="text-center text-text-dim col-span-3 py-8">Nenhum produto cadastrado.</p>
         )}

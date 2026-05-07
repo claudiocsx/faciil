@@ -3,45 +3,63 @@
 @theme {
   --color-midnight: #1A2238;
   --color-amber: #FFB347;
+  --color-amber-light: #FFE4B5;
+  --color-amber-dark: #E8922E;
   --color-off-white: #FDFDFD;
   --color-slate: #4A5568;
-  --color-gray-50: #FAFAFA;
-  --color-gray-100: #F4F4F5;
-  --color-gray-200: #E4E4E7;
-  --color-gray-300: #D4D4D8;
-  --color-gray-400: #A1A1AA;
-  --color-gray-500: #71717A;
+
+  --color-surface: #FFFFFF;
+  --color-surface-secondary: #F8FAFC;
+  --color-surface-hover: #F1F5F9;
+
+  --color-text-primary: #1A2238;
+  --color-text-secondary: #4A5568;
+  --color-text-dim: #94A3B8;
+  --color-text-inverse: #FFFFFF;
+
+  --color-bg-deep: #FDFDFD;
+  --color-bg-card: #FFFFFF;
+  --color-bg-elevated: #F8FAFC;
+
+  --color-border: rgba(0, 0, 0, 0.06);
+  --color-border-hover: rgba(0, 0, 0, 0.12);
+  --color-border-glow: rgba(255, 179, 71, 0.3);
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
 }
 
 body {
   margin: 0;
-  background-color: #FDFDFD;
-  color: #1A2238;
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-primary);
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Ajuste de cards de produto */
-.product-card {
-  background: white;
-  border-radius: 20px;
-  border: 1px solid rgba(0,0,0,0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+* {
+  box-sizing: border-box;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(26, 34, 56, 0.08);
-}
-
-/* Glass effect para admin */
 .glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0,0,0,0.04);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(255, 179, 71, 0.3);
-  box-shadow: 0 0 15px rgba(255, 179, 71, 0.1);
+  border-color: var(--color-border-hover);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-dim);
+  border-radius: 3px;
 }

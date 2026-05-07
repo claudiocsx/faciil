@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Heart, Star, Zap, Check } from 'lucide-react';
+import { ShoppingCart, Heart, Star, Zap, Check, Upload, Plus } from 'lucide-react';
 
 const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [userRating, setUserRating] = useState(0);
+
+  const productImage = [product.image, ...(product.images || [])].find(v => v && !v.startsWith('blob:')) || '';
 
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
@@ -33,12 +35,51 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
     e.stopPropagation();
     onAddToCart(product);
     setJustAdded(true);
+    animateToCart(e);
     setTimeout(() => setJustAdded(false), 1500);
+  };
+
+  const animateToCart = (e) => {
+    const card = e.currentTarget.closest('[data-product-card]');
+    const img = card?.querySelector('img');
+    const cartIcon = document.querySelector('[data-cart-icon]');
+    if (!img || !cartIcon) return;
+
+    const clone = img.cloneNode();
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
+
+    Object.assign(clone.style, {
+      position: 'fixed',
+      left: `${imgRect.left}px`,
+      top: `${imgRect.top}px`,
+      width: `${imgRect.width}px`,
+      height: `${imgRect.height}px`,
+      objectFit: 'cover',
+      borderRadius: '12px',
+      zIndex: '9999',
+      pointerEvents: 'none',
+      transition: 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+      margin: '0',
+    });
+    document.body.appendChild(clone);
+
+    clone.getBoundingClientRect();
+
+    clone.style.left = `${cartRect.left + cartRect.width / 2 - 20}px`;
+    clone.style.top = `${cartRect.top + cartRect.height / 2 - 20}px`;
+    clone.style.width = '40px';
+    clone.style.height = '40px';
+    clone.style.opacity = '0.4';
+    clone.style.borderRadius = '50%';
+
+    setTimeout(() => clone.remove(), 700);
   };
 
   return (
     <div 
-      className={`group relative rounded-3xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'animate-bounce' : ''}`}
+      data-product-card
+      className={`group relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'animate-bounce' : ''}`}
       style={{ 
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(0,0,0,0.04)',
@@ -52,11 +93,17 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
     >
       {/* Imagem */}
       <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
-        <img 
-          src={product.image} 
-          alt={product.name}
-          className={`w-full h-full object-cover transition-all duration-500 ${isHovered ? 'scale-110 opacity-90' : 'scale-100'}`}
-        />
+        {productImage ? (
+          <img 
+            src={productImage} 
+            alt={product.name}
+            className={`w-full h-full object-cover transition-all duration-500 ${isHovered ? 'scale-110 opacity-90' : 'scale-100'}`}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F1F5F9' }}>
+            <Upload size={40} className="text-gray-300" />
+          </div>
+        )}
         
         <div className={`absolute inset-0 bg-gradient-to-t from-bg-deep via-transparent to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-0'}`} />
 
@@ -96,12 +143,24 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
           <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
         </button>
 
-        {/* Quick Add to Cart */}
-        <div className="absolute bottom-4 left-3 right-3">
+        {/* Quick Add to Cart - Mobile: + icon */}
+        <div className="absolute bottom-3 right-3 md:hidden z-10">
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className={`w-full py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+            className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-40 active:scale-90 shadow-lg"
+            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+          >
+            {justAdded ? <Check size={18} /> : <Plus size={18} />}
+          </button>
+        </div>
+
+        {/* Quick Add to Cart - Desktop: full button */}
+        <div className="absolute bottom-4 left-3 right-3 hidden md:block">
+          <button
+            onClick={handleAddToCart}
+            disabled={product.stock === 0}
+            className={`w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
               justAdded ? 'scale-105' : 'hover:scale-[1.02]'
             }`}
             style={{ 

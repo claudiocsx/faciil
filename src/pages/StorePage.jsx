@@ -19,6 +19,12 @@ const StorePage = () => {
         ...orderData,
         status: 'pending'
       });
+      await addDoc(collection(db, 'notifications'), {
+        title: 'Novo Pedido',
+        message: `${orderData.customerName} fez um pedido de R$ ${orderData.total.toFixed(2)}`,
+        read: false,
+        createdAt: new Date().toISOString()
+      });
       clearCart();
     } catch (err) {
       console.error('Erro ao salvar pedido:', err);

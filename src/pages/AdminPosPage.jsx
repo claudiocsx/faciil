@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc, onSnapshot, updateDoc, doc, increment } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useProducts } from '../contexts/ProductContext';
-import { Search, Plus, Trash2, Check, User, CreditCard, Banknote, Wallet, MessageCircle } from 'lucide-react';
+import { Search, Plus, Trash2, Check, User, CreditCard, Banknote, Wallet, MessageCircle, Upload } from 'lucide-react';
 import ReceiptModal from '../components/ReceiptModal';
 
 const AdminPosPage = () => {
@@ -78,6 +78,13 @@ const AdminPosPage = () => {
 
       const docRef = await addDoc(collection(db, 'orders'), newOrder);
 
+      await addDoc(collection(db, 'notifications'), {
+        title: 'Venda Manual',
+        message: `Venda para ${selectedClient.name} no valor de R$ ${total.toFixed(2)} (${paymentMethod})`,
+        read: false,
+        createdAt: new Date().toISOString()
+      });
+
       // Show receipt modal
       setLastOrder({ ...newOrder, id: docRef.id });
 
@@ -116,8 +123,17 @@ const AdminPosPage = () => {
               key={p.id} onClick={() => addToCart(p)} disabled={p.stock <= 0}
               className="glass-card p-3 rounded-lg text-left hover:bg-white/5 transition-all disabled:opacity-30 active:scale-95"
             >
-              <div className="w-full h-24 bg-bg-elevated rounded-md overflow-hidden mb-2">
-                <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+              <div className="w-full h-24 bg-gray-100 rounded-md overflow-hidden mb-2">
+                {(() => {
+                  const img = p.image || p.images?.[0];
+                  return img && !img.startsWith('blob:') ? (
+                    <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <Upload size={24} className="text-gray-300" />
+                    </div>
+                  );
+                })()}
               </div>
               <p className="text-xs font-bold text-text-primary truncate">{p.name}</p>
               <p className="text-sm font-bold mt-1" style={{ color: 'var(--color-neon-lime)' }}>R$ {p.price.toFixed(2)}</p>

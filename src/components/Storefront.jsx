@@ -180,6 +180,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               )}
               <button
                 onClick={() => setCartOpen(true)}
+                data-cart-icon
                 className="relative p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}
               >
@@ -200,7 +201,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <div className="max-w-7xl mx-auto">
           <div className="relative">
             {/* Banner Container */}
-            <div className="overflow-hidden rounded-2xl" style={{ backgroundColor: '#1A2238', height: '320px' }}>
+            <div className="overflow-hidden rounded-xl" style={{ backgroundColor: '#1A2238', height: '320px' }}>
               <div className="flex h-full transition-transform duration-500" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {/* Ofertas */}
                 {getCarouselOffers().map((offer, index) => (
@@ -238,7 +239,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       <p className="text-3xl md:text-5xl font-bold mb-6" style={{ color: '#FFB347' }}>{coupon.discount}</p>
                       <button 
                         onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                        className="px-8 py-4 rounded-2xl font-bold text-lg transition-all hover:scale-105" 
+                        className="px-8 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105" 
                         style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 20px rgba(255,179,71,0.4)' }}
                       >
                         Copiar Cupom
@@ -439,7 +440,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 w-12 h-12 rounded-2xl flex items-center justify-center z-40 transition-all duration-300 hover:scale-110 shadow-lg"
+          className="fixed bottom-6 right-6 w-12 h-12 rounded-xl flex items-center justify-center z-40 transition-all duration-300 hover:scale-110 shadow-lg"
           style={{ backgroundColor: '#FFB347', boxShadow: '0 4px 12px rgba(255,179,71,0.4)' }}
         >
           <ArrowUp size={22} style={{ color: '#1A2238' }} />

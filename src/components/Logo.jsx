@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Logo = ({ size = 24, className = '' }) => {
   return (
     <img
@@ -8,10 +6,7 @@ const Logo = ({ size = 24, className = '' }) => {
       width={size}
       height={size}
       className={`shrink-0 ${className}`}
-      style={{ 
-        objectFit: 'contain',
-        filter: 'sepia(100%) saturate(400%) hue-rotate(-10deg)'
-      }}
+      style={{ objectFit: 'contain' }}
     />
   );
 };

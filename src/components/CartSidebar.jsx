@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag, Check, CheckCircle } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag, Check, CheckCircle, Upload } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
@@ -161,7 +161,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           <p className="text-sm mb-8" style={{ color: '#94A3B8' }}>Em breve retornaremos o contato.</p>
           <button
             onClick={() => { setOrderSuccess(false); onClose(); }}
-            className="w-full py-4 rounded-2xl font-bold text-sm transition-all hover:scale-[1.02]"
+            className="w-full py-4 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
             style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
           >
             Continuar Comprando
@@ -201,7 +201,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               <p className="text-sm mb-4" style={{ color: '#94A3B8' }}>Adicione produtos para começar</p>
               <button
                 onClick={onClose}
-                className="px-6 py-3 font-bold text-sm rounded-2xl transition-all hover:scale-105"
+                className="px-6 py-3 font-bold text-sm rounded-xl transition-all hover:scale-105"
                 style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
               >
                 Explorar Produtos
@@ -210,9 +210,18 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
           ) : (
             <div className="p-4 space-y-3">
               {cart.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-                  <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                <div key={item.id} className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0" style={{ backgroundColor: '#F1F5F9' }}>
+                    {(() => {
+                      const img = item.image || item.images?.[0];
+                      return img && !img.startsWith('blob:') ? (
+                        <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Upload size={20} className="text-gray-300" />
+                        </div>
+                      );
+                    })()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-sm line-clamp-2" style={{ color: '#1A2238' }}>{item.name}</h4>
@@ -250,7 +259,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 </div>
               ))}
 
-              <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
@@ -282,7 +291,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               </div>
 
               {cart.length > 0 && (
-                <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                   <div className="space-y-2">
                     <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
                     <input
@@ -341,7 +350,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 </div>
               )}
 
-              <div className="p-4 rounded-2xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <div className="flex items-center gap-2">
                   <Tag size={16} style={{ color: '#FFB347' }} />
                   <span className="text-sm font-bold" style={{ color: '#1A2238' }}>Cupom de Desconto</span>
@@ -407,7 +416,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
             <button
               onClick={handleWhatsAppCheckout}
-              className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+              className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
               style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
             >
               <MessageCircle size={18} />
@@ -420,7 +429,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
       {itemToRemove && (
         <>
           <div className="fixed inset-0 bg-black/80 z-[60]" onClick={() => setItemToRemove(null)} />
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[61] w-full max-w-xs p-6 rounded-2xl text-center space-y-4 bg-white">
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[61] w-full max-w-xs p-6 rounded-xl text-center space-y-4 bg-white">
             <Trash2 size={40} className="mx-auto" style={{ color: '#EF4444' }} />
             <h3 className="text-lg font-black" style={{ color: '#1A2238' }}>Remover Item?</h3>
             <p className="text-sm" style={{ color: '#94A3B8' }}>Tem certeza que deseja remover este item?</p>

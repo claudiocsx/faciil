@@ -50,7 +50,7 @@ const AuthModal = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(5,5,5,0.85)', backdropFilter: 'blur(8px)' }}>
-      <div className="w-full max-w-md rounded-2xl" style={{ backgroundColor: '#FDFDFD', border: '1px solid rgba(59,139,185,0.15)',  }}>
+      <div className="w-full max-w-md rounded-xl" style={{ backgroundColor: '#FDFDFD', border: '1px solid rgba(59,139,185,0.15)',  }}>
         <div className="p-6 border-b" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
           <div className="flex items-center justify-between">
             <div>

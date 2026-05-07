@@ -52,8 +52,8 @@ const AdminLayout = () => {
           </div>
 
           <div className="p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center gap-3 p-3 rounded-2xl" style={{ backgroundColor: '#F8FAFC' }}>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center font-black text-lg" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+            <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC' }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
@@ -72,7 +72,7 @@ const AdminLayout = () => {
                 <button
                   key={item.id}
                   onClick={() => navigate(item.path)}
-                  className="w-full flex items-center gap-3 px-3 py-3 text-sm font-bold rounded-2xl transition-all"
+                  className="w-full flex items-center gap-3 px-3 py-3 text-sm font-bold rounded-xl transition-all"
                   style={active 
                     ? { backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' } 
                     : { color: '#4A5568', backgroundColor: 'transparent' }}
@@ -89,7 +89,7 @@ const AdminLayout = () => {
           <div className="p-4 mt-auto space-y-2">
             <button 
               onClick={() => navigate('/')} 
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all hover:scale-[1.02]"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all hover:scale-[1.02]"
               style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
             >
               <Store size={18} />
@@ -97,7 +97,7 @@ const AdminLayout = () => {
             </button>
             <button
               onClick={() => { logout(); navigate('/'); }}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all"
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all"
               style={{ color: '#EF4444', backgroundColor: '#FEF2F2' }}
             >
               <LogOut size={18} />
@@ -114,10 +114,8 @@ const AdminLayout = () => {
           <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
             <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
               <div className="flex items-center gap-3">
-                <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                   <Logo size={32} />
-                </div>
-                <span className="font-black text-xl text-text-primary">Faciil</span>
+                  <span className="font-black text-xl" style={{ color: '#1A2238' }}>faciil</span>
               </div>
               <button onClick={() => setSidebarOpen(false)} className="text-text-dim hover:text-text-secondary">
                 <X size={20} />
@@ -158,7 +156,7 @@ const AdminLayout = () => {
                 <input 
                   type="text" 
                   placeholder="Buscar produtos, pedidos, clientes..." 
-                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl text-sm outline-none transition-all"
+                   className="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm outline-none transition-all"
                   style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                   onFocus={(e) => e.target.style.borderColor = '#FFB347'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
@@ -169,7 +167,7 @@ const AdminLayout = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/')}
-                className="hidden md:flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-2xl transition-all hover:scale-105"
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 text-sm font-bold rounded-xl transition-all hover:scale-105"
                 style={{ backgroundColor: '#F8FAFC', color: '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
               >
                 <Store size={16} />
@@ -178,7 +176,7 @@ const AdminLayout = () => {
               <div className="relative">
                 <button 
                   onClick={() => setNotifOpen(!notifOpen)} 
-                  className="relative p-2.5 rounded-2xl transition-all hover:bg-black/5"
+                  className="relative p-2.5 rounded-xl transition-all hover:bg-black/5"
                   style={{ backgroundColor: '#F8FAFC', color: '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}
                 >
                   <Bell size={20} />

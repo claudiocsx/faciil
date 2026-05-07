@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, CreditCard, Barcode, Wallet, MapPin, Truck, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Check, CreditCard, Barcode, Wallet, MapPin, Truck, ChevronRight, Upload } from 'lucide-react';
 import Logo from './Logo';
 
 const Checkout = ({ cart, onBack, onComplete }) => {
@@ -67,7 +67,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {step === 1 && (
-              <div className="glass-card rounded-2xl p-6 space-y-6">
+              <div className="glass-card rounded-xl p-6 space-y-6">
                 <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
                   <MapPin size={20} style={{ color: '#FFB347' }} /> Dados de Entrega
                 </h2>
@@ -107,7 +107,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
             )}
 
             {step === 2 && (
-              <div className="glass-card rounded-2xl p-6 space-y-6">
+              <div className="glass-card rounded-xl p-6 space-y-6">
                 <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
                   <CreditCard size={20} style={{ color: '#FFB347' }} /> Forma de Pagamento
                 </h2>
@@ -139,7 +139,7 @@ const Checkout = ({ cart, onBack, onComplete }) => {
             )}
 
             {step === 3 && (
-              <div className="glass-card rounded-2xl p-6 space-y-6">
+              <div className="glass-card rounded-xl p-6 space-y-6">
                 <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
                   <Check size={20} style={{ color: '#1A2238' }} /> Revisão do Pedido
                 </h2>
@@ -175,13 +175,22 @@ const Checkout = ({ cart, onBack, onComplete }) => {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="glass-card rounded-2xl p-6 sticky top-40 space-y-4">
+            <div className="glass-card rounded-xl p-6 sticky top-40 space-y-4">
               <h3 className="text-lg font-bold text-text-primary">Resumo</h3>
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-3">
-                    <div className="w-14 h-14 rounded-lg overflow-hidden bg-bg-elevated flex-shrink-0">
-                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                      {(() => {
+                        const img = item.image || item.images?.[0];
+                        return img && !img.startsWith('blob:') ? (
+                          <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Upload size={16} className="text-gray-300" />
+                          </div>
+                        );
+                      })()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
