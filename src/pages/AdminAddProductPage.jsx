@@ -38,17 +38,23 @@ const AdminAddProductPage = () => {
   };
 
   const handleImageFile = (file) => {
+    console.log('handleImageFile called with:', file?.name, file?.type);
     if (!file || !file.type.startsWith('image/')) return;
     const reader = new FileReader();
     reader.onload = (e) => {
+      console.log('FileReader loaded, result length:', e.target.result?.length);
       const result = e.target.result;
       setImagePreview(result);
       setFormData(prev => ({ ...prev, image: result }));
+    };
+    reader.onerror = (e) => {
+      console.error('FileReader error:', e);
     };
     reader.readAsDataURL(file);
   };
 
   const handleFileInput = (e) => {
+    console.log('handleFileInput called with files:', e.target.files);
     const file = e.target.files?.[0];
     if (file) handleImageFile(file);
   };
