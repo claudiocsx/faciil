@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Upload, X, Plus } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
@@ -10,8 +10,6 @@ const AdminAddProductPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { addProduct, updateProduct } = useProducts();
-  const fileInputRef = useRef(null);
-  const extraFileInputRef = useRef(null);
   
   const editingProduct = location.state;
 
@@ -27,60 +25,35 @@ const AdminAddProductPage = () => {
     images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false
   });
-  const [imagePreview, setImagePreview] = useState(editingProduct?.image || '');
   const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
-  const [dragActive, setDragActive] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [imageSelected, setImageSelected] = useState(!!editingProduct?.image);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleImageFile = (file) => {
-    console.log('handleImageFile called with:', file?.name, file?.type);
-    if (!file || !file.type.startsWith('image/')) return;
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
     const reader = new FileReader();
-    reader.onload = (e) => {
-      console.log('FileReader loaded, result length:', e.target.result?.length);
-      const result = e.target.result;
-      setImagePreview(result);
-      setImageSelected(true);
-      setFormData(prev => ({ ...prev, image: result }));
-    };
-    reader.onerror = (e) => {
-      console.error('FileReader error:', e);
+    reader.onload = (ev) => {
+      setFormData(prev => ({ ...prev, image: ev.target.result }));
     };
     reader.readAsDataURL(file);
   };
 
-  const handleFileInput = (e) => {
-    console.log('handleFileInput called', e.target.files);
-    const file = e.target.files?.[0];
-    if (file) {
-      console.log('File to handle:', file.name);
-      handleImageFile(file);
-    }
-  };
-
-  const triggerFileSelect = () => {
-    console.log('triggerFileSelect clicked');
-    fileInputRef.current?.click();
-  };
-
   const removeImage = () => {
-    setImagePreview('');
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
-  const handleExtraImageFile = async (file) => {
-    if (!file || !file.type.startsWith('image/')) return;
-    if (extraImages.length >= MAX_IMAGES) return alert(`Máximo de ${MAX_IMAGES} imagens extras.`);
+  const handleExtraImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file || extraImages.length >= MAX_IMAGES) return;
     const reader = new FileReader();
-    reader.onload = (e) => {
-      setExtraImages(prev => [...prev, e.target.result]);
-      setFormData(prev => ({ ...prev, images: [...prev.images, e.target.result] }));
+    reader.onload = (ev) => {
+      setExtraImages(prev => [...prev, ev.target.result]);
+      setFormData(prev => ({ ...prev, images: [...prev.images, ev.target.result] }));
     };
     reader.readAsDataURL(file);
   };
@@ -91,24 +64,23 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, images: newImages }));
   };
 
-  const handleExtraFileInput = (e) => {
-    const file = e.target.files?.[0];
-    if (file) handleExtraImageFile(file);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const finalImage = imagePreview || formData.image;
-    console.log('handleSubmit - imagePreview:', imagePreview ? 'SIM' : 'NÃO');
-    console.log('handleSubmit - formData.image:', formData.image ? 'SIM' : 'NÃO');
-    console.log('handleSubmit - finalImage:', finalImage ? 'SIM' : 'NÃO');
-    
     setSaving(true);
     try {
+      const productData = {
+        ...formData,
+        price: parseFloat(formData.price) || 0,
+        costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
+        originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
+        stock: parseInt(formData.stock) || 0,
+        rating: 5.0,
+        reviews: 0
+      };
       if (editingProduct) {
-        await updateProduct(editingProduct.id, { ...formData, image: finalImage, images: extraImages });
+        await updateProduct(editingProduct.id, productData);
       } else {
-        await addProduct({ ...formData, image: finalImage, images: extraImages, price: parseFloat(formData.price), costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null, originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null, stock: parseInt(formData.stock), rating: 5.0, reviews: 0 });
+        await addProduct(productData);
       }
       navigate('/admin/products');
     } catch (err) {
@@ -127,66 +99,37 @@ const AdminAddProductPage = () => {
       <form onSubmit={handleSubmit} className="p-6 rounded-2xl space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
         <div>
           <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>Foto Principal do Produto</label>
-          {imagePreview ? (
+          {formData.image ? (
             <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
-              <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover" />
+              <img src={formData.image} alt="Preview" className="w-full h-48 object-cover" />
               <button type="button" onClick={removeImage} className="absolute top-2 right-2 p-2 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
                 <X size={18} />
               </button>
             </div>
           ) : (
-            <div className="space-y-2">
-              <input 
-                ref={fileInputRef} 
-                type="file" 
-                accept="image/*"
-                onChange={handleFileInput}
-                className="hidden" 
-              />
-              <button 
-                type="button"
-                onClick={triggerFileSelect}
-                className="w-full border-2 border-dashed rounded-xl p-6 text-center transition-all"
-                style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
-              >
-                <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
-                <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
-                <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-              </button>
-            </div>
+            <label className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all" style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}>
+              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+              <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
+              <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
+              <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
+            </label>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>
-            Fotos Adicionais ({extraImages.length}/{MAX_IMAGES})
-          </label>
+          <label className="block text-sm font-bold mb-2" style={{ color: '#1A2238' }}>Fotos Adicionais ({extraImages.length}/{MAX_IMAGES})</label>
           <div className="grid grid-cols-4 gap-2 mb-2">
             {extraImages.map((img, i) => (
               <div key={i} className="relative rounded-lg overflow-hidden aspect-square">
                 <img src={img} alt={`Extra ${i + 1}`} className="w-full h-full object-cover" />
-                <button 
-                  type="button" 
-                  onClick={() => removeExtraImage(i)} 
-                  className="absolute top-1 right-1 p-1 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
-                >
+                <button type="button" onClick={() => removeExtraImage(i)} className="absolute top-1 right-1 p-1 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
                   <X size={12} />
                 </button>
               </div>
             ))}
             {extraImages.length < MAX_IMAGES && (
-              <label
-                className="block aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all cursor-pointer"
-                style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
-                onClick={() => extraFileInputRef.current?.click()}
-              >
-                <input 
-                  ref={extraFileInputRef} 
-                  type="file" 
-                  accept="image/*"
-                  onChange={handleExtraFileInput} 
-                  className="hidden" 
-                />
+              <label className="block aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all cursor-pointer" style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}>
+                <input type="file" accept="image/*" onChange={handleExtraImageChange} className="hidden" />
                 <Plus size={20} style={{ color: '#FFB347' }} />
                 <span className="text-[10px]" style={{ color: '#94A3B8' }}>Adicionar</span>
               </label>
