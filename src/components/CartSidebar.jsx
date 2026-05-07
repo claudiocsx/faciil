@@ -106,35 +106,35 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
     if (onSaveOrder) onSaveOrder(orderData);
 
-    let message = `🛒 *NOVO PEDIDO - FACIIL*\n`;
-    message += `─────────────────────\n\n`;
+    let message = `*NOVO PEDIDO - FACIIL*\n`;
+    message += `═══════════════════════\n\n`;
     message += `*ITENS*\n`;
     cart.forEach((item) => {
-      message += `▪️ ${item.name}\n   Qtd: ${item.quantity} × R$ ${item.price.toFixed(2).replace('.', ',')} = *R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}*\n\n`;
+      message += `• ${item.name}\n  Qtd: ${item.quantity} x R$ ${item.price.toFixed(2).replace('.', ',')} = *R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}*\n\n`;
     });
     message += `*RESUMO*\n`;
-    message += `📦 Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+    message += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
     
     if (deliveryMethod === 'delivery') {
-      message += `🛵 Entrega: R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
+      message += `Entrega: R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
     }
     
     if (discount > 0) {
-      message += `🎟 Cupom (${appliedCoupon.code}): -R$ ${discount.toFixed(2).replace('.', ',')}\n`;
+      message += `Cupom (${appliedCoupon.code}): -R$ ${discount.toFixed(2).replace('.', ',')}\n`;
     }
     
-    message += `💰 *Total: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
-    message += `💳 ou 3× R$ ${(total / 3).toFixed(2).replace('.', ',')}\n\n`;
+    message += `*Total: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
+    message += `ou 3x de R$ ${(total / 3).toFixed(2).replace('.', ',')}\n\n`;
 
     message += `*CLIENTE*\n`;
-    message += `👤 ${customerName}\n`;
+    message += `Nome: ${customerName}\n`;
 
     if (deliveryMethod === 'delivery') {
-      message += `📍 ${neighborhood}\n`;
-      message += `🏠 ${address}, ${addressNumber}\n\n`;
-      message += `_Aguardando confirmação do envio via Uber Flash_`;
+      message += `Bairro: ${neighborhood}\n`;
+      message += `Endereco: ${address}, ${addressNumber}\n\n`;
+      message += `_Aguardando confirmacao do envio via Uber Flash_`;
     } else {
-      message += `\n🏪 _Retirada no local_`;
+      message += `\n_Retirada no local_`;
     }
 
     const url = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
