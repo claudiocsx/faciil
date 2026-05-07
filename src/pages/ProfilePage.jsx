@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, orderBy, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy, doc, updateDoc, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { Package, DollarSign, ShoppingBag, Edit2, Check, X, Calendar, Mail, Shield } from 'lucide-react';
+import { Package, DollarSign, ShoppingBag, Edit2, Check, X, Calendar, Mail, Shield, Phone, Save } from 'lucide-react';
 
 const statusStyles = {
   pending: { bg: '#FEF3C7', text: '#92400E' },
@@ -24,6 +24,7 @@ const ProfilePage = () => {
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
   const [saving, setSaving] = useState(false);
+  const [whatsapp, setWhatsapp] = useState('');
 
   useEffect(() => {
     if (!user) return;
@@ -33,6 +34,14 @@ const ProfilePage = () => {
     });
     return unsub;
   }, [user]);
+
+  useEffect(() => {
+    const load = async () => {
+      const snap = await getDoc(doc(db, 'config', 'whatsapp'));
+      if (snap.exists()) setWhatsapp(snap.data().number || '');
+    };
+    load();
+  }, []);
 
   const totalRevenue = orders.reduce((acc, o) => acc + (o.total || 0), 0);
   const totalOrders = orders.length;
@@ -50,6 +59,17 @@ const ProfilePage = () => {
       console.error('Erro ao salvar nome:', err);
     }
     setSaving(false);
+  };
+
+  const handleSaveWhatsapp = async () => {
+    const clean = whatsapp.replace(/\D/g, '');
+    if (!clean) return;
+    try {
+      await setDoc(doc(db, 'config', 'whatsapp'), { number: clean });
+      alert('WhatsApp salvo com sucesso!');
+    } catch (err) {
+      console.error('Erro ao salvar WhatsApp:', err);
+    }
   };
 
   const memberSince = user?.createdAt
@@ -104,6 +124,31 @@ const ProfilePage = () => {
               <span className="flex items-center gap-1.5"><Calendar size={14} /> Desde {memberSince}</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="p-5 rounded-xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F0FFF4', color: '#10B981' }}>
+            <Phone size={20} />
+          </div>
+          <div>
+            <h3 className="font-bold text-sm" style={{ color: '#1A2238' }}>WhatsApp da Loja</h3>
+            <p className="text-xs" style={{ color: '#94A3B8' }}>Número usado para receber pedidos</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="text"
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+            placeholder="5511999999999"
+            className="flex-1 px-4 py-2.5 rounded-lg text-sm outline-none"
+            style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+          />
+          <button onClick={handleSaveWhatsapp} className="px-4 py-2.5 rounded-lg font-bold text-sm transition-all hover:scale-105 flex items-center gap-2" style={{ backgroundColor: '#10B981', color: '#FFFFFF' }}>
+            <Save size={16} /> Salvar
+          </button>
         </div>
       </div>
 
