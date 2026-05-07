@@ -205,9 +205,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <div className="flex h-full transition-transform duration-500" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {/* Ofertas */}
                 {getCarouselOffers().map((offer, index) => (
-                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full">
-                    <div className="flex items-center justify-between h-full px-8 md:px-16">
-                      <div className="flex-1">
+                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
+                    {offer.image && (
+                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                    )}
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
+                      <div className="max-w-lg">
                         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                           <Tag size={12} /> Oferta
                         </span>
@@ -220,9 +224,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         >
                           Ver Oferta
                         </button>
-                      </div>
-                      <div className="w-1/3 md:w-1/3">
-                        <img src={offer.image} alt={offer.title} className="w-full h-40 md:h-64 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                       </div>
                     </div>
                   </div>
