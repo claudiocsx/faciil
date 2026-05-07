@@ -221,8 +221,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                           Ver Oferta
                         </button>
                       </div>
-                      <div className="hidden md:block w-1/3">
-                        <img src={offer.image} alt={offer.title} className="w-full h-64 object-contain" />
+                      <div className="w-1/3 md:w-1/3">
+                        <img src={offer.image} alt={offer.title} className="w-full h-40 md:h-64 object-contain" onError={(e) => { e.target.style.display = 'none'; }} />
                       </div>
                     </div>
                   </div>
