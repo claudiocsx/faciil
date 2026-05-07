@@ -26,7 +26,7 @@ const AdminBannersPage = () => {
     new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
           let { width, height } = img;
