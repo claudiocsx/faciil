@@ -112,32 +112,65 @@ const AdminLayout = () => {
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/70" onClick={() => setSidebarOpen(false)} />
           <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-              <div className="flex items-center gap-3">
-                  <Logo size={32} />
-                  <span className="font-black text-xl" style={{ color: '#1A2238' }}>faciil</span>
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-between h-16 px-6 border-b shrink-0" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+                <div className="flex items-center gap-3">
+                    <Logo size={32} />
+                    <span className="font-black text-xl" style={{ color: '#1A2238' }}>faciil</span>
+                </div>
+                <button onClick={() => setSidebarOpen(false)} className="text-text-dim hover:text-text-secondary">
+                  <X size={20} />
+                </button>
               </div>
-              <button onClick={() => setSidebarOpen(false)} className="text-text-dim hover:text-text-secondary">
-                <X size={20} />
-              </button>
-            </div>
-            <nav className="p-3 space-y-1">
-              {menuItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.id);
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => { navigate(item.path); setSidebarOpen(false); }}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                    style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347' } : { color: '#4A5568' }}
-                  >
-                    <Icon size={18} />
-                    {item.label}
+              <div className="flex-1 overflow-y-auto">
+                <div className="p-3" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+                  <button onClick={() => { navigate('/admin/perfil'); setSidebarOpen(false); }} className="w-full flex items-center gap-3 p-2.5 rounded-xl transition-all text-left" style={{ backgroundColor: '#F8FAFC' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-base" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                      {user?.name?.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold truncate" style={{ color: '#1A2238' }}>{user?.name}</p>
+                      <p className="text-xs font-bold uppercase" style={{ color: '#94A3B8' }}>{user?.role}</p>
+                    </div>
                   </button>
-                );
-              })}
-            </nav>
+                </div>
+                <nav className="p-3 space-y-1">
+                  {menuItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.id);
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { navigate(item.path); setSidebarOpen(false); }}
+                        className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
+                        style={active ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347' } : { color: '#4A5568' }}
+                      >
+                        <Icon size={18} />
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </nav>
+              </div>
+              <div className="p-3 space-y-2 shrink-0">
+                <button 
+                  onClick={() => { navigate('/'); setSidebarOpen(false); }} 
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all hover:scale-[1.02]"
+                  style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
+                >
+                  <Store size={18} />
+                  Ver Loja
+                </button>
+                <button
+                  onClick={() => { logout(); navigate('/'); setSidebarOpen(false); }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all"
+                  style={{ color: '#EF4444', backgroundColor: '#FEF2F2' }}
+                >
+                  <LogOut size={18} />
+                  Sair
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
