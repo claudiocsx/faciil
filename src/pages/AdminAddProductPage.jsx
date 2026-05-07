@@ -27,7 +27,7 @@ const AdminAddProductPage = () => {
     images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false
   });
-  const [imagePreview, setImagePreview] = useState(editingProduct?.image || null);
+  const [imagePreview, setImagePreview] = useState(editingProduct?.image || '');
   const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
   const [dragActive, setDragActive] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -60,7 +60,7 @@ const AdminAddProductPage = () => {
   };
 
   const removeImage = () => {
-    setImagePreview(null);
+    setImagePreview('');
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
@@ -126,23 +126,23 @@ const AdminAddProductPage = () => {
             </div>
           ) : (
             <div className="space-y-2">
-              <button 
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="w-full border-2 border-dashed rounded-xl p-6 text-center transition-all"
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                accept="image/*"
+                onChange={handleFileInput}
+                id="image-input"
+                className="hidden" 
+              />
+              <label
+                htmlFor="image-input"
+                className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
                 style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
               >
                 <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
                 <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
                 <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-              </button>
-              <input 
-                ref={fileInputRef} 
-                type="file" 
-                accept="image/*"
-                onChange={handleFileInput} 
-                className="hidden" 
-              />
+              </label>
             </div>
           )}
         </div>
