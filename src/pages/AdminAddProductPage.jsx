@@ -126,15 +126,16 @@ const AdminAddProductPage = () => {
             </div>
           ) : (
             <div className="space-y-2">
-              <label
-                className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all"
-                style={{ borderColor: dragActive ? '#FFB347' : 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
+              <button 
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
+                className="w-full border-2 border-dashed rounded-xl p-6 text-center transition-all"
+                style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}
               >
                 <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
                 <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
                 <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
-              </label>
+              </button>
               <input 
                 ref={fileInputRef} 
                 type="file" 
