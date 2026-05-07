@@ -35,11 +35,14 @@ const AdminAddProductPage = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
+    console.log('handleImageChange - arquivo:', file?.name, file?.type);
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
+      console.log('handleImageChange - carregou, tamanho:', ev.target.result?.length);
       setFormData(prev => ({ ...prev, image: ev.target.result }));
     };
+    reader.onerror = (e) => console.log('handleImageChange - erro:', e);
     reader.readAsDataURL(file);
   };
 
@@ -66,6 +69,7 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('handleSubmit - formData.image:', formData.image ? 'TEM' : 'NÃO TEM');
     setSaving(true);
     try {
       const productData = {
