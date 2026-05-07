@@ -97,12 +97,13 @@ const AdminAddProductPage = () => {
   };
 
   const handleExtraFileInputChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file && extraImages.length < MAX_IMAGES) {
+    const files = Array.from(e.target.files || []);
+    const remaining = MAX_IMAGES - extraImages.length;
+    files.slice(0, remaining).forEach((file) => {
       pendingExtraFiles.current.push(file);
       setExtraImages(prev => [...prev, URL.createObjectURL(file)]);
       setFormData(prev => ({ ...prev, images: [...prev.images, URL.createObjectURL(file)] }));
-    }
+    });
     e.target.value = '';
   };
 
@@ -210,6 +211,7 @@ const AdminAddProductPage = () => {
                   ref={extraFileInputRef} 
                   type="file" 
                   accept="image/*"
+                  multiple
                   onChange={handleExtraFileInputChange}
                   className="hidden" 
                 />
