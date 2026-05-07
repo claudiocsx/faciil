@@ -4,7 +4,7 @@ import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import Storefront from '../components/Storefront';
 import LoadingScreen from '../components/LoadingScreen';
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const StorePage = () => {
@@ -39,6 +39,10 @@ const StorePage = () => {
         read: false,
         createdAt: new Date().toISOString()
       });
+      const stockUpdates = orderData.items.map((item) =>
+        updateDoc(doc(db, 'products', item.id), { stock: increment(-item.quantity) })
+      );
+      await Promise.all(stockUpdates);
       clearCart();
     } catch (err) {
       console.error('Erro ao salvar pedido:', err);
