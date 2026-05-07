@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Upload, X, Plus } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
@@ -12,6 +12,8 @@ const AdminAddProductPage = () => {
   const { addProduct, updateProduct } = useProducts();
   
   const editingProduct = location.state;
+  const fileInputRef = useRef(null);
+  const extraFileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     name: editingProduct?.name || '',
@@ -33,25 +35,29 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleFileInputChange = (e) => {
+    console.log('handleFileInputChange called');
     const file = e.target.files?.[0];
-    console.log('handleImageChange - arquivo:', file);
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    console.log('handleImageChange - URL:', url);
-    setFormData(prev => ({ ...prev, image: url }));
+    if (file) {
+      console.log('File selected:', file.name);
+      const url = URL.createObjectURL(file);
+      setFormData(prev => ({ ...prev, image: url }));
+    }
+  };
+
+  const handleExtraFileInputChange = (e) => {
+    console.log('handleExtraFileInputChange called');
+    const file = e.target.files?.[0];
+    if (file && extraImages.length < MAX_IMAGES) {
+      console.log('Extra file selected:', file.name);
+      const url = URL.createObjectURL(file);
+      setExtraImages(prev => [...prev, url]);
+      setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
+    }
   };
 
   const removeImage = () => {
     setFormData(prev => ({ ...prev, image: '' }));
-  };
-
-  const handleExtraImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file || extraImages.length >= MAX_IMAGES) return;
-    const url = URL.createObjectURL(file);
-    setExtraImages(prev => [...prev, url]);
-    setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
   };
 
   const removeExtraImage = (index) => {
@@ -63,10 +69,22 @@ const AdminAddProductPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('handleSubmit - formData.image:', formData.image ? 'TEM' : 'NÃO TEM');
+    console.log('handleSubmit - fileInputRef.current?.files:', fileInputRef.current?.files);
+    
+    // Try to get image from ref if not in state
+    let finalImage = formData.image;
+    if (!finalImage && fileInputRef.current?.files?.[0]) {
+      const file = fileInputRef.current.files[0];
+      console.log('Getting image from ref:', file.name);
+      finalImage = URL.createObjectURL(file);
+      console.log('Image from ref URL:', finalImage);
+    }
+    
     setSaving(true);
     try {
       const productData = {
         ...formData,
+        image: finalImage,
         price: parseFloat(formData.price) || 0,
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
@@ -105,7 +123,13 @@ const AdminAddProductPage = () => {
             </div>
           ) : (
             <label className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all" style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}>
-              <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                accept="image/*"
+                onChange={handleFileInputChange}
+                className="hidden" 
+              />
               <Upload size={32} className="mx-auto mb-2" style={{ color: '#FFB347' }} />
               <p className="font-semibold" style={{ color: '#1A2238' }}>Toque para selecionar foto</p>
               <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>JPG ou PNG</p>
@@ -126,7 +150,13 @@ const AdminAddProductPage = () => {
             ))}
             {extraImages.length < MAX_IMAGES && (
               <label className="block aspect-square rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all cursor-pointer" style={{ borderColor: 'rgba(0,0,0,0.1)', backgroundColor: '#FFFFFF' }}>
-                <input type="file" accept="image/*" onChange={handleExtraImageChange} className="hidden" />
+                <input 
+                  ref={extraFileInputRef} 
+                  type="file" 
+                  accept="image/*"
+                  onChange={handleExtraFileInputChange}
+                  className="hidden" 
+                />
                 <Plus size={20} style={{ color: '#FFB347' }} />
                 <span className="text-[10px]" style={{ color: '#94A3B8' }}>Adicionar</span>
               </label>
