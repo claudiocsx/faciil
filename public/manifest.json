@@ -4,8 +4,8 @@
   "description": "Acessórios tech com entrega via Uber Flash",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#050505",
-  "theme_color": "#1DF2FF",
+  "background_color": "#FDFDFD",
+  "theme_color": "#FFB347",
   "icons": [
     {
       "src": "/Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg",
