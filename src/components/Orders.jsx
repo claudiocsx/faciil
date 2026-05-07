@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronDown, ChevronUp, Copy, MessageCircle, Bike, Upload } from 'lucide-react';
+import { Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronDown, ChevronUp, Copy, MessageCircle, Bike, Upload, XCircle } from 'lucide-react';
 import Logo from './Logo';
 
 const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
@@ -12,6 +12,7 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
       case 'processing': return { icon: Package, label: 'Preparando', color: '#FFB347', bg: 'rgba(59,139,185,0.1)' };
       case 'shipping': return { icon: Bike, label: 'Saiu p/ Entrega', color: '#FFB347', bg: 'rgba(138,168,46,0.1)' };
       case 'delivered': return { icon: CheckCircle, label: 'Entregue', color: '#1A2238', bg: 'rgba(90,158,90,0.1)' };
+      case 'cancelled': return { icon: XCircle, label: 'Cancelado', color: '#DC2626', bg: 'rgba(220,38,38,0.1)' };
       default: return { icon: Clock, label: status, color: '#666', bg: 'rgba(255,255,255,0.05)' };
     }
   };
@@ -40,6 +41,15 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
       onUpdateStatus(order.id, statusFlow[currentIndex + 1]);
     }
   };
+
+  const handleCancel = (order, e) => {
+    e.stopPropagation();
+    if (window.confirm(`Tem certeza que deseja cancelar o pedido #${order.id}?`)) {
+      onUpdateStatus(order.id, 'cancelled');
+    }
+  };
+
+  const canCancel = (status) => !['delivered', 'cancelled'].includes(status);
 
   if (!orders || orders.length === 0) {
     return (
@@ -198,6 +208,15 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
                       style={{ backgroundColor: 'rgba(90,158,90,0.15)', color: '#1A2238', border: '1px solid rgba(90,158,90,0.3)' }}
                     >
                       <CheckCircle size={14} /> Confirmar Entrega
+                    </button>
+                  )}
+                  {canCancel(order.status) && (
+                    <button
+                      onClick={(e) => handleCancel(order, e)}
+                      className="py-2 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                      style={{ backgroundColor: '#FEE2E2', color: '#DC2626', border: '1px solid rgba(220,38,38,0.2)' }}
+                    >
+                      <XCircle size={14} /> Cancelar
                     </button>
                   )}
                 </div>

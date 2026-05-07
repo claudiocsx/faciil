@@ -19,6 +19,7 @@ import AdminCouponsPage from './pages/AdminCouponsPage';
 import AdminClientsPage from './pages/AdminClientsPage';
 import AdminPosPage from './pages/AdminPosPage';
 import AdminBannersPage from './pages/AdminBannersPage';
+import ProfilePage from './pages/ProfilePage';
 
 const LoadingScreen = () => (
   <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
@@ -65,6 +66,7 @@ function AppRoutes() {
         <Route path="clients" element={<AdminClientsPage />} />
         <Route path="pos" element={<AdminPosPage />} />
         <Route path="reports" element={<div className="text-text-dim">Relatórios em breve...</div>} />
+        <Route path="perfil" element={<ProfilePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

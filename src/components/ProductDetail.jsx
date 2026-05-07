@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import Logo from './Logo';
 
 const ProductDetail = ({ product, onBack, onAddToCart }) => {
@@ -8,6 +8,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [userRating, setUserRating] = useState(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   if (!product) return null;
 
@@ -222,16 +223,24 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 type="button"
                 onClick={() => {
                   onAddToCart(product, quantity);
+                  setJustAdded(true);
+                  setTimeout(() => setJustAdded(false), 2000);
                 }}
                 disabled={availableStock === 0}
                 className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
-                  backgroundColor: '#FFB347',
+                  backgroundColor: justAdded ? '#10B981' : '#FFB347',
                   color: '#1A2238',
-                  boxShadow: '0 4px 12px rgba(255,179,71,0.3)'
+                  boxShadow: justAdded 
+                    ? '0 4px 12px rgba(16,185,129,0.3)' 
+                    : '0 4px 12px rgba(255,179,71,0.3)'
                 }}
               >
-                <ShoppingCart size={18} /> Adicionar ao Carrinho
+                {justAdded ? (
+                  <><Check size={18} /> Adicionado!</>
+                ) : (
+                  <><ShoppingCart size={18} /> Adicionar ao Carrinho</>
+                )}
               </button>
 
               <div className="flex flex-wrap gap-4 pt-4 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>

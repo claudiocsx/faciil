@@ -52,7 +52,7 @@ const AdminLayout = () => {
           </div>
 
           <div className="p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC' }}>
+            <button onClick={() => navigate('/admin/perfil')} className="w-full flex items-center gap-3 p-3 rounded-xl transition-all hover:scale-[1.02] text-left" style={{ backgroundColor: '#F8FAFC' }}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-lg" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
@@ -60,7 +60,7 @@ const AdminLayout = () => {
                 <p className="text-sm font-bold truncate" style={{ color: '#1A2238' }}>{user?.name}</p>
                 <p className="text-xs font-bold uppercase" style={{ color: '#94A3B8' }}>{user?.role}</p>
               </div>
-            </div>
+            </button>
           </div>
 
           <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
