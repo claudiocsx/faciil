@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import Storefront from '../components/Storefront';
+import LoadingScreen from '../components/LoadingScreen';
 import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -45,14 +46,7 @@ const StorePage = () => {
   };
 
   if (!loaded) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[#FFB347]/30 border-t-[#FFB347] rounded-full animate-spin" />
-          <p className="text-sm font-medium" style={{ color: '#94A3B8' }}>Carregando...</p>
-        </div>
-      </div>
-    );
+    return <LoadingScreen message="Preparando loja..." />;
   }
 
   return (

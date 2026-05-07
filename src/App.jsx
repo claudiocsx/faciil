@@ -4,7 +4,7 @@ import AuthProvider, { useAuth } from './contexts/AuthContext';
 import CartProvider from './contexts/CartContext';
 import { ProductProvider } from './contexts/ProductContext';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { Loader2 } from 'lucide-react';
+import LoadingScreen from './components/LoadingScreen';
 
 import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -20,15 +20,6 @@ import AdminClientsPage from './pages/AdminClientsPage';
 import AdminPosPage from './pages/AdminPosPage';
 import AdminBannersPage from './pages/AdminBannersPage';
 import ProfilePage from './pages/ProfilePage';
-
-const LoadingScreen = () => (
-  <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
-    <div className="flex flex-col items-center gap-4">
-      <Loader2 className="animate-spin w-12 h-12" style={{ color: '#FFB347' }} />
-      <p className="text-text-dim font-medium">Carregando Faciil...</p>
-    </div>
-  </div>
-);
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();

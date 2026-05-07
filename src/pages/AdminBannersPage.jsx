@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, X, Image, Tag, Percent, Trash2, Edit } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import LoadingScreen from '../components/LoadingScreen';
 
 const AdminBannersPage = () => {
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const AdminBannersPage = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center">Carregando...</div>;
+    return <LoadingScreen message="Carregando banners..." />;
   }
 
   return (
