@@ -207,10 +207,10 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 {getCarouselOffers().map((offer, index) => (
                   <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
                     {offer.image && (
-                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover sm:object-cover" />
+                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
                     )}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-5 md:px-20">
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%)' }} />
+                    <div className="relative z-10 flex flex-col justify-end sm:items-center sm:justify-center h-full px-5 pb-8 sm:pb-0 md:px-20">
                       <div className="max-w-xl">
                         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-3 md:mb-5" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                           <Tag size={12} /> Oferta
