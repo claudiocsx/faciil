@@ -25,28 +25,25 @@ const AdminAddProductPage = () => {
     images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false
   });
-const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
+  const [extraImages, setExtraImages] = useState(editingProduct?.images || []);
   const [saving, setSaving] = useState(false);
-  const [imgKey, setImgKey] = useState(0);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-const handleImageChange = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     console.log('handleImageChange - arquivo:', file);
     if (!file) return;
     const url = URL.createObjectURL(file);
     console.log('handleImageChange - URL:', url);
     setFormData(prev => ({ ...prev, image: url }));
-    setImgKey(k => k + 1);
   };
 
   const removeImage = () => {
     setFormData(prev => ({ ...prev, image: '' }));
-    setImgKey(k => k + 1);
   };
 
   const handleExtraImageChange = (e) => {
@@ -55,40 +52,6 @@ const handleImageChange = (e) => {
     const url = URL.createObjectURL(file);
     setExtraImages(prev => [...prev, url]);
     setFormData(prev => ({ ...prev, images: [...prev.images, url] }));
-  };
-
-  const removeExtraImage = (index) => {
-    const newImages = extraImages.filter((_, i) => i !== index);
-    setExtraImages(newImages);
-    setFormData(prev => ({ ...prev, images: newImages }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    console.log('handleImageChange - arquivo:', file?.name, file?.type);
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      console.log('handleImageChange - carregou, tamanho:', ev.target.result?.length);
-      setFormData(prev => ({ ...prev, image: ev.target.result }));
-    };
-    reader.onerror = (e) => console.log('handleImageChange - erro:', e);
-    reader.readAsDataURL(file);
-  };
-
-  const removeImage = () => {
-    setFormData(prev => ({ ...prev, image: '' }));
-  };
-
-  const handleExtraImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file || extraImages.length >= MAX_IMAGES) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      setExtraImages(prev => [...prev, ev.target.result]);
-      setFormData(prev => ({ ...prev, images: [...prev.images, ev.target.result] }));
-    };
-    reader.readAsDataURL(file);
   };
 
   const removeExtraImage = (index) => {
