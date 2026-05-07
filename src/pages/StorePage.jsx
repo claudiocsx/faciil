@@ -5,18 +5,23 @@ import { useProducts } from '../contexts/ProductContext';
 import Storefront from '../components/Storefront';
 import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Loader2 } from 'lucide-react';
 
 const StorePage = () => {
   const navigate = useNavigate();
   const { cart, addToCart, updateQuantity, removeFromCart, clearCart } = useCart();
   const { products } = useProducts();
-  const [whatsapp, setWhatsapp] = useState(null);
+  const [whatsapp, setWhatsapp] = useState('');
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      const snap = await getDoc(doc(db, 'config', 'whatsapp'));
-      if (snap.exists()) setWhatsapp(snap.data().number);
+      try {
+        const snap = await getDoc(doc(db, 'config', 'whatsapp'));
+        if (snap.exists()) setWhatsapp(snap.data().number);
+      } catch (err) {
+        console.error('Erro ao carregar WhatsApp:', err);
+      }
+      setLoaded(true);
     };
     load();
   }, []);
@@ -39,10 +44,13 @@ const StorePage = () => {
     }
   };
 
-  if (!whatsapp) {
+  if (!loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
-        <Loader2 className="animate-spin w-8 h-8" style={{ color: '#FFB347' }} />
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[#FFB347]/30 border-t-[#FFB347] rounded-full animate-spin" />
+          <p className="text-sm font-medium" style={{ color: '#94A3B8' }}>Carregando...</p>
+        </div>
       </div>
     );
   }
