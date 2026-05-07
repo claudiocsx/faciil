@@ -275,7 +275,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Filters */}
-      <section className="sticky top-16 z-30 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
