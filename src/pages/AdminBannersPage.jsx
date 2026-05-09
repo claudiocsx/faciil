@@ -169,19 +169,17 @@ const AdminBannersPage = () => {
                     type="text"
                     value={offerForm.title}
                     onChange={(e) => setOfferForm({ ...offerForm, title: e.target.value })}
-                    placeholder="Título"
+                    placeholder="Título (opcional)"
                     className="px-3 py-2 rounded-xl text-sm"
                     style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                    required
                   />
                   <input
                     type="text"
                     value={offerForm.subtitle}
                     onChange={(e) => setOfferForm({ ...offerForm, subtitle: e.target.value })}
-                    placeholder="Subtítulo (ex: 30% OFF)"
+                    placeholder="Subtítulo (opcional)"
                     className="px-3 py-2 rounded-xl text-sm"
                     style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                    required
                   />
                 </div>
                 <div className="mb-3">

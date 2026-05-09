@@ -203,19 +203,22 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
               <div className="relative w-full" style={{ aspectRatio: '21 / 9' }}>
                 <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
-                {getCarouselOffers().map((offer) => (
+                {getCarouselOffers().map((offer) => {
+                  const hasText = offer.title || offer.subtitle;
+                  return (
                   <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     {offer.image && (
                       <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
                     )}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%)' }} />
+                    {hasText && <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%)' }} />}
+                    {hasText && (
                     <div className="relative z-10 flex items-center h-full px-6 md:px-16">
                       <div className="max-w-lg">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
                           <Tag size={11} /> Oferta
                         </span>
-                        <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">{offer.title}</h2>
-                        <p className="text-base sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                        {offer.title && <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">{offer.title}</h2>}
+                        {offer.subtitle && <p className="text-base sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{offer.subtitle}</p>}
                         <button
                           onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
                           className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"
@@ -225,8 +228,10 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         </button>
                       </div>
                     </div>
+                    )}
                   </div>
-                ))}
+                  );
+                })}
                 {getCarouselCoupons().map((coupon) => (
                   <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
