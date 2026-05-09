@@ -196,30 +196,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carousel Ofertas & Cupons - Slider Completo */}
-      <section className="px-0 sm:px-4">
+      {/* Carrossel Principal */}
+      <section className="px-0 sm:px-4 pt-2">
         <div className="max-w-7xl mx-auto">
-          <div className="relative sm:rounded-2xl overflow-hidden">
-            {/* Banner Container */}
-            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238', height: '280px' }}>
-              <div className="flex h-full transition-transform duration-500 sm:duration-500" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
-                {/* Ofertas */}
-                {getCarouselOffers().map((offer, index) => (
-                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
+          <div className="relative group sm:rounded-2xl overflow-hidden shadow-xl">
+            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238', height: '180px' }}>
+              <div className="flex h-full transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
+                {getCarouselOffers().map((offer) => (
+                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     {offer.image && (
-                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
                     )}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.2) 100%)' }} />
-                    <div className="relative z-10 flex flex-col justify-end sm:items-center sm:justify-center h-full px-5 pb-8 sm:pb-0 md:px-20">
-                      <div className="max-w-xl">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase mb-3 md:mb-5" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                          <Tag size={12} /> Oferta
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-16">
+                      <div className="max-w-lg">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                          <Tag size={11} /> Oferta
                         </span>
-                        <h2 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white mb-1 md:mb-3 leading-tight">{offer.title}</h2>
-                        <p className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-7" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
-                        <button 
+                        <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">{offer.title}</h2>
+                        <p className="text-base sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                        <button
                           onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                          className="px-5 py-2.5 md:px-8 md:py-4 rounded-xl font-bold text-xs md:text-base transition-all hover:scale-105 hover:shadow-xl" 
+                          className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Ver Oferta
@@ -228,20 +226,20 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                     </div>
                   </div>
                 ))}
-                
-                {/* Cupons */}
                 {getCarouselCoupons().map((coupon) => (
-                  <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full">
-                    <div className="flex flex-col items-center justify-center h-full px-5 md:px-8 text-center" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 100%)' }}>
-                      <div className="inline-flex items-center gap-2 px-3 py-1 md:px-4 md:py-1.5 rounded-full text-[10px] md:text-sm font-bold uppercase mb-3 md:mb-5" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
-                        <Percent size={12} /> Cupom
-                      </div>
-                      <h2 className="text-3xl sm:text-5xl md:text-8xl font-black text-white mb-1 md:mb-2 tracking-tight">{coupon.code}</h2>
-                      <p className="text-xl sm:text-3xl md:text-5xl font-bold mb-4 md:mb-8" style={{ color: '#FFB347' }}>{coupon.discount}</p>
-                      <button 
+                  <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
+                    <div className="absolute inset-0 opacity-10" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,179,71,0.3) 0%, transparent 70%)' }} />
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
+                        <Percent size={11} /> Cupom
+                      </span>
+                      <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight">{coupon.code}</h2>
+                      <p className="text-lg sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                      <button
                         onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                        className="px-6 py-2.5 md:px-10 md:py-4 rounded-xl font-bold text-sm md:text-lg transition-all hover:scale-105 hover:shadow-xl" 
-                        style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 20px rgba(255,179,71,0.4)' }}
+                        className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"
+                        style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                       >
                         Copiar Cupom
                       </button>
@@ -250,22 +248,20 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 ))}
               </div>
             </div>
-            
-            {/* Navigation */}
-            <button onClick={prevCarousel} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all">
-              <ChevronLeft size={24} style={{ color: '#1A2238' }} />
+
+            <button onClick={prevCarousel} className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white/90 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
+              <ChevronLeft size={16} style={{ color: '#1A2238' }} />
             </button>
-            <button onClick={nextCarousel} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white shadow-lg hover:bg-gray-100 transition-all">
-              <ChevronRight size={24} style={{ color: '#1A2238' }} />
+            <button onClick={nextCarousel} className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white/90 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
+              <ChevronRight size={16} style={{ color: '#1A2238' }} />
             </button>
-            
-            {/* Dots */}
-            <div className="flex justify-center gap-2 py-3">
+
+            <div className="absolute bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
               {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentCarousel(i)}
-                  className={`h-2 rounded-full transition-all ${i === currentCarousel ? 'w-8' : 'w-2 bg-white/40'}`}
+                  className={`rounded-full transition-all duration-300 ${i === currentCarousel ? 'w-5 h-1.5' : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/60'}`}
                   style={{ backgroundColor: i === currentCarousel ? '#FFB347' : undefined }}
                 />
               ))}
