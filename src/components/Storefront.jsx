@@ -200,8 +200,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <section className="px-0 sm:px-4 pt-2">
         <div className="max-w-7xl mx-auto">
           <div className="relative group sm:rounded-2xl overflow-hidden shadow-xl">
-            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238', height: '180px' }}>
-              <div className="flex h-full transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
+            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
+              <div className="relative w-full" style={{ aspectRatio: '21 / 9' }}>
+                <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {getCarouselOffers().map((offer) => (
                   <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     {offer.image && (
@@ -246,6 +247,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                     </div>
                   </div>
                 ))}
+              </div>
               </div>
             </div>
 
