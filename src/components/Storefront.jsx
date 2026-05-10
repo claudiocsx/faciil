@@ -62,7 +62,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const loadBanners = async () => {
     try {
       const offersSnap = await getDocs(collection(db, 'banners_offers'));
-      const couponsSnap = await getDocs(collection(db, 'banners_coupons'));
+      const couponsSnap = await getDocs(collection(db, 'coupons'));
       setBannerOffers(offersSnap.docs.map(d => ({ id: d.id, ...d.data() })));
       setBannerCoupons(couponsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
     } catch (err) {
@@ -281,10 +281,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                     <div className="absolute inset-0 opacity-10" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,179,71,0.3) 0%, transparent 70%)' }} />
                     <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
-                        <Percent size={11} /> Cupom
+                        {coupon.type === 'freight' ? <Truck size={11} /> : <Percent size={11} />} Cupom
                       </span>
                       <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight">{coupon.code}</h2>
-                      <p className="text-lg sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                      <p className="text-lg sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>
+                        {coupon.type === 'freight' ? 'Frete Grátis' :
+                         coupon.type === 'percent' ? `${coupon.value}% OFF` :
+                         `R$ ${parseFloat(coupon.value).toFixed(2)} OFF`}
+                      </p>
                       <button
                         onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
                         className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"

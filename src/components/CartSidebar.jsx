@@ -24,12 +24,13 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const deliveryFee = deliveryMethod === 'delivery' ? DELIVERY_FEE : 0;
+  const deliveryFee = deliveryMethod === 'delivery' ? (appliedCoupon?.type === 'freight' ? 0 : DELIVERY_FEE) : 0;
   
   const discount = appliedCoupon 
-    ? appliedCoupon.type === 'percent' 
-      ? subtotal * (appliedCoupon.value / 100)
-      : appliedCoupon.value
+    ? appliedCoupon.type === 'freight' ? 0
+      : appliedCoupon.type === 'percent' 
+        ? subtotal * (appliedCoupon.value / 100)
+        : appliedCoupon.value
     : 0;
 
   const total = subtotal + deliveryFee - discount;
@@ -118,7 +119,11 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
     message += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
     
     if (deliveryMethod === 'delivery') {
-      message += `Entrega: R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
+      if (appliedCoupon?.type === 'freight') {
+        message += `Entrega: *FRETE GRATIS*\n`;
+      } else {
+        message += `Entrega: R$ ${deliveryFee.toFixed(2).replace('.', ',')}\n`;
+      }
     }
     
     if (discount > 0) {
@@ -424,7 +429,11 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               {deliveryMethod === 'delivery' && (
                 <div className="flex justify-between">
                   <span style={{ color: '#94A3B8' }}>Entrega (Uber Flash)</span>
-                  <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span>
+                  {appliedCoupon?.type === 'freight' ? (
+                    <span className="font-bold" style={{ color: '#10B981' }}>GRÁTIS</span>
+                  ) : (
+                    <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span>
+                  )}
                 </div>
               )}
               {discount > 0 && (

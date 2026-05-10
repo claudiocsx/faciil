@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, X, Image, Tag, Percent, Trash2, Edit } from 'lucide-react';
+import { Plus, X, Image, Tag, Percent, Truck, Trash2, Edit } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import LoadingScreen from '../components/LoadingScreen';
@@ -45,7 +45,9 @@ const AdminBannersPage = () => {
 
   const [couponForm, setCouponForm] = useState({
     code: '',
-    discount: '',
+    type: 'percent',
+    value: '',
+    active: true,
     color: '#1A2238'
   });
 
@@ -56,7 +58,7 @@ const AdminBannersPage = () => {
   const loadData = async () => {
     try {
       const offerSnap = await getDocs(collection(db, 'banners_offers'));
-      const couponSnap = await getDocs(collection(db, 'banners_coupons'));
+      const couponSnap = await getDocs(collection(db, 'coupons'));
       
       setOffers(offerSnap.docs.map(d => ({ id: d.id, ...d.data() })));
       setCoupons(couponSnap.docs.map(d => ({ id: d.id, ...d.data() })));
@@ -85,13 +87,15 @@ const AdminBannersPage = () => {
 
   const handleSaveCoupon = async (e) => {
     e.preventDefault();
+    if (!couponForm.code || !couponForm.value) return;
     try {
+      const data = { ...couponForm, code: couponForm.code.toUpperCase(), value: Number(couponForm.value), active: true };
       if (editingItem) {
-        await updateDoc(doc(db, 'banners_coupons', editingItem.id), couponForm);
+        await updateDoc(doc(db, 'coupons', editingItem.id), data);
       } else {
-        await addDoc(collection(db, 'banners_coupons'), couponForm);
+        await addDoc(collection(db, 'coupons'), data);
       }
-      setCouponForm({ code: '', discount: '', color: '#1A2238' });
+      setCouponForm({ code: '', type: 'percent', value: '', active: true, color: '#1A2238' });
       setShowCouponForm(false);
       setEditingItem(null);
       loadData();
@@ -109,7 +113,7 @@ const AdminBannersPage = () => {
 
   const handleDeleteCoupon = async (id) => {
     if (confirm('Excluir este cupom?')) {
-      await deleteDoc(doc(db, 'banners_coupons', id));
+      await deleteDoc(doc(db, 'coupons', id));
       loadData();
     }
   };
@@ -121,7 +125,7 @@ const AdminBannersPage = () => {
   };
 
   const editCoupon = (coupon) => {
-    setCouponForm(coupon);
+    setCouponForm({ code: coupon.code, type: coupon.type || 'percent', value: coupon.value || '', active: coupon.active ?? true, color: coupon.color || '#1A2238' });
     setEditingItem(coupon);
     setShowCouponForm(true);
   };
@@ -250,7 +254,7 @@ const AdminBannersPage = () => {
             Cupons de Desconto
           </h3>
           <button
-            onClick={() => { setShowCouponForm(true); setEditingItem(null); setCouponForm({ code: '', discount: '', color: '#1A2238' }); }}
+            onClick={() => { setShowCouponForm(true); setEditingItem(null); setCouponForm({ code: '', type: 'percent', value: '', active: true, color: '#1A2238' }); }}
             className="flex items-center gap-1 px-3 py-2 rounded-xl font-bold text-sm"
             style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
           >
@@ -259,25 +263,45 @@ const AdminBannersPage = () => {
         </div>
 
         {showCouponForm && (
-          <form onSubmit={handleSaveCoupon} className="mb-4 p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="grid grid-cols-2 gap-3 mb-3">
+          <form onSubmit={handleSaveCoupon} className="mb-4 p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className="grid grid-cols-2 gap-3">
               <input
                 type="text"
                 value={couponForm.code}
                 onChange={(e) => setCouponForm({ ...couponForm, code: e.target.value.toUpperCase() })}
                 placeholder="Código (ex: FACIIL10)"
-                className="px-3 py-2 rounded-xl text-sm"
+                className="px-3 py-2 rounded-xl text-sm outline-none"
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                 required
               />
+              <select
+                value={couponForm.type}
+                onChange={(e) => setCouponForm({ ...couponForm, type: e.target.value })}
+                className="px-3 py-2 rounded-xl text-sm outline-none"
+                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+              >
+                <option value="percent">Porcentagem (%)</option>
+                <option value="fixed">Valor Fixo (R$)</option>
+                <option value="freight">Frete Grátis</option>
+              </select>
+              {couponForm.type !== 'freight' && (
+                <input
+                  type="number"
+                  value={couponForm.value}
+                  onChange={(e) => setCouponForm({ ...couponForm, value: e.target.value })}
+                  placeholder={couponForm.type === 'percent' ? 'Valor % (ex: 10)' : 'Valor R$ (ex: 5)'}
+                  className="px-3 py-2 rounded-xl text-sm outline-none"
+                  style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                  required={couponForm.type !== 'freight'}
+                />
+              )}
               <input
                 type="text"
-                value={couponForm.discount}
-                onChange={(e) => setCouponForm({ ...couponForm, discount: e.target.value })}
-                placeholder="Desconto (ex: 10% OFF)"
-                className="px-3 py-2 rounded-xl text-sm"
+                value={couponForm.color}
+                onChange={(e) => setCouponForm({ ...couponForm, color: e.target.value })}
+                placeholder="Cor (ex: #1A2238)"
+                className="px-3 py-2 rounded-xl text-sm outline-none"
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                required
               />
             </div>
             <div className="flex gap-2">
@@ -293,10 +317,14 @@ const AdminBannersPage = () => {
 
         <div className="grid grid-cols-2 gap-3">
           {coupons.map((coupon) => (
-            <div key={coupon.id} className="flex items-center justify-between p-3 rounded-xl" style={{ backgroundColor: coupon.color, border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div key={coupon.id} className="flex items-center justify-between p-3 rounded-xl" style={{ backgroundColor: coupon.color || '#1A2238', border: '1px solid rgba(0,0,0,0.04)' }}>
               <div>
                 <span className="font-black text-lg" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>{coupon.code}</span>
-                <p className="text-xs font-bold" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>{coupon.discount}</p>
+                <p className="text-xs font-bold" style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }}>
+                  {coupon.type === 'freight' ? 'Frete Grátis' :
+                   coupon.type === 'percent' ? `${coupon.value}% OFF` :
+                   `R$ ${parseFloat(coupon.value).toFixed(2)} OFF`}
+                </p>
               </div>
               <div className="flex gap-1">
                 <button onClick={() => editCoupon(coupon)} className="p-1 rounded hover:bg-black/10"><Edit size={12} style={{ color: coupon.color === '#FFB347' ? '#1A2238' : '#FFFFFF' }} /></button>
