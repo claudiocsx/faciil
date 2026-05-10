@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -421,22 +421,61 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         )}
       </main>
 
-      {/* Footer E-commerce Profissional */}
-      <footer className="bg-white py-12 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 text-center">
-          <div className="flex items-center justify-center font-semibold text-xl text-midnight mb-4">
-            <svg className="text-amber mr-1" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-            </svg>
-            <span>fac<span className="text-amber">ii</span>l</span>
+      {/* Footer */}
+      <footer style={{ backgroundColor: '#1A2238', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Logo size={32} />
+                <span className="font-black text-xl" style={{ color: '#FFFFFF' }}>faciil</span>
+              </div>
+              <p className="text-sm leading-relaxed" style={{ color: '#94A3B8' }}>Acessórios tech com entrega rápida via Uber Flash. Sua escolha inteligente em tecnologia.</p>
+              <div className="flex gap-3 mt-5">
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                  <MapPin size={16} style={{ color: '#FFB347' }} />
+                </div>
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                  <Mail size={16} style={{ color: '#FFB347' }} />
+                </div>
+                <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                  <CreditCard size={16} style={{ color: '#FFB347' }} />
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm mb-4 uppercase tracking-wider" style={{ color: '#FFFFFF' }}>Links</h4>
+              <ul className="space-y-3">
+                {['Produtos', 'Ofertas', 'Pedidos', 'Sobre'].map((item) => (
+                  <li key={item}>
+                    <a href="#" className="text-sm transition-colors hover:text-[#FFB347]" style={{ color: '#94A3B8' }}>{item}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-sm mb-4 uppercase tracking-wider" style={{ color: '#FFFFFF' }}>Segurança</h4>
+              <ul className="space-y-3">
+                {[
+                  { icon: Shield, text: '1 ano de garantia' },
+                  { icon: Truck, text: 'Entrega via Uber Flash' },
+                  { icon: CreditCard, text: 'Pagamento na entrega' },
+                ].map(({ icon: Icon, text }) => (
+                  <li key={text} className="flex items-center gap-2 text-sm" style={{ color: '#94A3B8' }}>
+                    <Icon size={14} style={{ color: '#FFB347' }} /> {text}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <p className="text-xs text-gray-400 uppercase tracking-[0.2em] mb-8">Sua escolha inteligente em tecnologia</p>
-          <div className="flex justify-center space-x-6 text-gray-500 mb-8">
-            <a href="#" className="hover:text-amber transition"><small>Suporte</small></a>
-            <a href="#" className="hover:text-amber transition"><small>Termos</small></a>
-            <a href="#" className="hover:text-amber transition"><small>Envio</small></a>
+          <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <p className="text-xs" style={{ color: '#64748B' }}>© 2026 Faciil. Todos os direitos reservados.</p>
+            <div className="flex gap-6 text-xs" style={{ color: '#64748B' }}>
+              <a href="#" className="hover:text-[#FFB347] transition-colors">Termos</a>
+              <a href="#" className="hover:text-[#FFB347] transition-colors">Privacidade</a>
+              <a href="#" className="hover:text-[#FFB347] transition-colors">Suporte</a>
+            </div>
           </div>
-          <div className="text-[10px] text-gray-300">© 2026 Faciil. Brasil.</div>
         </div>
       </footer>
 
