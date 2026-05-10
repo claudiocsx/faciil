@@ -1,10 +1,13 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
 import Logo from './Logo';
 import ProductSkeleton from './ProductSkeleton';
+import CustomerAuthModal from './CustomerAuthModal';
+import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -34,6 +37,10 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+  const { customer, customerLogout } = useCustomerAuth();
   const [currentCarousel, setCurrentCarousel] = useState(0);
   const [bannerOffers, setBannerOffers] = useState([]);
   const [bannerCoupons, setBannerCoupons] = useState([]);
@@ -108,6 +115,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     <div className="min-h-screen grid-bg" style={{ backgroundColor: '#FDFDFD' }}>
       <Toast message={toastMessage} isVisible={toastVisible} onClose={() => setToastVisible(false)} />
       
+      {authModalOpen && <CustomerAuthModal onClose={() => setAuthModalOpen(false)} />}
+
       <CartSidebar
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
@@ -116,6 +125,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         onRemoveItem={onRemoveItem}
         whatsappNumber={whatsappNumber}
         onSaveOrder={onSaveOrder}
+        customer={customer}
       />
 
       {/* Delivery Banner */}
@@ -168,14 +178,47 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 <Search size={18} style={{ color: '#1A2238' }} />
               </button>
               
-              {onOrders && (
+              {customer ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                    className="flex items-center gap-1 lg:gap-2 p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
+                    style={{ border: '1px solid rgba(0,0,0,0.04)' }}
+                  >
+                    <User size={16} style={{ color: '#FFB347' }} />
+                    <span className="text-xs font-medium hidden sm:inline" style={{ color: '#1A2238' }}>{customer.name}</span>
+                    <ChevronDown size={12} style={{ color: '#94A3B8' }} />
+                  </button>
+                  {userDropdownOpen && (
+                    <>
+                      <div className="fixed inset-0 z-30" onClick={() => setUserDropdownOpen(false)} />
+                      <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 z-40 border" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+                        <button
+                          onClick={() => { setUserDropdownOpen(false); navigate('/meus-pedidos'); }}
+                          className="w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-2 transition-colors hover:bg-black/5"
+                          style={{ color: '#1A2238' }}
+                        >
+                          <ClipboardList size={16} style={{ color: '#94A3B8' }} /> Meus Pedidos
+                        </button>
+                        <button
+                          onClick={() => { setUserDropdownOpen(false); customerLogout(); }}
+                          className="w-full text-left px-4 py-2.5 text-sm font-medium flex items-center gap-2 transition-colors hover:bg-black/5"
+                          style={{ color: '#EF4444' }}
+                        >
+                          <LogOut size={16} /> Sair
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
                 <button
-                  onClick={onOrders}
-                  className="hidden lg:flex items-center gap-1 lg:gap-2 p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
+                  onClick={() => setAuthModalOpen(true)}
+                  className="flex items-center gap-1 lg:gap-2 p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
                   style={{ border: '1px solid rgba(0,0,0,0.04)' }}
                 >
-                  <ClipboardList size={16} style={{ color: '#1A2238' }} />
-                  <span className="text-xs font-medium" style={{ color: '#1A2238' }}>Pedidos</span>
+                  <User size={16} style={{ color: '#94A3B8' }} />
+                  <span className="text-xs font-medium hidden sm:inline" style={{ color: '#1A2238' }}>Entrar</span>
                 </button>
               )}
               <button

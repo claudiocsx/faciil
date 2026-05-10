@@ -5,9 +5,10 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const DELIVERY_FEE = 5.00;
 
-const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder }) => {
+const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder, customer }) => {
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
   const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
@@ -90,7 +91,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
     const orderData = {
       customerName,
-      customerPhone: '',
+      customerPhone,
+      customerId: customer?.id || null,
       deliveryMethod,
       neighborhood: deliveryMethod === 'delivery' ? neighborhood : '',
       address: deliveryMethod === 'delivery' ? address : '',
@@ -128,6 +130,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
     message += `*CLIENTE*\n`;
     message += `Nome: ${customerName}\n`;
+    if (customerPhone) message += `WhatsApp: ${customerPhone}\n`;
 
     if (deliveryMethod === 'delivery') {
       message += `Bairro: ${neighborhood}\n`;
@@ -142,6 +145,13 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
     
     setOrderSuccess(true);
   };
+
+  useEffect(() => {
+    if (customer) {
+      setCustomerName(customer.name || '');
+      setCustomerPhone(customer.phone || '');
+    }
+  }, [customer]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -307,6 +317,18 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                       placeholder="Digite seu nome"
                     />
                     {errors.customerName && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.customerName}</p>}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Telefone</label>
+                    <input
+                      type="tel"
+                      value={customerPhone}
+                      onChange={(e) => setCustomerPhone(e.target.value)}
+                      className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                      style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                      placeholder="(88) 99999-9999"
+                    />
                   </div>
 
                   {deliveryMethod === 'delivery' && (

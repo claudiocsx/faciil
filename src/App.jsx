@@ -4,11 +4,13 @@ import AuthProvider, { useAuth } from './contexts/AuthContext';
 import CartProvider from './contexts/CartContext';
 import { ProductProvider } from './contexts/ProductContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import CustomerAuthProvider from './contexts/CustomerAuthContext';
 import LoadingScreen from './components/LoadingScreen';
 
 import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import OrdersPage from './pages/OrdersPage';
+import MyOrdersPage from './pages/MyOrdersPage';
 import LoginPage from './pages/LoginPage';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboardPage from './pages/AdminDashboardPage';
@@ -38,6 +40,7 @@ function AppRoutes() {
       <Route path="/" element={<StorePage />} />
       <Route path="/produto/:id" element={<ProductDetailPage />} />
       <Route path="/pedidos" element={<OrdersPage />} />
+      <Route path="/meus-pedidos" element={<MyOrdersPage />} />
       <Route path="/login" element={<LoginPage />} />
 
       <Route
@@ -68,15 +71,17 @@ function AppRoutes() {
 export default function App() {
   return (
     <AuthProvider>
-      <ProductProvider>
-        <CartProvider>
-          <ThemeProvider>
-            <BrowserRouter>
-              <AppRoutes />
-            </BrowserRouter>
-          </ThemeProvider>
-        </CartProvider>
-      </ProductProvider>
+      <CustomerAuthProvider>
+        <ProductProvider>
+          <CartProvider>
+            <ThemeProvider>
+              <BrowserRouter>
+                <AppRoutes />
+              </BrowserRouter>
+            </ThemeProvider>
+          </CartProvider>
+        </ProductProvider>
+      </CustomerAuthProvider>
     </AuthProvider>
   );
 }
