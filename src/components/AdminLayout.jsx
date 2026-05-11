@@ -35,6 +35,7 @@ const AdminLayout = () => {
     { id: 'coupons', icon: Ticket, label: 'Cupons', path: '/admin/coupons' },
     { id: 'clients', icon: Users, label: 'Clientes', path: '/admin/clients' },
     { id: 'orders', icon: ShoppingCart, label: 'Pedidos', path: '/admin/orders' },
+    { id: 'reports', icon: FileText, label: 'Relatórios', path: '/admin/reports' },
   ];
 
   const isActive = (id) => currentModule === id || (id === 'dashboard' && currentModule === '');

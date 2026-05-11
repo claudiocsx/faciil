@@ -21,6 +21,7 @@ import AdminCouponsPage from './pages/AdminCouponsPage';
 import AdminClientsPage from './pages/AdminClientsPage';
 import AdminPosPage from './pages/AdminPosPage';
 import AdminBannersPage from './pages/AdminBannersPage';
+import AdminReportsPage from './pages/AdminReportsPage';
 import ProfilePage from './pages/ProfilePage';
 
 const ProtectedRoute = ({ children }) => {
@@ -59,7 +60,7 @@ function AppRoutes() {
         <Route path="orders" element={<AdminOrdersPage />} />
         <Route path="clients" element={<AdminClientsPage />} />
         <Route path="pos" element={<AdminPosPage />} />
-        <Route path="reports" element={<div className="text-text-dim">Relatórios em breve...</div>} />
+        <Route path="reports" element={<AdminReportsPage />} />
         <Route path="perfil" element={<ProfilePage />} />
       </Route>
 
