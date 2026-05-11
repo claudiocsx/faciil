@@ -52,27 +52,35 @@ const ReceiptModal = ({ order, onClose }) => {
 
   const handleWhatsApp = () => {
     const phone = order.customerPhone ? order.customerPhone.replace(/\D/g, '') : '';
-    const finalPhone = phone.length <= 11 ? '55' + phone : phone;
+    const finalPhone = phone.length >= 10 ? '55' + phone : null;
 
     if (!finalPhone) {
-      alert('Telefone do cliente não informado neste pedido.');
+      alert('Telefone do cliente não informado ou inválido neste pedido.');
       return;
     }
 
-    let msg = `🛍️ *FACIIL - RECIBO DE COMPRA*\n`;
-    msg += `------------------------------\n`;
-    msg += `👤 *Cliente:* ${order.customerName || 'Cliente'}\n`;
-    msg += `📅 *Data:* ${new Date(order.date).toLocaleDateString('pt-BR')} ${new Date(order.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}\n`;
-    msg += `💳 *Pagamento:* ${order.paymentMethod === 'pix' ? 'Pix' : order.paymentMethod === 'cash' ? 'Dinheiro' : 'Cartão'}\n`;
-    msg += `------------------------------\n`;
-    msg += `🛒 *Itens:*\n`;
+    const customerDisplay = order.customerName && order.customerName !== 'Consumidor' ? order.customerName : 'Cliente';
+    const hasDiscount = order.discount && order.discount > 0;
+
+    let msg = `*FACIIL - RECIBO DE COMPRA*\n`;
+    msg += `==============================\n`;
+    msg += `*Cliente:* ${customerDisplay}\n`;
+    msg += `*Data:* ${new Date(order.date).toLocaleDateString('pt-BR')} ${new Date(order.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}\n`;
+    msg += `*Pagamento:* ${order.paymentMethod === 'pix' ? 'Pix' : order.paymentMethod === 'cash' ? 'Dinheiro' : 'Cartao'}\n`;
+    msg += `==============================\n`;
+    msg += `*ITENS:*\n`;
     order.items.forEach(item => {
-      msg += `• ${item.quantity}x ${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+      msg += `* ${item.quantity}x* ${item.name}\n`;
+      msg += `   R$ ${(item.price * item.quantity).toFixed(2)}\n`;
     });
-    msg += `------------------------------\n`;
-    msg += `💰 *TOTAL: R$ ${(order.total || order.subtotal || 0).toFixed(2)}*\n`;
-    msg += `------------------------------\n`;
-    msg += `Obrigado pela preferência!\nFaciil - Tecnologia ao seu alcance.`;
+    msg += `==============================\n`;
+    msg += `Subtotal: R$ ${(order.subtotal || 0).toFixed(2)}\n`;
+    if (hasDiscount) {
+      msg += `Desconto: -R$ ${order.discount.toFixed(2)}\n`;
+    }
+    msg += `*TOTAL: R$ ${(order.total || order.subtotal || 0).toFixed(2)}*\n`;
+    msg += `==============================\n`;
+    msg += `Obrigado pela preferencia!\nFaciil - Tecnologia ao seu alcance.`;
 
     window.open(`https://wa.me/${finalPhone}?text=${encodeURIComponent(msg)}`, '_blank');
   };
@@ -97,7 +105,7 @@ const ReceiptModal = ({ order, onClose }) => {
             <div className="flex justify-between"><span>Pedido:</span> <span>#{order.id}</span></div>
             <div className="flex justify-between"><span>Data:</span> <span>{new Date(order.date).toLocaleDateString('pt-BR')}</span></div>
             <div className="flex justify-between"><span>Pagamento:</span> <span>{order.paymentMethod === 'pix' ? 'Pix' : order.paymentMethod === 'cash' ? 'Dinheiro' : 'Cartão'}</span></div>
-            {order.customerName && <div className="flex justify-between"><span>Cliente:</span> <span className="truncate ml-2 max-w-[150px]">{order.customerName}</span></div>}
+            {order.customerName && order.customerName !== 'Consumidor' && <div className="flex justify-between"><span>Cliente:</span> <span className="truncate ml-2 max-w-[150px]">{order.customerName}</span></div>}
           </div>
           <div className="border-t border-dashed border-text-dim my-2" />
           <div className="space-y-2">
@@ -109,6 +117,12 @@ const ReceiptModal = ({ order, onClose }) => {
             ))}
           </div>
           <div className="border-t border-dashed border-text-dim my-2" />
+          {order.discount > 0 && (
+            <div className="flex justify-between text-xs text-text-dim">
+              <span>Desconto</span>
+              <span>-R$ {order.discount.toFixed(2)}</span>
+            </div>
+          )}
           <div className="flex justify-between font-bold text-base text-neon-green">
             <span>TOTAL</span>
             <span>R$ {(order.total || order.subtotal || 0).toFixed(2)}</span>
