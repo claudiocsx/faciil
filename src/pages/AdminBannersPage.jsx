@@ -87,9 +87,18 @@ const AdminBannersPage = () => {
 
   const handleSaveCoupon = async (e) => {
     e.preventDefault();
-    if (!couponForm.code || !couponForm.value) return;
+    if (!couponForm.code) return;
+    if (couponForm.type !== 'freight' && !couponForm.value) {
+      alert('Preencha o valor do desconto');
+      return;
+    }
     try {
-      const data = { ...couponForm, code: couponForm.code.toUpperCase(), value: Number(couponForm.value), active: true };
+      const data = { 
+        ...couponForm, 
+        code: couponForm.code.toUpperCase(), 
+        value: couponForm.type === 'freight' ? 0 : Number(couponForm.value), 
+        active: true 
+      };
       if (editingItem) {
         await updateDoc(doc(db, 'coupons', editingItem.id), data);
       } else {
