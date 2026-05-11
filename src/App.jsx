@@ -26,7 +26,7 @@ import ProfilePage from './pages/ProfilePage';
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
   if (loading) return <LoadingScreen />;
-  if (!user) return <Navigate to="/login" replace />;
+  if (!user || !user.role) return <Navigate to="/login" replace />;
   return children;
 };
 
