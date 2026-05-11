@@ -57,20 +57,12 @@ export const AuthProvider = ({ children }) => {
           if (userData) {
             setUser(userData);
           } else {
-            setUser({
-              id: firebaseUser.uid,
-              name: firebaseUser.displayName || 'Usuário',
-              email: firebaseUser.email,
-              role: 'admin'
-            });
+            // No user document found in Firestore - this is not an admin user
+            setUser(null);
           }
         } catch {
-          setUser({
-            id: firebaseUser.uid,
-            name: firebaseUser.displayName || 'Usuário',
-            email: firebaseUser.email,
-            role: 'admin'
-          });
+          // Error fetching user data - treat as non-admin
+          setUser(null);
         }
       } else {
         setUser(null);
