@@ -63,3 +63,17 @@ body {
   background: var(--color-text-dim);
   border-radius: 3px;
 }
+
+:focus-visible {
+  outline: 2px solid #FFB347;
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #FFB347;
+  outline-offset: 2px;
+}

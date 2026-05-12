@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -30,6 +30,7 @@ const CAROUSEL_COUPONS = [
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('Tudo');
   const [sortBy, setSortBy] = useState('featured');
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
@@ -131,7 +132,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Delivery Banner */}
       <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(90,158,90,0.08)', color: 'var(--color-neon-green)' }}>
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2 text-xs font-semibold" style={{ color: '#1A2238' }}>
-          <span>🛵 Entregas via Uber Flash em Crato - CE</span>
+          <Truck size={14} className="flex-shrink-0" style={{ color: '#FFB347' }} /> <span>Entregas via Uber Flash em Crato - CE</span>
           <span className="hidden sm:inline">•</span>
           <span className="hidden sm:inline">Retirada grátis no centro do Crato</span>
         </div>
@@ -171,7 +172,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <div className="flex items-center gap-1 lg:gap-2">
               {/* Busca no mobile */}
               <button 
-                onClick={() => setSearchTerm(prompt('Buscar produto:') || '')}
+                onClick={() => setMobileSearchOpen(true)}
                 className="md:hidden p-2 rounded-xl transition-all hover:bg-black/5"
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}
               >
@@ -525,6 +526,34 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </footer>
+
+      {/* Mobile Search Modal */}
+      {mobileSearchOpen && (
+        <>
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 md:hidden" onClick={() => setMobileSearchOpen(false)} />
+          <div className="fixed top-0 left-0 right-0 z-50 p-4 md:hidden bg-white shadow-lg">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#94A3B8' }} />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Buscar produtos..."
+                autoFocus
+                className="w-full pl-10 pr-12 py-3 rounded-xl text-base outline-none"
+                style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+              />
+              <button
+                onClick={() => setMobileSearchOpen(false)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg"
+                style={{ color: '#94A3B8' }}
+              >
+                <X size={20} />
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Botão Voltar ao Topo */}
       {showScrollTop && (

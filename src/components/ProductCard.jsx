@@ -80,6 +80,8 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
     <div 
       data-product-card
       className={`group relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'animate-bounce' : ''}`}
+      role="button"
+      tabIndex={0}
       style={{ 
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(0,0,0,0.04)',
@@ -177,7 +179,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
       {/* Info */}
       <div className="p-4 space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#94A3B8' }}>
+        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>
           {product.category}
         </span>
 
@@ -206,7 +208,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             ))}
           </div>
           {reviews > 0 && (
-            <span className="text-xs" style={{ color: '#94A3B8' }}>({reviews})</span>
+            <span className="text-xs" style={{ color: '#64748B' }}>({reviews})</span>
           )}
           {userRating > 0 && (
             <span className="text-[10px] font-medium" style={{ color: '#10B981' }}>✓</span>
@@ -216,7 +218,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         {/* Price */}
         <div className="space-y-1 pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
           {product.originalPrice && (
-            <p className="text-xs line-through" style={{ color: '#94A3B8' }}>
+            <p className="text-xs line-through" style={{ color: '#64748B' }}>
               R$ {product.originalPrice.toFixed(2)}
             </p>
           )}
@@ -225,7 +227,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
               R$ {product.price.toFixed(2)}
             </p>
           </div>
-          <p className="text-xs" style={{ color: '#94A3B8' }}>
+          <p className="text-xs" style={{ color: '#64748B' }}>
             ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
           </p>
         </div>
