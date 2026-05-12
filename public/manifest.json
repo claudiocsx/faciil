@@ -1,19 +1,23 @@
 {
   "name": "Faciil - Loja de Tecnologia",
   "short_name": "Faciil",
-  "description": "Acessórios tech com entrega via Uber Flash",
+  "description": "Acessórios de tecnologia com entrega rápida via Uber Flash no Crato-CE. Smartwatches, fones Bluetooth, carregadores e mais.",
   "start_url": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#FDFDFD",
   "theme_color": "#FFB347",
+  "scope": "/",
   "icons": [
     {
       "src": "/Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ],
   "categories": ["shopping"],
-  "lang": "pt-BR"
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "prefer_related_applications": false
 }

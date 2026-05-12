@@ -1,0 +1,10 @@
+/* TEAM */
+Developer: Faciil Team
+Contact: https://github.com/claudiocsx/faciil
+
+/* SITE */
+Last update: 2026-05-12
+Language: Portuguese (Brazil)
+Framework: React 19 + Vite 8 + Tailwind CSS 4
+Hosting: Vercel
+Database: Firebase Firestore
