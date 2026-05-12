@@ -79,27 +79,30 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
   return (
     <div 
       data-product-card
-      className={`group relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'animate-bounce' : ''}`}
+      className={`group relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'md:animate-bounce' : ''}`}
       role="button"
       tabIndex={0}
       style={{ 
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(0,0,0,0.04)',
-        boxShadow: justAdded 
-          ? '0 8px 30px rgba(255,179,71,0.5)' 
-          : '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
+        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        contain: 'layout paint'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onViewDetail(product)}
     >
       {/* Imagem */}
-      <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+      <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8FAFC', minHeight: '180px' }}>
         {productImage ? (
           <img 
             src={productImage} 
             alt={product.name}
-            className={`w-full h-full object-cover transition-all duration-500 ${isHovered ? 'scale-110 opacity-90' : 'scale-100'}`}
+            loading="lazy"
+            className={`w-full h-full object-cover transition-all duration-300 md:duration-500 ${isHovered ? 'md:scale-110 md:opacity-90 scale-100' : 'scale-100'}`}
+            style={{ transform: 'translateZ(0)' }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F1F5F9' }}>
