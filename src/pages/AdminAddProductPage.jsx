@@ -179,4 +179,3 @@ const AdminAddProductPage = () => {
 };
 
 export default AdminAddProductPage;
-o
