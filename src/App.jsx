@@ -7,6 +7,7 @@ import { ProductProvider } from './contexts/ProductContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import CustomerAuthProvider from './contexts/CustomerAuthContext';
 import LoadingScreen from './components/LoadingScreen';
+import Analytics from './components/Analytics';
 
 import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -82,6 +83,7 @@ export default function App() {
                   <meta name="theme-color" content="#FFB347" />
                   <link rel="canonical" href="https://faciil.vercel.app" />
                 </Helmet>
+                <Analytics />
                 <AppRoutes />
               </BrowserRouter>
             </ThemeProvider>
