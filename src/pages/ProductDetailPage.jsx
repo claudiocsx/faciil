@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import ProductDetail from '../components/ProductDetail';
@@ -26,12 +27,53 @@ const ProductDetailPage = () => {
     );
   }
 
+  const productUrl = `https://faciil.vercel.app/produto/${product.id}`;
+  const productImage = product.image || 'https://faciil.vercel.app/og-image.png';
+  const price = product.price?.toFixed(2) || '0.00';
+  const originalPrice = product.originalPrice?.toFixed(2);
+
   return (
-    <ProductDetail
-      product={product}
-      onBack={() => navigate('/')}
-      onAddToCart={addToCart}
-    />
+    <>
+      <Helmet>
+        <title>{product.name} - Faciil</title>
+        <meta name="description" content={`Comprar ${product.name} por R$ ${price}. ${product.category} com entrega via Uber Flash no Crato-CE.`} />
+        <meta name="keywords" content={`${product.name}, ${product.category}, acessorios tech, Faciil`} />
+        <meta property="og:title" content={`${product.name} - Faciil`} />
+        <meta property="og:description" content={`Por R$ ${price}${originalPrice ? ` (de R$ ${originalPrice})` : ''} - ${product.category}`} />
+        <meta property="og:url" content={productUrl} />
+        <meta property="og:type" content="product" />
+        <meta property="og:image" content={productImage} />
+        <meta property="product:price:amount" content={price} />
+        <meta property="product:price:currency" content="BRL" />
+        <meta property="product:availability" content={product.stock > 0 ? 'in stock' : 'out of stock'} />
+        <meta name="twitter:title" content={`${product.name} - Faciil`} />
+        <meta name="twitter:description" content={`Por R$ ${price} - ${product.category}`} />
+        <meta name="twitter:image" content={productImage} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.name,
+            "description": `${product.name} - ${product.category}`,
+            "image": productImage,
+            "offers": {
+              "@type": "Offer",
+              "price": price,
+              "priceCurrency": "BRL",
+              "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              "seller": { "@type": "Organization", "name": "Faciil" }
+            },
+            "brand": { "@type": "Brand", "name": "Faciil" },
+            "category": product.category
+          })}
+        </script>
+      </Helmet>
+      <ProductDetail
+        product={product}
+        onBack={() => navigate('/')}
+        onAddToCart={addToCart}
+      />
+    </>
   );
 };
 

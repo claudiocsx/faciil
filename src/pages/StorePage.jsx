@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import Storefront from '../components/Storefront';
@@ -54,17 +55,30 @@ const StorePage = () => {
   }
 
   return (
-    <Storefront
-      products={products}
-      cart={cart}
-      onAddToCart={addToCart}
-      onUpdateQuantity={updateQuantity}
-      onRemoveItem={removeFromCart}
-      onViewDetail={(product) => navigate(`/produto/${product.id}`, { state: product })}
-      onOrders={() => navigate('/pedidos')}
-      whatsappNumber={whatsapp}
-      onSaveOrder={handleSaveOrder}
-    />
+    <>
+      <Helmet>
+        <title>Faciil - Acessórios de Tecnologia | Entrega via Uber Flash</title>
+        <meta name="description" content="Acessórios de tecnologia com entrega rápida via Uber Flash no Crato-CE. Smartwatches, fones Bluetooth, carregadores, cabos, capas e películas com o melhor preço." />
+        <meta name="keywords" content="acessórios tech, tecnologia, smartwatches, fones bluetooth, carregadores, capas celular, películas, Uber Flash, Crato, Ceará, loja online" />
+        <meta property="og:title" content="Faciil - Acessórios de Tecnologia" />
+        <meta property="og:description" content="Acessórios tech com entrega via Uber Flash no Crato-CE. Smartwatches, fones, carregadores e mais." />
+        <meta property="og:url" content="https://faciil.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Faciil - Acessórios de Tecnologia" />
+        <meta name="twitter:description" content="Acessórios tech com entrega via Uber Flash no Crato-CE." />
+      </Helmet>
+      <Storefront
+        products={products}
+        cart={cart}
+        onAddToCart={addToCart}
+        onUpdateQuantity={updateQuantity}
+        onRemoveItem={removeFromCart}
+        onViewDetail={(product) => navigate(`/produto/${product.id}`, { state: product })}
+        onOrders={() => navigate('/pedidos')}
+        whatsappNumber={whatsapp}
+        onSaveOrder={handleSaveOrder}
+      />
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import AuthProvider, { useAuth } from './contexts/AuthContext';
 import CartProvider from './contexts/CartContext';
 import { ProductProvider } from './contexts/ProductContext';
@@ -77,6 +78,10 @@ export default function App() {
           <CartProvider>
             <ThemeProvider>
               <BrowserRouter>
+                <Helmet>
+                  <meta name="theme-color" content="#FFB347" />
+                  <link rel="canonical" href="https://faciil.vercel.app" />
+                </Helmet>
                 <AppRoutes />
               </BrowserRouter>
             </ThemeProvider>
