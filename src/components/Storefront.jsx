@@ -46,6 +46,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [bannerOffers, setBannerOffers] = useState([]);
   const [bannerCoupons, setBannerCoupons] = useState([]);
   const [bannersLoading, setBannersLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(12);
 
   useEffect(() => {
     loadBanners();
@@ -82,6 +83,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    setVisibleCount(12);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [selectedCategory, searchTerm]);
 
   const nextCarousel = () => {
     const total = getCarouselOffers().length + getCarouselCoupons().length;
@@ -429,7 +435,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             {selectedCategory === 'Tudo' ? 'Todos os Produtos' : selectedCategory}
           </h2>
           <span className="text-sm text-text-dim">
-            {filteredProducts.length} {filteredProducts.length === 1 ? 'produto' : 'produtos'}
+            {visibleCount >= filteredProducts.length 
+              ? `${filteredProducts.length} ${filteredProducts.length === 1 ? 'produto' : 'produtos'}` 
+              : `Mostrando ${visibleCount} de ${filteredProducts.length} produtos`}
           </span>
         </div>
 
@@ -440,17 +448,30 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             ))}
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {filteredProducts.map(p => (
-                  <ProductCard
-                    key={p.id}
-                    product={p}
-                    searchTerm={searchTerm}
-                    onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
-                    onViewDetail={() => onViewDetail(p)}
-                  />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+              {filteredProducts.slice(0, visibleCount).map(p => (
+                    <ProductCard
+                      key={p.id}
+                      product={p}
+                      searchTerm={searchTerm}
+                      onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+                      onViewDetail={() => onViewDetail(p)}
+                    />
+              ))}
+            </div>
+            {visibleCount < filteredProducts.length && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={() => setVisibleCount(v => v + 12)}
+                  className="px-8 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
+                  style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 15px rgba(255,179,71,0.3)' }}
+                >
+                  Ver mais ({filteredProducts.length - visibleCount} produtos)
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-16 space-y-4">
             <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(59,139,185,0.05)' }}>
