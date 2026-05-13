@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X } from 'lucide-react';
+import { Search, ShoppingCart, SlidersHorizontal, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, ArrowUp, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Zap, Box, Laptop, Camera, Speaker, Battery } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -9,9 +9,17 @@ import ProductSkeleton from './ProductSkeleton';
 import CustomerAuthModal from './CustomerAuthModal';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
-const TECH_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
+const ICONS_MAP = {
+  'Smartwatches': Watch,
+  'Fones Bluetooth': Headphones,
+  'Carregadores': Plug,
+  'Cabos': Cable,
+  'Capas': Smartphone,
+  'Películas': Shield,
+  'default': Box,
+};
 
 const CAROUSEL_OFFERS = [
   { id: 1, title: 'Smartwatch Pro', subtitle: '30% OFF', image: 'https://images.unsplash.com/photo-1546868831-d1be1c463959?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
@@ -33,7 +41,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('Tudo');
   const [sortBy, setSortBy] = useState('featured');
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [showOffers, setShowOffers] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -47,9 +54,29 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [bannerCoupons, setBannerCoupons] = useState([]);
   const [bannersLoading, setBannersLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(12);
+  const [categories, setCategories] = useState(['Tudo']);
+  const [categoryIcons, setCategoryIcons] = useState({});
 
   useEffect(() => {
     loadBanners();
+  }, []);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
+        const snap = await getDocs(q);
+        const cats = snap.docs.map(d => d.data());
+        const catNames = ['Tudo', ...cats.map(c => c.name)];
+        const catIcons = {};
+        cats.forEach(c => { catIcons[c.name] = c.icon || 'default'; });
+        setCategories(catNames);
+        setCategoryIcons(catIcons);
+      } catch (err) {
+        console.error('Erro ao carregar categorias:', err);
+      }
+    };
+    loadCategories();
   }, []);
 
   useEffect(() => {
@@ -331,37 +358,39 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </section>
 
-      {/* Filters */}
+      {/* Category Carousel */}
       <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="relative">
-              <button
-                onClick={() => setCategoryDropdownOpen(!categoryDropdownOpen)}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
-                style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-              >
-                <SlidersHorizontal size={16} style={{ color: '#FFB347' }} />
-                {selectedCategory}
-                <ChevronDown size={14} style={{ color: '#94A3B8' }} />
-              </button>
-              
-              {categoryDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-xl shadow-2xl py-2 z-40 border" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-                  {TECH_CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => { setSelectedCategory(cat); setCategoryDropdownOpen(false); }}
-                      className="w-full text-left px-4 py-2 text-sm transition-colors hover:bg-black/5"
-                      style={{ color: selectedCategory === cat ? '#FFB347' : '#1A2238' }}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {categories.map((cat) => {
+              const IconComponent = ICONS_MAP[cat] || ICONS_MAP[categoryIcons[cat]] || ICONS_MAP.default;
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => { setSelectedCategory(cat); setVisibleCount(12); window.scrollTo({ top: 400, behavior: 'smooth' }); }}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${
+                    isSelected ? '' : 'opacity-70 hover:opacity-100'
+                  }`}
+                  style={{ 
+                    backgroundColor: isSelected ? '#FFB347' : 'rgba(0,0,0,0.03)', 
+                    color: isSelected ? '#1A2238' : '#1A2238',
+                    border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.06)'
+                  }}
+                >
+                  <IconComponent size={16} />
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
+      {/* Filters */}
+      <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
+          <div className="flex flex-wrap items-center gap-3">
             <div className="flex items-center gap-2">
               <select
                 value={sortBy}

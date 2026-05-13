@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Camera, Upload, X } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
-
-const CATEGORIES = ['Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
+import { db } from '../firebase';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 const AdminAddProductPage = () => {
   const navigate = useNavigate();
@@ -12,6 +12,16 @@ const AdminAddProductPage = () => {
   const fileInputRef = useRef(null);
   
   const editingProduct = location.state;
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
+      const snap = await getDocs(q);
+      setCategories(snap.docs.map(d => d.data().name));
+    };
+    loadCategories();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: editingProduct?.name || '',
@@ -20,7 +30,7 @@ const AdminAddProductPage = () => {
     supplier: editingProduct?.supplier || '',
     originalPrice: editingProduct?.originalPrice || '',
     stock: editingProduct?.stock || '',
-    category: editingProduct?.category || 'Smartwatches',
+    category: editingProduct?.category || (categories[0] || 'Smartwatches'),
     image: editingProduct?.image || '',
     isNew: editingProduct?.isNew || false
   });
@@ -157,7 +167,7 @@ const AdminAddProductPage = () => {
           <div>
             <label className="text-sm font-medium text-text-dim">Categoria</label>
             <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-              {CATEGORIES.map(c => <option key={c} value={c} className="bg-bg-elevated">{c}</option>)}
+              {categories.map(c => <option key={c} value={c} className="bg-bg-elevated">{c}</option>)}
             </select>
           </div>
         </div>

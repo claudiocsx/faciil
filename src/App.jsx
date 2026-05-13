@@ -24,6 +24,7 @@ import AdminClientsPage from './pages/AdminClientsPage';
 import AdminPosPage from './pages/AdminPosPage';
 import AdminBannersPage from './pages/AdminBannersPage';
 import AdminReportsPage from './pages/AdminReportsPage';
+import AdminCategoriesPage from './pages/AdminCategoriesPage';
 import ProfilePage from './pages/ProfilePage';
 
 const ProtectedRoute = ({ children }) => {
@@ -57,6 +58,7 @@ function AppRoutes() {
         <Route index element={<AdminDashboardPage />} />
         <Route path="products" element={<AdminProductsPage />} />
         <Route path="products/new" element={<AdminAddProductPage />} />
+        <Route path="categories" element={<AdminCategoriesPage />} />
         <Route path="coupons" element={<AdminCouponsPage />} />
         <Route path="banners" element={<AdminBannersPage />} />
         <Route path="orders" element={<AdminOrdersPage />} />
