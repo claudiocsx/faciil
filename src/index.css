@@ -40,13 +40,27 @@ body {
   margin: 0;
   background-color: var(--color-bg-deep);
   color: var(--color-text-primary);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Transições suaves para elementos interativos */
+button, a, input, select {
+  transition: all 0.2s ease;
+}
+
+/* Efeitos de hover mais marcantes */
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .glass-card {
