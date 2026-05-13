@@ -367,21 +367,21 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Category Carousel */}
       <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
+          <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
             {categories.map((cat) => {
               const IconComponent = ICONS_MAP[cat] || ICONS_MAP[categoryIcons[cat]] || ICONS_MAP.default;
               const isSelected = selectedCategory === cat;
               return (
                 <button
                   key={cat}
-                  onClick={() => { setSelectedCategory(cat); setVisibleCount(12); window.scrollTo({ top: 400, behavior: 'smooth' }); }}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${
+                  onClick={() => { setSelectedCategory(cat); setVisibleCount(12); window.scrollTo({ top: 450, behavior: 'smooth' }); }}
+                  className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
                     isSelected ? '' : 'opacity-70 hover:opacity-100'
                   }`}
                   style={{ 
                     backgroundColor: isSelected ? '#FFB347' : 'rgba(0,0,0,0.03)', 
-                    color: isSelected ? '#1A2238' : '#1A2238',
+                    color: isSelected ? '#1A2238' : '#64748B',
                     border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.06)'
                   }}
                 >
@@ -395,45 +395,32 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Filters */}
-      <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+      <section style={{ backgroundColor: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2.5 rounded-xl text-sm outline-none transition-all"
-                style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238', appearance: 'none' }}
-              >
-                <option value="featured">Destaques</option>
-                <option value="newest">Novidades</option>
-                <option value="price-asc">Menor Preço</option>
-                <option value="price-desc">Maior Preço</option>
-                <option value="name">A-Z</option>
-              </select>
-            </div>
-          </div>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="px-4 py-2.5 rounded-xl text-sm outline-none transition-all"
+              style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238', appearance: 'none' }}
+            >
+              <option value="featured">Ordenar: Destaques</option>
+              <option value="newest">Ordenar: Novidades</option>
+              <option value="price-asc">Ordenar: Menor Preço</option>
+              <option value="price-desc">Ordenar: Maior Preço</option>
+              <option value="name">Ordenar: A-Z</option>
+            </select>
 
-          {/* Filtros Ativos */}
-          {(selectedCategory !== 'Tudo') && (
-            <div className="flex items-center gap-2 mt-3">
-              <span className="text-sm" style={{ color: '#94A3B8' }}>Filtros:</span>
-              {selectedCategory !== 'Tudo' && (
-                <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                  style={{ backgroundColor: 'rgba(255,179,71,0.1)', color: '#FFB347', border: '1px solid rgba(255,179,71,0.2)' }}>
-                  {selectedCategory}
-                  <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-black ml-1 font-bold">×</button>
-                </span>
-              )}
+            {(selectedCategory !== 'Tudo' || searchTerm) && (
               <button
                 onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
-                className="text-xs underline transition-colors"
-                style={{ color: '#94A3B8' }}
+                className="text-xs px-3 py-2 rounded-lg transition-colors"
+                style={{ color: '#FFB347', backgroundColor: 'rgba(255,179,71,0.1)' }}
               >
-                Limpar todos
+                Limpar filtros
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
