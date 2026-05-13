@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star } from 'lucide-react';
 import ProductCard from './ProductCard';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
@@ -142,6 +142,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
     return result;
   }, [products, searchTerm, selectedCategory, sortBy]);
+
+  const testimonials = [
+    { name: "João Silva", text: "Produto chegou super rápido pelo Uber Flash! Qualidade excelente.", rating: 5 },
+    { name: "Maria Oliveira", text: "Comprei um smartwatch e amei. Atendimento nota 10!", rating: 5 },
+    { name: "Carlos Santos", text: "Melhor loja de acessórios do Crato. Preço justo e entrega rápida.", rating: 5 },
+    { name: "Ana Ferreira", text: "Fone Bluetooth incrível! Superou minhas expectativas.", rating: 4 },
+    { name: "Pedro Costa", text: "Comprei capa e película, tudo perfeito. Recomendo!", rating: 5 },
+  ];
 
   return (
     <div className="min-h-screen grid-bg" style={{ backgroundColor: '#FDFDFD' }}>
@@ -389,18 +397,21 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <section style={{ backgroundColor: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex flex-wrap items-center gap-3">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2.5 rounded-xl text-sm outline-none transition-all"
-              style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238', appearance: 'none' }}
-            >
-              <option value="featured">Ordenar: Destaques</option>
-              <option value="newest">Ordenar: Novidades</option>
-              <option value="price-asc">Ordenar: Menor Preço</option>
-              <option value="price-desc">Ordenar: Maior Preço</option>
-              <option value="name">Ordenar: A-Z</option>
-            </select>
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-2.5 pr-10 rounded-xl text-sm outline-none transition-all cursor-pointer"
+                style={{ backgroundColor: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238', appearance: 'none' }}
+              >
+                <option value="featured">Ordenar: Destaques</option>
+                <option value="newest">Ordenar: Novidades</option>
+                <option value="price-asc">Ordenar: Menor Preço</option>
+                <option value="price-desc">Ordenar: Maior Preço</option>
+                <option value="name">Ordenar: A-Z</option>
+              </select>
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#94A3B8' }} />
+            </div>
 
             {(selectedCategory !== 'Tudo' || searchTerm) && (
               <button
@@ -503,6 +514,47 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         )}
       </main>
+
+      {/* Depoimentos */}
+      <section className="py-12 md:py-16" style={{ backgroundColor: '#F8FAFC' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-black" style={{ color: '#1A2238' }}>
+              O que nossos clientes dizem
+            </h2>
+            <p className="mt-2 text-sm" style={{ color: '#64748B' }}>
+              A confiança de quem já comprou
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className="p-5 md:p-6 rounded-xl transition-all duration-300 hover:shadow-lg"
+                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
+              >
+                <div className="flex gap-1 mb-3">
+                  {[...Array(5)].map((_, s) => (
+                    <Star
+                      key={s}
+                      size={14}
+                      fill={s < t.rating ? '#FFB347' : 'none'}
+                      style={{ color: s < t.rating ? '#FFB347' : '#CBD5E1' }}
+                    />
+                  ))}
+                </div>
+                <p className="text-sm leading-relaxed mb-3" style={{ color: '#475569' }}>
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <p className="text-sm font-bold" style={{ color: '#1A2238' }}>
+                  {t.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
       <footer style={{ backgroundColor: '#1A2238', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
