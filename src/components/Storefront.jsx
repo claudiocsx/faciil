@@ -61,19 +61,26 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     loadBanners();
   }, []);
 
+  const DEFAULT_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
+
   useEffect(() => {
     const loadCategories = async () => {
       try {
         const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
         const snap = await getDocs(q);
         const cats = snap.docs.map(d => d.data());
-        const catNames = ['Tudo', ...cats.map(c => c.name)];
-        const catIcons = {};
-        cats.forEach(c => { catIcons[c.name] = c.icon || 'default'; });
-        setCategories(catNames);
-        setCategoryIcons(catIcons);
+        if (cats.length > 0) {
+          const catNames = ['Tudo', ...cats.map(c => c.name)];
+          const catIcons = {};
+          cats.forEach(c => { catIcons[c.name] = c.icon || 'default'; });
+          setCategories(catNames);
+          setCategoryIcons(catIcons);
+        } else {
+          setCategories(DEFAULT_CATEGORIES);
+        }
       } catch (err) {
         console.error('Erro ao carregar categorias:', err);
+        setCategories(DEFAULT_CATEGORIES);
       }
     };
     loadCategories();
