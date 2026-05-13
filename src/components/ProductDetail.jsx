@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock } from 'lucide-react';
 import Logo from './Logo';
 
 const ProductDetail = ({ product, onBack, onAddToCart }) => {
@@ -102,6 +102,11 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                       -{discount}%
                     </span>
                   )}
+                  {product.comingSoon && (
+                    <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1" style={{ backgroundColor: '#3B8BB9', color: '#FFFFFF' }}>
+                      <Clock size={12} /> Em breve
+                    </span>
+                  )}
                 </div>
               </div>
               
@@ -178,6 +183,20 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 </p>
               </div>
 
+              {product.comingSoon ? (
+                <>
+                  <div className="flex items-center gap-2">
+                    <Clock size={16} style={{ color: '#3B8BB9' }} />
+                    <span className="text-sm font-bold" style={{ color: '#3B8BB9' }}>
+                      Em breve
+                    </span>
+                  </div>
+                  <p className="text-xs" style={{ color: '#94A3B8' }}>
+                    Este produto está a caminho. Volte em breve!
+                  </p>
+                </>
+              ) : (
+              <>            
               <div className="flex items-center gap-2">
                 <div 
                   className="w-2 h-2 rounded-full"
@@ -242,6 +261,8 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   <><ShoppingCart size={18} /> Adicionar ao Carrinho</>
                 )}
               </button>
+              </>
+              )}
 
               <div className="flex flex-wrap gap-4 pt-4 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
                 {[

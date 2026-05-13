@@ -131,10 +131,20 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
               Últimas!
             </span>
           )}
+          {product.comingSoon && (
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#3B8BB9', color: '#FFFFFF' }}>
+              <Zap size={12} /> Em breve
+            </span>
+          )}
         </div>
 
         {/* Quick Add to Cart - Desktop: full button */}
         <div className="absolute bottom-4 left-3 right-3 hidden md:block">
+          {product.comingSoon ? (
+            <span className="block w-full py-3 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
+              Em breve
+            </span>
+          ) : (
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
@@ -150,6 +160,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
             {justAdded ? 'No Carrinho!' : 'Comprar'}
           </button>
+          )}
         </div>
       </div>
 
@@ -220,6 +231,11 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         </div>
 
         {/* Botão Comprar - Mobile */}
+        {product.comingSoon ? (
+          <span className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm text-center md:hidden" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
+            Em breve
+          </span>
+        ) : (
         <button
           onClick={handleAddToCart}
           disabled={product.stock === 0}
@@ -233,6 +249,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
           {justAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
           {justAdded ? 'No Carrinho!' : 'Comprar'}
         </button>
+        )}
       </div>
     </div>
   );

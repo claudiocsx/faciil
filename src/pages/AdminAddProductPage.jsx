@@ -32,7 +32,8 @@ const AdminAddProductPage = () => {
     stock: editingProduct?.stock || '',
     category: editingProduct?.category || (categories[0] || 'Smartwatches'),
     image: editingProduct?.image || '',
-    isNew: editingProduct?.isNew || false
+    isNew: editingProduct?.isNew || false,
+    comingSoon: editingProduct?.comingSoon || false
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || null);
   const [dragActive, setDragActive] = useState(false);
@@ -175,6 +176,11 @@ const AdminAddProductPage = () => {
         <div className="flex items-center gap-2">
           <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
           <span className="text-sm text-text-secondary">Marcar como Novo</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input type="checkbox" name="comingSoon" checked={formData.comingSoon} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
+          <span className="text-sm text-text-secondary">Produto a caminho (Em breve)</span>
         </div>
 
         <div className="flex gap-3 pt-4">
