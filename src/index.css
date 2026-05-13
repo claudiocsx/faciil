@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Esconder barra de rolagem */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @theme {
   --color-midnight: #1A2238;
   --color-amber: #FFB347;
