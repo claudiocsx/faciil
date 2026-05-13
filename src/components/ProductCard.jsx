@@ -79,23 +79,20 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
   return (
     <div 
       data-product-card
-      className={`group relative rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'md:animate-bounce' : ''}`}
+      className={`group flex flex-col rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${justAdded ? 'md:animate-bounce' : ''}`}
       role="button"
       tabIndex={0}
       style={{ 
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(0,0,0,0.04)',
-        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)',
-        transform: 'translateZ(0)',
-        backfaceVisibility: 'hidden',
-        contain: 'layout paint'
+        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onViewDetail(product)}
     >
       {/* Imagem */}
-      <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#F8FAFC', minHeight: '180px' }}>
+      <div className="relative w-full aspect-[4/3] overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
         {productImage ? (
           <img 
             src={productImage} 
@@ -113,7 +110,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         <div className={`absolute inset-0 bg-gradient-to-t from-bg-deep via-transparent to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-80' : 'opacity-0'}`} />
 
         {/* Badges - Modernos */}
-        <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+        <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 sm:gap-2 z-10">
           {discount > 0 && (
             <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#FFB800',  }}>
               -{discount}%
@@ -136,20 +133,6 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
           )}
         </div>
 
-        {/* Wishlist */}
-        <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-          className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all ${
-            liked 
-              ? 'text-red-500' 
-              : 'bg-white/5 text-text-secondary hover:text-red-400 border border-white/10'
-          }`}
-        >
-          <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
-        </button>
-
-        
-
         {/* Quick Add to Cart - Desktop: full button */}
         <div className="absolute bottom-4 left-3 right-3 hidden md:block">
           <button
@@ -171,12 +154,23 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
       </div>
 
       {/* Info */}
-      <div className="p-4 space-y-2">
-        <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>
+      <div className="relative p-2 sm:p-4 space-y-1 sm:space-y-2">
+        {/* Wishlist */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          className={`absolute top-1 right-1 sm:top-3 sm:right-3 p-1 sm:p-2 rounded-full backdrop-blur-md transition-all z-10 ${
+            liked 
+              ? 'text-red-500' 
+              : 'bg-white/90 text-text-secondary hover:text-red-400 border border-white/30'
+          }`}
+        >
+          <Heart size={16} sm:size={18} fill={liked ? 'currentColor' : 'none'} />
+        </button>
+        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>
           {product.category}
         </span>
 
-        <h3 className="font-bold text-sm line-clamp-2 transition-colors" style={{ color: '#1A2238' }}>
+        <h3 className="font-bold text-xs sm:text-sm line-clamp-2 transition-colors" style={{ color: '#1A2238' }}>
           {highlightText(product.name, searchTerm)}
         </h3>
 
@@ -190,7 +184,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
                 className="transition-all hover:scale-125"
               >
                 <Star 
-                  size={14} 
+                  size={12} 
                   fill={i < displayRating ? '#FFB347' : 'none'} 
                   style={{ 
                     color: i < displayRating ? '#FFB347' : '#CBD5E1',
@@ -201,7 +195,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             ))}
           </div>
           {reviews > 0 && (
-            <span className="text-xs" style={{ color: '#64748B' }}>({reviews})</span>
+            <span className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>({reviews})</span>
           )}
           {userRating > 0 && (
             <span className="text-[10px] font-medium" style={{ color: '#10B981' }}>✓</span>
@@ -209,18 +203,18 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         </div>
 
         {/* Price */}
-        <div className="space-y-1 pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+        <div className="space-y-0.5 sm:space-y-1 pt-0.5 sm:pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
           {product.originalPrice && (
-            <p className="text-xs line-through" style={{ color: '#64748B' }}>
+            <p className="text-[10px] sm:text-xs line-through" style={{ color: '#64748B' }}>
               R$ {product.originalPrice.toFixed(2)}
             </p>
           )}
           <div className="flex items-baseline gap-2">
-            <p className="text-2xl font-extrabold" style={{ color: '#1A2238' }}>
+            <p className="text-base sm:text-2xl font-extrabold" style={{ color: '#1A2238' }}>
               R$ {product.price.toFixed(2)}
             </p>
           </div>
-          <p className="text-xs" style={{ color: '#64748B' }}>
+          <p className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>
             ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
           </p>
         </div>
@@ -229,14 +223,14 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         <button
           onClick={handleAddToCart}
           disabled={product.stock === 0}
-          className="w-full mt-3 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 md:hidden"
+          className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center justify-center gap-2 md:hidden"
           style={{ 
             backgroundColor: '#FFB347', 
             color: '#1A2238',
             opacity: product.stock === 0 ? 0.4 : 1
           }}
         >
-          {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
+          {justAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
           {justAdded ? 'No Carrinho!' : 'Comprar'}
         </button>
       </div>

@@ -456,14 +456,14 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
 
         {products.length === 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {[...Array(10)].map((_, i) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {[...Array(8)].map((_, i) => (
               <ProductSkeleton key={i} />
             ))}
           </div>
         ) : filteredProducts.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
               {filteredProducts.slice(0, visibleCount).map(p => (
                     <ProductCard
                       key={p.id}
