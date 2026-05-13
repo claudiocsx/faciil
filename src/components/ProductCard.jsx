@@ -148,17 +148,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
           <Heart size={18} fill={liked ? 'currentColor' : 'none'} />
         </button>
 
-        {/* Quick Add to Cart - Mobile: + icon */}
-        <div className="absolute bottom-3 right-3 md:hidden z-10">
-          <button
-            onClick={handleAddToCart}
-            disabled={product.stock === 0}
-            className="w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-40 active:scale-90 shadow-lg"
-            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-          >
-            {justAdded ? <Check size={18} /> : <Plus size={18} />}
-          </button>
-        </div>
+        
 
         {/* Quick Add to Cart - Desktop: full button */}
         <div className="absolute bottom-4 left-3 right-3 hidden md:block">
@@ -234,6 +224,21 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
           </p>
         </div>
+
+        {/* Botão Comprar - Mobile */}
+        <button
+          onClick={handleAddToCart}
+          disabled={product.stock === 0}
+          className="w-full mt-3 py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 md:hidden"
+          style={{ 
+            backgroundColor: '#FFB347', 
+            color: '#1A2238',
+            opacity: product.stock === 0 ? 0.4 : 1
+          }}
+        >
+          {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
+          {justAdded ? 'No Carrinho!' : 'Comprar'}
+        </button>
       </div>
     </div>
   );
