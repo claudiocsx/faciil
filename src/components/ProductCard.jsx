@@ -98,8 +98,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             src={productImage} 
             alt={product.name}
             loading="lazy"
-            className={`w-full h-full object-cover transition-all duration-300 md:duration-500 ${isHovered ? 'md:scale-110 md:opacity-90 scale-100' : 'scale-100'}`}
-            style={{ transform: 'translateZ(0)' }}
+            className={`w-full h-full object-cover ${isHovered ? 'md:scale-110 md:opacity-90 scale-100' : 'scale-100'}`}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F1F5F9' }}>

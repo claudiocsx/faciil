@@ -54,15 +54,6 @@ button, a, input, select {
   transition: all 0.2s ease;
 }
 
-/* Efeitos de hover mais marcantes */
-button:hover {
-  transform: translateY(-1px);
-}
-
-button:active {
-  transform: translateY(0) scale(0.98);
-}
-
 .glass-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);

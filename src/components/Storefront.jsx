@@ -291,7 +291,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   return (
                   <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     {offer.image && (
-                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
+                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover scale-105" />
                     )}
                     {hasText && <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%)' }} />}
                     {hasText && (
