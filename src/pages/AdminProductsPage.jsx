@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Trash2, Edit, Upload } from 'lucide-react';
+import { Trash2, Edit, Upload, Star } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 
 const AdminProductsPage = () => {
@@ -28,13 +28,20 @@ const AdminProductsPage = () => {
           const img = p.image || p.images?.[0];
           return (
             <div key={p.id} className="glass-card p-4 rounded-xl flex items-center gap-4 group">
-              {img && !img.startsWith('blob:') ? (
-                <img src={img} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-gray-100" />
-              ) : (
-                <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
-                  <Upload size={20} className="text-gray-300" />
-                </div>
-              )}
+              <div className="relative shrink-0">
+                {img && !img.startsWith('blob:') ? (
+                  <img src={img} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-gray-100" />
+                ) : (
+                  <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
+                    <Upload size={20} className="text-gray-300" />
+                  </div>
+                )}
+                {p.featured && (
+                  <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
+                    <Star size={10} fill="#1A2238" style={{ color: '#1A2238' }} />
+                  </div>
+                )}
+              </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>
                 <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {p.price.toFixed(2)}</p>

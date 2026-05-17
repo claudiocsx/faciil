@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star } from 'lucide-react';
 import ProductCard from './ProductCard';
+import FeaturedProducts from './FeaturedProducts';
 import CartSidebar from './CartSidebar';
 import Toast from './Toast';
 import Logo from './Logo';
@@ -363,6 +364,12 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </section>
+
+      <FeaturedProducts
+        products={products}
+        onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+        onViewDetail={(p) => onViewDetail(p)}
+      />
 
       {/* Category Carousel */}
       <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>

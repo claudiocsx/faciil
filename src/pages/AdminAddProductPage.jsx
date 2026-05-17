@@ -41,7 +41,8 @@ const AdminAddProductPage = () => {
     category: editingProduct?.category || (categories[0] || 'Smartwatches'),
     image: editingProduct?.image || '',
     isNew: editingProduct?.isNew || false,
-    comingSoon: editingProduct?.comingSoon || false
+    comingSoon: editingProduct?.comingSoon || false,
+    featured: editingProduct?.featured || false
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || null);
   const [dragActive, setDragActive] = useState(false);
@@ -111,6 +112,7 @@ const AdminAddProductPage = () => {
         profitMargin: formData.profitMargin ? parseFloat(formData.profitMargin) : null,
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
         stock: parseInt(formData.stock),
+        featured: formData.featured,
         rating: 5.0,
         reviews: 0
       };
@@ -206,6 +208,11 @@ const AdminAddProductPage = () => {
         <div className="flex items-center gap-2">
           <input type="checkbox" name="comingSoon" checked={formData.comingSoon} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
           <span className="text-sm text-text-secondary">Produto a caminho (Em breve)</span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
+          <span className="text-sm" style={{ color: '#1A2238' }}>⭐ Produto em Destaque (aparece no topo da loja)</span>
         </div>
 
         <div className="flex gap-3 pt-4">
