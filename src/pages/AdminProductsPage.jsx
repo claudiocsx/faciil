@@ -5,7 +5,10 @@ import { useProducts } from '../contexts/ProductContext';
 
 const AdminProductsPage = () => {
   const navigate = useNavigate();
-  const { products, removeProduct } = useProducts();
+  const { products, removeProduct, updateProduct } = useProducts();
+  const toggleFeatured = (p) => {
+    updateProduct(p.id, { featured: !p.featured });
+  };
 
   return (
     <div className="space-y-6">
@@ -36,11 +39,14 @@ const AdminProductsPage = () => {
                     <Upload size={20} className="text-gray-300" />
                   </div>
                 )}
-                {p.featured && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
-                    <Star size={10} fill="#1A2238" style={{ color: '#1A2238' }} />
-                  </div>
-                )}
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleFeatured(p); }}
+                  className="absolute -top-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                  style={{ backgroundColor: p.featured ? '#FFB347' : 'rgba(255,255,255,0.15)' }}
+                  title={p.featured ? 'Remover destaque' : 'Marcar como destaque'}
+                >
+                  <Star size={11} fill={p.featured ? '#1A2238' : 'transparent'} style={{ color: p.featured ? '#1A2238' : '#94A3B8' }} />
+                </button>
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>

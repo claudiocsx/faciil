@@ -39,12 +39,12 @@ const AdminAddProductPage = () => {
     originalPrice: editingProduct?.originalPrice || '',
     stock: editingProduct?.stock || '',
     category: editingProduct?.category || (categories[0] || 'Smartwatches'),
-    image: editingProduct?.image || '',
+    image: editingProduct?.image || editingProduct?.images?.[0] || '',
     isNew: editingProduct?.isNew || false,
     comingSoon: editingProduct?.comingSoon || false,
     featured: editingProduct?.featured || false
   });
-  const [imagePreview, setImagePreview] = useState(editingProduct?.image || null);
+  const [imagePreview, setImagePreview] = useState(editingProduct?.image || editingProduct?.images?.[0] || null);
   const [dragActive, setDragActive] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -101,7 +101,7 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.image) return alert('Adicione uma imagem do produto.');
+    if (!editingProduct && !formData.image) return alert('Adicione uma imagem do produto.');
     
     setSaving(true);
     try {
