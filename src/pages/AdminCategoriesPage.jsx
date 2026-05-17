@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Plus, Pencil, Trash2, ChevronUp, ChevronDown, Package } from 'lucide-react';
+import { Plus, Pencil, Trash2, ChevronUp, ChevronDown, Package, X } from 'lucide-react';
 
 const ICONS = [
   { name: 'Watch', label: 'Relógio' },
@@ -151,111 +151,89 @@ const AdminCategoriesPage = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+    <div>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-text-primary">Categorias</h2>
-          <p className="text-text-dim">Gerencie as categorias dos produtos</p>
+          <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#1A2238' }}>Categorias</h2>
+          <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#64748B' }}>Gerencie as categorias dos produtos</p>
         </div>
         <button
           onClick={() => { setShowForm(true); setEditingId(null); setFormData({ name: '', icon: 'Box' }); }}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm"
+          className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl font-bold text-xs sm:text-sm"
           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
         >
-          <Plus size={18} />
+          <Plus size={16} />
           Nova Categoria
         </button>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="mb-6 p-4 rounded-xl" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
-          <div className="flex gap-4 items-end">
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-text-dim mb-2">Nome da Categoria</label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Ex: Smartwatches"
-                className="w-full px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
-                style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-              />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => { setShowForm(false); setEditingId(null); }}>
+          <div className="bg-white rounded-2xl p-5 sm:p-6 w-full max-w-md mx-auto shadow-xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-base sm:text-lg font-bold" style={{ color: '#1A2238' }}>{editingId ? 'Editar Categoria' : 'Nova Categoria'}</h3>
+              <button onClick={() => { setShowForm(false); setEditingId(null); }} className="p-1 rounded-lg hover:bg-gray-100"><X size={18} style={{ color: '#64748B' }} /></button>
             </div>
-            <div className="w-48">
-              <label className="block text-sm font-medium text-text-dim mb-2">Ícone</label>
-              <select
-                value={formData.icon}
-                onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
-                style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-              >
-                {ICONS.map(ic => (
-                  <option key={ic.name} value={ic.name}>{ic.label}</option>
-                ))}
-              </select>
-            </div>
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl font-bold text-sm"
-              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-            >
-              {editingId ? 'Atualizar' : 'Salvar'}
-            </button>
-            <button
-              type="button"
-              onClick={() => { setShowForm(false); setEditingId(null); }}
-              className="px-4 py-3 rounded-xl text-text-dim hover:bg-white/5"
-            >
-              Cancelar
-            </button>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div>
+                <label className="text-xs font-medium" style={{ color: '#64748B' }}>Nome da Categoria</label>
+                <input
+                  type="text" value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="Ex: Smartwatches"
+                  className="w-full mt-1 px-3 py-2.5 rounded-xl text-sm outline-none"
+                  style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium" style={{ color: '#64748B' }}>Ícone</label>
+                <select
+                  value={formData.icon}
+                  onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                  className="w-full mt-1 px-3 py-2.5 rounded-xl text-sm outline-none"
+                  style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+                >
+                  {ICONS.map(ic => (
+                    <option key={ic.name} value={ic.name}>{ic.label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button type="button" onClick={() => { setShowForm(false); setEditingId(null); }} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ color: '#64748B', backgroundColor: '#F1F5F9' }}>Cancelar</button>
+                <button type="submit" className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>{editingId ? 'Atualizar' : 'Salvar'}</button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-1.5 sm:space-y-2">
         {categories.map((cat, index) => (
           <div
             key={cat.id}
-            className="flex items-center justify-between p-4 rounded-xl"
-            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+            className="flex items-center justify-between p-2.5 sm:p-4 rounded-xl"
+            style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
           >
-            <div className="flex items-center gap-4">
-              <div className="flex flex-col gap-1">
-                <button
-                  onClick={() => handleMove(index, 'up')}
-                  disabled={index === 0}
-                  className="p-1 rounded hover:bg-white/10 disabled:opacity-30"
-                >
-                  <ChevronUp size={16} className="text-text-dim" />
+            <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+              <div className="flex flex-col gap-0.5 shrink-0">
+                <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="p-0.5 sm:p-1 rounded hover:bg-gray-100 disabled:opacity-30">
+                  <ChevronUp size={14} style={{ color: '#94A3B8' }} />
                 </button>
-                <button
-                  onClick={() => handleMove(index, 'down')}
-                  disabled={index === categories.length - 1}
-                  className="p-1 rounded hover:bg-white/10 disabled:opacity-30"
-                >
-                  <ChevronDown size={16} className="text-text-dim" />
+                <button onClick={() => handleMove(index, 'down')} disabled={index === categories.length - 1} className="p-0.5 sm:p-1 rounded hover:bg-gray-100 disabled:opacity-30">
+                  <ChevronDown size={14} style={{ color: '#94A3B8' }} />
                 </button>
               </div>
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}
-              >
-                <IconComponent name={cat.icon} size={20} />
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}>
+                <IconComponent name={cat.icon} size={16} />
               </div>
-              <span className="font-medium text-text-primary">{cat.name}</span>
+              <span className="text-sm sm:text-base truncate" style={{ color: '#1A2238' }}>{cat.name}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleEdit(cat)}
-                className="p-2 rounded-lg hover:bg-white/10"
-              >
-                <Pencil size={18} className="text-text-dim" />
+            <div className="flex items-center gap-1 shrink-0">
+              <button onClick={() => handleEdit(cat)} className="p-1.5 rounded-lg hover:bg-gray-100" title="Editar">
+                <Pencil size={15} style={{ color: '#64748B' }} />
               </button>
-              <button
-                onClick={() => handleDelete(cat.id)}
-                className="p-2 rounded-lg hover:bg-red-500/20"
-              >
-                <Trash2 size={18} className="text-red-400" />
+              <button onClick={() => handleDelete(cat.id)} className="p-1.5 rounded-lg hover:bg-red-50" title="Excluir">
+                <Trash2 size={15} style={{ color: '#EF4444' }} />
               </button>
             </div>
           </div>
