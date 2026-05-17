@@ -4,6 +4,7 @@ import { Camera, Upload, X } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import ProfitCalculator from '../components/ProfitCalculator';
 
 const AdminAddProductPage = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const AdminAddProductPage = () => {
   
   const editingProduct = location.state;
   const [categories, setCategories] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -20,13 +22,19 @@ const AdminAddProductPage = () => {
       const snap = await getDocs(q);
       setCategories(snap.docs.map(d => d.data().name));
     };
+    const loadSuppliers = async () => {
+      const snap = await getDocs(collection(db, 'suppliers'));
+      setSuppliers(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+    };
     loadCategories();
+    loadSuppliers();
   }, []);
 
   const [formData, setFormData] = useState({
     name: editingProduct?.name || '',
     price: editingProduct?.price || '',
     costPrice: editingProduct?.costPrice || '',
+    profitMargin: editingProduct?.profitMargin || '',
     supplier: editingProduct?.supplier || '',
     originalPrice: editingProduct?.originalPrice || '',
     stock: editingProduct?.stock || '',
@@ -81,6 +89,15 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, image: '' }));
   };
 
+  const handleProfitChange = ({ costPrice, profitMargin, price }) => {
+    setFormData(prev => ({
+      ...prev,
+      costPrice: costPrice !== '' ? costPrice : prev.costPrice,
+      profitMargin: profitMargin !== '' ? profitMargin : prev.profitMargin,
+      price: price !== '' ? price : prev.price,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.image) return alert('Adicione uma imagem do produto.');
@@ -91,6 +108,7 @@ const AdminAddProductPage = () => {
         ...formData,
         price: parseFloat(formData.price),
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
+        profitMargin: formData.profitMargin ? parseFloat(formData.profitMargin) : null,
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
         stock: parseInt(formData.stock),
         rating: 5.0,
@@ -153,13 +171,20 @@ const AdminAddProductPage = () => {
             <label className="text-sm font-medium text-text-dim">Preço Anterior</label>
             <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
           </div>
-          <div>
-            <label className="text-sm font-medium text-text-dim">Preço de Custo</label>
-            <input type="number" name="costPrice" step="0.01" value={formData.costPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+          <div className="md:col-span-2">
+            <ProfitCalculator
+              costPrice={formData.costPrice}
+              profitMargin={formData.profitMargin}
+              price={formData.price}
+              onChange={handleProfitChange}
+            />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Fornecedor</label>
-            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} list="supplier-list" className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <datalist id="supplier-list">
+              {suppliers.map(s => <option key={s.id} value={s.name} />)}
+            </datalist>
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Estoque</label>

@@ -40,7 +40,14 @@ const AdminProductsPage = () => {
                 <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {p.price.toFixed(2)}</p>
                 <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
                 {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#FFB347' }}>📦 {p.supplier}</p>}
-                {p.costPrice && <p className="text-xs text-orange-400">Custo: R$ {p.costPrice.toFixed(2)}</p>}
+                {p.costPrice > 0 && (
+                  <div className="flex items-center gap-2 text-xs mt-0.5">
+                    <span style={{ color: '#64748B' }}>Custo: R$ {p.costPrice.toFixed(2)}</span>
+                    {p.profitMargin > 0 && (
+                      <span className="font-bold" style={{ color: '#059669' }}>+{p.profitMargin}%</span>
+                    )}
+                  </div>
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <button

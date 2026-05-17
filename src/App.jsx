@@ -25,6 +25,7 @@ import AdminPosPage from './pages/AdminPosPage';
 import AdminBannersPage from './pages/AdminBannersPage';
 import AdminReportsPage from './pages/AdminReportsPage';
 import AdminCategoriesPage from './pages/AdminCategoriesPage';
+import AdminSuppliersPage from './pages/AdminSuppliersPage';
 import ProfilePage from './pages/ProfilePage';
 
 const ProtectedRoute = ({ children }) => {
@@ -59,6 +60,7 @@ function AppRoutes() {
         <Route path="products" element={<AdminProductsPage />} />
         <Route path="products/new" element={<AdminAddProductPage />} />
         <Route path="categories" element={<AdminCategoriesPage />} />
+        <Route path="suppliers" element={<AdminSuppliersPage />} />
         <Route path="coupons" element={<AdminCouponsPage />} />
         <Route path="banners" element={<AdminBannersPage />} />
         <Route path="orders" element={<AdminOrdersPage />} />
@@ -83,6 +85,7 @@ export default function App() {
               <BrowserRouter>
                 <Helmet>
                   <meta name="theme-color" content="#FFB347" />
+                  <meta name="google-site-verification" content="Vd3nwJWGFRFdklONEFhsSMsXF4t3rJgfLRYrNQxRsg0" />
                   <link rel="canonical" href="https://faciil.vercel.app" />
                 </Helmet>
                 <Analytics />

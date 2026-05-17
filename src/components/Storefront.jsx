@@ -367,7 +367,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Category Carousel */}
       <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
-          <div className="flex flex-nowrap items-center gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4">
+          <div className="flex flex-nowrap items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory -mx-4 px-4">
             {categories.map((cat) => {
               const IconComponent = ICONS_MAP[cat] || ICONS_MAP[categoryIcons[cat]] || ICONS_MAP.default;
               const isSelected = selectedCategory === cat;
@@ -375,7 +375,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 <button
                   key={cat}
                   onClick={() => { setSelectedCategory(cat); setVisibleCount(12); window.scrollTo({ top: 450, behavior: 'smooth' }); }}
-                  className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                  className={`flex-shrink-0 snap-start flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-semibold whitespace-nowrap transition-all ${
                     isSelected ? '' : 'opacity-70 hover:opacity-100'
                   }`}
                   style={{ 
@@ -384,8 +384,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                     border: isSelected ? 'none' : '1px solid rgba(0,0,0,0.06)'
                   }}
                 >
-                  <IconComponent size={16} />
-                  {cat}
+                  <IconComponent size={14} />
+                  <span>{cat}</span>
                 </button>
               );
             })}
