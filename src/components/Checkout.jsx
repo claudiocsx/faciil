@@ -16,6 +16,20 @@ const Checkout = ({ cart, onBack, onComplete }) => {
 
   const handleInputChange = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
 
+  const requiredFields = ['name', 'email', 'phone', 'cep', 'address', 'number', 'neighborhood', 'city', 'state'];
+  const [errors, setErrors] = useState({});
+
+  const validateStep1 = () => {
+    const newErrors = {};
+    requiredFields.forEach(f => { if (!formData[f]?.trim()) newErrors[f] = true; });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleStep1Next = () => {
+    if (validateStep1()) setStep(2);
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -85,22 +99,27 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                     { field: 'state', label: 'UF', type: 'text', placeholder: 'SP', max: 2 }
                   ].map(({ field, label, type, full, placeholder, max }) => (
                     <div key={field} className={full ? 'md:col-span-2' : ''}>
-                      <label className="block text-sm font-medium text-text-dim mb-1">{label}</label>
+                      <label className="block text-sm font-medium mb-1" style={{ color: errors[field] ? '#DC2626' : '#64748B' }}>{label}</label>
                       <input
                         type={type}
                         value={formData[field]}
-                        onChange={(e) => handleInputChange(field, e.target.value)}
-                        className={`w-full px-4 py-3 rounded-xl text-sm text-text-primary placeholder-text-dim outline-none transition-all`}
-                        style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
-                        onFocus={(e) => e.target.style.borderColor = 'rgba(59,139,185,0.4)'}
-                        onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                        onChange={(e) => { handleInputChange(field, e.target.value); if (errors[field]) setErrors(prev => { const n = { ...prev }; delete n[field]; return n; }); }}
+                        className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all`}
+                        style={{ backgroundColor: '#F8FAFC', border: errors[field] ? '1.5px solid #DC2626' : '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+                        onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                        onBlur={(e) => e.target.style.borderColor = errors[field] ? '#DC2626' : 'rgba(0,0,0,0.06)'}
                         placeholder={placeholder}
                         maxLength={max}
                       />
                     </div>
                   ))}
+                  {Object.keys(errors).length > 0 && (
+                    <div className="md:col-span-2 p-3 rounded-lg text-sm font-medium text-center" style={{ backgroundColor: '#FEF2F2', color: '#DC2626' }} role="alert">
+                      Preencha todos os campos obrigatórios
+                    </div>
+                  )}
                 </div>
-                <button onClick={() => setStep(2)} className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#FFB347',  }}>
+                <button onClick={handleStep1Next} className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#FFB347',  }}>
                   Continuar <ChevronRight size={18} />
                 </button>
               </div>

@@ -184,7 +184,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           <div className="flex items-center justify-between h-14 lg:h-16 gap-2 lg:gap-4">
             {/* Logo Faciil Original */}
             <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => { navigate('/'); window.scrollTo({ top: 0 }); }}
               className="flex items-center gap-1 lg:gap-2 flex-shrink-0 hover:opacity-80 transition-opacity"
             >
               <Logo size={20} />

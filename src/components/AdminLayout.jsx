@@ -48,10 +48,10 @@ const AdminLayout = () => {
       <div className="hidden lg:flex lg:flex-col lg:w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-center h-20 px-6" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center gap-3">
+            <button onClick={() => navigate('/')} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <Logo size={36} />
               <span className="font-black text-2xl" style={{ color: '#1A2238' }}>faciil</span>
-            </div>
+            </button>
           </div>
 
           <div className="p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>

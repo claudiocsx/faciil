@@ -216,11 +216,11 @@ const AdminCategoriesPage = () => {
           >
             <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
               <div className="flex flex-col gap-0.5 shrink-0">
-                <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="p-0.5 sm:p-1 rounded hover:bg-gray-100 disabled:opacity-30">
-                  <ChevronUp size={14} style={{ color: '#94A3B8' }} />
+                <button onClick={() => handleMove(index, 'up')} disabled={index === 0} className="p-1.5 sm:p-2 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed">
+                  <ChevronUp size={16} style={{ color: '#64748B' }} />
                 </button>
-                <button onClick={() => handleMove(index, 'down')} disabled={index === categories.length - 1} className="p-0.5 sm:p-1 rounded hover:bg-gray-100 disabled:opacity-30">
-                  <ChevronDown size={14} style={{ color: '#94A3B8' }} />
+                <button onClick={() => handleMove(index, 'down')} disabled={index === categories.length - 1} className="p-1.5 sm:p-2 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed">
+                  <ChevronDown size={16} style={{ color: '#64748B' }} />
                 </button>
               </div>
               <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}>

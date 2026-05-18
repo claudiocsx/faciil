@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Camera, Upload, X } from 'lucide-react';
+import { Camera, Upload, X, Star } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -140,7 +140,7 @@ const AdminAddProductPage = () => {
         <div>
           <label className="block text-sm font-medium text-text-dim mb-2">Foto do Produto</label>
           {imagePreview ? (
-            <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
               <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover" />
               <button type="button" onClick={removeImage} className="absolute top-2 right-2 p-2 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
                 <X size={18} />
@@ -151,7 +151,7 @@ const AdminAddProductPage = () => {
               onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
               className="relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all hover:bg-white/5"
-              style={{ borderColor: dragActive ? '#1DF2FF' : 'rgba(255,255,255,0.1)', backgroundColor: dragActive ? 'rgba(29,242,255,0.05)' : 'transparent' }}
+              style={{ borderColor: dragActive ? '#1DF2FF' : 'rgba(0,0,0,0.12)', backgroundColor: dragActive ? 'rgba(29,242,255,0.05)' : '#F8FAFC' }}
             >
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInput} className="hidden" />
               <Upload size={28} className="mx-auto mb-2" style={{ color: '#1DF2FF' }} />
@@ -163,15 +163,15 @@ const AdminAddProductPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label className="text-sm font-medium text-text-dim">Nome do Produto</label>
-            <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Preço (R$)</label>
-            <input type="number" name="price" required step="0.01" value={formData.price} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="number" name="price" required step="0.01" value={formData.price} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Preço Anterior</label>
-            <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
           </div>
           <div className="md:col-span-2">
             <ProfitCalculator
@@ -183,18 +183,18 @@ const AdminAddProductPage = () => {
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Fornecedor</label>
-            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} list="supplier-list" className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} list="supplier-list" className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
             <datalist id="supplier-list">
               {suppliers.map(s => <option key={s.id} value={s.name} />)}
             </datalist>
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Estoque</label>
-            <input type="number" name="stock" required value={formData.stock} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }} />
+            <input type="number" name="stock" required value={formData.stock} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Categoria</label>
-            <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
               {categories.map(c => <option key={c} value={c} className="bg-bg-elevated">{c}</option>)}
             </select>
           </div>
@@ -212,12 +212,13 @@ const AdminAddProductPage = () => {
 
         <div className="flex items-center gap-2">
           <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
-          <span className="text-sm" style={{ color: '#1A2238' }}>⭐ Produto em Destaque (aparece no topo da loja)</span>
+          <Star size={16} style={{ color: '#FFB347' }} />
+          <span className="text-sm" style={{ color: '#1A2238' }}>Produto em Destaque (aparece no topo da loja)</span>
         </div>
 
         <div className="flex gap-3 pt-4">
           <button type="button" onClick={() => navigate('/admin/products')} className="flex-1 py-3 glass-card rounded-xl font-bold text-text-secondary">Cancelar</button>
-          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#39FF14', boxShadow: '0 0 10px rgba(57,255,20,0.4)' }}>
+          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#FFB347' }}>
             {saving ? 'Salvando...' : (editingProduct ? 'Atualizar' : 'Salvar Produto')}
           </button>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -12,6 +12,35 @@ const AuthModal = ({ onClose }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const modalRef = useRef(null);
+  const firstInputRef = useRef(null);
+
+  useEffect(() => {
+    firstInputRef.current?.focus();
+    const prev = document.activeElement;
+    return () => prev?.focus();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,13 +58,24 @@ const AuthModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(5,5,5,0.85)', backdropFilter: 'blur(8px)' }}>
-      <div className="w-full max-w-sm rounded-xl" style={{ backgroundColor: '#FDFDFD' }}>
-        <div className="p-8">
-          <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-lg hover:bg-black/5 transition-colors" style={{ color: '#94A3B8' }}>
-            <X size={20} />
-          </button>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(5,5,5,0.85)', backdropFilter: 'blur(8px)' }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Acessar Painel Admin"
+        className="w-full max-w-sm rounded-xl relative"
+        style={{ backgroundColor: '#FDFDFD' }}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-lg hover:bg-black/5 transition-colors z-10" style={{ color: '#94A3B8' }} aria-label="Fechar">
+          <X size={20} />
+        </button>
 
+        <div className="p-8">
           <div className="flex flex-col items-center mb-8">
             <Logo size={48} />
             <h2 className="text-xl font-black mt-4" style={{ color: '#1A2238' }}>Acessar Painel</h2>
@@ -44,7 +84,7 @@ const AuthModal = ({ onClose }) => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 rounded-lg text-sm font-medium text-center" style={{ backgroundColor: '#FEF2F2', color: '#DC2626' }}>
+              <div className="p-3 rounded-lg text-sm font-medium text-center" style={{ backgroundColor: '#FEF2F2', color: '#DC2626' }} role="alert">
                 {error}
               </div>
             )}
@@ -54,6 +94,7 @@ const AuthModal = ({ onClose }) => {
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#94A3B8' }} />
                 <input
+                  ref={firstInputRef}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
