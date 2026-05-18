@@ -598,32 +598,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         />
       </div>
 
-      {/* Banner Promocional - ML Style */}
-      <section className="py-2 sm:py-3" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#1A2238', aspectRatio: '4/1' }}>
-            <img src={BANNER_DATA.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
-            <div className="relative z-10 flex items-center h-full px-5 md:px-10">
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.15em] block mb-1" style={{ color: '#FFB347' }}>
-                  <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
-                </span>
-                <h2 className="text-sm sm:text-lg md:text-2xl font-black text-white leading-tight">{BANNER_DATA.title}</h2>
-                <p className="text-xs sm:text-sm md:text-lg font-bold mt-0.5 mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>{BANNER_DATA.subtitle}</p>
-                <button
-                  onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="px-3.5 py-1.5 md:px-5 md:py-2 rounded-lg font-bold text-[10px] md:text-xs transition-all hover:brightness-110 active:scale-95"
-                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                >
-                  Ver Oferta
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Ofertas - ML Style */}
       {offerProducts.length > 0 && (
         <section id="ofertas" className="py-6 sm:py-8" style={{ backgroundColor: '#F5F3F0', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
@@ -683,39 +657,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </section>
       )}
-
-      {/* Cupons - ML Style */}
-      <section id="cupons" className="py-6 sm:py-8" style={{ backgroundColor: '#1A2238' }}>
-        <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#FFB347' }}>
-              <Percent size={14} style={{ color: '#1A2238' }} />
-            </div>
-            <h2 className="text-sm sm:text-lg font-black text-white">Cupons</h2>
-          </div>
-          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
-            {COUPONS_DATA.map(coupon => (
-              <div
-                key={coupon.id}
-                className="flex-shrink-0 snap-start w-[220px] sm:w-[260px] rounded-xl p-4 flex items-center justify-between gap-3"
-                style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
-              >
-                <div>
-                  <p className="text-base sm:text-lg font-black text-white tracking-tight">{coupon.code}</p>
-                  <p className="text-xs font-bold mt-0.5" style={{ color: '#FFB347' }}>{coupon.discount}</p>
-                </div>
-                <button
-                  onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                  className="flex-shrink-0 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all hover:brightness-110 active:scale-95"
-                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                >
-                  Copiar
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Category Carousel - mobile only */}
       <section className="lg:hidden" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
