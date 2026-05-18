@@ -29,6 +29,12 @@ const COUPONS_DATA = [
   { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF' },
 ];
 
+const BANNER_DATA = {
+  title: 'Smartwatch Pro',
+  subtitle: '30% OFF',
+  image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
+};
+
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -391,6 +397,32 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
         onViewDetail={(p) => onViewDetail(p)}
       />
+
+      {/* Banner Promocional - ML Style */}
+      <section className="py-2 sm:py-3" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#1A2238', aspectRatio: '4/1' }}>
+            <img src={BANNER_DATA.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
+            <div className="relative z-10 flex items-center h-full px-5 md:px-10">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.15em] block mb-1" style={{ color: '#FFB347' }}>
+                  <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
+                </span>
+                <h2 className="text-sm sm:text-lg md:text-2xl font-black text-white leading-tight">{BANNER_DATA.title}</h2>
+                <p className="text-xs sm:text-sm md:text-lg font-bold mt-0.5 mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>{BANNER_DATA.subtitle}</p>
+                <button
+                  onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-3.5 py-1.5 md:px-5 md:py-2 rounded-lg font-bold text-[10px] md:text-xs transition-all hover:brightness-110 active:scale-95"
+                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                >
+                  Ver Oferta
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Ofertas - ML Style */}
       {offerProducts.length > 0 && (
