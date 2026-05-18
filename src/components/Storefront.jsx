@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal, Sparkles, ShoppingBag } from 'lucide-react';
 import ProductCard from './ProductCard';
 import FeaturedProducts from './FeaturedProducts';
 import CartSidebar from './CartSidebar';
@@ -36,11 +36,12 @@ const BANNER_DATA = {
 };
 
 const ACCESS_CARDS = [
-  { icon: Truck, label: 'Frete Grátis' },
-  { icon: CreditCard, label: 'Pagamento' },
-  { icon: Shield, label: 'Garantia' },
-  { icon: Star, label: 'Destaques' },
-  { icon: Percent, label: 'Cupons' },
+  { icon: Truck, title: 'Frete grátis', desc: 'Entregas via Uber Flash em Crato - CE. Consulte prazos.' },
+  { icon: ShoppingBag, title: 'Menos de R$100', desc: 'Produtos com preços imperdíveis para você.' },
+  { icon: CreditCard, title: 'Meios de pagamento', desc: 'Pague com cartão, PIX ou dinheiro na entrega.' },
+  { icon: Star, title: 'Mais vendidos', desc: 'Os favoritos dos nossos clientes.' },
+  { icon: Shield, title: 'Compra garantida', desc: 'Sua compra 100% protegida. Devolução grátis.' },
+  { icon: Percent, title: 'Cupons exclusivos', desc: 'Descontos especiais para você economizar.' },
 ];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
@@ -66,6 +67,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [categoryIcons, setCategoryIcons] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselInterval = useRef(null);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const offerProducts = useMemo(() => {
     return products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 10);
@@ -263,7 +269,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   ];
 
   return (
-    <div className="min-h-screen grid-bg" style={{ backgroundColor: '#FDFDFD' }}>
+    <div className="min-h-screen grid-bg" style={{ backgroundColor: '#ebebeb' }}>
       <Toast message={toastMessage} isVisible={toastVisible} onClose={() => setToastVisible(false)} />
       
       {authModalOpen && <CustomerAuthModal onClose={() => setAuthModalOpen(false)} />}
@@ -281,20 +287,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         products={products}
       />
 
-      {/* Delivery Banner */}
-      <div className="py-2 text-center text-xs font-semibold relative overflow-hidden" style={{ backgroundColor: 'rgba(90,158,90,0.08)', color: 'var(--color-neon-green)' }}>
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-center gap-2 text-xs font-semibold" style={{ color: '#1A2238' }}>
-          <Truck size={14} className="flex-shrink-0" style={{ color: '#FFB347' }} /> <span>Entregas via Uber Flash em Crato - CE</span>
-          <span className="hidden sm:inline">•</span>
-          <span className="hidden sm:inline">Retirada grátis no centro do Crato</span>
-        </div>
-      </div>
-
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="max-w-7xl mx-auto px-3 lg:px-8">
+      {/* Header - ML Style */}
+      <header className="sticky top-0 z-40 bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Line 1: Logo + Search + User + Cart */}
           <div className="flex items-center justify-between h-14 lg:h-16 gap-2 lg:gap-4">
-            {/* Logo Faciil Original */}
             <button
               onClick={() => { navigate('/'); window.scrollTo({ top: 0 }); }}
               className="flex items-center gap-1 lg:gap-2 flex-shrink-0 hover:opacity-80 transition-opacity"
@@ -303,7 +300,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <span className="font-black text-base lg:text-xl tracking-tight" style={{ color: '#1A2238' }}>fac<span style={{ color: '#FFB347', letterSpacing: '-1px' }}>ii</span>l</span>
             </button>
 
-            {/* Busca - hidden em mobile */}
             <div className="hidden md:flex flex-1 max-w-xl" ref={searchRef}>
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={16} style={{ color: '#94A3B8' }} />
@@ -349,17 +345,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               </div>
             </div>
 
-            {/* Botões */}
             <div className="flex items-center gap-1 lg:gap-2">
-              {/* Busca no mobile */}
-              <button 
+              <button
                 onClick={() => setMobileSearchOpen(true)}
                 className="md:hidden p-2 rounded-xl transition-all hover:bg-black/5"
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}
               >
                 <Search size={18} style={{ color: '#1A2238' }} />
               </button>
-              
+
               {customer ? (
                 <div className="relative">
                   <button
@@ -418,88 +412,154 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               </button>
             </div>
           </div>
+
+          {/* Line 2: Location + Nav Links - desktop only */}
+          <div className="hidden lg:flex items-center gap-4 text-xs pb-2 pt-2 border-t border-gray-100">
+            <div className="flex items-center gap-1 cursor-pointer hover:text-gray-900 shrink-0" style={{ color: '#64748B' }}>
+              <Truck size={14} style={{ color: '#FFB347' }} />
+              <span className="font-medium">Crato-CE</span>
+            </div>
+            <span style={{ color: '#CBD5E1' }}>|</span>
+            <button onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
+              Categorias
+            </button>
+            <button onClick={() => scrollToSection('destaques')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
+              Destaques
+            </button>
+            <button onClick={() => scrollToSection('ofertas')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
+              Ofertas
+            </button>
+            <button onClick={() => scrollToSection('cupons')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
+              Cupons
+            </button>
+            <button onClick={() => navigate('/admin')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
+              Vender
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Hero Carrossel - ML Style */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
-        <div className="relative" style={{ aspectRatio: '3/1' }}>
+      <section className="relative overflow-hidden w-full" style={{ backgroundColor: '#1A2238' }}>
+        <div className="relative h-[340px] md:h-[400px]">
           <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {heroSlides.map((item, idx) => (
               <div key={`${item.type}-${item.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
-                {item.type === 'product' && item.product ? (
-                  <>
-                    {(() => {
-                      const img = item.product.image || item.product.images?.[0];
-                      return img && !img.startsWith('blob:') ? (
-                        <img src={img} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                      ) : null;
-                    })()}
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.15em] mb-2 block" style={{ color: '#FFB347' }}>Oferta</span>
-                        <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight max-w-lg">{item.product.name}</h2>
-                        {item.product.originalPrice ? (
-                          <div className="flex items-baseline gap-2 mt-2 mb-3">
-                            <p className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
-                            <p className="text-sm line-through" style={{ color: '#94A3B8' }}>R$ {item.product.originalPrice.toFixed(2)}</p>
-                          </div>
-                        ) : (
-                          <p className="text-2xl sm:text-3xl md:text-4xl font-black mt-2 mb-3" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
-                        )}
+                {/* Decorative blur circles */}
+                <div className="absolute top-[-10%] left-[5%] w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(255,179,71,0.2)' }}></div>
+                <div className="absolute bottom-[-10%] right-[10%] w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}></div>
+                <div className="absolute top-[20%] right-[35%] w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}></div>
+
+                <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10">
+                  {item.type === 'product' && item.product ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 items-center h-full gap-6">
+                      {/* Left: Floating Product */}
+                      <div className="relative flex justify-center items-center order-2 md:order-1">
+                        <div className="absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                        {(() => {
+                          const img = item.product.image || item.product.images?.[0];
+                          const discount = item.product.originalPrice
+                            ? Math.round(((item.product.originalPrice - item.product.price) / item.product.originalPrice) * 100)
+                            : 0;
+                          return img && !img.startsWith('blob:') ? (
+                            <>
+                              <img
+                                src={img}
+                                alt=""
+                                className="relative z-10 w-40 sm:w-64 md:w-72 object-contain transform -rotate-12 hover:rotate-0 transition-transform duration-500 cursor-pointer"
+                                style={{ filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.35))' }}
+                              />
+                              {discount > 0 && (
+                                <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg border-2 border-white text-[10px] sm:text-xs font-black uppercase tracking-wider"
+                                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                                >
+                                  <Percent size={10} />
+                                  <span>-{discount}%</span>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <div className="relative z-10 w-40 sm:w-64 h-40 sm:h-64 flex items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                              <Package size={48} style={{ color: '#FFB347' }} />
+                            </div>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Right: Text Content */}
+                      <div className="text-center md:text-left order-1 md:order-2">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-widest mb-3"
+                          style={{ backgroundColor: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }}
+                        >
+                          <Sparkles size={10} /> Oferta
+                        </span>
+                        <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight max-w-lg">
+                          {item.product.name}
+                        </h2>
+                        <div className="flex items-center gap-2 mt-2 mb-4 justify-center md:justify-start">
+                          <p className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FFB347' }}>
+                            R$ {item.product.price.toFixed(2)}
+                          </p>
+                          {item.product.originalPrice && (
+                            <p className="text-sm line-through" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                              R$ {item.product.originalPrice.toFixed(2)}
+                            </p>
+                          )}
+                        </div>
                         <button
                           onClick={() => onViewDetail(item.product)}
-                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          className="px-6 py-2.5 md:px-7 md:py-3 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Ver Produto
                         </button>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.15em] mb-2 block" style={{ color: '#FFB347' }}>Cupom</span>
-                        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tight">{item.code}</h2>
-                        <p className="text-lg sm:text-xl md:text-2xl font-bold mt-1 mb-3" style={{ color: '#FFB347' }}>{item.discount}</p>
-                        <button
-                          onClick={() => { navigator.clipboard.writeText(item.code); setToastVisible(true); setToastMessage(`Cupom ${item.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
-                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                        >
-                          Copiar Cupom
-                        </button>
+                  ) : (
+                    <>
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
+                      <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
+                      <div className="relative z-10 flex items-center justify-center h-full">
+                        <div className="text-center">
+                          <span className="text-xs font-bold uppercase tracking-[0.15em] mb-2 block" style={{ color: '#FFB347' }}>Cupom</span>
+                          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight">{item.code}</h2>
+                          <p className="text-lg sm:text-xl md:text-2xl font-bold mt-1 mb-3" style={{ color: '#FFB347' }}>{item.discount}</p>
+                          <button
+                            onClick={() => { navigator.clipboard.writeText(item.code); setToastVisible(true); setToastMessage(`Cupom ${item.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                            className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                          >
+                            Copiar Cupom
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                    </>
+                  )}
+                </div>
               </div>
             ))}
           </div>
 
           {heroSlides.length > 1 && (
             <>
-              <button onClick={prevSlide} className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
-                <ChevronLeft size={18} style={{ color: '#1A2238' }} />
+              <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
+                style={{ backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', color: '#FFFFFF' }}>
+                <ChevronLeft size={24} />
               </button>
-              <button onClick={nextSlide} className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
-                <ChevronRight size={18} style={{ color: '#1A2238' }} />
+              <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
+                style={{ backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', color: '#FFFFFF' }}>
+                <ChevronRight size={24} />
               </button>
             </>
           )}
 
-          <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
             {heroSlides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => { setCurrentSlide(i); clearInterval(carouselInterval.current); carouselInterval.current = setInterval(nextSlide, 5000); }}
-                className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-3 h-3' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
-                style={{ backgroundColor: i === currentSlide ? '#FFB347' : undefined }}
+                className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-6 h-2' : 'w-2 h-2'}`}
+                style={{ backgroundColor: i === currentSlide ? '#FFB347' : 'rgba(255,255,255,0.4)' }}
               />
             ))}
           </div>
@@ -507,30 +567,36 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       </section>
 
       {/* Grid de Atalhos - ML Style */}
-      <section className="py-4 sm:py-6" style={{ backgroundColor: '#FFFFFF' }}>
+      <section className="relative z-30 -mt-12 pb-4">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {ACCESS_CARDS.map((card, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 snap-start w-[130px] sm:w-[140px] rounded-xl p-3.5 sm:p-4 flex flex-col items-center text-center gap-2 transition-all hover:shadow-md cursor-pointer"
-                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
+                className="bg-white rounded-lg p-4 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col items-center text-center group min-h-[200px]"
               >
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(255,179,71,0.1)' }}>
-                  <card.icon size={20} style={{ color: '#FFB347' }} />
+                <h4 className="text-sm font-semibold leading-snug w-full text-left pb-2 border-b border-gray-100 transition-colors group-hover:text-[#1A2238]" style={{ color: '#1A2238' }}>
+                  {card.title}
+                </h4>
+                <div className="my-2 flex items-center justify-center transform group-hover:scale-110 transition-transform">
+                  <card.icon size={56} style={{ color: '#FFB347' }} />
                 </div>
-                <span className="text-[11px] sm:text-sm font-bold leading-tight" style={{ color: '#1A2238' }}>{card.label}</span>
+                <p className="text-xs leading-tight" style={{ color: '#64748B' }}>
+                  {card.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <FeaturedProducts
-        products={products}
-        onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
-        onViewDetail={(p) => onViewDetail(p)}
-      />
+      <div id="destaques">
+        <FeaturedProducts
+          products={products}
+          onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+          onViewDetail={(p) => onViewDetail(p)}
+        />
+      </div>
 
       {/* Banner Promocional - ML Style */}
       <section className="py-2 sm:py-3" style={{ backgroundColor: '#FFFFFF' }}>
@@ -560,7 +626,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Ofertas - ML Style */}
       {offerProducts.length > 0 && (
-        <section className="py-6 sm:py-8" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <section id="ofertas" className="py-6 sm:py-8" style={{ backgroundColor: '#F5F3F0', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
           <div className="max-w-7xl mx-auto px-4 lg:px-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
@@ -619,20 +685,20 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       )}
 
       {/* Cupons - ML Style */}
-      <section className="py-4 sm:py-5" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+      <section id="cupons" className="py-6 sm:py-8" style={{ backgroundColor: '#1A2238' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-4">
             <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#FFB347' }}>
               <Percent size={14} style={{ color: '#1A2238' }} />
             </div>
-            <h2 className="text-sm sm:text-lg font-black" style={{ color: '#1A2238' }}>Cupons</h2>
+            <h2 className="text-sm sm:text-lg font-black text-white">Cupons</h2>
           </div>
           <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
             {COUPONS_DATA.map(coupon => (
               <div
                 key={coupon.id}
                 className="flex-shrink-0 snap-start w-[220px] sm:w-[260px] rounded-xl p-4 flex items-center justify-between gap-3"
-                style={{ backgroundColor: '#1A2238' }}
+                style={{ backgroundColor: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
               >
                 <div>
                   <p className="text-base sm:text-lg font-black text-white tracking-tight">{coupon.code}</p>
