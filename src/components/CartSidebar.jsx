@@ -205,8 +205,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
     <>
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" onClick={onClose} />
 
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 flex flex-col" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
-        <div className="flex items-center justify-between p-4" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+      <div className="fixed right-0 top-0 h-full w-full max-w-md lg:max-w-lg xl:max-w-xl bg-white z-50 flex flex-col" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="flex items-center justify-between p-4 lg:p-5" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
               <ShoppingBag size={20} style={{ color: '#1A2238' }} />
@@ -238,10 +238,10 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
               </button>
             </div>
           ) : (
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-3 lg:space-y-4">
               {cart.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-                  <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0" style={{ backgroundColor: '#F1F5F9' }}>
+                <div key={item.id} className="flex gap-3 lg:gap-4 p-3 lg:p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div className="w-20 h-20 lg:w-[100px] lg:h-[100px] rounded-xl overflow-hidden flex-shrink-0" style={{ backgroundColor: '#F1F5F9' }}>
                     {(() => {
                       const img = item.image || item.images?.[0];
                       return img && !img.startsWith('blob:') ? (
@@ -254,8 +254,8 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                     })()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-sm line-clamp-2" style={{ color: '#1A2238' }}>{item.name}</h4>
-                    <p className="text-sm font-extrabold mt-1" style={{ color: '#1A2238' }}>
+                    <h4 className="font-bold text-sm lg:text-base line-clamp-2" style={{ color: '#1A2238' }}>{item.name}</h4>
+                    <p className="text-sm lg:text-base font-extrabold mt-1" style={{ color: '#1A2238' }}>
                       R$ {(item.price * item.quantity).toFixed(2)}
                     </p>
                     <div className="flex items-center justify-between mt-2">
@@ -289,12 +289,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                 </div>
               ))}
 
-              <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setDeliveryMethod('delivery')}
-                    className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
+                    className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'delivery'
                       ? { backgroundColor: '#FFB347', color: '#1A2238' }
                       : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
@@ -305,7 +305,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                   </button>
                   <button
                     onClick={() => setDeliveryMethod('pickup')}
-                    className="p-3 rounded-xl text-xs font-bold flex flex-col items-center gap-2 transition-all"
+                    className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
                     style={deliveryMethod === 'pickup'
                       ? { backgroundColor: '#FFB347', color: '#1A2238' }
                       : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
@@ -321,14 +321,14 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
               </div>
 
               {cart.length > 0 && (
-                <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                <div className="p-4 lg:p-5 rounded-xl space-y-3 lg:space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
+                    <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
                     <input
                       type="text"
                       value={customerName}
                       onChange={(e) => { setCustomerName(e.target.value); if (errors.customerName) setErrors(prev => ({ ...prev, customerName: null })); }}
-                      className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                      className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
                       style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.customerName ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                       placeholder="Digite seu nome"
                     />
@@ -336,12 +336,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Telefone</label>
+                    <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Telefone</label>
                     <input
                       type="tel"
                       value={customerPhone}
                       onChange={(e) => setCustomerPhone(e.target.value)}
-                      className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                      className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
                       style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                       placeholder="(88) 99999-9999"
                     />
@@ -350,12 +350,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                   {deliveryMethod === 'delivery' && (
                     <>
                       <div className="space-y-2">
-                        <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Bairro</label>
+                        <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Bairro</label>
                         <input
                           type="text"
                           value={neighborhood}
                           onChange={(e) => { setNeighborhood(e.target.value); if (errors.neighborhood) setErrors(prev => ({ ...prev, neighborhood: null })); }}
-                          className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                          className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
                           style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.neighborhood ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                           placeholder="Seu bairro"
                         />
@@ -363,24 +363,24 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                       </div>
                       <div className="flex gap-2">
                         <div className="flex-1 space-y-2">
-                          <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Endereço</label>
+                          <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Endereço</label>
                           <input
                             type="text"
                             value={address}
                             onChange={(e) => { setAddress(e.target.value); if (errors.address) setErrors(prev => ({ ...prev, address: null })); }}
-                            className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                            className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
                             style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.address ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                             placeholder="Rua, Avenida..."
                           />
                           {errors.address && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.address}</p>}
                         </div>
-                        <div className="w-20 space-y-2">
-                          <label className="text-xs font-bold" style={{ color: '#1A2238' }}>Nº</label>
+                        <div className="w-20 lg:w-28 space-y-2">
+                          <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Nº</label>
                           <input
                             type="text"
                             value={addressNumber}
                             onChange={(e) => { setAddressNumber(e.target.value); if (errors.addressNumber) setErrors(prev => ({ ...prev, addressNumber: null })); }}
-                            className="w-full px-3 py-3 rounded-xl text-sm outline-none"
+                            className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
                             style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.addressNumber ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
                             placeholder="Nº"
                           />
@@ -392,7 +392,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                 </div>
               )}
 
-              <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <div className="flex items-center gap-2">
                   <Tag size={16} style={{ color: '#FFB347' }} />
                   <span className="text-sm font-bold" style={{ color: '#1A2238' }}>Cupom de Desconto</span>
@@ -431,7 +431,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
         </div>
 
         {cart.length > 0 && (
-          <div className="p-4 space-y-4" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', backgroundColor: '#F8FAFC' }}>
+          <div className="p-4 lg:p-5 space-y-4 lg:space-y-5" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', backgroundColor: '#F8FAFC' }}>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between" style={{ color: '#94A3B8' }}>
                 <span>Subtotal</span>
@@ -453,7 +453,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                   <span className="font-bold">-R$ {discount.toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-lg font-black pt-2" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}>
+              <div className="flex justify-between text-lg lg:text-xl font-black pt-2" style={{ borderTop: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}>
                 <span>Total</span>
                 <span>R$ {total.toFixed(2)}</span>
               </div>
@@ -461,10 +461,10 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
             </div>
 
             {suggestions.length > 0 && (
-              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FFFBEB', border: '1px solid rgba(255,179,71,0.15)' }}>
+              <div className="p-3 lg:p-4 rounded-xl" style={{ backgroundColor: '#FFFBEB', border: '1px solid rgba(255,179,71,0.15)' }}>
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <Star size={13} fill="#FFB347" style={{ color: '#FFB347' }} />
-                  <span className="text-xs font-bold" style={{ color: '#1A2238' }}>Aproveite também</span>
+                  <span className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Aproveite também</span>
                 </div>
                 <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
                   {suggestions.map(p => {
@@ -472,10 +472,10 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                     return (
                       <div
                         key={p.id}
-                        className="flex-shrink-0 w-[120px] rounded-lg overflow-hidden"
+                        className="flex-shrink-0 w-[120px] lg:w-[160px] rounded-lg overflow-hidden"
                         style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
                       >
-                        <div className="w-full h-16 overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+                        <div className="w-full h-16 lg:h-20 overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
                           {img && !img.startsWith('blob:') ? (
                             <img src={img} alt={p.name} className="w-full h-full object-cover" />
                           ) : (
@@ -484,12 +484,12 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                             </div>
                           )}
                         </div>
-                        <div className="p-1.5 space-y-1">
-                          <p className="text-[10px] font-medium leading-tight line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</p>
-                          <p className="text-[10px] font-extrabold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
+                        <div className="p-1.5 lg:p-2 space-y-1">
+                          <p className="text-[10px] lg:text-xs font-medium leading-tight line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</p>
+                          <p className="text-[10px] lg:text-xs font-extrabold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
                           <button
                             onClick={() => onAddToCart(p)}
-                            className="w-full py-1 rounded-md text-[9px] font-bold"
+                            className="w-full py-1 lg:py-1.5 rounded-md text-[9px] lg:text-[11px] font-bold"
                             style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                           >
                             + Adicionar
@@ -504,7 +504,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
 
             <button
               onClick={handleWhatsAppCheckout}
-              className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+              className="w-full py-4 lg:py-5 rounded-xl font-bold text-sm lg:text-base flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
               style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 12px rgba(255,179,71,0.3)' }}
             >
               <MessageCircle size={18} />
