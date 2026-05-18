@@ -58,10 +58,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const searchRef = useRef(null);
   const [searchFocused, setSearchFocused] = useState(false);
 
-  const suggestions = useMemo(() => {
-    if (searchTerm.length < 2) return [];
-    return filteredProducts.slice(0, 6);
-  }, [filteredProducts, searchTerm]);
   const [categoryIcons, setCategoryIcons] = useState({});
 
   useEffect(() => {
@@ -160,6 +156,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
     return result;
   }, [products, searchTerm, selectedCategory, sortBy]);
+
+  const suggestions = useMemo(() => {
+    if (searchTerm.length < 2) return [];
+    return filteredProducts.slice(0, 6);
+  }, [filteredProducts, searchTerm]);
 
   const testimonials = [
     { name: "João Silva", text: "Produto chegou super rápido pelo Uber Flash! Qualidade excelente.", rating: 5 },
