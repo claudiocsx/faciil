@@ -22,18 +22,11 @@ const ICONS_MAP = {
   'default': Package,
 };
 
-const CAROUSEL_OFFERS = [
-  { id: 1, title: 'Smartwatch Pro', subtitle: '30% OFF', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
-  { id: 2, title: 'Fone Bluetooth', subtitle: '25% OFF', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
-  { id: 3, title: 'Carregador Turbo', subtitle: '20% OFF', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
-  { id: 4, title: 'Capa Premium', subtitle: '15% OFF', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=400&q=80', link: '#products-section' },
-];
-
-const CAROUSEL_COUPONS = [
-  { id: 1, code: 'FACIIL10', discount: '10% OFF', color: '#1A2238' },
-  { id: 2, code: 'PRIMEIRA', discount: '15% OFF', color: '#FFB347' },
-  { id: 3, code: 'TECNOLOGIA', discount: '20% OFF', color: '#1A2238' },
-  { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF', color: '#FFB347' },
+const COUPONS_DATA = [
+  { id: 1, code: 'FACIIL10', discount: '10% OFF' },
+  { id: 2, code: 'PRIMEIRA', discount: '15% OFF' },
+  { id: 3, code: 'TECNOLOGIA', discount: '20% OFF' },
+  { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF' },
 ];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
@@ -44,27 +37,19 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [priceRange, setPriceRange] = useState({ min: '', max: '' });
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [sortBy, setSortBy] = useState('featured');
-  const [showOffers, setShowOffers] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const { customer, customerLogout } = useCustomerAuth();
-  const [currentCarousel, setCurrentCarousel] = useState(0);
-  const [bannerOffers, setBannerOffers] = useState([]);
-  const [bannerCoupons, setBannerCoupons] = useState([]);
-  const [bannersLoading, setBannersLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(12);
   const [categories, setCategories] = useState(['Tudo']);
   const searchRef = useRef(null);
   const [searchFocused, setSearchFocused] = useState(false);
+  const offerScrollRef = useRef(null);
 
   const [categoryIcons, setCategoryIcons] = useState({});
-
-  useEffect(() => {
-    loadBanners();
-  }, []);
 
   const DEFAULT_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 
@@ -92,30 +77,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, []);
 
   useEffect(() => {
-    const total = getCarouselOffers().length + getCarouselCoupons().length;
-    if (total === 0) return;
-    const interval = setInterval(() => {
-      setCurrentCarousel((prev) => (prev + 1) % total);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [bannerOffers.length, bannerCoupons.length]);
-
-  const loadBanners = async () => {
-    try {
-      const offersSnap = await getDocs(collection(db, 'banners_offers'));
-      const couponsSnap = await getDocs(collection(db, 'coupons'));
-      setBannerOffers(offersSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-      setBannerCoupons(couponsSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-    } catch (err) {
-      console.error('Erro ao carregar banners:', err);
-    }
-    setBannersLoading(false);
-  };
-
-  const getCarouselOffers = () => bannerOffers.length > 0 ? bannerOffers : CAROUSEL_OFFERS;
-  const getCarouselCoupons = () => bannerCoupons.length > 0 ? bannerCoupons : CAROUSEL_COUPONS;
-
-  useEffect(() => {
     setVisibleCount(12);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [selectedCategories, searchTerm]);
@@ -130,17 +91,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const nextCarousel = () => {
-    const total = getCarouselOffers().length + getCarouselCoupons().length;
-    setCurrentCarousel((prev) => (prev + 1) % total);
-  };
-
-  const prevCarousel = () => {
-    const total = getCarouselOffers().length + getCarouselCoupons().length;
-    setCurrentCarousel((prev) => (prev - 1 + total) % total);
-  };
-
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const offerProducts = useMemo(() => {
+    return products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 10);
+  }, [products]);
 
   const filteredProducts = useMemo(() => {
     let result = products.filter(p => {
@@ -430,98 +385,105 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carrossel Principal - Full Width */}
-      <section className="pt-2">
-        <div className="relative group overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
-            <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
-              <div className="relative w-full" style={{ aspectRatio: '21/9' }}>
-                <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
-                {getCarouselOffers().map((offer) => {
-                  const hasText = offer.title || offer.subtitle;
-                  return (
-                  <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
-                    {offer.image && (
-                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                    )}
-                    {hasText && <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />}
-                    {hasText && (
-                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
-                      <div className="max-w-md">
-                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-2 md:mb-3 block" style={{ color: '#FFB347' }}>
-                          <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
-                        </span>
-                        {offer.title && <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[42px] font-black text-white leading-[1.1]">{offer.title}</h2>}
-                        {offer.subtitle && <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold mt-1.5 md:mt-2 mb-3 md:mb-5" style={{ color: '#FFB347' }}>{offer.subtitle}</p>}
-                        <button
-                          onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
-                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                        >
-                          Ver Oferta
-                        </button>
-                      </div>
-                    </div>
-                    )}
-                  </div>
-                  );
-                })}
-                {getCarouselCoupons().map((coupon) => (
-                  <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
-                      <div>
-                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-2 md:mb-3 block" style={{ color: '#FFB347' }}>
-                          {coupon.type === 'freight' ? <Truck size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} /> : <Percent size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />}Cupom
-                        </span>
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1]">{coupon.code}</h2>
-                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mt-1.5 md:mt-2 mb-3 md:mb-5" style={{ color: '#FFB347' }}>
-                          {coupon.type === 'freight' ? 'Frete Grátis' :
-                           coupon.type === 'percent' ? `${coupon.value}% OFF` :
-                           `R$ ${parseFloat(coupon.value).toFixed(2)} OFF`}
-                        </p>
-                        <button
-                          onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
-                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                        >
-                          Copiar Cupom
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* Produtos em Destaque - ML Style */}
+      <FeaturedProducts
+        products={products}
+        onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+        onViewDetail={(p) => onViewDetail(p)}
+      />
+
+      {/* Ofertas - ML Style */}
+      {offerProducts.length > 0 && (
+        <section className="py-6 sm:py-8" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+          <div className="max-w-7xl mx-auto px-4 lg:px-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#FFB347' }}>
+                  <Tag size={14} style={{ color: '#1A2238' }} />
+                </div>
+                <h2 className="text-sm sm:text-lg font-black" style={{ color: '#1A2238' }}>Ofertas</h2>
               </div>
             </div>
-
-            <button onClick={prevCarousel} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
-              <ChevronLeft size={16} style={{ color: '#1A2238' }} />
-            </button>
-            <button onClick={nextCarousel} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
-              <ChevronRight size={16} style={{ color: '#1A2238' }} />
-            </button>
-
-            <div className="absolute bottom-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2">
-              {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentCarousel(i)}
-                  className={`rounded-full transition-all duration-300 ${i === currentCarousel ? 'w-2.5 h-2.5' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
-                  style={{ backgroundColor: i === currentCarousel ? '#FFB347' : undefined }}
-                />
-              ))}
+            <div ref={offerScrollRef} className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory -mx-4 px-4">
+              {offerProducts.map(p => {
+                const img = p.image || p.images?.[0];
+                const discount = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
+                return (
+                  <div
+                    key={p.id}
+                    onClick={() => onViewDetail(p)}
+                    className="flex-shrink-0 snap-start w-[65vw] sm:w-[280px] rounded-xl overflow-hidden cursor-pointer transition-all hover:shadow-lg group"
+                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
+                  >
+                    <div className="relative w-full aspect-[4/3] overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+                      {img && !img.startsWith('blob:') ? (
+                        <img src={img} alt={p.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F1F5F9' }}>
+                          <Tag size={32} style={{ color: '#CBD5E1' }} />
+                        </div>
+                      )}
+                      <span className="absolute top-2 left-2 sm:top-3 sm:left-3 px-2.5 py-1 rounded-full text-[10px] font-black z-10" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                        -{discount}%
+                      </span>
+                    </div>
+                    <div className="p-2.5 sm:p-3 space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{p.category}</p>
+                      <h3 className="font-bold text-xs sm:text-sm line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</h3>
+                      <div className="flex items-baseline gap-2 pt-1">
+                        <p className="text-base sm:text-lg font-extrabold" style={{ color: '#1A2238' }}>R$ {p.price?.toFixed(2)}</p>
+                        {p.originalPrice && (
+                          <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>R$ {p.originalPrice.toFixed(2)}</p>
+                        )}
+                      </div>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
+                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                        style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                      >
+                        Adicionar
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-      </section>
+        </section>
+      )}
 
-      <div className="relative z-10 -mt-2 sm:-mt-4 lg:-mt-8">
-          <FeaturedProducts
-          products={products}
-          onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
-          onViewDetail={(p) => onViewDetail(p)}
-        />
-      </div>
+      {/* Cupons - ML Style */}
+      <section className="py-4 sm:py-5" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#FFB347' }}>
+              <Percent size={14} style={{ color: '#1A2238' }} />
+            </div>
+            <h2 className="text-sm sm:text-lg font-black" style={{ color: '#1A2238' }}>Cupons</h2>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
+            {COUPONS_DATA.map(coupon => (
+              <div
+                key={coupon.id}
+                className="flex-shrink-0 snap-start w-[220px] sm:w-[260px] rounded-xl p-4 flex items-center justify-between gap-3"
+                style={{ backgroundColor: '#1A2238' }}
+              >
+                <div>
+                  <p className="text-base sm:text-lg font-black text-white tracking-tight">{coupon.code}</p>
+                  <p className="text-xs font-bold mt-0.5" style={{ color: '#FFB347' }}>{coupon.discount}</p>
+                </div>
+                <button
+                  onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                  className="flex-shrink-0 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all hover:brightness-110 active:scale-95"
+                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                >
+                  Copiar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Category Carousel - mobile only */}
       <section className="lg:hidden" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>

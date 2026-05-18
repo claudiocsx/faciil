@@ -14,7 +14,7 @@ const FeaturedProducts = ({ products, onAddToCart, onViewDetail }) => {
   };
 
   return (
-    <section className="py-4 sm:py-6" style={{ backgroundColor: '#FFFBEB', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+    <section className="py-6 sm:py-8" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between mb-3 sm:mb-4">
           <div className="flex items-center gap-2">
