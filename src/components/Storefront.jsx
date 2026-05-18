@@ -434,7 +434,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <section className="pt-2">
         <div className="relative group overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
             <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
-              <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
+              <div className="relative w-full" style={{ aspectRatio: '21/9' }}>
                 <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {getCarouselOffers().map((offer) => {
                   const hasText = offer.title || offer.subtitle;
