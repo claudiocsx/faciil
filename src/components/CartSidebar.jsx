@@ -289,48 +289,6 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                 </div>
               ))}
 
-              {suggestions.length > 0 && (
-                <div className="p-3 rounded-xl" style={{ backgroundColor: '#FFFBEB', border: '1px solid rgba(255,179,71,0.15)' }}>
-                  <div className="flex items-center gap-1.5 mb-2.5">
-                    <Star size={13} fill="#FFB347" style={{ color: '#FFB347' }} />
-                    <span className="text-xs font-bold" style={{ color: '#1A2238' }}>Quem comprou, também comprou</span>
-                  </div>
-                  <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                    {suggestions.map(p => {
-                      const img = p.image || p.images?.[0];
-                      return (
-                        <div
-                          key={p.id}
-                          className="flex-shrink-0 w-[120px] rounded-lg overflow-hidden"
-                          style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
-                        >
-                          <div className="w-full h-16 overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
-                            {img && !img.startsWith('blob:') ? (
-                              <img src={img} alt={p.name} className="w-full h-full object-cover" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <ShoppingBag size={16} style={{ color: '#CBD5E1' }} />
-                              </div>
-                            )}
-                          </div>
-                          <div className="p-1.5 space-y-1">
-                            <p className="text-[10px] font-medium leading-tight line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</p>
-                            <p className="text-[10px] font-extrabold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
-                            <button
-                              onClick={() => onUpdateQuantity(p.id, 1, p.stock)}
-                              className="w-full py-1 rounded-md text-[9px] font-bold"
-                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                            >
-                              + Adicionar
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
               <div className="p-4 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                 <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
                 <div className="grid grid-cols-2 gap-2">
@@ -501,6 +459,48 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
               </div>
               <p className="text-xs text-center" style={{ color: '#94A3B8' }}>ou 3x de R$ {(total / 3).toFixed(2)} sem juros</p>
             </div>
+
+            {suggestions.length > 0 && (
+              <div className="p-3 rounded-xl" style={{ backgroundColor: '#FFFBEB', border: '1px solid rgba(255,179,71,0.15)' }}>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <Star size={13} fill="#FFB347" style={{ color: '#FFB347' }} />
+                  <span className="text-xs font-bold" style={{ color: '#1A2238' }}>Aproveite também</span>
+                </div>
+                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+                  {suggestions.map(p => {
+                    const img = p.image || p.images?.[0];
+                    return (
+                      <div
+                        key={p.id}
+                        className="flex-shrink-0 w-[120px] rounded-lg overflow-hidden"
+                        style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}
+                      >
+                        <div className="w-full h-16 overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+                          {img && !img.startsWith('blob:') ? (
+                            <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <ShoppingBag size={16} style={{ color: '#CBD5E1' }} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-1.5 space-y-1">
+                          <p className="text-[10px] font-medium leading-tight line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</p>
+                          <p className="text-[10px] font-extrabold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
+                          <button
+                            onClick={() => onUpdateQuantity(p.id, 1, p.stock)}
+                            className="w-full py-1 rounded-md text-[9px] font-bold"
+                            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                          >
+                            + Adicionar
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             <button
               onClick={handleWhatsAppCheckout}
