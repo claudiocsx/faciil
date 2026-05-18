@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal } from 'lucide-react';
 import ProductCard from './ProductCard';
 import FeaturedProducts from './FeaturedProducts';
 import CartSidebar from './CartSidebar';
@@ -40,7 +40,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('Tudo');
+  const [selectedCategories, setSelectedCategories] = useState(['Tudo']);
+  const [priceRange, setPriceRange] = useState({ min: '', max: '' });
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [sortBy, setSortBy] = useState('featured');
   const [showOffers, setShowOffers] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
@@ -116,7 +118,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   useEffect(() => {
     setVisibleCount(12);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [selectedCategory, searchTerm]);
+  }, [selectedCategories, searchTerm]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -141,10 +143,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const filteredProducts = useMemo(() => {
-    let result = products.filter(p =>
-      (selectedCategory === 'Tudo' || p.category === selectedCategory) &&
-      p.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let result = products.filter(p => {
+      const catMatch = selectedCategories.includes('Tudo') || selectedCategories.includes(p.category);
+      const searchMatch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const minMatch = priceRange.min === '' || p.price >= Number(priceRange.min);
+      const maxMatch = priceRange.max === '' || p.price <= Number(priceRange.max);
+      return catMatch && searchMatch && minMatch && maxMatch;
+    });
 
     switch (sortBy) {
       case 'price-asc': result.sort((a, b) => a.price - b.price); break;
@@ -155,12 +160,108 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     }
 
     return result;
-  }, [products, searchTerm, selectedCategory, sortBy]);
+  }, [products, searchTerm, selectedCategories, sortBy, priceRange]);
 
   const suggestions = useMemo(() => {
     if (searchTerm.length < 2) return [];
     return filteredProducts.slice(0, 6);
   }, [filteredProducts, searchTerm]);
+
+  const toggleCategory = (cat) => {
+    setVisibleCount(12);
+    if (cat === 'Tudo') {
+      setSelectedCategories(['Tudo']);
+    } else {
+      let current = selectedCategories.filter(c => c !== 'Tudo');
+      if (current.includes(cat)) {
+        current = current.filter(c => c !== cat);
+      } else {
+        current = [...current, cat];
+      }
+      setSelectedCategories(current.length === 0 ? ['Tudo'] : current);
+    }
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories(['Tudo']);
+    setSearchTerm('');
+    setPriceRange({ min: '', max: '' });
+  };
+
+  const renderFilterContent = () => (
+    <div className="space-y-6">
+      {/* Categorias */}
+      <div>
+        <h3 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: '#1A2238' }}>Categorias</h3>
+        <div className="space-y-1">
+          {categories.map(cat => (
+            <label key={cat} className="flex items-center gap-2 px-2 py-1.5 rounded-lg cursor-pointer hover:bg-black/5 transition-colors">
+              <input
+                type="checkbox"
+                checked={selectedCategories.includes(cat)}
+                onChange={() => toggleCategory(cat)}
+                className="rounded"
+                style={{ accentColor: '#FFB347' }}
+              />
+              <span className="text-sm text-text-primary" style={{ color: '#475569' }}>{cat}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Preço */}
+      <div>
+        <h3 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: '#1A2238' }}>Preço</h3>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            placeholder="Min"
+            value={priceRange.min}
+            onChange={e => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
+            className="w-full px-3 py-2 rounded-lg text-sm outline-none"
+            style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+          />
+          <span style={{ color: '#94A3B8' }}>—</span>
+          <input
+            type="number"
+            placeholder="Max"
+            value={priceRange.max}
+            onChange={e => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
+            className="w-full px-3 py-2 rounded-lg text-sm outline-none"
+            style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+          />
+        </div>
+      </div>
+
+      {/* Ordenar */}
+      <div>
+        <h3 className="text-sm font-bold mb-3 uppercase tracking-wider" style={{ color: '#1A2238' }}>Ordenar</h3>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg text-sm outline-none cursor-pointer"
+          style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+        >
+          <option value="featured">Destaques</option>
+          <option value="newest">Novidades</option>
+          <option value="price-asc">Menor Preço</option>
+          <option value="price-desc">Maior Preço</option>
+          <option value="name">A-Z</option>
+        </select>
+      </div>
+
+      {/* Limpar */}
+      {(selectedCategories.length !== 1 || !selectedCategories.includes('Tudo') || priceRange.min !== '' || priceRange.max !== '' || searchTerm) && (
+        <button
+          onClick={() => { clearFilters(); setFilterDrawerOpen(false); }}
+          className="w-full text-xs px-3 py-2 rounded-lg transition-colors font-medium"
+          style={{ color: '#FFB347', backgroundColor: 'rgba(255,179,71,0.1)' }}
+        >
+          Limpar todos os filtros
+        </button>
+      )}
+    </div>
+  );
 
   const testimonials = [
     { name: "João Silva", text: "Produto chegou super rápido pelo Uber Flash! Qualidade excelente.", rating: 5 },
@@ -420,17 +521,17 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         onViewDetail={(p) => onViewDetail(p)}
       />
 
-      {/* Category Carousel */}
-      <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+      {/* Category Carousel - mobile only */}
+      <section className="lg:hidden" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex flex-nowrap items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide scroll-smooth snap-x snap-mandatory -mx-4 px-4">
             {categories.map((cat) => {
               const IconComponent = ICONS_MAP[cat] || ICONS_MAP[categoryIcons[cat]] || ICONS_MAP.default;
-              const isSelected = selectedCategory === cat;
+              const isSelected = selectedCategories.includes(cat) && (cat === 'Tudo' ? selectedCategories.length === 1 || selectedCategories.includes('Tudo') : true);
               return (
                 <button
                   key={cat}
-                  onClick={() => { setSelectedCategory(cat); setVisibleCount(12); window.scrollTo({ top: 450, behavior: 'smooth' }); }}
+                  onClick={() => { setSelectedCategories([cat]); setVisibleCount(12); window.scrollTo({ top: 450, behavior: 'smooth' }); }}
                   className={`flex-shrink-0 snap-start flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-sm font-semibold whitespace-nowrap transition-all ${
                     isSelected ? '' : 'opacity-70 hover:opacity-100'
                   }`}
@@ -449,8 +550,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </section>
 
-      {/* Filters */}
-      <section style={{ backgroundColor: '#FFFFFF' }}>
+      {/* Filters Bar */}
+      <section style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3">
           <div className="flex flex-wrap items-center gap-3">
             <div className="relative">
@@ -469,9 +570,19 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: '#94A3B8' }} />
             </div>
 
-            {(selectedCategory !== 'Tudo' || searchTerm) && (
+            {/* Filter button - mobile only */}
+            <button
+              onClick={() => setFilterDrawerOpen(true)}
+              className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all hover:bg-black/5"
+              style={{ border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+            >
+              <SlidersHorizontal size={16} />
+              Filtros
+            </button>
+
+            {(selectedCategories.length !== 1 || !selectedCategories.includes('Tudo') || searchTerm) && (
               <button
-                onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
+                onClick={clearFilters}
                 className="text-xs px-3 py-2 rounded-lg transition-colors"
                 style={{ color: '#FFB347', backgroundColor: 'rgba(255,179,71,0.1)' }}
               >
@@ -482,56 +593,72 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </section>
 
-      {/* Products Grid */}
+      {/* Products Grid with Sidebar */}
       <main id="products-section" className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
-        {/* Filtros Ativos */}
-        {(selectedCategory !== 'Tudo' || searchTerm) && (
-          <div className="flex items-center gap-2 mb-6 flex-wrap">
-            <span className="text-sm text-text-dim">Filtros:</span>
-            {selectedCategory !== 'Tudo' && (
-              <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(59,139,185,0.15)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.3)' }}>
-                {selectedCategory}
-                <button onClick={() => setSelectedCategory('Tudo')} className="hover:text-white ml-1">×</button>
-              </span>
-            )}
-            {searchTerm && (
-              <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-                style={{ backgroundColor: 'rgba(90,158,90,0.15)', color: '#1A2238', border: '1px solid rgba(90,158,90,0.3)' }}>
-                Busca: "{searchTerm}"
-                <button onClick={() => setSearchTerm('')} className="hover:text-white ml-1">×</button>
-              </span>
-            )}
-            <button
-              onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
-              className="text-xs text-text-dim hover:text-neon-cyan underline"
-            >
-              Limpar todos
-            </button>
-          </div>
-        )}
+        <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8" style={{ alignItems: 'start' }}>
+          {/* Desktop Sidebar */}
+          <aside className="hidden lg:block sticky" style={{ top: '5rem', alignSelf: 'start' }}>
+            {renderFilterContent()}
+          </aside>
 
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-text-primary">
-            {selectedCategory === 'Tudo' ? 'Todos os Produtos' : selectedCategory}
-          </h2>
-          <span className="text-sm text-text-dim">
-            {visibleCount >= filteredProducts.length 
-              ? `${filteredProducts.length} ${filteredProducts.length === 1 ? 'produto' : 'produtos'}` 
-              : `Mostrando ${visibleCount} de ${filteredProducts.length} produtos`}
-          </span>
-        </div>
+          {/* Product Area */}
+          <div>
+            {/* Filtros Ativos */}
+            {(selectedCategories.length !== 1 || !selectedCategories.includes('Tudo') || searchTerm || priceRange.min !== '' || priceRange.max !== '') && (
+              <div className="flex items-center gap-2 mb-6 flex-wrap">
+                <span className="text-sm" style={{ color: '#64748B' }}>Filtros:</span>
+                {!selectedCategories.includes('Tudo') && selectedCategories.map(cat => (
+                  <span key={cat} className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                    style={{ backgroundColor: 'rgba(255,179,71,0.15)', color: '#1A2238', border: '1px solid rgba(255,179,71,0.3)' }}>
+                    {cat}
+                    <button onClick={() => toggleCategory(cat)} className="hover:opacity-60 ml-1">×</button>
+                  </span>
+                ))}
+                {searchTerm && (
+                  <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                    style={{ backgroundColor: 'rgba(90,158,90,0.15)', color: '#1A2238', border: '1px solid rgba(90,158,90,0.3)' }}>
+                    Busca: "{searchTerm}"
+                    <button onClick={() => setSearchTerm('')} className="hover:opacity-60 ml-1">×</button>
+                  </span>
+                )}
+                {(priceRange.min !== '' || priceRange.max !== '') && (
+                  <span className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                    style={{ backgroundColor: 'rgba(59,139,185,0.15)', color: '#1A2238', border: '1px solid rgba(59,139,185,0.3)' }}>
+                    Preço: {priceRange.min ? `R$${priceRange.min}` : '0'} - {priceRange.max ? `R$${priceRange.max}` : '∞'}
+                    <button onClick={() => setPriceRange({ min: '', max: '' })} className="hover:opacity-60 ml-1">×</button>
+                  </span>
+                )}
+                <button
+                  onClick={clearFilters}
+                  className="text-xs underline"
+                  style={{ color: '#64748B' }}
+                >
+                  Limpar todos
+                </button>
+              </div>
+            )}
 
-        {products.length === 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-            {[...Array(8)].map((_, i) => (
-              <ProductSkeleton key={i} />
-            ))}
-          </div>
-        ) : filteredProducts.length > 0 ? (
-          <>
-<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-              {filteredProducts.slice(0, visibleCount).map(p => (
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold" style={{ color: '#1A2238' }}>
+                {selectedCategories.includes('Tudo') ? 'Todos os Produtos' : selectedCategories.join(', ')}
+              </h2>
+              <span className="text-sm" style={{ color: '#64748B' }}>
+                {visibleCount >= filteredProducts.length 
+                  ? `${filteredProducts.length} ${filteredProducts.length === 1 ? 'produto' : 'produtos'}` 
+                  : `Mostrando ${visibleCount} de ${filteredProducts.length} produtos`}
+              </span>
+            </div>
+
+            {products.length === 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                {[...Array(8)].map((_, i) => (
+                  <ProductSkeleton key={i} />
+                ))}
+              </div>
+            ) : filteredProducts.length > 0 ? (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                  {filteredProducts.slice(0, visibleCount).map(p => (
                     <ProductCard
                       key={p.id}
                       product={p}
@@ -539,36 +666,38 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
                       onViewDetail={() => onViewDetail(p)}
                     />
-              ))}
-            </div>
-            {visibleCount < filteredProducts.length && (
-              <div className="text-center mt-8">
+                  ))}
+                </div>
+                {visibleCount < filteredProducts.length && (
+                  <div className="text-center mt-8">
+                    <button
+                      onClick={() => setVisibleCount(v => v + 12)}
+                      className="px-8 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
+                      style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 15px rgba(255,179,71,0.3)' }}
+                    >
+                      Ver mais ({filteredProducts.length - visibleCount} produtos)
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center py-16 space-y-4">
+                <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(255,179,71,0.05)' }}>
+                  <Package size={32} style={{ color: '#CBD5E1' }} />
+                </div>
+                <p className="text-lg" style={{ color: '#64748B' }}>Nenhum produto encontrado</p>
+                <p className="text-sm" style={{ color: '#94A3B8' }}>Tente ajustar os filtros ou buscar por outro termo</p>
                 <button
-                  onClick={() => setVisibleCount(v => v + 12)}
-                  className="px-8 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
-                  style={{ backgroundColor: '#FFB347', color: '#1A2238', boxShadow: '0 4px 15px rgba(255,179,71,0.3)' }}
+                  onClick={clearFilters}
+                  className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"
+                  style={{ backgroundColor: 'rgba(255,179,71,0.1)', color: '#FFB347', border: '1px solid rgba(255,179,71,0.3)' }}
                 >
-                  Ver mais ({filteredProducts.length - visibleCount} produtos)
+                  Limpar Filtros
                 </button>
               </div>
             )}
-          </>
-        ) : (
-          <div className="text-center py-16 space-y-4">
-            <div className="w-20 h-20 mx-auto rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(59,139,185,0.05)' }}>
-              <Package size={32} className="text-text-dim" />
-            </div>
-            <p className="text-text-dim text-lg">Nenhum produto encontrado</p>
-            <p className="text-sm text-text-dim">Tente ajustar os filtros ou buscar por outro termo</p>
-            <button
-              onClick={() => { setSearchTerm(''); setSelectedCategory('Tudo'); }}
-              className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"
-              style={{ backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.3)' }}
-            >
-              Limpar Filtros
-            </button>
           </div>
-        )}
+        </div>
       </main>
 
       {/* Depoimentos */}
@@ -669,6 +798,24 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </footer>
+
+      {/* Mobile Filter Drawer */}
+      {filterDrawerOpen && (
+        <>
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 lg:hidden" onClick={() => setFilterDrawerOpen(false)} />
+          <div className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-2xl shadow-2xl lg:hidden" style={{ maxHeight: '85vh', overflowY: 'auto' }}>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-bold" style={{ color: '#1A2238' }}>Filtros</h2>
+                <button onClick={() => setFilterDrawerOpen(false)} className="p-2 rounded-lg hover:bg-black/5 transition-colors">
+                  <X size={20} style={{ color: '#94A3B8' }} />
+                </button>
+              </div>
+              {renderFilterContent()}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Mobile Search Modal */}
       {mobileSearchOpen && (
