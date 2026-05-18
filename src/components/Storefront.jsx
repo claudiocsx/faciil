@@ -180,6 +180,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         isOpen={cartOpen}
         onClose={() => setCartOpen(false)}
         cart={cart}
+        onAddToCart={onAddToCart}
         onUpdateQuantity={onUpdateQuantity}
         onRemoveItem={onRemoveItem}
         whatsappNumber={whatsappNumber}

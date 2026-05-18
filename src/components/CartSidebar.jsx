@@ -5,7 +5,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const DELIVERY_FEE = 5.00;
 
-const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder, customer, products = [] }) => {
+const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder, customer, products = [] }) => {
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -488,7 +488,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
                           <p className="text-[10px] font-medium leading-tight line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</p>
                           <p className="text-[10px] font-extrabold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
                           <button
-                            onClick={() => onUpdateQuantity(p.id, 1, p.stock)}
+                            onClick={() => onAddToCart(p)}
                             className="w-full py-1 rounded-md text-[9px] font-bold"
                             style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                           >
