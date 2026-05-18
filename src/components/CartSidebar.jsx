@@ -35,13 +35,16 @@ const CartSidebar = ({ isOpen, onClose, cart, onUpdateQuantity, onRemoveItem, wh
 
   const total = subtotal + deliveryFee - discount;
 
-  const cartCategories = useMemo(() => [...new Set(cart.map(i => i.category))], [cart]);
   const suggestions = useMemo(() => {
     if (cart.length === 0) return [];
-    return products
-      .filter(p => cartCategories.includes(p.category) && !cart.some(c => c.id === p.id))
-      .slice(0, 4);
-  }, [products, cart, cartCategories]);
+    const cartIds = new Set(cart.map(i => i.id));
+    const cartCats = [...new Set(cart.map(i => i.category).filter(Boolean))];
+    const byCategory = cartCats.length > 0
+      ? products.filter(p => cartCats.includes(p.category) && !cartIds.has(p.id))
+      : [];
+    if (byCategory.length > 0) return byCategory.slice(0, 4);
+    return products.filter(p => !cartIds.has(p.id)).slice(0, 4);
+  }, [products, cart]);
 
   const validateForm = () => {
     const newErrors = {};
