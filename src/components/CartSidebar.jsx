@@ -254,7 +254,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                     })()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-sm lg:text-base line-clamp-2" style={{ color: '#1A2238' }}>{item.name}</h4>
+                    <h4 className="font-bold text-sm lg:text-base line-clamp-2 lg:line-clamp-3" style={{ color: '#1A2238' }}>{item.name}</h4>
                     <p className="text-sm lg:text-base font-extrabold mt-1" style={{ color: '#1A2238' }}>
                       R$ {(item.price * item.quantity).toFixed(2)}
                     </p>
@@ -289,66 +289,105 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                 </div>
               ))}
 
-              <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-                <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => setDeliveryMethod('delivery')}
-                    className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
-                    style={deliveryMethod === 'delivery'
-                      ? { backgroundColor: '#FFB347', color: '#1A2238' }
-                      : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
-                    }
-                  >
-                    <MapPin size={20} />
-                    Uber Flash
-                  </button>
-                  <button
-                    onClick={() => setDeliveryMethod('pickup')}
-                    className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
-                    style={deliveryMethod === 'pickup'
-                      ? { backgroundColor: '#FFB347', color: '#1A2238' }
-                      : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
-                    }
-                  >
-                    <Store size={20} />
-                    Retirada
-                  </button>
+              {/* Desktop: Entrega + Cupom lado a lado */}
+              <div className="lg:grid lg:grid-cols-2 lg:gap-4">
+                <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <p className="text-sm font-bold" style={{ color: '#1A2238' }}>Como deseja receber?</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => setDeliveryMethod('delivery')}
+                      className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
+                      style={deliveryMethod === 'delivery'
+                        ? { backgroundColor: '#FFB347', color: '#1A2238' }
+                        : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
+                      }
+                    >
+                      <MapPin size={20} />
+                      Uber Flash
+                    </button>
+                    <button
+                      onClick={() => setDeliveryMethod('pickup')}
+                      className="p-3 lg:p-4 rounded-xl text-xs lg:text-sm font-bold flex flex-col items-center gap-2 transition-all"
+                      style={deliveryMethod === 'pickup'
+                        ? { backgroundColor: '#FFB347', color: '#1A2238' }
+                        : { backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }
+                      }
+                    >
+                      <Store size={20} />
+                      Retirada
+                    </button>
+                  </div>
+                  {deliveryMethod === 'delivery' && (
+                    <p className="text-xs text-center" style={{ color: '#94A3B8' }}>Taxa fixa: <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
+                  )}
                 </div>
-                {deliveryMethod === 'delivery' && (
-                  <p className="text-xs text-center" style={{ color: '#94A3B8' }}>Taxa fixa: <span className="font-bold" style={{ color: '#FFB347' }}>R$ {DELIVERY_FEE.toFixed(2)}</span></p>
-                )}
+
+                <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+                  <div className="flex items-center gap-2">
+                    <Tag size={16} style={{ color: '#FFB347' }} />
+                    <span className="text-sm font-bold" style={{ color: '#1A2238' }}>Cupom de Desconto</span>
+                  </div>
+                  {appliedCoupon ? (
+                    <div className="flex items-center justify-between p-3 rounded-xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #FFB347' }}>
+                      <span className="text-sm font-bold" style={{ color: '#1A2238' }}>
+                        {appliedCoupon.code} (-R$ {discount.toFixed(2)})
+                      </span>
+                      <button onClick={handleRemoveCoupon} className="text-xs font-bold" style={{ color: '#EF4444' }}>Remover</button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-1 px-3 py-3 rounded-xl text-sm outline-none"
+                        style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                        placeholder="Ex: FACIIL10"
+                      />
+                      <button
+                        onClick={handleApplyCoupon}
+                        disabled={couponLoading}
+                        className="px-4 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
+                        style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                      >
+                        {couponLoading ? '...' : 'Aplicar'}
+                      </button>
+                    </div>
+                  )}
+                  {couponError && <p className="text-xs" style={{ color: '#EF4444' }}>{couponError}</p>}
+                </div>
               </div>
 
               {cart.length > 0 && (
                 <div className="p-4 lg:p-5 rounded-xl space-y-3 lg:space-y-4" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-                  <div className="space-y-2">
-                    <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
-                    <input
-                      type="text"
-                      value={customerName}
-                      onChange={(e) => { setCustomerName(e.target.value); if (errors.customerName) setErrors(prev => ({ ...prev, customerName: null })); }}
-                      className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
-                      style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.customerName ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
-                      placeholder="Digite seu nome"
-                    />
-                    {errors.customerName && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.customerName}</p>}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Telefone</label>
-                    <input
-                      type="tel"
-                      value={customerPhone}
-                      onChange={(e) => setCustomerPhone(e.target.value)}
-                      className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
-                      style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                      placeholder="(88) 99999-9999"
-                    />
+                  <div className="lg:grid lg:grid-cols-2 lg:gap-4">
+                    <div className="space-y-2">
+                      <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Seu Nome</label>
+                      <input
+                        type="text"
+                        value={customerName}
+                        onChange={(e) => { setCustomerName(e.target.value); if (errors.customerName) setErrors(prev => ({ ...prev, customerName: null })); }}
+                        className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
+                        style={{ backgroundColor: '#FFFFFF', border: `1px solid ${errors.customerName ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
+                        placeholder="Digite seu nome"
+                      />
+                      {errors.customerName && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.customerName}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Telefone</label>
+                      <input
+                        type="tel"
+                        value={customerPhone}
+                        onChange={(e) => setCustomerPhone(e.target.value)}
+                        className="w-full px-3 py-3 lg:px-4 lg:py-3.5 rounded-xl text-sm outline-none"
+                        style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                        placeholder="(88) 99999-9999"
+                      />
+                    </div>
                   </div>
 
                   {deliveryMethod === 'delivery' && (
-                    <>
+                    <div className="lg:grid lg:grid-cols-2 lg:gap-4">
                       <div className="space-y-2">
                         <label className="text-xs lg:text-sm font-bold" style={{ color: '#1A2238' }}>Bairro</label>
                         <input
@@ -387,45 +426,10 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                           {errors.addressNumber && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.addressNumber}</p>}
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
               )}
-
-              <div className="p-4 lg:p-5 rounded-xl space-y-3" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-                <div className="flex items-center gap-2">
-                  <Tag size={16} style={{ color: '#FFB347' }} />
-                  <span className="text-sm font-bold" style={{ color: '#1A2238' }}>Cupom de Desconto</span>
-                </div>
-                {appliedCoupon ? (
-                  <div className="flex items-center justify-between p-3 rounded-xl" style={{ backgroundColor: '#FFFFFF', border: '1px solid #FFB347' }}>
-                    <span className="text-sm font-bold" style={{ color: '#1A2238' }}>
-                      {appliedCoupon.code} (-R$ {discount.toFixed(2)})
-                    </span>
-                    <button onClick={handleRemoveCoupon} className="text-xs font-bold" style={{ color: '#EF4444' }}>Remover</button>
-                  </div>
-                ) : (
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      value={couponCode}
-                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                      className="flex-1 px-3 py-3 rounded-xl text-sm outline-none"
-                      style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                      placeholder="Ex: FACIIL10"
-                    />
-                    <button
-                      onClick={handleApplyCoupon}
-                      disabled={couponLoading}
-                      className="px-4 py-3 rounded-xl font-bold text-sm transition-all hover:scale-105"
-                      style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                    >
-                      {couponLoading ? '...' : 'Aplicar'}
-                    </button>
-                  </div>
-                )}
-                {couponError && <p className="text-xs" style={{ color: '#EF4444' }}>{couponError}</p>}
-              </div>
             </div>
           )}
         </div>
