@@ -35,6 +35,14 @@ const BANNER_DATA = {
   image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
 };
 
+const CAROUSEL_DATA = [
+  { type: 'offer', id: 1, title: 'Smartwatch Pro', subtitle: '30% OFF', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80' },
+  { type: 'offer', id: 2, title: 'Fone Bluetooth', subtitle: '25% OFF', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80' },
+  { type: 'offer', id: 3, title: 'Carregador Turbo', subtitle: '20% OFF', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=1200&q=80' },
+  { type: 'coupon', id: 4, code: 'FACIIL10', discount: '10% OFF', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=1200&q=80' },
+  { type: 'coupon', id: 5, code: 'PRIMEIRA', discount: '15% OFF' },
+];
+
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,6 +64,16 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const offerScrollRef = useRef(null);
 
   const [categoryIcons, setCategoryIcons] = useState({});
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const carouselInterval = useRef(null);
+
+  const nextSlide = () => setCurrentSlide(prev => (prev + 1) % CAROUSEL_DATA.length);
+  const prevSlide = () => setCurrentSlide(prev => (prev - 1 + CAROUSEL_DATA.length) % CAROUSEL_DATA.length);
+
+  useEffect(() => {
+    carouselInterval.current = setInterval(nextSlide, 5000);
+    return () => clearInterval(carouselInterval.current);
+  }, []);
 
   const DEFAULT_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 
@@ -391,7 +409,77 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Produtos em Destaque - ML Style */}
+      {/* Hero Carrossel - ML Style */}
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
+        <div className="relative" style={{ aspectRatio: '3/1' }}>
+          <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+            {CAROUSEL_DATA.map(item => (
+              <div key={item.id} className="w-full flex-shrink-0 h-full relative overflow-hidden">
+                {item.image && (
+                  <img src={item.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                )}
+                <div className="absolute inset-0" style={{ background: item.type === 'coupon' ? 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' : 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
+                {item.type === 'coupon' && (
+                  <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
+                )}
+                <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                  <div className="max-w-md">
+                    {item.type === 'offer' ? (
+                      <>
+                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
+                          <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
+                        </span>
+                        <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">{item.title}</h2>
+                        <p className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>{item.subtitle}</p>
+                        <button
+                          onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                          className="px-4 py-1.5 md:px-6 md:py-2 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                        >
+                          Ver Oferta
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
+                          <Percent size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Cupom
+                        </span>
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">{item.code}</h2>
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>{item.discount}</p>
+                        <button
+                          onClick={() => { navigator.clipboard.writeText(item.code); setToastVisible(true); setToastMessage(`Cupom ${item.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                          className="px-4 py-1.5 md:px-6 md:py-2 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                        >
+                          Copiar Cupom
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 hover:opacity-100 transition-all group-hover:opacity-100 hover:bg-white hover:scale-110">
+            <ChevronLeft size={16} style={{ color: '#1A2238' }} />
+          </button>
+          <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 hover:opacity-100 transition-all group-hover:opacity-100 hover:bg-white hover:scale-110">
+            <ChevronRight size={16} style={{ color: '#1A2238' }} />
+          </button>
+
+          <div className="absolute bottom-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {CAROUSEL_DATA.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { setCurrentSlide(i); clearInterval(carouselInterval.current); carouselInterval.current = setInterval(nextSlide, 5000); }}
+                className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-2.5 h-2.5' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
+                style={{ backgroundColor: i === currentSlide ? '#FFB347' : undefined }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
       <FeaturedProducts
         products={products}
         onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
