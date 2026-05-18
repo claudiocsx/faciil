@@ -67,6 +67,22 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselInterval = useRef(null);
 
+  const offerProducts = useMemo(() => {
+    return products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 10);
+  }, [products]);
+
+  const heroSlides = useMemo(() => {
+    const withImg = products.filter(p => p.image || p.images?.[0]).slice(0, 4);
+    const productSlides = withImg.map(p => ({
+      type: 'product',
+      id: p.id,
+      product: p,
+    }));
+    const couponSlides = COUPONS_DATA.slice(0, 2).map(c => ({ type: 'coupon', ...c }));
+    const all = [...productSlides, ...couponSlides];
+    return all.length > 0 ? all : [{ type: 'product', id: 'fallback', product: null }];
+  }, [products]);
+
   const nextSlide = () => setCurrentSlide(prev => (prev + 1) % heroSlides.length);
   const prevSlide = () => setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length);
 
@@ -116,22 +132,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, []);
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  const offerProducts = useMemo(() => {
-    return products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 10);
-  }, [products]);
-
-  const heroSlides = useMemo(() => {
-    const withImg = products.filter(p => p.image || p.images?.[0]).slice(0, 4);
-    const productSlides = withImg.map(p => ({
-      type: 'product',
-      id: p.id,
-      product: p,
-    }));
-    const couponSlides = COUPONS_DATA.slice(0, 2).map(c => ({ type: 'coupon', ...c }));
-    const all = [...productSlides, ...couponSlides];
-    return all.length > 0 ? all : [{ type: 'product', id: 'fallback', product: null }];
-  }, [products]);
 
   const filteredProducts = useMemo(() => {
     let result = products.filter(p => {
