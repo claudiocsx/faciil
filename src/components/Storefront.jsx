@@ -35,12 +35,12 @@ const BANNER_DATA = {
   image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
 };
 
-const CAROUSEL_DATA = [
-  { type: 'offer', id: 1, title: 'Smartwatch Pro', subtitle: '30% OFF', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80' },
-  { type: 'offer', id: 2, title: 'Fone Bluetooth', subtitle: '25% OFF', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80' },
-  { type: 'offer', id: 3, title: 'Carregador Turbo', subtitle: '20% OFF', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=1200&q=80' },
-  { type: 'coupon', id: 4, code: 'FACIIL10', discount: '10% OFF', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=1200&q=80' },
-  { type: 'coupon', id: 5, code: 'PRIMEIRA', discount: '15% OFF' },
+const ACCESS_CARDS = [
+  { icon: Truck, title: 'Frete Grátis', desc: 'Uber Flash em Crato' },
+  { icon: CreditCard, title: 'Pagamento', desc: 'Na entrega, cartão ou pix' },
+  { icon: Shield, title: 'Garantia', desc: '1 ano em todos os itens' },
+  { icon: Star, title: 'Destaques', desc: 'Produtos selecionados' },
+  { icon: Percent, title: 'Cupons', desc: 'Descontos exclusivos' },
 ];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
@@ -67,13 +67,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselInterval = useRef(null);
 
-  const nextSlide = () => setCurrentSlide(prev => (prev + 1) % CAROUSEL_DATA.length);
-  const prevSlide = () => setCurrentSlide(prev => (prev - 1 + CAROUSEL_DATA.length) % CAROUSEL_DATA.length);
+  const nextSlide = () => setCurrentSlide(prev => (prev + 1) % heroSlides.length);
+  const prevSlide = () => setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length);
 
   useEffect(() => {
     carouselInterval.current = setInterval(nextSlide, 5000);
     return () => clearInterval(carouselInterval.current);
-  }, []);
+  }, [heroSlides.length]);
 
   const DEFAULT_CATEGORIES = ['Tudo', 'Smartwatches', 'Fones Bluetooth', 'Carregadores', 'Cabos', 'Capas', 'Películas'];
 
@@ -119,6 +119,18 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
   const offerProducts = useMemo(() => {
     return products.filter(p => p.originalPrice && p.originalPrice > p.price).slice(0, 10);
+  }, [products]);
+
+  const heroSlides = useMemo(() => {
+    const withImg = products.filter(p => p.image || p.images?.[0]).slice(0, 4);
+    const productSlides = withImg.map(p => ({
+      type: 'product',
+      id: p.id,
+      product: p,
+    }));
+    const couponSlides = COUPONS_DATA.slice(0, 2).map(c => ({ type: 'coupon', ...c }));
+    const all = [...productSlides, ...couponSlides];
+    return all.length > 0 ? all : [{ type: 'product', id: 'fallback', product: null }];
   }, [products]);
 
   const filteredProducts = useMemo(() => {
@@ -413,34 +425,59 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       <section className="relative overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
         <div className="relative" style={{ aspectRatio: '3/1' }}>
           <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-            {CAROUSEL_DATA.map(item => (
-              <div key={item.id} className="w-full flex-shrink-0 h-full relative overflow-hidden">
-                {item.image && (
-                  <img src={item.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
-                )}
-                <div className="absolute inset-0" style={{ background: item.type === 'coupon' ? 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' : 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
-                {item.type === 'coupon' && (
-                  <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
-                )}
-                <div className="relative z-10 flex items-center h-full px-6 md:px-14">
-                  <div className="max-w-md">
-                    {item.type === 'offer' ? (
-                      <>
+            {heroSlides.map((item, idx) => (
+              <div key={`${item.type}-${item.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
+                {item.type === 'product' && item.product ? (
+                  <>
+                    <div className="absolute inset-0" style={{ background: idx % 2 === 0 ? 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 40%, #FFB347 100%)' : 'linear-gradient(135deg, #1A2238 0%, #FFB347 50%, #1A2238 100%)' }} />
+                    <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFB347 0%, transparent 70%)' }} />
+                    <div className="absolute bottom-1/4 left-1/3 w-48 h-48 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFFFFF 0%, transparent 70%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                      <div className="max-w-md">
                         <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
                           <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
                         </span>
-                        <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">{item.title}</h2>
-                        <p className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>{item.subtitle}</p>
+                        <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">{item.product.name}</h2>
+                        {item.product.originalPrice ? (
+                          <>
+                            <p className="text-xs line-through mt-1" style={{ color: '#94A3B8' }}>R$ {item.product.originalPrice.toFixed(2)}</p>
+                            <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
+                          </>
+                        ) : (
+                          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>
+                            R$ {item.product.price.toFixed(2)}
+                          </p>
+                        )}
+                        <p className="text-xs sm:text-sm font-bold mb-2 md:mb-3" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                          {item.product.originalPrice ? `Economize R$ ${(item.product.originalPrice - item.product.price).toFixed(2)}` : 'Oferta imperdível'}
+                        </p>
                         <button
-                          onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
+                          onClick={() => onViewDetail(item.product)}
                           className="px-4 py-1.5 md:px-6 md:py-2 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
-                          Ver Oferta
+                          Ver Produto
                         </button>
-                      </>
-                    ) : (
-                      <>
+                      </div>
+                      <div className="hidden sm:block absolute right-6 md:right-14 top-1/2 -translate-y-1/2 w-1/3 h-4/5">
+                        <div className="w-full h-full relative flex items-center justify-center">
+                          {(() => {
+                            const img = item.product.image || item.product.images?.[0];
+                            return img && !img.startsWith('blob:') ? (
+                              <img src={img} alt={item.product.name} className="max-w-full max-h-full object-contain drop-shadow-2xl" />
+                            ) : null;
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : item.type === 'coupon' ? (
+                  <>
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.2) 0%, transparent 60%)' }} />
+                    <div className="absolute top-1/3 left-1/4 w-32 h-32 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFB347 0%, transparent 70%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                      <div>
                         <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
                           <Percent size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Cupom
                         </span>
@@ -453,23 +490,27 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         >
                           Copiar Cupom
                         </button>
-                      </>
-                    )}
-                  </div>
-                </div>
+                      </div>
+                    </div>
+                  </>
+                ) : null}
               </div>
             ))}
           </div>
 
-          <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 hover:opacity-100 transition-all group-hover:opacity-100 hover:bg-white hover:scale-110">
-            <ChevronLeft size={16} style={{ color: '#1A2238' }} />
-          </button>
-          <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 hover:opacity-100 transition-all group-hover:opacity-100 hover:bg-white hover:scale-110">
-            <ChevronRight size={16} style={{ color: '#1A2238' }} />
-          </button>
+          {heroSlides.length > 1 && (
+            <>
+              <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
+                <ChevronLeft size={16} style={{ color: '#1A2238' }} />
+              </button>
+              <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
+                <ChevronRight size={16} style={{ color: '#1A2238' }} />
+              </button>
+            </>
+          )}
 
           <div className="absolute bottom-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-            {CAROUSEL_DATA.map((_, i) => (
+            {heroSlides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => { setCurrentSlide(i); clearInterval(carouselInterval.current); carouselInterval.current = setInterval(nextSlide, 5000); }}
@@ -480,6 +521,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </section>
+
+      {/* Grid de Atalhos - ML Style */}
+      <section className="py-4 sm:py-6" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
+            {ACCESS_CARDS.map((card, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 snap-start w-[160px] sm:w-[180px] rounded-xl p-4 transition-all hover:shadow-md"
+                style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
+              >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: 'rgba(255,179,71,0.1)' }}>
+                  <card.icon size={20} style={{ color: '#FFB347' }} />
+                </div>
+                <h3 className="text-sm font-bold" style={{ color: '#1A2238' }}>{card.title}</h3>
+                <p className="text-xs mt-1" style={{ color: '#64748B' }}>{card.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <FeaturedProducts
         products={products}
         onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
