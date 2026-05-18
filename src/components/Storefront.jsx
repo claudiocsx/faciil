@@ -36,11 +36,11 @@ const BANNER_DATA = {
 };
 
 const ACCESS_CARDS = [
-  { icon: Truck, title: 'Frete Grátis', desc: 'Uber Flash em Crato' },
-  { icon: CreditCard, title: 'Pagamento', desc: 'Na entrega, cartão ou pix' },
-  { icon: Shield, title: 'Garantia', desc: '1 ano em todos os itens' },
-  { icon: Star, title: 'Destaques', desc: 'Produtos selecionados' },
-  { icon: Percent, title: 'Cupons', desc: 'Descontos exclusivos' },
+  { icon: Truck, label: 'Frete Grátis' },
+  { icon: CreditCard, label: 'Pagamento' },
+  { icon: Shield, label: 'Garantia' },
+  { icon: Star, label: 'Destaques' },
+  { icon: Percent, label: 'Cupons' },
 ];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
@@ -429,63 +429,47 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <div key={`${item.type}-${item.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                 {item.type === 'product' && item.product ? (
                   <>
-                    <div className="absolute inset-0" style={{ background: idx % 2 === 0 ? 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 40%, #FFB347 100%)' : 'linear-gradient(135deg, #1A2238 0%, #FFB347 50%, #1A2238 100%)' }} />
-                    <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFB347 0%, transparent 70%)' }} />
-                    <div className="absolute bottom-1/4 left-1/3 w-48 h-48 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFFFFF 0%, transparent 70%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
-                      <div className="max-w-md">
-                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
-                          <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
-                        </span>
-                        <h2 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">{item.product.name}</h2>
+                    {(() => {
+                      const img = item.product.image || item.product.images?.[0];
+                      return img && !img.startsWith('blob:') ? (
+                        <img src={img} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                      ) : null;
+                    })()}
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.15em] mb-2 block" style={{ color: '#FFB347' }}>Oferta</span>
+                        <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight max-w-lg">{item.product.name}</h2>
                         {item.product.originalPrice ? (
-                          <>
-                            <p className="text-xs line-through mt-1" style={{ color: '#94A3B8' }}>R$ {item.product.originalPrice.toFixed(2)}</p>
-                            <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
-                          </>
+                          <div className="flex items-baseline gap-2 mt-2 mb-3">
+                            <p className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
+                            <p className="text-sm line-through" style={{ color: '#94A3B8' }}>R$ {item.product.originalPrice.toFixed(2)}</p>
+                          </div>
                         ) : (
-                          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>
-                            R$ {item.product.price.toFixed(2)}
-                          </p>
+                          <p className="text-2xl sm:text-3xl md:text-4xl font-black mt-2 mb-3" style={{ color: '#FFB347' }}>R$ {item.product.price.toFixed(2)}</p>
                         )}
-                        <p className="text-xs sm:text-sm font-bold mb-2 md:mb-3" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                          {item.product.originalPrice ? `Economize R$ ${(item.product.originalPrice - item.product.price).toFixed(2)}` : 'Oferta imperdível'}
-                        </p>
                         <button
                           onClick={() => onViewDetail(item.product)}
-                          className="px-4 py-1.5 md:px-6 md:py-2 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Ver Produto
                         </button>
                       </div>
-                      <div className="hidden sm:block absolute right-6 md:right-14 top-1/2 -translate-y-1/2 w-1/3 h-4/5">
-                        <div className="w-full h-full relative flex items-center justify-center">
-                          {(() => {
-                            const img = item.product.image || item.product.images?.[0];
-                            return img && !img.startsWith('blob:') ? (
-                              <img src={img} alt={item.product.name} className="max-w-full max-h-full object-contain drop-shadow-2xl" />
-                            ) : null;
-                          })()}
-                        </div>
-                      </div>
                     </div>
                   </>
-                ) : item.type === 'coupon' ? (
+                ) : (
                   <>
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
-                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.2) 0%, transparent 60%)' }} />
-                    <div className="absolute top-1/3 left-1/4 w-32 h-32 rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #FFB347 0%, transparent 70%)' }} />
-                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-8 md:px-16">
                       <div>
-                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] block mb-1.5 md:mb-2" style={{ color: '#FFB347' }}>
-                          <Percent size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Cupom
-                        </span>
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">{item.code}</h2>
-                        <p className="text-sm sm:text-base md:text-lg lg:text-xl font-bold mt-1 md:mt-1.5 mb-2 md:mb-3" style={{ color: '#FFB347' }}>{item.discount}</p>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.15em] mb-2 block" style={{ color: '#FFB347' }}>Cupom</span>
+                        <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tight">{item.code}</h2>
+                        <p className="text-lg sm:text-xl md:text-2xl font-bold mt-1 mb-3" style={{ color: '#FFB347' }}>{item.discount}</p>
                         <button
                           onClick={() => { navigator.clipboard.writeText(item.code); setToastVisible(true); setToastMessage(`Cupom ${item.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                          className="px-4 py-1.5 md:px-6 md:py-2 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Copiar Cupom
@@ -493,28 +477,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       </div>
                     </div>
                   </>
-                ) : null}
+                )}
               </div>
             ))}
           </div>
 
           {heroSlides.length > 1 && (
             <>
-              <button onClick={prevSlide} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
-                <ChevronLeft size={16} style={{ color: '#1A2238' }} />
+              <button onClick={prevSlide} className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
+                <ChevronLeft size={18} style={{ color: '#1A2238' }} />
               </button>
-              <button onClick={nextSlide} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
-                <ChevronRight size={16} style={{ color: '#1A2238' }} />
+              <button onClick={nextSlide} className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 p-1.5 md:p-2.5 rounded-full bg-white/90 shadow-lg opacity-0 hover:opacity-100 transition-all hover:scale-110 active:scale-95">
+                <ChevronRight size={18} style={{ color: '#1A2238' }} />
               </button>
             </>
           )}
 
-          <div className="absolute bottom-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
             {heroSlides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => { setCurrentSlide(i); clearInterval(carouselInterval.current); carouselInterval.current = setInterval(nextSlide, 5000); }}
-                className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-2.5 h-2.5' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
+                className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-3 h-3' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
                 style={{ backgroundColor: i === currentSlide ? '#FFB347' : undefined }}
               />
             ))}
@@ -529,14 +513,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             {ACCESS_CARDS.map((card, i) => (
               <div
                 key={i}
-                className="flex-shrink-0 snap-start w-[160px] sm:w-[180px] rounded-xl p-4 transition-all hover:shadow-md"
+                className="flex-shrink-0 snap-start w-[130px] sm:w-[140px] rounded-xl p-3.5 sm:p-4 flex flex-col items-center text-center gap-2 transition-all hover:shadow-md cursor-pointer"
                 style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}
               >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: 'rgba(255,179,71,0.1)' }}>
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: 'rgba(255,179,71,0.1)' }}>
                   <card.icon size={20} style={{ color: '#FFB347' }} />
                 </div>
-                <h3 className="text-sm font-bold" style={{ color: '#1A2238' }}>{card.title}</h3>
-                <p className="text-xs mt-1" style={{ color: '#64748B' }}>{card.desc}</p>
+                <span className="text-[11px] sm:text-sm font-bold leading-tight" style={{ color: '#1A2238' }}>{card.label}</span>
               </div>
             ))}
           </div>
