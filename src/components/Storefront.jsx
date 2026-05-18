@@ -430,10 +430,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carrossel Principal - Estilo Mercado Livre */}
-      <section className="px-0 sm:px-4 pt-2">
-        <div className="max-w-7xl mx-auto">
-          <div className="relative group rounded-none sm:rounded-2xl overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+      {/* Carrossel Principal - Full Width */}
+      <section className="pt-2">
+        <div className="relative group overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
             <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
               <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                 <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
@@ -514,14 +513,15 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               ))}
             </div>
           </div>
-        </div>
       </section>
 
-      <FeaturedProducts
-        products={products}
-        onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
-        onViewDetail={(p) => onViewDetail(p)}
-      />
+      <div className="relative z-10 -mt-2 sm:-mt-4 lg:-mt-8">
+          <FeaturedProducts
+          products={products}
+          onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+          onViewDetail={(p) => onViewDetail(p)}
+        />
+      </div>
 
       {/* Category Carousel - mobile only */}
       <section className="lg:hidden" style={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
