@@ -467,7 +467,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                                 src={img}
                                 alt=""
                                 className="relative z-10 w-40 sm:w-64 md:w-72 object-contain transform -rotate-12 hover:rotate-0 transition-transform duration-500 cursor-pointer"
-                                style={{ filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.35))' }}
+                                style={{ filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.35))', mixBlendMode: 'multiply' }}
                               />
                               {discount > 0 && (
                                 <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 flex items-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg border-2 border-white text-[10px] sm:text-xs font-black uppercase tracking-wider"
