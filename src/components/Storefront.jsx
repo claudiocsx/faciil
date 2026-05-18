@@ -430,32 +430,32 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         </div>
       </header>
 
-      {/* Carrossel Principal */}
+      {/* Carrossel Principal - Estilo Mercado Livre */}
       <section className="px-0 sm:px-4 pt-2">
         <div className="max-w-7xl mx-auto">
-          <div className="relative group sm:rounded-2xl overflow-hidden shadow-xl">
+          <div className="relative group rounded-none sm:rounded-2xl overflow-hidden" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
             <div className="overflow-hidden" style={{ backgroundColor: '#1A2238' }}>
-              <div className="relative w-full" style={{ aspectRatio: '21 / 9' }}>
+              <div className="relative w-full" style={{ aspectRatio: '16/9' }}>
                 <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentCarousel * 100}%)` }}>
                 {getCarouselOffers().map((offer) => {
                   const hasText = offer.title || offer.subtitle;
                   return (
                   <div key={`offer-${offer.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     {offer.image && (
-                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover scale-105" />
+                      <img src={offer.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
                     )}
-                    {hasText && <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.15) 100%)' }} />}
+                    {hasText && <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.92) 0%, rgba(26,34,56,0.5) 30%, rgba(26,34,56,0.08) 60%, transparent 80%)' }} />}
                     {hasText && (
-                    <div className="relative z-10 flex items-center h-full px-6 md:px-16">
-                      <div className="max-w-lg">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                          <Tag size={11} /> Oferta
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                      <div className="max-w-md">
+                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-2 md:mb-3 block" style={{ color: '#FFB347' }}>
+                          <Tag size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />Oferta
                         </span>
-                        {offer.title && <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">{offer.title}</h2>}
-                        {offer.subtitle && <p className="text-base sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>{offer.subtitle}</p>}
+                        {offer.title && <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[42px] font-black text-white leading-[1.1]">{offer.title}</h2>}
+                        {offer.subtitle && <p className="text-base sm:text-lg md:text-2xl lg:text-3xl font-bold mt-1.5 md:mt-2 mb-3 md:mb-5" style={{ color: '#FFB347' }}>{offer.subtitle}</p>}
                         <button
                           onClick={() => document.getElementById('products-section')?.scrollIntoView({ behavior: 'smooth' })}
-                          className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"
+                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
                           style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                         >
                           Ver Oferta
@@ -469,24 +469,26 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 {getCarouselCoupons().map((coupon) => (
                   <div key={`coupon-${coupon.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                     <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #1A2238 0%, #2A3A5C 50%, #1A2238 100%)' }} />
-                    <div className="absolute inset-0 opacity-10" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,179,71,0.3) 0%, transparent 70%)' }} />
-                    <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider mb-2 md:mb-4" style={{ backgroundColor: coupon.color || '#FFB347', color: '#1A2238' }}>
-                        {coupon.type === 'freight' ? <Truck size={11} /> : <Percent size={11} />} Cupom
-                      </span>
-                      <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white tracking-tight">{coupon.code}</h2>
-                      <p className="text-lg sm:text-xl md:text-3xl font-bold mt-0.5 md:mt-2 mb-2 md:mb-4" style={{ color: '#FFB347' }}>
-                        {coupon.type === 'freight' ? 'Frete Grátis' :
-                         coupon.type === 'percent' ? `${coupon.value}% OFF` :
-                         `R$ ${parseFloat(coupon.value).toFixed(2)} OFF`}
-                      </p>
-                      <button
-                        onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
-                        className="px-4 py-1.5 md:px-6 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:scale-105 active:scale-95"
-                        style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                      >
-                        Copiar Cupom
-                      </button>
+                    <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 80% 30%, rgba(255,179,71,0.15) 0%, transparent 60%)' }} />
+                    <div className="relative z-10 flex items-center h-full px-6 md:px-14">
+                      <div>
+                        <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mb-2 md:mb-3 block" style={{ color: '#FFB347' }}>
+                          {coupon.type === 'freight' ? <Truck size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} /> : <Percent size={11} className="inline mr-1.5" style={{ verticalAlign: '-1px' }} />}Cupom
+                        </span>
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1]">{coupon.code}</h2>
+                        <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mt-1.5 md:mt-2 mb-3 md:mb-5" style={{ color: '#FFB347' }}>
+                          {coupon.type === 'freight' ? 'Frete Grátis' :
+                           coupon.type === 'percent' ? `${coupon.value}% OFF` :
+                           `R$ ${parseFloat(coupon.value).toFixed(2)} OFF`}
+                        </p>
+                        <button
+                          onClick={() => { navigator.clipboard.writeText(coupon.code); setToastVisible(true); setToastMessage(`Cupom ${coupon.code} copiado!`); setTimeout(() => setToastVisible(false), 3000); }}
+                          className="px-5 py-2 md:px-7 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all hover:brightness-110 active:scale-95"
+                          style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                        >
+                          Copiar Cupom
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -494,19 +496,19 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               </div>
             </div>
 
-            <button onClick={prevCarousel} className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white/90 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
+            <button onClick={prevCarousel} className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
               <ChevronLeft size={16} style={{ color: '#1A2238' }} />
             </button>
-            <button onClick={nextCarousel} className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2 rounded-full bg-white/90 shadow-lg opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
+            <button onClick={nextCarousel} className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 p-1.5 md:p-2.5 rounded-full bg-white/80 backdrop-blur-sm shadow-md opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:scale-110">
               <ChevronRight size={16} style={{ color: '#1A2238' }} />
             </button>
 
-            <div className="absolute bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5">
+            <div className="absolute bottom-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-10 flex items-center gap-2">
               {[...Array(getCarouselOffers().length + getCarouselCoupons().length)].map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentCarousel(i)}
-                  className={`rounded-full transition-all duration-300 ${i === currentCarousel ? 'w-5 h-1.5' : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/60'}`}
+                  className={`rounded-full transition-all duration-300 ${i === currentCarousel ? 'w-2.5 h-2.5' : 'w-2 h-2 bg-white/40 hover:bg-white/70'}`}
                   style={{ backgroundColor: i === currentCarousel ? '#FFB347' : undefined }}
                 />
               ))}
