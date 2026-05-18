@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star } from 'lucide-react';
 import ProductCard from './ProductCard';
@@ -55,6 +55,13 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [bannersLoading, setBannersLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(12);
   const [categories, setCategories] = useState(['Tudo']);
+  const searchRef = useRef(null);
+  const [searchFocused, setSearchFocused] = useState(false);
+
+  const suggestions = useMemo(() => {
+    if (searchTerm.length < 2) return [];
+    return filteredProducts.slice(0, 6);
+  }, [filteredProducts, searchTerm]);
   const [categoryIcons, setCategoryIcons] = useState({});
 
   useEffect(() => {
@@ -114,6 +121,16 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     setVisibleCount(12);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [selectedCategory, searchTerm]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const nextCarousel = () => {
     const total = getCarouselOffers().length + getCarouselCoupons().length;
@@ -192,7 +209,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             </button>
 
             {/* Busca - hidden em mobile */}
-            <div className="hidden md:flex flex-1 max-w-xl">
+            <div className="hidden md:flex flex-1 max-w-xl" ref={searchRef}>
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={16} style={{ color: '#94A3B8' }} />
                 <input
@@ -202,9 +219,38 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   placeholder="Buscar produtos..."
                   className="w-full pl-9 pr-3 py-2 rounded-xl text-sm outline-none transition-all"
                   style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
-                  onFocus={(e) => e.target.style.borderColor = '#FFB347'}
+                  onFocus={(e) => { e.target.style.borderColor = '#FFB347'; setSearchFocused(true); }}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}
                 />
+                {searchFocused && suggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl z-50 overflow-hidden" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)' }}>
+                    {suggestions.map(p => {
+                      const img = p.image || p.images?.[0];
+                      return (
+                        <button
+                          key={p.id}
+                          type="button"
+                          onMouseDown={() => { onViewDetail(p); setSearchFocused(false); }}
+                          className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-gray-50 transition-colors"
+                        >
+                          <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
+                            {img && !img.startsWith('blob:') ? (
+                              <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Package size={14} style={{ color: '#CBD5E1' }} />
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate" style={{ color: '#1A2238' }}>{p.name}</p>
+                            <p className="text-xs font-bold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -624,26 +670,56 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Mobile Search Modal */}
       {mobileSearchOpen && (
         <>
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 md:hidden" onClick={() => setMobileSearchOpen(false)} />
-          <div className="fixed top-0 left-0 right-0 z-50 p-4 md:hidden bg-white shadow-lg">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 md:hidden" onClick={() => { setMobileSearchOpen(false); setSearchFocused(false); }} />
+          <div className="fixed top-0 left-0 right-0 z-50 p-4 md:hidden bg-white shadow-lg" style={{ maxHeight: '90vh', overflow: 'hidden' }}>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={18} style={{ color: '#94A3B8' }} />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
                 placeholder="Buscar produtos..."
                 autoFocus
                 className="w-full pl-10 pr-12 py-3 rounded-xl text-base outline-none"
                 style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
               />
               <button
-                onClick={() => setMobileSearchOpen(false)}
+                onClick={() => { setMobileSearchOpen(false); setSearchFocused(false); }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg"
                 style={{ color: '#94A3B8' }}
               >
                 <X size={20} />
               </button>
+              {suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 rounded-xl shadow-xl z-50 overflow-hidden" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', maxHeight: '50vh', overflowY: 'auto' }}>
+                  {suggestions.map(p => {
+                    const img = p.image || p.images?.[0];
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onMouseDown={() => { onViewDetail(p); setMobileSearchOpen(false); setSearchFocused(false); }}
+                        className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-gray-50 transition-colors"
+                      >
+                        <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
+                          {img && !img.startsWith('blob:') ? (
+                            <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Package size={14} style={{ color: '#CBD5E1' }} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate" style={{ color: '#1A2238' }}>{p.name}</p>
+                          <p className="text-xs font-bold" style={{ color: '#FFB347' }}>R$ {p.price?.toFixed(2)}</p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </>
