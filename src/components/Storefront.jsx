@@ -184,6 +184,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         whatsappNumber={whatsappNumber}
         onSaveOrder={onSaveOrder}
         customer={customer}
+        products={products}
       />
 
       {/* Delivery Banner */}
