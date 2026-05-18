@@ -569,7 +569,21 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Grid de Atalhos - ML Style */}
       <section className="relative z-30 -mt-12 pb-4">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {/* Mobile: scroll horizontal */}
+          <div className="flex md:hidden gap-3 overflow-x-auto pb-1 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
+            {ACCESS_CARDS.map((card, i) => (
+              <div
+                key={i}
+                className="flex-shrink-0 snap-start w-[120px] rounded-xl p-3 flex flex-col items-center text-center gap-2 bg-white shadow-md cursor-pointer"
+              >
+                <card.icon size={24} style={{ color: '#FFB347' }} />
+                <span className="text-[11px] font-bold leading-tight" style={{ color: '#1A2238' }}>{card.title}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: grid */}
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-6 gap-3">
             {ACCESS_CARDS.map((card, i) => (
               <div
                 key={i}
