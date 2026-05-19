@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, MapPin, Store, Tag, Percent, Truck, MessageCircle, Star, X, CheckCircle, AlertTriangle, Package } from 'lucide-react';
+import { ArrowLeft, ShoppingBag, Minus, Plus, Trash2, MapPin, Store, Percent, MessageCircle, Star, CheckCircle, Package } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import { useProducts } from '../contexts/ProductContext';
@@ -25,9 +25,6 @@ const CartPage = () => {
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
-  const [neighborhood, setNeighborhood] = useState('');
-  const [address, setAddress] = useState('');
-  const [addressNumber, setAddressNumber] = useState('');
   const [errors, setErrors] = useState({});
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
@@ -83,11 +80,6 @@ const CartPage = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!customerName.trim()) newErrors.customerName = 'Nome é obrigatório';
-    if (deliveryMethod === 'delivery') {
-      if (!neighborhood.trim()) newErrors.neighborhood = 'Bairro é obrigatório';
-      if (!address.trim()) newErrors.address = 'Endereço é obrigatório';
-      if (!addressNumber.trim()) newErrors.addressNumber = 'Número é obrigatório';
-    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -156,9 +148,6 @@ const CartPage = () => {
       customerPhone,
       customerId: customer?.id || null,
       deliveryMethod,
-      neighborhood: deliveryMethod === 'delivery' ? neighborhood : '',
-      address: deliveryMethod === 'delivery' ? address : '',
-      addressNumber: deliveryMethod === 'delivery' ? addressNumber : '',
       items: [...cart],
       subtotal,
       deliveryFee,
@@ -192,8 +181,6 @@ const CartPage = () => {
     message += `Nome: ${customerName}\n`;
     if (customerPhone) message += `WhatsApp: ${customerPhone}\n`;
     if (deliveryMethod === 'delivery') {
-      message += `Bairro: ${neighborhood}\n`;
-      message += `Endereco: ${address}, ${addressNumber}\n\n`;
       message += `_Aguardando confirmacao do envio via Uber Flash_`;
     } else {
       message += `\n_Retirada no local_`;
@@ -202,10 +189,6 @@ const CartPage = () => {
     const url = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
     setOrderSuccess(true);
-  };
-
-  const scrollToForm = () => {
-    document.getElementById('customer-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   if (orderSuccess) {
@@ -262,27 +245,6 @@ const CartPage = () => {
           <div className="lg:grid lg:grid-cols-3 lg:gap-6 items-start">
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-4">
-              {/* Address Alert */}
-              {deliveryMethod === 'delivery' && (!neighborhood || !address) && (
-                <div className="bg-white rounded-xl p-5 shadow-sm" style={{ borderLeft: '4px solid #F97316' }}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-start gap-3">
-                      <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style={{ backgroundColor: '#F97316' }}>!</span>
-                      <p className="text-sm font-medium" style={{ color: '#1A2238' }}>
-                        Adicione um endereço para calcular o frete.
-                      </p>
-                    </div>
-                    <button
-                      onClick={scrollToForm}
-                      className="px-5 py-2 rounded-lg font-bold text-xs transition-all hover:brightness-110 whitespace-nowrap"
-                      style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
-                    >
-                      Adicionar endereço
-                    </button>
-                  </div>
-                </div>
-              )}
-
               {/* Product Cards */}
               {cart.map((item) => {
                 const img = item.image || item.images?.[0];
@@ -408,49 +370,6 @@ const CartPage = () => {
                     <Store size={16} /> Retirada
                   </button>
                 </div>
-
-                {deliveryMethod === 'delivery' && (
-                  <div className="space-y-3">
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold" style={{ color: '#64748B' }}>Bairro</label>
-                      <input
-                        type="text"
-                        value={neighborhood}
-                        onChange={(e) => { setNeighborhood(e.target.value); if (errors.neighborhood) setErrors(prev => ({ ...prev, neighborhood: null })); }}
-                        className="w-full px-3 py-3 rounded-xl text-sm outline-none"
-                        style={{ backgroundColor: '#F8FAFC', border: `1px solid ${errors.neighborhood ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
-                        placeholder="Seu bairro"
-                      />
-                      {errors.neighborhood && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.neighborhood}</p>}
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="flex-1 space-y-1">
-                        <label className="text-xs font-bold" style={{ color: '#64748B' }}>Endereço</label>
-                        <input
-                          type="text"
-                          value={address}
-                          onChange={(e) => { setAddress(e.target.value); if (errors.address) setErrors(prev => ({ ...prev, address: null })); }}
-                          className="w-full px-3 py-3 rounded-xl text-sm outline-none"
-                          style={{ backgroundColor: '#F8FAFC', border: `1px solid ${errors.address ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
-                          placeholder="Rua, Avenida..."
-                        />
-                        {errors.address && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.address}</p>}
-                      </div>
-                      <div className="w-24 space-y-1">
-                        <label className="text-xs font-bold" style={{ color: '#64748B' }}>Nº</label>
-                        <input
-                          type="text"
-                          value={addressNumber}
-                          onChange={(e) => { setAddressNumber(e.target.value); if (errors.addressNumber) setErrors(prev => ({ ...prev, addressNumber: null })); }}
-                          className="w-full px-3 py-3 rounded-xl text-sm outline-none"
-                          style={{ backgroundColor: '#F8FAFC', border: `1px solid ${errors.addressNumber ? '#EF4444' : 'rgba(0,0,0,0.04)'}`, color: '#1A2238' }}
-                          placeholder="Nº"
-                        />
-                        {errors.addressNumber && <p className="text-xs" style={{ color: '#EF4444' }}>{errors.addressNumber}</p>}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Cross-selling */}
