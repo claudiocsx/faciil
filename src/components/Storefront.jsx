@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal, Sparkles, ShoppingBag } from 'lucide-react';
 import ProductCard from './ProductCard';
 import FeaturedProducts from './FeaturedProducts';
-import CartSidebar from './CartSidebar';
 import Toast from './Toast';
 import Logo from './Logo';
 import ProductSkeleton from './ProductSkeleton';
@@ -45,7 +44,6 @@ const ACCESS_CARDS = [
 ];
 
 const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveItem, onViewDetail, onOrders, whatsappNumber, onSaveOrder }) => {
-  const [cartOpen, setCartOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState(['Tudo']);
@@ -274,19 +272,6 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       
       {authModalOpen && <CustomerAuthModal onClose={() => setAuthModalOpen(false)} />}
 
-      <CartSidebar
-        isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
-        cart={cart}
-        onAddToCart={onAddToCart}
-        onUpdateQuantity={onUpdateQuantity}
-        onRemoveItem={onRemoveItem}
-        whatsappNumber={whatsappNumber}
-        onSaveOrder={onSaveOrder}
-        customer={customer}
-        products={products}
-      />
-
       {/* Header - ML Style */}
       <header className="sticky top-0 z-40 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
@@ -398,7 +383,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 </button>
               )}
               <button
-                onClick={() => setCartOpen(true)}
+                onClick={() => navigate('/carrinho')}
                 data-cart-icon
                 className="relative p-2 lg:p-2.5 rounded-xl transition-all hover:bg-black/5"
                 style={{ border: '1px solid rgba(0,0,0,0.04)' }}

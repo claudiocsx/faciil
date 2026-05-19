@@ -27,6 +27,7 @@ import AdminReportsPage from './pages/AdminReportsPage';
 import AdminCategoriesPage from './pages/AdminCategoriesPage';
 import AdminSuppliersPage from './pages/AdminSuppliersPage';
 import ProfilePage from './pages/ProfilePage';
+import CartPage from './pages/CartPage';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -46,6 +47,7 @@ function AppRoutes() {
       <Route path="/produto/:id" element={<ProductDetailPage />} />
       <Route path="/pedidos" element={<OrdersPage />} />
       <Route path="/meus-pedidos" element={<MyOrdersPage />} />
+      <Route path="/carrinho" element={<CartPage />} />
       <Route path="/login" element={<LoginPage />} />
 
       <Route
