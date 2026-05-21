@@ -8,6 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import CustomerAuthProvider from './contexts/CustomerAuthContext';
 import LoadingScreen from './components/LoadingScreen';
 import Analytics from './components/Analytics';
+import PwaInstallPrompt from './components/PwaInstallPrompt';
 
 import StorePage from './pages/StorePage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -92,6 +93,7 @@ export default function App() {
                 </Helmet>
                 <Analytics />
                 <AppRoutes />
+                <PwaInstallPrompt />
               </BrowserRouter>
             </ThemeProvider>
           </CartProvider>
