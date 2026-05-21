@@ -3,6 +3,7 @@ import { collection, onSnapshot, query, orderBy, doc, updateDoc, setDoc, getDoc 
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { Package, DollarSign, ShoppingBag, Edit2, Check, X, Calendar, Mail, Shield, Phone, Save } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const statusStyles = {
   pending: { bg: '#FEF3C7', text: '#92400E' },
@@ -20,6 +21,7 @@ const roleLabels = {
 
 const ProfilePage = () => {
   const { user } = useAuth();
+  const { showAlert } = useAlert();
   const [orders, setOrders] = useState([]);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
@@ -66,7 +68,7 @@ const ProfilePage = () => {
     if (!clean) return;
     try {
       await setDoc(doc(db, 'config', 'whatsapp'), { number: clean });
-      alert('WhatsApp salvo com sucesso!');
+      showAlert('WhatsApp salvo com sucesso!');
     } catch (err) {
       console.error('Erro ao salvar WhatsApp:', err);
     }

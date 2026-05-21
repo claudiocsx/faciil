@@ -1,7 +1,9 @@
 import React from 'react';
 import { X, Printer, MessageCircle } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const ReceiptModal = ({ order, onClose }) => {
+  const { showAlert } = useAlert();
   if (!order) return null;
 
   const handlePrint = () => {
@@ -55,7 +57,7 @@ const ReceiptModal = ({ order, onClose }) => {
     const finalPhone = phone.length >= 10 ? '55' + phone : null;
 
     if (!finalPhone) {
-      alert('Telefone do cliente não informado ou inválido neste pedido.');
+      showAlert('Telefone do cliente não informado ou inválido neste pedido.');
       return;
     }
 

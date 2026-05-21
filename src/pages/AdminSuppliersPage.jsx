@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Truck, Plus, Edit3, Trash2, X, Phone, Mail, FileText } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminSuppliersPage = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ name: '', contact: '', email: '', notes: '' });
+  const { showConfirm } = useAlert();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'suppliers'), (snap) => {
@@ -39,8 +41,9 @@ const AdminSuppliersPage = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Excluir este fornecedor?')) return;
-    await deleteDoc(doc(db, 'suppliers', id));
+    showConfirm('Excluir este fornecedor?', async () => {
+      await deleteDoc(doc(db, 'suppliers', id));
+    });
   };
 
   return (

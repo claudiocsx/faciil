@@ -1,0 +1,270 @@
+{
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\eslint.config.js": {
+    "mtime": 1777659168.3478005,
+    "hash": "3aa4b57d7f08181d86bde52a4dcb7f22"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\explore2.py": {
+    "mtime": 1778545792.4308999,
+    "hash": "86ae66e675f0a9edb9da1792511cd1ae"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\explore_nodes.py": {
+    "mtime": 1778545761.775595,
+    "hash": "bd336ee1be4b1fe0a76fb7858949923f"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\postcss.config.js": {
+    "mtime": 1777669159.698455,
+    "hash": "8e5f2021f5b1721b527c842f43f78c73"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\remove-glows.mjs": {
+    "mtime": 1777948762.5004845,
+    "hash": "3bf87b6769f1c451906786436d5562c0"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\run_graphify.py": {
+    "mtime": 1778545512.965706,
+    "hash": "8d95b4ec31f83503d73db3fc73205603"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\tailwind.config.js": {
+    "mtime": 1777908186.860968,
+    "hash": "ea4c7ffb5090251f2bb3439d0a78b750"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\update-colors.js": {
+    "mtime": 1777946433.3805687,
+    "hash": "f2d6bd3ce6e89ec3a7d82f07fd4cca37"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\vite.config.js": {
+    "mtime": 1777668824.3650854,
+    "hash": "88439104b3c207f17d33ef3160e3b080"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\sw.js": {
+    "mtime": 1777836451.5724702,
+    "hash": "a70a0d94676dbad24c7028e953a5640f"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\App.jsx": {
+    "mtime": 1778630948.084898,
+    "hash": "c36c868814bae682ffa2ee4429384e9a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\firebase.js": {
+    "mtime": 1778547349.2922378,
+    "hash": "084cc67c04d0b8443873b17cf5431ae9"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\main.jsx": {
+    "mtime": 1778628185.2710426,
+    "hash": "fdfeb324919034743acd4142300b0b96"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\AdminLayout.jsx": {
+    "mtime": 1778630996.7630746,
+    "hash": "76aa9394aa8068a66092921f640eeccb"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Analytics.jsx": {
+    "mtime": 1778628521.7252367,
+    "hash": "a32a9824a781f1173600299b8cbf82d5"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\AuthModal.jsx": {
+    "mtime": 1778172717.3193178,
+    "hash": "aff0b00ece78ee223db49295dc9c36af"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\CartSidebar.jsx": {
+    "mtime": 1778446682.104229,
+    "hash": "583521eaefb61d5ef683fa6b3bc62e52"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Checkout.jsx": {
+    "mtime": 1778155046.8020706,
+    "hash": "51265ad290f6556a4de3332f8ad6f36a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\CustomerAuthModal.jsx": {
+    "mtime": 1778445128.7593162,
+    "hash": "65bf203453cae2065d6a7b2d3f6759d8"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Dashboard.jsx": {
+    "mtime": 1778537252.0841732,
+    "hash": "0ce9ce160f734a545211abce807e45c3"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\DashboardLayout.jsx": {
+    "mtime": 1777992915.4685163,
+    "hash": "e472c4d716716e9ff967094b815602d2"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\LoadingScreen.jsx": {
+    "mtime": 1778161509.3241446,
+    "hash": "bbabb259f7284f82c5d04e847188e6d5"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Logo.jsx": {
+    "mtime": 1778155173.9359088,
+    "hash": "d9d2667191f56b31b8ccdc398280313a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\NotificationPanel.jsx": {
+    "mtime": 1777883841.3689845,
+    "hash": "64c90f1f30f7f0d5410e3fcd005d49e4"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Orders.jsx": {
+    "mtime": 1778159343.9174166,
+    "hash": "5fd9ad790079b4d9c840b86ff947439d"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\ProductCard.jsx": {
+    "mtime": 1778662250.5607672,
+    "hash": "ce67bad11e0add3db41b774f283008e8"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\ProductDetail.jsx": {
+    "mtime": 1778662340.5819778,
+    "hash": "42b9a85157fccbc523efa9d83cc450f0"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\ProductSkeleton.jsx": {
+    "mtime": 1778155059.5650132,
+    "hash": "9e0d7f059a0457d3a42bf1a52566a734"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\ReceiptModal.jsx": {
+    "mtime": 1778536390.7257416,
+    "hash": "6a84f12ea23c446a8b87488c354765fc"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Storefront.jsx": {
+    "mtime": 1778661459.1682312,
+    "hash": "b24de3741ad4ba6c6c6901248b79af3a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Storefront_FIXED.jsx": {
+    "mtime": 1778026352.7210474,
+    "hash": "c8763202eaee3d82b8a01255cdf3710e"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\components\\Toast.jsx": {
+    "mtime": 1777943932.59305,
+    "hash": "c90ce7cf71689847684fa9cedb3f518c"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\contexts\\AuthContext.jsx": {
+    "mtime": 1778535255.5297,
+    "hash": "34b6110f71e19851c8e97bcfa34f9525"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\contexts\\CartContext.jsx": {
+    "mtime": 1778162662.2044215,
+    "hash": "335dc132a88d4992c56868785dbe973c"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\contexts\\CustomerAuthContext.jsx": {
+    "mtime": 1778445086.572507,
+    "hash": "d3b19ec49f13dbb1025be328835e716a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\contexts\\ProductContext.jsx": {
+    "mtime": 1778111888.2676842,
+    "hash": "a21cae11250a4ad6202250b5f37dc969"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\contexts\\ThemeContext.jsx": {
+    "mtime": 1777941091.048,
+    "hash": "3084b6a8b2b7feb23c67a4cc527c868a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminAddProductPage.jsx": {
+    "mtime": 1778662215.429958,
+    "hash": "3a5d3aead5b38a928fed1fe76d9806b1"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminBannersPage.jsx": {
+    "mtime": 1778536663.129673,
+    "hash": "e0dd212cb514530d7839d793f6fe5397"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminCategoriesPage.jsx": {
+    "mtime": 1778630913.1251307,
+    "hash": "1a7081aef52f8ab405103270e3c86609"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminClientsPage.jsx": {
+    "mtime": 1778535900.7029934,
+    "hash": "814da488e88465d4c31803bd5f7ca6c0"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminCouponsPage.jsx": {
+    "mtime": 1777992915.5675375,
+    "hash": "1a0885749ac3ad4806a89497731eb802"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminDashboardPage.jsx": {
+    "mtime": 1777773566.901414,
+    "hash": "78855a29899a4239c6f5a822281bf3d5"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminOrdersPage.jsx": {
+    "mtime": 1778537265.7227106,
+    "hash": "a1b07d22ce9b1c7b2ecada62bc3625a1"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminPosPage.jsx": {
+    "mtime": 1778536359.5410016,
+    "hash": "d046d8b7f94f45c9cbba949e6e2d0f1a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminProductsPage.jsx": {
+    "mtime": 1778154064.1864963,
+    "hash": "c99cfe1d6ac2165c85c9dfb36b2a2906"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\AdminReportsPage.jsx": {
+    "mtime": 1778537293.1813903,
+    "hash": "39ecf86d5eb39f6c3f313b2b348aba43"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\CheckoutPage.jsx": {
+    "mtime": 1777773509.26001,
+    "hash": "5a2223b943e6138fe876b2bfd5de2ee0"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\LoginPage.jsx": {
+    "mtime": 1777992915.5937507,
+    "hash": "624f711c4cdb6f840f8cfd46d19fde22"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\MyOrdersPage.jsx": {
+    "mtime": 1778445228.5162003,
+    "hash": "cbbe20521a37b1bdc5ed2fa55d74648e"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\OrdersPage.jsx": {
+    "mtime": 1777773514.2150168,
+    "hash": "2d69489ce064e850dd0b308a0893383a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\ProductDetailPage.jsx": {
+    "mtime": 1778628302.3914776,
+    "hash": "4a9ec575501c176c626adf6d2286022f"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\ProfilePage.jsx": {
+    "mtime": 1778160176.7561376,
+    "hash": "c6e9c5d63c0f32564a8fe4574aa611c8"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\pages\\StorePage.jsx": {
+    "mtime": 1778628272.3356676,
+    "hash": "beb09daa32afcd85e94b83321f46a7e1"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\AGENTS.md": {
+    "mtime": 1777844979.258755,
+    "hash": "f159bc7d89096ad0909430b6b70dad79"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\index.html": {
+    "mtime": 1778633726.2485838,
+    "hash": "f1f3a9be7eb32368c3727aa694af055a"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\README.md": {
+    "mtime": 1777659168.5543065,
+    "hash": "a28dc4cb878325f3e9e5649f3e1469ac"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\googlec9b0a8c9d8b3f3c8.html": {
+    "mtime": 1778628478.172233,
+    "hash": "64c1bbc2340284c6c7c145cb57834fed"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\humans.txt": {
+    "mtime": 1778627934.451807,
+    "hash": "5bf10cd149a242107bca8ea690f3b854"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\robots.txt": {
+    "mtime": 1778627858.168712,
+    "hash": "4f19604b6a6328d859e52314a3343490"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\favicon.svg": {
+    "mtime": 1777659168.7534063,
+    "hash": "7e840862161341271697daa99a40d76b"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg": {
+    "mtime": 1778032225.3714893,
+    "hash": "bec122823d512d1cabc450ce5cc76063"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\icons.svg": {
+    "mtime": 1777659168.852892,
+    "hash": "3b4fcfcf393eca4d264dca4a4663bc37"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\public\\og-image.svg": {
+    "mtime": 1778628311.1711082,
+    "hash": "2895fe1d52160599c40818f0de0b04cb"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\assets\\hero.png": {
+    "mtime": 1777659168.613953,
+    "hash": "aead493361b27e7510691c5d7072dfc1"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\assets\\react.svg": {
+    "mtime": 1777659168.9512296,
+    "hash": "f0402b67b6ce880f65666bb49e841696"
+  },
+  "C:\\Users\\Ana Claudia\\Documents\\meupdv\\meu-pdv\\src\\assets\\vite.svg": {
+    "mtime": 1777659169.106086,
+    "hash": "9960a24288958394ac50e57ff638b036"
+  }
+}

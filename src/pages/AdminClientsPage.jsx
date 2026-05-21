@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { collection, deleteDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Trash2, Search, Phone } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminClientsPage = () => {
   const [clients, setClients] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const { showAlert, showConfirm } = useAlert();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'customers'), (snap) => {
@@ -31,14 +33,14 @@ const AdminClientsPage = () => {
       setFormData({ id: null, name: '', phone: '', neighborhood: '', address: '' });
       setShowForm(false);
     } catch (err) {
-      alert(err.message);
+      showAlert(err.message);
     }
   };
 
   const handleDelete = async (id) => {
-    if (confirm('Excluir este cliente?')) {
+    showConfirm('Excluir este cliente?', async () => {
       await deleteDoc(doc(db, 'customers', id));
-    }
+    });
   };
 
   return (

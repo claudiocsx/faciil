@@ -4,9 +4,11 @@ import { db } from '../firebase';
 import { useProducts } from '../contexts/ProductContext';
 import { Search, Plus, Trash2, Check, User, CreditCard, Banknote, Wallet, MessageCircle, Upload, X, Percent, DollarSign, ShoppingBag } from 'lucide-react';
 import ReceiptModal from '../components/ReceiptModal';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminPosPage = () => {
   const { products } = useProducts();
+  const { showAlert } = useAlert();
   const [clients, setClients] = useState([]);
   const [orders, setOrders] = useState([]);
   const [cart, setCart] = useState([]);
@@ -87,7 +89,7 @@ const AdminPosPage = () => {
 
   const handleCreateClient = async () => {
     if (!newClient.name || !newClient.phone) {
-      alert('Preenha nome e telefone');
+      showAlert('Preenha nome e telefone');
       return;
     }
     try {
@@ -101,13 +103,13 @@ const AdminPosPage = () => {
       setShowNewClient(false);
       setNewClient({ name: '', phone: '', email: '' });
     } catch (err) {
-      alert('Erro ao criar cliente: ' + err.message);
+      showAlert('Erro ao criar cliente: ' + err.message);
     }
   };
 
   const handleFinalize = async () => {
     if (cart.length === 0) {
-      alert('Adicione produtos ao carrinho.');
+      showAlert('Adicione produtos ao carrinho.');
       return;
     }
     setProcessing(true);
@@ -152,9 +154,9 @@ const AdminPosPage = () => {
       setNoClient(false);
       setClientSearch('');
       setDiscountValue('');
-      alert('Venda registrada com sucesso!');
+      showAlert('Venda registrada com sucesso!');
     } catch (err) {
-      alert(err.message);
+      showAlert(err.message);
     }
     setProcessing(false);
   };

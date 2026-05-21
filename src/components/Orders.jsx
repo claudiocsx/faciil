@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronDown, ChevronUp, Copy, MessageCircle, Bike, Upload, XCircle } from 'lucide-react';
 import Logo from './Logo';
+import { useAlert } from '../contexts/AlertContext';
 
 const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
+  const { showConfirm } = useAlert();
   const [expandedOrder, setExpandedOrder] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
 
@@ -44,9 +46,9 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
 
   const handleCancel = (order, e) => {
     e.stopPropagation();
-    if (window.confirm(`Tem certeza que deseja cancelar o pedido #${order.id}?`)) {
+    showConfirm(`Tem certeza que deseja cancelar o pedido #${order.id}?`, () => {
       onUpdateStatus(order.id, 'cancelled');
-    }
+    }, 'Cancelar Pedido', true);
   };
 
   const canCancel = (status) => !['delivered', 'cancelled'].includes(status);

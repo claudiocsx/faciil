@@ -6,6 +6,7 @@ import CartProvider from './contexts/CartContext';
 import { ProductProvider } from './contexts/ProductContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import CustomerAuthProvider from './contexts/CustomerAuthContext';
+import { AlertProvider } from './contexts/AlertContext';
 import LoadingScreen from './components/LoadingScreen';
 import Analytics from './components/Analytics';
 import PwaInstallPrompt from './components/PwaInstallPrompt';
@@ -85,6 +86,7 @@ export default function App() {
         <ProductProvider>
           <CartProvider>
             <ThemeProvider>
+              <AlertProvider>
               <BrowserRouter>
                 <Helmet>
                   <meta name="theme-color" content="#FFB347" />
@@ -95,6 +97,7 @@ export default function App() {
                 <AppRoutes />
                 <PwaInstallPrompt />
               </BrowserRouter>
+              </AlertProvider>
             </ThemeProvider>
           </CartProvider>
         </ProductProvider>

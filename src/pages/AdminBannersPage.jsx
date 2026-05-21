@@ -4,9 +4,11 @@ import { Plus, X, Image, Tag, Percent, Truck, Trash2, Edit, ExternalLink } from 
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import LoadingScreen from '../components/LoadingScreen';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminBannersPage = () => {
   const navigate = useNavigate();
+  const { showAlert, showConfirm } = useAlert();
   const [offers, setOffers] = useState([]);
   const [coupons, setCoupons] = useState([]);
   const [products, setProducts] = useState([]);
@@ -90,7 +92,7 @@ const AdminBannersPage = () => {
       setEditingItem(null);
       loadData();
     } catch (err) {
-      alert('Erro ao salvar: ' + err.message);
+      showAlert('Erro ao salvar: ' + err.message);
     }
   };
 
@@ -98,7 +100,7 @@ const AdminBannersPage = () => {
     e.preventDefault();
     if (!couponForm.code) return;
     if (couponForm.type !== 'freight' && !couponForm.value) {
-      alert('Preencha o valor do desconto');
+      showAlert('Preencha o valor do desconto');
       return;
     }
     try {
@@ -118,22 +120,22 @@ const AdminBannersPage = () => {
       setEditingItem(null);
       loadData();
     } catch (err) {
-      alert('Erro ao salvar: ' + err.message);
+      showAlert('Erro ao salvar: ' + err.message);
     }
   };
 
   const handleDeleteOffer = async (id) => {
-    if (confirm('Excluir esta oferta?')) {
+    showConfirm('Excluir esta oferta?', async () => {
       await deleteDoc(doc(db, 'banners_offers', id));
       loadData();
-    }
+    });
   };
 
   const handleDeleteCoupon = async (id) => {
-    if (confirm('Excluir este cupom?')) {
+    showConfirm('Excluir este cupom?', async () => {
       await deleteDoc(doc(db, 'coupons', id));
       loadData();
-    }
+    });
   };
 
   const editOffer = (offer) => {

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Plus, Trash2, Edit, Check, X } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminCouponsPage = () => {
   const [coupons, setCoupons] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ code: '', type: 'percent', value: '', active: true });
+  const { showAlert, showConfirm } = useAlert();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'coupons'), (snap) => {
@@ -30,14 +32,14 @@ const AdminCouponsPage = () => {
       setFormData({ code: '', type: 'percent', value: '', active: true });
       setShowForm(false);
     } catch (err) {
-      alert(err.message);
+      showAlert(err.message);
     }
   };
 
   const handleDelete = async (id) => {
-    if (confirm('Excluir este cupom?')) {
+    showConfirm('Excluir este cupom?', async () => {
       await deleteDoc(doc(db, 'coupons', id));
-    }
+    });
   };
 
   const handleToggleActive = async (id, currentStatus) => {

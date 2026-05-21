@@ -1,0 +1,1179 @@
+{
+  "nodes": [
+    {
+      "id": "AGENTS_md",
+      "label": "AGENTS.md",
+      "file_type": "document",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Faciil_MeuPDV",
+      "label": "Faciil / Meu PDV",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "React_19",
+      "label": "React 19.2.5",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Vite_8",
+      "label": "Vite 8.0.10",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Tailwind_CSS_4",
+      "label": "Tailwind CSS 4.2.4",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Firebase_12",
+      "label": "Firebase 12.12.1",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "React_Router_DOM",
+      "label": "React Router DOM 7.14.2",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "React_Hook_Form",
+      "label": "React Hook Form",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Zod",
+      "label": "Zod",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Recharts",
+      "label": "Recharts",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Vercel",
+      "label": "Vercel",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "GitHub",
+      "label": "GitHub",
+      "file_type": "code",
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Firebase_Firestore",
+      "label": "Firebase Firestore",
+      "file_type": "code",
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "index_html",
+      "label": "index.html",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "main_jsx",
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Nunito_Sans",
+      "label": "Nunito Sans Font",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Rubik",
+      "label": "Rubik Font",
+      "file_type": "code",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "README_md",
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "React_Compiler",
+      "label": "React Compiler",
+      "file_type": "rationale",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "rationale": "not enabled by default in template due to impact on dev & build performances"
+    },
+    {
+      "id": "humans_txt",
+      "label": "humans.txt",
+      "file_type": "document",
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "robots_txt",
+      "label": "robots.txt",
+      "file_type": "document",
+      "source_file": "public/robots.txt",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "google_verification",
+      "label": "Google Site Verification",
+      "file_type": "document",
+      "source_file": "public/googlec9b0a8c9d8b3f3c8.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Vite_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "file_type": "code",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "Vite_plugin_react_swc",
+      "label": "@vitejs/plugin-react-swc",
+      "file_type": "code",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "ESLint",
+      "label": "ESLint",
+      "file_type": "code",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "favicon_svg",
+      "label": "Favicon SVG",
+      "file_type": "code",
+      "source_file": "public/favicon.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "gemini_generated_image",
+      "label": "Gemini Generated Favicon Image",
+      "file_type": "image",
+      "source_file": "public/Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "icons_sprite",
+      "label": "Social Media Icons Sprite",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "og_image_faciil",
+      "label": "FACIIL Open Graph Image",
+      "file_type": "code",
+      "source_file": "public/og-image.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "hero_png",
+      "label": "Hero Banner Image",
+      "file_type": "image",
+      "source_file": "src/assets/hero.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "react_logo_svg",
+      "label": "React Logo SVG",
+      "file_type": "code",
+      "source_file": "src/assets/react.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "vite_logo_svg",
+      "label": "Vite Logo SVG",
+      "file_type": "code",
+      "source_file": "src/assets/vite.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "brand_faciil",
+      "label": "Faciil",
+      "file_type": "rationale",
+      "source_file": "public/og-image.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "concept_react",
+      "label": "React",
+      "file_type": "rationale",
+      "source_file": "src/assets/react.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "concept_vite",
+      "label": "Vite",
+      "file_type": "rationale",
+      "source_file": "src/assets/vite.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "concept_uber_flash",
+      "label": "Uber Flash Delivery",
+      "file_type": "rationale",
+      "source_file": "public/og-image.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "location_crato_ce",
+      "label": "Crato-CE",
+      "file_type": "rationale",
+      "source_file": "public/og-image.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "social_bluesky",
+      "label": "Bluesky Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "social_discord",
+      "label": "Discord Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "social_github",
+      "label": "GitHub Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "social_x",
+      "label": "X/Twitter Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "social_documentation",
+      "label": "Documentation Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "icon_generic_social",
+      "label": "Generic Social Icon",
+      "file_type": "code",
+      "source_file": "public/icons.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "AGENTS_md",
+      "target": "Faciil_MeuPDV",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "React_19",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Vite_8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Tailwind_CSS_4",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Firebase_12",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "React_Router_DOM",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "React_Hook_Form",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Zod",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Recharts",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "Vercel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "AGENTS_md",
+      "target": "GitHub",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "React_19",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Vite_8",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Tailwind_CSS_4",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Firebase_12",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "React_Router_DOM",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "React_Hook_Form",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Zod",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Recharts",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Vercel",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "GitHub",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Faciil_MeuPDV",
+      "target": "Firebase_Firestore",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "Faciil_MeuPDV",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "main_jsx",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "Nunito_Sans",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "Rubik",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "Faciil_MeuPDV",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "React_19",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "Vite_8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "Tailwind_CSS_4",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "Vercel",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "humans_txt",
+      "target": "Firebase_Firestore",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/humans.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "React_19",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "Vite_8",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "React_Compiler",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "Vite_plugin_react",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "Vite_plugin_react_swc",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "README_md",
+      "target": "ESLint",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "robots_txt",
+      "target": "Faciil_MeuPDV",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/robots.txt",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "google_verification",
+      "target": "Faciil_MeuPDV",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/googlec9b0a8c9d8b3f3c8.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Vite_8",
+      "target": "React_19",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "React_Hook_Form",
+      "target": "Zod",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "AGENTS.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "React_Compiler",
+      "target": "React_19",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Vite_plugin_react",
+      "target": "Vite_8",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Vite_plugin_react_swc",
+      "target": "Vite_8",
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Vite_plugin_react",
+      "target": "React_19",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "Vite_plugin_react_swc",
+      "target": "React_19",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "README_md",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "index_html",
+      "target": "AGENTS_md",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "favicon_svg",
+      "target": "concept_vite",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/favicon.svg",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "gemini_generated_image",
+      "target": "og_image_faciil",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "index.html",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "gemini_generated_image",
+      "target": "brand_faciil",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.7,
+      "source_file": "index.html",
+      "source_location": 5,
+      "weight": 1.0
+    },
+    {
+      "source": "og_image_faciil",
+      "target": "brand_faciil",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/og-image.svg",
+      "source_location": 4,
+      "weight": 1.0
+    },
+    {
+      "source": "og_image_faciil",
+      "target": "location_crato_ce",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/og-image.svg",
+      "source_location": 6,
+      "weight": 1.0
+    },
+    {
+      "source": "og_image_faciil",
+      "target": "concept_uber_flash",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/og-image.svg",
+      "source_location": 6,
+      "weight": 1.0
+    },
+    {
+      "source": "react_logo_svg",
+      "target": "concept_react",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/assets/react.svg",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "vite_logo_svg",
+      "target": "concept_vite",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/assets/vite.svg",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "vite_logo_svg",
+      "target": "favicon_svg",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/favicon.svg",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "social_bluesky",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 2,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "social_discord",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 6,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "social_github",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 14,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "social_x",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 21,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "icon_generic_social",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 17,
+      "weight": 1.0
+    },
+    {
+      "source": "icons_sprite",
+      "target": "social_documentation",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "public/icons.svg",
+      "source_location": 9,
+      "weight": 1.0
+    },
+    {
+      "source": "hero_png",
+      "target": "brand_faciil",
+      "relation": "conceptually_related_to",
+      "confidence": "AMBIGUOUS",
+      "confidence_score": 0.3,
+      "source_file": "src/assets/hero.png",
+      "source_location": null,
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "meupdv_tech_stack",
+      "label": "Meu PDV Tech Stack",
+      "nodes": [
+        "Faciil_MeuPDV",
+        "React_19",
+        "Vite_8",
+        "Tailwind_CSS_4",
+        "Firebase_12",
+        "React_Router_DOM",
+        "React_Hook_Form",
+        "Zod",
+        "Recharts"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "deployment_pipeline",
+      "label": "Deployment Pipeline",
+      "nodes": [
+        "Faciil_MeuPDV",
+        "Vercel",
+        "GitHub"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "AGENTS.md"
+    },
+    {
+      "id": "entry_point_chain",
+      "label": "Entry Point Chain",
+      "nodes": [
+        "index_html",
+        "main_jsx",
+        "Faciil_MeuPDV"
+      ],
+      "relation": "form",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

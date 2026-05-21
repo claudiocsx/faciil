@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Plus, Pencil, Trash2, ChevronUp, ChevronDown, Package, X } from 'lucide-react';
+import { useAlert } from '../contexts/AlertContext';
 
 const ICONS = [
   { name: 'Watch', label: 'Relógio' },
@@ -57,6 +58,7 @@ const AdminCategoriesPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({ name: '', icon: 'Box' });
+  const { showConfirm } = useAlert();
 
   useEffect(() => {
     loadCategories();
@@ -108,14 +110,15 @@ const AdminCategoriesPage = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!confirm('Tem certeza que deseja excluir esta categoria?')) return;
-    try {
-      await deleteDoc(doc(db, 'categories', id));
-      loadCategories();
-    } catch (err) {
-      console.error('Erro ao excluir:', err);
-    }
+  const handleDelete = (id) => {
+    showConfirm('Tem certeza que deseja excluir esta categoria?', async () => {
+      try {
+        await deleteDoc(doc(db, 'categories', id));
+        loadCategories();
+      } catch (err) {
+        console.error('Erro ao excluir:', err);
+      }
+    });
   };
 
   const handleMove = async (index, direction) => {

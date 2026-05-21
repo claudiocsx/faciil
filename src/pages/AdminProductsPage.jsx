@@ -2,10 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Trash2, Edit, Upload, Star } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminProductsPage = () => {
   const navigate = useNavigate();
   const { products, removeProduct, updateProduct } = useProducts();
+  const { showConfirm } = useAlert();
   const toggleFeatured = (p) => {
     updateProduct(p.id, { featured: !p.featured });
   };
@@ -71,7 +73,7 @@ const AdminProductsPage = () => {
                   <Edit size={18} />
                 </button>
                 <button
-                  onClick={() => { if (confirm('Excluir este produto?')) removeProduct(p.id); }}
+                  onClick={() => showConfirm('Excluir este produto?', () => removeProduct(p.id))}
                   className="p-2 text-text-dim hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   title="Remover produto"
                 >

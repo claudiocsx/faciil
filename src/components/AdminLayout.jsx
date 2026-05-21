@@ -15,6 +15,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifCount, setNotifCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -192,7 +193,15 @@ const AdminLayout = () => {
                 <input 
                   type="text" 
                   placeholder="Buscar produtos, pedidos, clientes..." 
-                   className="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm outline-none transition-all"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && searchQuery.trim()) {
+                      navigate(`/admin/products?search=${encodeURIComponent(searchQuery.trim())}`);
+                      setSearchQuery('');
+                    }
+                  }}
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg text-sm outline-none transition-all"
                   style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                   onFocus={(e) => e.target.style.borderColor = '#FFB347'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(0,0,0,0.04)'}

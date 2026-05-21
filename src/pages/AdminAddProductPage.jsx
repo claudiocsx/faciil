@@ -5,11 +5,13 @@ import { useProducts } from '../contexts/ProductContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import ProfitCalculator from '../components/ProfitCalculator';
+import { useAlert } from '../contexts/AlertContext';
 
 const AdminAddProductPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { addProduct, updateProduct } = useProducts();
+  const { showAlert } = useAlert();
   const fileInputRef = useRef(null);
   
   const editingProduct = location.state;
@@ -157,7 +159,7 @@ const AdminAddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!editingProduct && !formData.image) return alert('Adicione uma imagem do produto.');
+    if (!editingProduct && !formData.image) return showAlert('Adicione uma imagem do produto.');
     
     setSaving(true);
     try {
@@ -182,7 +184,7 @@ const AdminAddProductPage = () => {
       }
       navigate('/admin/products');
     } catch (err) {
-      alert(err.message);
+      showAlert(err.message);
     }
     setSaving(false);
   };
@@ -291,12 +293,12 @@ const AdminAddProductPage = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
+          <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
           <span className="text-sm text-text-secondary">Marcar como Novo</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="comingSoon" checked={formData.comingSoon} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#1DF2FF' }} />
+          <input type="checkbox" name="comingSoon" checked={formData.comingSoon} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
           <span className="text-sm text-text-secondary">Produto a caminho (Em breve)</span>
         </div>
 
