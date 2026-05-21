@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, X, Image, Tag, Percent, Truck, Trash2, Edit } from 'lucide-react';
+import { Plus, X, Image, Tag, Percent, Truck, Trash2, Edit, ExternalLink } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import LoadingScreen from '../components/LoadingScreen';
@@ -9,16 +9,20 @@ const AdminBannersPage = () => {
   const navigate = useNavigate();
   const [offers, setOffers] = useState([]);
   const [coupons, setCoupons] = useState([]);
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showOfferForm, setShowOfferForm] = useState(false);
   const [showCouponForm, setShowCouponForm] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [productSearch, setProductSearch] = useState('');
+  const [productDropdownOpen, setProductDropdownOpen] = useState(false);
 
   const [offerForm, setOfferForm] = useState({
     title: '',
     subtitle: '',
     image: '',
-    link: '#products-section'
+    productId: '',
+    productName: ''
   });
   const [uploading, setUploading] = useState(false);
 
@@ -59,9 +63,11 @@ const AdminBannersPage = () => {
     try {
       const offerSnap = await getDocs(collection(db, 'banners_offers'));
       const couponSnap = await getDocs(collection(db, 'coupons'));
+      const productSnap = await getDocs(query(collection(db, 'products'), orderBy('name', 'asc')));
       
       setOffers(offerSnap.docs.map(d => ({ id: d.id, ...d.data() })));
       setCoupons(couponSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setProducts(productSnap.docs.map(d => ({ id: d.id, ...d.data() })));
     } catch (err) {
       console.error('Erro ao carregar:', err);
     }
@@ -76,7 +82,7 @@ const AdminBannersPage = () => {
       } else {
         await addDoc(collection(db, 'banners_offers'), offerForm);
       }
-      setOfferForm({ title: '', subtitle: '', image: '', link: '#products-section' });
+      setOfferForm({ title: '', subtitle: '', image: '', productId: '', productName: '' });
       setShowOfferForm(false);
       setEditingItem(null);
       loadData();
@@ -167,7 +173,7 @@ const AdminBannersPage = () => {
             Ofertas do Carrossel
           </h3>
           <button
-            onClick={() => { setShowOfferForm(true); setEditingItem(null); setOfferForm({ title: '', subtitle: '', image: '', link: '#products-section' }); }}
+            onClick={() => { setShowOfferForm(true); setEditingItem(null); setOfferForm({ title: '', subtitle: '', image: '', productId: '', productName: '' }); setProductSearch(''); }}
             className="flex items-center gap-1 px-3 py-2 rounded-xl font-bold text-sm"
             style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
           >
@@ -224,6 +230,54 @@ const AdminBannersPage = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Vinculo com Produto */}
+                <div className="mb-3 relative">
+                  <label className="text-xs font-medium mb-1 block" style={{ color: '#64748B' }}>Vincular a um produto (opcional)</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={offerForm.productName || productSearch}
+                      onChange={(e) => { setProductSearch(e.target.value); setProductDropdownOpen(true); if (!e.target.value) setOfferForm({ ...offerForm, productId: '', productName: '' }); }}
+                      onFocus={() => setProductDropdownOpen(true)}
+                      placeholder="Buscar produto..."
+                      className="w-full px-3 py-2 rounded-xl text-sm outline-none"
+                      style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
+                    />
+                    {offerForm.productId && (
+                      <button type="button" onClick={() => { setOfferForm({ ...offerForm, productId: '', productName: '' }); setProductSearch(''); }} className="absolute right-2 top-1/2 -translate-y-1/2">
+                        <X size={14} style={{ color: '#94A3B8' }} />
+                      </button>
+                    )}
+                  </div>
+                  {productDropdownOpen && (
+                    <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto rounded-xl shadow-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
+                      {products
+                        .filter(p => !productSearch || p.name.toLowerCase().includes(productSearch.toLowerCase()))
+                        .slice(0, 8)
+                        .map(p => (
+                          <button
+                            key={p.id}
+                            type="button"
+                            onClick={() => { setOfferForm({ ...offerForm, productId: p.id, productName: p.name }); setProductSearch(p.name); setProductDropdownOpen(false); }}
+                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 transition-colors"
+                            style={{ color: '#1A2238' }}
+                          >
+                            {p.name}
+                          </button>
+                        ))}
+                      {products.filter(p => !productSearch || p.name.toLowerCase().includes(productSearch.toLowerCase())).length === 0 && (
+                        <p className="px-3 py-2 text-sm" style={{ color: '#94A3B8' }}>Nenhum produto encontrado</p>
+                      )}
+                    </div>
+                  )}
+                  {offerForm.productName && (
+                    <p className="text-xs mt-1 flex items-center gap-1" style={{ color: '#10B981' }}>
+                      <ExternalLink size={10} /> Vinculado a: {offerForm.productName}
+                    </p>
+                  )}
+                </div>
+
                 <div className="flex gap-2">
                   <button type="button" onClick={() => setShowOfferForm(false)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ backgroundColor: '#FFFFFF', color: '#94A3B8', border: '1px solid rgba(0,0,0,0.04)' }}>
                     Cancelar
@@ -240,8 +294,9 @@ const AdminBannersPage = () => {
             <div key={offer.id} className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
               <img src={offer.image} alt={offer.title} className="w-16 h-16 rounded-lg object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-sm truncate" style={{ color: '#1A2238' }}>{offer.title}</h4>
+                <h4 className="font-bold text-sm truncate" style={{ color: '#1A2238' }}>{offer.title || 'Sem título'}</h4>
                 <p className="text-xs" style={{ color: '#FFB347' }}>{offer.subtitle}</p>
+                {offer.productName && <p className="text-xs mt-0.5 flex items-center gap-1" style={{ color: '#10B981' }}><ExternalLink size={10} /> {offer.productName}</p>}
                 <div className="flex gap-1 mt-1">
                   <button onClick={() => editOffer(offer)} className="p-1 rounded hover:bg-black/5"><Edit size={12} style={{ color: '#94A3B8' }} /></button>
                   <button onClick={() => handleDeleteOffer(offer.id)} className="p-1 rounded hover:bg-red-50"><Trash2 size={12} style={{ color: '#EF4444' }} /></button>

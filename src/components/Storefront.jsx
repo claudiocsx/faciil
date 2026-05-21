@@ -9,7 +9,7 @@ import ProductSkeleton from './ProductSkeleton';
 import CustomerAuthModal from './CustomerAuthModal';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import { db } from '../firebase';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
 
 const ICONS_MAP = {
   'Smartwatches': Watch,
@@ -21,18 +21,10 @@ const ICONS_MAP = {
   'default': Package,
 };
 
-const COUPONS_DATA = [
+const FALLBACK_COUPONS = [
   { id: 1, code: 'FACIIL10', discount: '10% OFF' },
   { id: 2, code: 'PRIMEIRA', discount: '15% OFF' },
-  { id: 3, code: 'TECNOLOGIA', discount: '20% OFF' },
-  { id: 4, code: 'NOVIDADE', discount: 'R$ 30 OFF' },
 ];
-
-const BANNER_DATA = {
-  title: 'Smartwatch Pro',
-  subtitle: '30% OFF',
-  image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
-};
 
 const ACCESS_CARDS = [
   { icon: Truck, title: 'Frete grátis', desc: 'Entregas via Uber Flash em Crato - CE. Consulte prazos.' },
@@ -63,8 +55,17 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const offerScrollRef = useRef(null);
 
   const [categoryIcons, setCategoryIcons] = useState({});
+  const [banners, setBanners] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const carouselInterval = useRef(null);
+
+  // Carrega banners do Firestore
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'banners_offers'), (snapshot) => {
+      setBanners(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
+    });
+    return () => unsubscribe();
+  }, []);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -76,16 +77,28 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, [products]);
 
   const heroSlides = useMemo(() => {
-    const withImg = products.filter(p => p.image || p.images?.[0]).slice(0, 4);
+    const bannerSlides = banners.filter(b => b.image).map(b => ({
+      type: 'banner',
+      id: b.id,
+      image: b.image,
+      title: b.title,
+      subtitle: b.subtitle,
+      productId: b.productId,
+      productName: b.productName,
+    }));
+
+    if (bannerSlides.length > 0) return bannerSlides;
+
+    const withImg = products.filter(p => p.image || p.images?.[0]).slice(0, 3);
     const productSlides = withImg.map(p => ({
       type: 'product',
       id: p.id,
       product: p,
     }));
-    const couponSlides = COUPONS_DATA.slice(0, 2).map(c => ({ type: 'coupon', ...c }));
+    const couponSlides = FALLBACK_COUPONS.map(c => ({ type: 'coupon', ...c }));
     const all = [...productSlides, ...couponSlides];
     return all.length > 0 ? all : [{ type: 'product', id: 'fallback', product: null }];
-  }, [products]);
+  }, [products, banners]);
 
   const nextSlide = () => setCurrentSlide(prev => (prev + 1) % heroSlides.length);
   const prevSlide = () => setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length);
@@ -436,7 +449,38 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 <div className="absolute top-[20%] right-[35%] w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}></div>
 
                 <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10">
-                  {item.type === 'product' && item.product ? (
+                  {item.type === 'banner' ? (
+                    <div className="relative w-full h-full flex items-center cursor-pointer"
+                      onClick={() => { if (item.productId) navigate(`/produto/${item.productId}`); }}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title || ''}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.7) 0%, rgba(26,34,56,0.2) 50%, transparent 70%)' }} />
+                      {(item.title || item.subtitle) && (
+                        <div className="relative z-10 max-w-lg px-4">
+                          {item.title && (
+                            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                              {item.title}
+                            </h2>
+                          )}
+                          {item.subtitle && (
+                            <p className="text-lg sm:text-xl md:text-2xl font-bold mt-2" style={{ color: '#FFB347' }}>
+                              {item.subtitle}
+                            </p>
+                          )}
+                          {item.productName && (
+                            <span className="inline-block mt-3 px-4 py-2 rounded-lg font-bold text-xs md:text-sm"
+                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                              Ver Produto
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : item.type === 'product' && item.product ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center h-full gap-6">
                       {/* Left: Floating Product */}
                       <div className="relative flex justify-center items-center order-2 md:order-1">
