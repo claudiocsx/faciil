@@ -57,13 +57,16 @@ const AdminBannersPage = () => {
 
   useEffect(() => {
     loadData();
+    const closeDropdown = () => setProductDropdownOpen(false);
+    document.addEventListener('mousedown', closeDropdown);
+    return () => document.removeEventListener('mousedown', closeDropdown);
   }, []);
 
   const loadData = async () => {
     try {
       const offerSnap = await getDocs(collection(db, 'banners_offers'));
       const couponSnap = await getDocs(collection(db, 'coupons'));
-      const productSnap = await getDocs(query(collection(db, 'products'), orderBy('name', 'asc')));
+      const productSnap = await getDocs(collection(db, 'products'));
       
       setOffers(offerSnap.docs.map(d => ({ id: d.id, ...d.data() })));
       setCoupons(couponSnap.docs.map(d => ({ id: d.id, ...d.data() })));
@@ -233,14 +236,21 @@ const AdminBannersPage = () => {
 
                 {/* Vinculo com Produto */}
                 <div className="mb-3 relative">
-                  <label className="text-xs font-medium mb-1 block" style={{ color: '#64748B' }}>Vincular a um produto (opcional)</label>
+                  <label className="text-xs font-medium mb-1 flex items-center gap-1" style={{ color: '#64748B' }}>
+                    Vincular a um produto (opcional)
+                    {products.length > 0 && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ backgroundColor: '#E2E8F0', color: '#64748B' }}>
+                        {products.length} produtos
+                      </span>
+                    )}
+                  </label>
                   <div className="relative">
                     <input
                       type="text"
                       value={offerForm.productName || productSearch}
                       onChange={(e) => { setProductSearch(e.target.value); setProductDropdownOpen(true); if (!e.target.value) setOfferForm({ ...offerForm, productId: '', productName: '' }); }}
                       onFocus={() => setProductDropdownOpen(true)}
-                      placeholder="Buscar produto..."
+                      placeholder="Digite o nome do produto..."
                       className="w-full px-3 py-2 rounded-xl text-sm outline-none"
                       style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.04)', color: '#1A2238' }}
                     />
@@ -250,25 +260,30 @@ const AdminBannersPage = () => {
                       </button>
                     )}
                   </div>
-                  {productDropdownOpen && (
-                    <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto rounded-xl shadow-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
+                  {productDropdownOpen && products.length > 0 && (
+                    <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-xl shadow-lg" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)' }}>
                       {products
                         .filter(p => !productSearch || p.name.toLowerCase().includes(productSearch.toLowerCase()))
-                        .slice(0, 8)
+                        .slice(0, 10)
                         .map(p => (
                           <button
                             key={p.id}
                             type="button"
                             onClick={() => { setOfferForm({ ...offerForm, productId: p.id, productName: p.name }); setProductSearch(p.name); setProductDropdownOpen(false); }}
-                            className="w-full text-left px-3 py-2 text-sm hover:bg-gray-50 transition-colors"
-                            style={{ color: '#1A2238' }}
+                            className="w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 transition-colors border-b last:border-0"
+                            style={{ color: '#1A2238', borderColor: 'rgba(0,0,0,0.04)' }}
                           >
                             {p.name}
                           </button>
                         ))}
                       {products.filter(p => !productSearch || p.name.toLowerCase().includes(productSearch.toLowerCase())).length === 0 && (
-                        <p className="px-3 py-2 text-sm" style={{ color: '#94A3B8' }}>Nenhum produto encontrado</p>
+                        <p className="px-3 py-2 text-sm" style={{ color: '#94A3B8' }}>Nenhum produto encontrado com esse nome</p>
                       )}
+                    </div>
+                  )}
+                  {productDropdownOpen && products.length === 0 && (
+                    <div className="absolute z-50 mt-1 w-full rounded-xl shadow-lg p-3 text-sm text-center" style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(0,0,0,0.08)', color: '#EF4444' }}>
+                      Nenhum produto encontrado. Crie produtos primeiro.
                     </div>
                   )}
                   {offerForm.productName && (
