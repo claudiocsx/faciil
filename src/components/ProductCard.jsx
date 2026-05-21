@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ShoppingCart, Heart, Star, Zap, Check, Upload, Plus } from 'lucide-react';
+import { ShoppingCart, Heart, Star, Zap, Check, Upload, Plus, Clock } from 'lucide-react';
+import CountdownTimer from './CountdownTimer';
 
 const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -12,6 +13,8 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
     : 0;
+
+  const isFlashSale = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date();
 
   const stars = product.rating || 4.5;
   const reviews = product.reviews || 0;
@@ -84,8 +87,8 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
       tabIndex={0}
       style={{ 
         backgroundColor: '#FFFFFF',
-        border: '1px solid rgba(0,0,0,0.04)',
-        boxShadow: '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
+        border: `1px solid ${isFlashSale ? 'rgba(239,68,68,0.3)' : 'rgba(0,0,0,0.04)'}`,
+        boxShadow: isFlashSale ? '0 4px 20px -2px rgba(239,68,68,0.15)' : '0 4px 20px -2px rgba(26, 34, 56, 0.04)'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -111,7 +114,12 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
         {/* Badges - Modernos */}
         <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 sm:gap-2 z-10">
-          {discount > 0 && (
+          {isFlashSale && (
+            <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#EF4444', color: '#FFFFFF' }}>
+              <Zap size={12} /> Relâmpago
+            </span>
+          )}
+          {discount > 0 && !isFlashSale && (
             <span className="px-3 py-1 rounded-full text-xs font-black font-bold flex items-center gap-1" style={{ backgroundColor: '#FFB800',  }}>
               -{discount}%
             </span>
@@ -228,6 +236,11 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
           <p className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>
             ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
           </p>
+          {isFlashSale && (
+            <div className="flex items-center gap-1 mt-1">
+              <CountdownTimer endsAt={product.flashSale.endsAt} compact />
+            </div>
+          )}
         </div>
 
         {/* Botão Comprar - Mobile */}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, X } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, Zap, X } from 'lucide-react';
 import Logo from './Logo';
+import CountdownTimer from './CountdownTimer';
 
 const ProductDetail = ({ product, onBack, onAddToCart }) => {
   const [quantity, setQuantity] = useState(1);
@@ -183,6 +184,19 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>
                   ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
                 </p>
+                {product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date() && (
+                  <div className="mt-2 p-3 rounded-xl flex items-center gap-2" style={{ backgroundColor: '#FEF2F2', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    <Zap size={16} style={{ color: '#EF4444' }} />
+                    <div>
+                      <span className="text-xs font-bold" style={{ color: '#EF4444' }}>Oferta Relâmpago</span>
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <Clock size={12} style={{ color: '#EF4444' }} />
+                        <span className="text-xs" style={{ color: '#EF4444' }}>Termina em </span>
+                        <CountdownTimer endsAt={product.flashSale.endsAt} />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {product.comingSoon ? (

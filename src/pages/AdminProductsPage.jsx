@@ -51,7 +51,14 @@ const AdminProductsPage = () => {
                 </button>
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-sm text-text-primary truncate">{p.name}</h4>
+                <h4 className="font-bold text-sm text-text-primary truncate">
+                  {p.name}
+                  {p.flashSale?.endsAt && new Date(p.flashSale.endsAt) > new Date() && (
+                    <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold align-middle" style={{ backgroundColor: '#FEE2E2', color: '#EF4444' }}>
+                      ⚡
+                    </span>
+                  )}
+                </h4>
                 <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {p.price.toFixed(2)}</p>
                 <p className="text-xs text-text-dim">Estoque: {p.stock}</p>
                 {p.supplier && <p className="text-xs text-text-dim mt-1 truncate" style={{ color: '#FFB347' }}>📦 {p.supplier}</p>}

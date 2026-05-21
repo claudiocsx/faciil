@@ -1,12 +1,13 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal, Sparkles, ShoppingBag } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown, ChevronLeft, ChevronRight, ClipboardList, Package, Loader2, Tag, Percent, CreditCard, Shield, Truck, Mail, MapPin, User, LogOut, X, Watch, Headphones, Plug, Cable, Smartphone, Star, SlidersHorizontal, Sparkles, ShoppingBag, Zap } from 'lucide-react';
 import ProductCard from './ProductCard';
 import FeaturedProducts from './FeaturedProducts';
 import Toast from './Toast';
 import Logo from './Logo';
 import ProductSkeleton from './ProductSkeleton';
 import CustomerAuthModal from './CustomerAuthModal';
+import CountdownTimer from './CountdownTimer';
 import { useCustomerAuth } from '../contexts/CustomerAuthContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
@@ -99,6 +100,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
     const all = [...productSlides, ...couponSlides];
     return all.length > 0 ? all : [{ type: 'product', id: 'fallback', product: null }];
   }, [products, banners]);
+
+  const flashProducts = useMemo(() =>
+    products.filter(p => p.flashSale?.endsAt && new Date(p.flashSale.endsAt) > new Date()),
+    [products]
+  );
 
   const nextSlide = () => setCurrentSlide(prev => (prev + 1) % heroSlides.length);
   const prevSlide = () => setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length);
@@ -636,6 +642,75 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           </div>
         </div>
       </section>
+
+      {/* Ofertas Relâmpago */}
+      {flashProducts.length > 0 && (
+        <section className="py-6 sm:py-8" style={{ backgroundColor: '#FEF2F2', borderBottom: '1px solid rgba(239,68,68,0.1)' }}>
+          <div className="max-w-7xl mx-auto px-4 lg:px-8">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg" style={{ backgroundColor: '#EF4444' }}>
+                  <Zap size={16} style={{ color: '#FFFFFF' }} />
+                </div>
+                <h2 className="text-sm sm:text-lg font-black" style={{ color: '#1A2238' }}>Ofertas Relâmpago</h2>
+              </div>
+            </div>
+            <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
+              {flashProducts.map(p => {
+                const img = p.image || p.images?.[0];
+                return (
+                  <div
+                    key={p.id}
+                    onClick={() => onViewDetail(p)}
+                    className="flex-shrink-0 snap-start w-[65vw] sm:w-[280px] rounded-xl overflow-hidden cursor-pointer transition-all hover:shadow-lg group"
+                    style={{ backgroundColor: '#FFFFFF', border: '1px solid rgba(239,68,68,0.3)', boxShadow: '0 2px 12px rgba(239,68,68,0.12)' }}
+                  >
+                    <div className="relative w-full aspect-[4/3] overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
+                      {img && !img.startsWith('blob:') ? (
+                        <img src={img} alt={p.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F1F5F9' }}>
+                          <Zap size={32} style={{ color: '#FCA5A5' }} />
+                        </div>
+                      )}
+                      <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-black flex items-center gap-1" style={{ backgroundColor: '#EF4444', color: '#FFFFFF' }}>
+                          <Zap size={10} /> Relâmpago
+                        </span>
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-black" style={{ backgroundColor: '#FFB800', color: '#1A2238' }}>
+                          -{p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0}%
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-2.5 sm:p-3 space-y-1">
+                      <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{p.category}</p>
+                      <h3 className="font-bold text-xs sm:text-sm line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</h3>
+                      <div className="flex items-baseline gap-2 pt-1">
+                        <p className="text-base sm:text-lg font-extrabold" style={{ color: '#1A2238' }}>R$ {p.price?.toFixed(2)}</p>
+                        {p.originalPrice && (
+                          <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>R$ {p.originalPrice.toFixed(2)}</p>
+                        )}
+                      </div>
+                      {p.flashSale?.endsAt && (
+                        <div className="flex items-center gap-1 pt-1">
+                          <CountdownTimer endsAt={p.flashSale.endsAt} />
+                        </div>
+                      )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                        style={{ backgroundColor: '#EF4444', color: '#FFFFFF' }}
+                      >
+                        Adicionar
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
       <div id="destaques">
         <FeaturedProducts
