@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Camera, Upload, X, Star } from 'lucide-react';
+import { Camera, Upload, X, Star, ImagePlus } from 'lucide-react';
 import { useProducts } from '../contexts/ProductContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
@@ -40,12 +40,16 @@ const AdminAddProductPage = () => {
     stock: editingProduct?.stock || '',
     category: editingProduct?.category || (categories[0] || 'Smartwatches'),
     image: editingProduct?.image || editingProduct?.images?.[0] || '',
+    images: editingProduct?.images?.slice(1) || [],
     isNew: editingProduct?.isNew || false,
     comingSoon: editingProduct?.comingSoon || false,
     featured: editingProduct?.featured || false
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || editingProduct?.images?.[0] || null);
+  const [galleryPreviews, setGalleryPreviews] = useState(editingProduct?.images?.slice(1) || []);
   const [dragActive, setDragActive] = useState(false);
+  const [galleryDragActive, setGalleryDragActive] = useState(Array(3).fill(false));
+  const galleryRefs = useRef([null, null, null]);
   const [saving, setSaving] = useState(false);
 
   const handleChange = (e) => {
@@ -64,8 +68,18 @@ const AdminAddProductPage = () => {
           canvas.width = img.width * scaleSize;
           canvas.height = img.height * scaleSize;
           const ctx = canvas.getContext('2d');
+
+          const isTransparent = file.type === 'image/png' || file.type === 'image/webp';
+
+          if (!isTransparent) {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+          }
+
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          resolve(canvas.toDataURL('image/jpeg', quality));
+
+          const mimeType = isTransparent ? file.type : 'image/jpeg';
+          resolve(canvas.toDataURL(mimeType, quality));
         };
         img.src = e.target.result;
       };
@@ -80,14 +94,56 @@ const AdminAddProductPage = () => {
     setFormData(prev => ({ ...prev, image: compressedBase64 }));
   };
 
+  const handleGalleryFile = async (file, index) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    const compressedBase64 = await compressImage(file);
+
+    const newPreviews = [...galleryPreviews];
+    newPreviews[index] = compressedBase64;
+    setGalleryPreviews(newPreviews);
+
+    const newFormImages = [...(formData.images || [])];
+    newFormImages[index] = compressedBase64;
+    setFormData(prev => ({ ...prev, images: newFormImages }));
+  };
+
   const handleFileInput = (e) => handleImageFile(e.target.files[0]);
   const handleDrop = (e) => { e.preventDefault(); setDragActive(false); handleImageFile(e.dataTransfer.files[0]); };
   const handleDragOver = (e) => { e.preventDefault(); setDragActive(true); };
   const handleDragLeave = () => setDragActive(false);
 
+  const handleGalleryDrop = (e, index) => {
+    e.preventDefault();
+    const newActive = [...galleryDragActive];
+    newActive[index] = false;
+    setGalleryDragActive(newActive);
+    handleGalleryFile(e.dataTransfer.files[0], index);
+  };
+  const handleGalleryDragOver = (e, index) => {
+    e.preventDefault();
+    const newActive = [...galleryDragActive];
+    newActive[index] = true;
+    setGalleryDragActive(newActive);
+  };
+  const handleGalleryDragLeave = (index) => {
+    const newActive = [...galleryDragActive];
+    newActive[index] = false;
+    setGalleryDragActive(newActive);
+  };
+
   const removeImage = () => {
     setImagePreview(null);
     setFormData(prev => ({ ...prev, image: '' }));
+  };
+
+  const removeGalleryImage = (index) => {
+    const newPreviews = [...galleryPreviews];
+    newPreviews[index] = undefined;
+    setGalleryPreviews(newPreviews);
+
+    const newFormImages = [...(formData.images || [])];
+    newFormImages[index] = undefined;
+    setFormData(prev => ({ ...prev, images: newFormImages }));
   };
 
   const handleProfitChange = ({ costPrice, profitMargin, price }) => {
@@ -105,8 +161,10 @@ const AdminAddProductPage = () => {
     
     setSaving(true);
     try {
+      const galleryImages = (formData.images || []).filter(Boolean);
       const productData = {
         ...formData,
+        images: galleryImages,
         price: parseFloat(formData.price),
         costPrice: formData.costPrice ? parseFloat(formData.costPrice) : null,
         profitMargin: formData.profitMargin ? parseFloat(formData.profitMargin) : null,
@@ -158,6 +216,38 @@ const AdminAddProductPage = () => {
               <p className="text-text-primary font-semibold">Clique ou arraste uma imagem</p>
             </div>
           )}
+        </div>
+
+        {/* Galeria de Imagens */}
+        <div>
+          <label className="block text-sm font-medium text-text-dim mb-2">Imagens da Galeria (opcional — até 3)</label>
+          <div className="grid grid-cols-3 gap-3">
+            {[0, 1, 2].map((i) => (
+              <div key={i}>
+                {galleryPreviews[i] ? (
+                  <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
+                    <img src={galleryPreviews[i]} alt="" className="w-full aspect-square object-cover" />
+                    <button type="button" onClick={() => removeGalleryImage(i)} className="absolute top-1 right-1 p-1.5 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
+                      <X size={14} />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onDrop={(e) => handleGalleryDrop(e, i)}
+                    onDragOver={(e) => handleGalleryDragOver(e, i)}
+                    onDragLeave={() => handleGalleryDragLeave(i)}
+                    onClick={() => galleryRefs.current[i]?.click()}
+                    className="relative border-2 border-dashed rounded-xl aspect-square flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-white/5"
+                    style={{ borderColor: galleryDragActive[i] ? '#1DF2FF' : 'rgba(0,0,0,0.12)', backgroundColor: galleryDragActive[i] ? 'rgba(29,242,255,0.05)' : '#F8FAFC' }}
+                  >
+                    <input ref={(el) => { galleryRefs.current[i] = el; }} type="file" accept="image/*" onChange={(e) => handleGalleryFile(e.target.files[0], i)} className="hidden" />
+                    <ImagePlus size={22} style={{ color: '#94A3B8' }} />
+                    <span className="text-xs mt-1" style={{ color: '#94A3B8' }}>Foto {i + 1}</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
