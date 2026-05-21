@@ -9,6 +9,11 @@ function isIOSDevice() {
 }
 const IS_IOS = isIOSDevice()
 
+function isMobile() {
+  return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    window.innerWidth < 1024
+}
+
 function isStandalone() {
   return window.matchMedia('(display-mode: standalone)').matches
 }
@@ -19,7 +24,7 @@ export default function PwaInstallPrompt() {
   const [dismissed, setDismissed] = useState(alreadyDismissed)
 
   useEffect(() => {
-    if (isStandalone() || dismissed) return
+    if (!isMobile() || isStandalone() || dismissed) return
 
     const handler = (e) => {
       e.preventDefault()
