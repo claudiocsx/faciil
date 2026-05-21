@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, X } from 'lucide-react';
 import Logo from './Logo';
 
 const ProductDetail = ({ product, onBack, onAddToCart }) => {
@@ -9,6 +9,7 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
   const [userRating, setUserRating] = useState(0);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   if (!product) return null;
 
@@ -70,7 +71,8 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 <img 
                   src={productImages[selectedImage]} 
                   alt={product.name} 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={() => setLightboxOpen(true)}
                 />
                 
                 {productImages.length > 1 && (
@@ -280,6 +282,27 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
           </div>
         </div>
       </main>
+
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 cursor-zoom-out"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all z-10"
+            aria-label="Fechar zoom"
+          >
+            <X size={24} />
+          </button>
+          <img
+            src={productImages[selectedImage]}
+            alt={product.name}
+            className="max-w-[90vw] max-h-[90vh] object-contain"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 };
