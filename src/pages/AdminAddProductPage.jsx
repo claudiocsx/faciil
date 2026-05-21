@@ -40,13 +40,13 @@ const AdminAddProductPage = () => {
     stock: editingProduct?.stock || '',
     category: editingProduct?.category || (categories[0] || 'Smartwatches'),
     image: editingProduct?.image || editingProduct?.images?.[0] || '',
-    images: editingProduct?.images?.slice(1) || [],
+    images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false,
     comingSoon: editingProduct?.comingSoon || false,
     featured: editingProduct?.featured || false
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || editingProduct?.images?.[0] || null);
-  const [galleryPreviews, setGalleryPreviews] = useState(editingProduct?.images?.slice(1) || []);
+  const [galleryPreviews, setGalleryPreviews] = useState(editingProduct?.images || []);
   const [dragActive, setDragActive] = useState(false);
   const [galleryDragActive, setGalleryDragActive] = useState(Array(3).fill(false));
   const galleryRefs = useRef([null, null, null]);
