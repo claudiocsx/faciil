@@ -582,6 +582,9 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             </>
           )}
 
+          <div className="absolute bottom-0 left-0 right-0 h-32 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to top, #FDFDFD 0%, transparent 100%)' }}
+          />
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
             {heroSlides.map((_, i) => (
               <button
