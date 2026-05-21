@@ -440,7 +440,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
       {/* Hero Carrossel - ML Style */}
       <section className="relative overflow-hidden w-full" style={{ backgroundColor: '#1A2238' }}>
         <div className="relative h-[340px] md:h-[400px]">
-          <div className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+          <div aria-live="polite" aria-atomic="true" className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {heroSlides.map((item, idx) => (
               <div key={`${item.type}-${item.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
                 {/* Decorative blur circles */}
@@ -571,11 +571,11 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
           {heroSlides.length > 1 && (
             <>
-              <button onClick={prevSlide} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
+              <button onClick={prevSlide} aria-label="Slide anterior" className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
                 style={{ backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', color: '#FFFFFF' }}>
                 <ChevronLeft size={24} />
               </button>
-              <button onClick={nextSlide} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
+              <button onClick={nextSlide} aria-label="Próximo slide" className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:scale-110"
                 style={{ backgroundColor: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', color: '#FFFFFF' }}>
                 <ChevronRight size={24} />
               </button>
@@ -586,6 +586,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             {heroSlides.map((_, i) => (
               <button
                 key={i}
+                aria-label={`Slide ${i + 1} de ${heroSlides.length}`}
                 onClick={() => { setCurrentSlide(i); clearInterval(carouselInterval.current); carouselInterval.current = setInterval(nextSlide, 5000); }}
                 className={`rounded-full transition-all duration-300 ${i === currentSlide ? 'w-6 h-2' : 'w-2 h-2'}`}
                 style={{ backgroundColor: i === currentSlide ? '#FFB347' : 'rgba(255,255,255,0.4)' }}
@@ -811,7 +812,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 <button
                   onClick={clearFilters}
                   className="text-xs underline"
-                  style={{ color: '#64748B' }}
+                  style={{ color: '#4A5568' }}
                 >
                   Limpar todos
                 </button>
@@ -866,7 +867,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                   <Package size={32} style={{ color: '#CBD5E1' }} />
                 </div>
                 <p className="text-lg" style={{ color: '#64748B' }}>Nenhum produto encontrado</p>
-                <p className="text-sm" style={{ color: '#94A3B8' }}>Tente ajustar os filtros ou buscar por outro termo</p>
+                <p className="text-sm" style={{ color: '#4A5568' }}>Tente ajustar os filtros ou buscar por outro termo</p>
                 <button
                   onClick={clearFilters}
                   className="px-6 py-2.5 rounded-xl text-sm font-medium transition-all"

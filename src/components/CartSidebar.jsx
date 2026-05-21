@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { X, Plus, Minus, Trash2, ShoppingBag, MessageCircle, MapPin, Store, Tag, Check, CheckCircle, Upload, Star } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
@@ -6,6 +6,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 const DELIVERY_FEE = 5.00;
 
 const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onRemoveItem, whatsappNumber, onSaveOrder, customer, products = [] }) => {
+  const sidebarRef = useRef(null);
   const [deliveryMethod, setDeliveryMethod] = useState('delivery');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -178,6 +179,17 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
 
   if (!isOpen) return null;
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const timer = setTimeout(() => {
+      if (sidebarRef.current) {
+        sidebarRef.current.querySelector('button, input, select, textarea, [tabindex]:not([tabindex="-1"])')?.focus();
+      }
+    }, 100);
+    const prev = document.activeElement;
+    return () => { clearTimeout(timer); prev?.focus(); };
+  }, [isOpen]);
+
   if (orderSuccess) {
     return (
       <>
@@ -205,7 +217,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
     <>
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" onClick={onClose} />
 
-      <div className="fixed right-0 top-0 h-full w-full max-w-md lg:max-w-lg xl:max-w-xl bg-white z-50 flex flex-col" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
+      <div ref={sidebarRef} className="fixed right-0 top-0 h-full w-full max-w-md lg:max-w-lg xl:max-w-xl bg-white z-50 flex flex-col" style={{ borderLeft: '1px solid rgba(0,0,0,0.04)' }}>
         <div className="flex items-center justify-between p-4 lg:p-5" style={{ borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#FFB347' }}>
