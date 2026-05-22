@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
-const FeaturedProducts = ({ products, onAddToCart, onViewDetail }) => {
+const FeaturedProducts = ({ products, onAddToCart, onViewDetail, whatsappNumber }) => {
   const scrollRef = useRef(null);
   const featured = products.filter(p => p.featured && !p.comingSoon && p.stock !== 0);
 
@@ -73,9 +73,18 @@ const FeaturedProducts = ({ products, onAddToCart, onViewDetail }) => {
                     )}
                   </div>
                   {p.comingSoon ? (
-                    <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
-                      Em breve
-                    </span>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const clean = whatsappNumber.replace(/\D/g, '');
+                        const msg = 'Ola! Quero reservar ' + p.name;
+                        window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
+                      }}
+                      className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                      style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                    >
+                      Reservar
+                    </button>
                   ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}

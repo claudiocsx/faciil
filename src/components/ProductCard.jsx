@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ShoppingCart, Heart, Star, Zap, Check, Upload, Plus, Clock } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 
-const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) => {
+const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', whatsappNumber }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [liked, setLiked] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -152,9 +152,18 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
         {/* Quick Add to Cart - Desktop: full button */}
         <div className="absolute bottom-4 left-3 right-3 hidden md:block">
           {product.comingSoon ? (
-            <span className="block w-full py-3 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
-              Em breve
-            </span>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                const clean = whatsappNumber.replace(/\D/g, '');
+                const msg = 'Ola! Quero reservar ' + product.name;
+                window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
+              }}
+              className="w-full py-3 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
+              style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+            >
+              Reservar
+            </button>
           ) : (
           <button
             onClick={handleAddToCart}
@@ -257,9 +266,18 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
         {/* Botão Comprar - Mobile */}
         {product.comingSoon ? (
-          <span className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm text-center md:hidden" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
-            Em breve
-          </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              const clean = whatsappNumber.replace(/\D/g, '');
+              const msg = 'Ola! Quero reservar ' + product.name;
+              window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
+            }}
+            className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center justify-center gap-2 md:hidden"
+            style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+          >
+            Reservar
+          </button>
         ) : (
         <button
           onClick={handleAddToCart}

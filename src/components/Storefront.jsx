@@ -454,39 +454,44 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 <div className="absolute bottom-[-10%] right-[10%] w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}></div>
                 <div className="absolute top-[20%] right-[35%] w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}></div>
 
-                <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10">
                   {item.type === 'banner' ? (
-                    <div className="relative w-full h-full flex items-center cursor-pointer"
-                      onClick={() => { if (item.productId) navigate(`/produto/${item.productId}`); }}
-                    >
+                    <div className="absolute inset-0 w-screen" style={{ left: '50%', transform: 'translateX(-50%)' }}>
                       <img
                         src={item.image}
                         alt={item.title || ''}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.7) 0%, rgba(26,34,56,0.2) 50%, transparent 70%)' }} />
-                      {(item.title || item.subtitle) && (
-                        <div className="relative z-10 max-w-lg px-4">
-                          {item.title && (
-                            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
-                              {item.title}
-                            </h2>
-                          )}
-                          {item.subtitle && (
-                            <p className="text-lg sm:text-xl md:text-2xl font-bold mt-2" style={{ color: '#FFB347' }}>
-                              {item.subtitle}
-                            </p>
-                          )}
-                          {item.productName && (
-                            <span className="inline-block mt-3 px-4 py-2 rounded-lg font-bold text-xs md:text-sm"
-                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                              Ver Produto
-                            </span>
-                          )}
-                        </div>
-                      )}
                     </div>
-                  ) : item.type === 'product' && item.product ? (
+                  ) : null}
+                  <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10 flex items-center">
+                    {item.type === 'banner' ? (
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => { if (item.productId) navigate(`/produto/${item.productId}`); }}
+                      >
+                        {(item.title || item.subtitle) && (
+                          <div className="max-w-lg px-4">
+                            {item.title && (
+                              <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                                {item.title}
+                              </h2>
+                            )}
+                            {item.subtitle && (
+                              <p className="text-lg sm:text-xl md:text-2xl font-bold mt-2" style={{ color: '#FFB347' }}>
+                                {item.subtitle}
+                              </p>
+                            )}
+                            {item.productName && (
+                              <span className="inline-block mt-3 px-4 py-2 rounded-lg font-bold text-xs md:text-sm"
+                                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                                Ver Produto
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ) : item.type === 'product' && item.product ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center h-full gap-6">
                       {/* Left: Floating Product */}
                       <div className="relative flex justify-center items-center order-2 md:order-1">
@@ -697,9 +702,18 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         </div>
                       )}
                       {p.comingSoon ? (
-                        <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
-                          Em breve
-                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const clean = whatsappNumber.replace(/\D/g, '');
+                            const msg = `Ola! Quero reservar ${p.name}`;
+                            window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
+                          }}
+                          className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                          style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                        >
+                          Reservar
+                        </button>
                       ) : (
                       <button
                         onClick={(e) => { e.stopPropagation(); onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
@@ -724,6 +738,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
           products={products}
           onAddToCart={(p) => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
           onViewDetail={(p) => onViewDetail(p)}
+          whatsappNumber={whatsappNumber}
         />
       </div>
 
@@ -772,9 +787,18 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         )}
                       </div>
                       {p.comingSoon ? (
-                        <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
-                          Em breve
-                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const clean = whatsappNumber.replace(/\D/g, '');
+                            const msg = 'Ola! Quero reservar ' + p.name;
+                            window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
+                          }}
+                          className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                          style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                        >
+                          Reservar
+                        </button>
                       ) : (
                       <button
                         onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
@@ -938,6 +962,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       searchTerm={searchTerm}
                       onAddToCart={() => { onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
                       onViewDetail={() => onViewDetail(p)}
+                      whatsappNumber={whatsappNumber}
                     />
                   ))}
                 </div>

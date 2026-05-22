@@ -214,17 +214,22 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
               </div>)})()}
 
               {product.comingSoon ? (
-                <>
-                  <div className="flex items-center gap-2">
-                    <Clock size={16} style={{ color: '#3B8BB9' }} />
-                    <span className="text-sm font-bold" style={{ color: '#3B8BB9' }}>
-                      Em breve
-                    </span>
-                  </div>
-                  <p className="text-xs" style={{ color: '#94A3B8' }}>
-                    Este produto está a caminho. Volte em breve!
+                <div className="p-4 rounded-xl" style={{ backgroundColor: '#F0FDF4', border: '1px solid rgba(37,211,102,0.2)' }}>
+                  <button
+                    onClick={() => {
+                      const clean = whatsappNumber.replace(/\D/g, '');
+                      const msg = 'Ola! Quero reservar ' + product.name + ' (R$ ' + product.price.toFixed(2) + ')';
+                      window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
+                    }}
+                    className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                    style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                  >
+                    Reservar Agora
+                  </button>
+                  <p className="text-xs mt-2 text-center" style={{ color: '#166534' }}>
+                    Produto ainda nao lancado. Reserve e avisaremos quando chegar!
                   </p>
-                </>
+                </div>
               ) : (
               <>            
               <div className="flex items-center gap-2">
