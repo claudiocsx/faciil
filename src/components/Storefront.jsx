@@ -445,7 +445,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
 
       {/* Hero Carrossel - ML Style */}
       <section className="relative overflow-hidden w-full" style={{ backgroundColor: '#1A2238' }}>
-        <div className="relative h-[200px] md:aspect-[16/9] lg:h-[400px]">
+        <div className="relative min-h-[300px] md:min-h-[60vh] lg:min-h-[500px]">
           <div aria-live="polite" aria-atomic="true" className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {heroSlides.map((item, idx) => (
               <div
@@ -453,8 +453,10 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                 className="w-full flex-shrink-0 h-full relative overflow-hidden"
                 style={item.type === 'banner' ? {
                   backgroundImage: `url(${item.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundColor: '#1A2238'
                 } : {
                   backgroundColor: '#1A2238'
                 }}
