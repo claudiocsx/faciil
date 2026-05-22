@@ -160,108 +160,11 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
                 window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
               }}
               className="w-full py-3 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all hover:scale-[1.02]"
-              style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
             >
               Reservar
             </button>
-          ) : (
-          <button
-            onClick={handleAddToCart}
-            disabled={product.stock === 0}
-            className={`w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-              justAdded ? 'scale-105' : 'hover:scale-[1.02]'
-            }`}
-            style={{ 
-              backgroundColor: justAdded ? '#1A2238' : '#FFB347',
-              color: justAdded ? '#FFFFFF' : '#1A2238',
-              boxShadow: '0 4px 12px rgba(255,179,71,0.3)'
-            }}
-          >
-            {justAdded ? <Check size={16} /> : <ShoppingCart size={16} />}
-            {justAdded ? 'No Carrinho!' : 'Comprar'}
-          </button>
-          )}
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="relative p-2 sm:p-4 space-y-1 sm:space-y-2">
-        {/* Wishlist */}
-        <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-          className={`absolute top-1 right-1 sm:top-3 sm:right-3 p-1 sm:p-2 rounded-full backdrop-blur-md transition-all z-10 ${
-            liked 
-              ? 'text-red-500' 
-              : 'bg-white/90 text-text-secondary hover:text-red-400 border border-white/30'
-          }`}
-        >
-          <Heart size={16} sm:size={18} fill={liked ? 'currentColor' : 'none'} />
-        </button>
-        <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>
-          {product.category}
-        </span>
-
-        <h3 className="font-bold text-xs sm:text-sm line-clamp-2 transition-colors" style={{ color: '#1A2238' }}>
-          {highlightText(product.name, searchTerm)}
-        </h3>
-
-        {/* Rating */}
-        <div className="flex items-center gap-1 group">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <button
-                key={i}
-                onClick={(e) => handleRate(e, i + 1)}
-                className="transition-all hover:scale-125"
-              >
-                <Star 
-                  size={12} 
-                  fill={i < displayRating ? '#FFB347' : 'none'} 
-                  style={{ 
-                    color: i < displayRating ? '#FFB347' : '#CBD5E1',
-                    transition: 'all 0.15s ease'
-                  }}
-                />
-              </button>
-            ))}
-          </div>
-          {reviews > 0 && (
-            <span className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>({reviews})</span>
-          )}
-          {userRating > 0 && (
-            <span className="text-[10px] font-medium" style={{ color: '#10B981' }}>✓</span>
-          )}
-        </div>
-
-        {/* Price */}
-        <div className="space-y-0.5 sm:space-y-1 pt-0.5 sm:pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-          {isFlashSale ? (
-            <p className="text-[10px] sm:text-xs line-through" style={{ color: '#64748B' }}>
-              De: R$ {product.price.toFixed(2)}
-            </p>
-          ) : product.originalPrice ? (
-            <p className="text-[10px] sm:text-xs line-through" style={{ color: '#64748B' }}>
-              R$ {product.originalPrice.toFixed(2)}
-            </p>
           ) : null}
-          <div className="flex items-baseline gap-2">
-            {isFlashSale && (
-              <p className="text-[10px] sm:text-xs font-bold" style={{ color: '#EF4444' }}>
-                ⚡
-              </p>
-            )}
-            <p className="text-base sm:text-2xl font-extrabold" style={{ color: '#1A2238' }}>
-              R$ {isFlashSale ? flashPrice.toFixed(2) : product.price.toFixed(2)}
-            </p>
-          </div>
-          <p className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>
-            ou 3x de R$ {((isFlashSale ? flashPrice : product.price) / 3).toFixed(2)} sem juros
-          </p>
-          {isFlashSale && (
-            <div className="flex items-center gap-1 mt-1">
-              <CountdownTimer endsAt={product.flashSale.endsAt} compact />
-            </div>
-          )}
         </div>
 
         {/* Botão Comprar - Mobile */}
@@ -274,24 +177,24 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
               window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
             }}
             className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center justify-center gap-2 md:hidden"
-            style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+            style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
           >
             Reservar
           </button>
         ) : (
-        <button
-          onClick={handleAddToCart}
-          disabled={product.stock === 0}
-          className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center justify-center gap-2 md:hidden"
-          style={{ 
-            backgroundColor: '#FFB347', 
-            color: '#1A2238',
-            opacity: product.stock === 0 ? 0.4 : 1
-          }}
-        >
-          {justAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
-          {justAdded ? 'No Carrinho!' : 'Comprar'}
-        </button>
+          <button
+            onClick={handleAddToCart}
+            disabled={product.stock === 0}
+            className="w-full mt-1 sm:mt-3 py-2 sm:py-2.5 rounded-lg font-bold text-xs sm:text-sm flex items-center justify-center gap-2 md:hidden"
+            style={{
+              backgroundColor: '#FFB347',
+              color: '#1A2238',
+              opacity: product.stock === 0 ? 0.4 : 1
+            }}
+          >
+            {justAdded ? <Check size={14} /> : <ShoppingCart size={14} />}
+            {justAdded ? 'No Carrinho!' : 'Comprar'}
+          </button>
         )}
       </div>
     </div>

@@ -81,7 +81,7 @@ const FeaturedProducts = ({ products, onAddToCart, onViewDetail, whatsappNumber 
                         window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
                       }}
                       className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
-                      style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                      style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                     >
                       Reservar
                     </button>

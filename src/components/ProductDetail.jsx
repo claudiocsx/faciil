@@ -222,11 +222,11 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                       window.open('https://wa.me/' + clean + '?text=' + encodeURIComponent(msg), '_blank');
                     }}
                     className="w-full py-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-                    style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                    style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                   >
                     Reservar Agora
                   </button>
-                  <p className="text-xs mt-2 text-center" style={{ color: '#166534' }}>
+                  <p className="text-xs mt-2 text-center" style={{ color: '#1A2238' }}>
                     Produto ainda nao lancado. Reserve e avisaremos quando chegar!
                   </p>
                 </div>
@@ -305,9 +305,9 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                     window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
                   }}
                   className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-                  style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                  style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                 >
-                  <MessageCircle size={18} fill="white" /> Compre pelo WhatsApp
+                  <MessageCircle size={18} fill="#1A2238" /> Compre pelo WhatsApp
                 </button>
               )}
               </>
