@@ -448,50 +448,54 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
         <div className="relative h-[200px] md:aspect-[16/9] lg:h-[400px]">
           <div aria-live="polite" aria-atomic="true" className="absolute inset-0 flex transition-transform duration-500 ease-out" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {heroSlides.map((item, idx) => (
-              <div key={`${item.type}-${item.id}`} className="w-full flex-shrink-0 h-full relative overflow-hidden">
+              <div
+                key={`${item.type}-${item.id}`}
+                className="w-full flex-shrink-0 h-full relative overflow-hidden"
+                style={item.type === 'banner' ? {
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                } : {
+                  backgroundColor: '#1A2238'
+                }}
+              >
                 {/* Decorative blur circles */}
                 <div className="absolute top-[-10%] left-[5%] w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(255,179,71,0.2)' }}></div>
                 <div className="absolute bottom-[-10%] right-[10%] w-96 h-96 rounded-full blur-3xl" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}></div>
                 <div className="absolute top-[20%] right-[35%] w-32 h-32 rounded-full blur-2xl" style={{ backgroundColor: 'rgba(255,179,71,0.15)' }}></div>
 
+                {/* Gradient overlay for banner */}
+                {item.type === 'banner' && (
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.7) 0%, rgba(26,34,56,0.2) 50%, transparent 70%)' }} />
+                )}
+
+                <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10">
                   {item.type === 'banner' ? (
-                    <div className="absolute inset-0 w-screen" style={{ left: '50%', transform: 'translateX(-50%)' }}>
-                      <img
-                        src={item.image}
-                        alt={item.title || ''}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(26,34,56,0.7) 0%, rgba(26,34,56,0.2) 50%, transparent 70%)' }} />
+                    <div className="w-full h-full flex items-center cursor-pointer"
+                      onClick={() => { if (item.productId) navigate(`/produto/${item.productId}`); }}
+                    >
+                      {(item.title || item.subtitle) && (
+                        <div className="max-w-lg px-4">
+                          {item.title && (
+                            <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                              {item.title}
+                            </h2>
+                          )}
+                          {item.subtitle && (
+                            <p className="text-lg sm:text-xl md:text-2xl font-bold mt-2" style={{ color: '#FFB347' }}>
+                              {item.subtitle}
+                            </p>
+                          )}
+                          {item.productName && (
+                            <span className="inline-block mt-3 px-4 py-2 rounded-lg font-bold text-xs md:text-sm"
+                              style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
+                              Ver Produto
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  ) : null}
-                  <div className="max-w-7xl mx-auto px-4 w-full h-full relative z-10 flex items-center">
-                    {item.type === 'banner' ? (
-                      <div
-                        className="cursor-pointer"
-                        onClick={() => { if (item.productId) navigate(`/produto/${item.productId}`); }}
-                      >
-                        {(item.title || item.subtitle) && (
-                          <div className="max-w-lg px-4">
-                            {item.title && (
-                              <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
-                                {item.title}
-                              </h2>
-                            )}
-                            {item.subtitle && (
-                              <p className="text-lg sm:text-xl md:text-2xl font-bold mt-2" style={{ color: '#FFB347' }}>
-                                {item.subtitle}
-                              </p>
-                            )}
-                            {item.productName && (
-                              <span className="inline-block mt-3 px-4 py-2 rounded-lg font-bold text-xs md:text-sm"
-                                style={{ backgroundColor: '#FFB347', color: '#1A2238' }}>
-                                Ver Produto
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ) : item.type === 'product' && item.product ? (
+                  ) : item.type === 'product' && item.product ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 items-center h-full gap-6">
                       {/* Left: Floating Product */}
                       <div className="relative flex justify-center items-center order-2 md:order-1">
