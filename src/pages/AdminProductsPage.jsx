@@ -55,7 +55,7 @@ const AdminProductsPage = () => {
                   {p.name}
                   {p.flashSale?.endsAt && new Date(p.flashSale.endsAt) > new Date() && (
                     <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold align-middle" style={{ backgroundColor: '#FEE2E2', color: '#EF4444' }}>
-                      ⚡
+                      ⚡ {p.flashSale.discountPercent || ''}%
                     </span>
                   )}
                 </h4>

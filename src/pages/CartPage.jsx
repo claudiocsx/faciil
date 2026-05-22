@@ -7,6 +7,7 @@ import { useProducts } from '../contexts/ProductContext';
 import { db } from '../firebase';
 import { collection, getDocs, query, where, addDoc, doc, getDoc, updateDoc, increment } from 'firebase/firestore';
 import Toast from '../components/Toast';
+import WhatsAppFloat from '../components/WhatsAppFloat';
 
 const DELIVERY_FEE = 5.00;
 
@@ -197,6 +198,16 @@ const CartPage = () => {
       message += `_Aguardando confirmacao do envio via Uber Flash_`;
     } else {
       message += `\n_Retirada no local_`;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const utmSource = params.get('utm_source');
+    if (utmSource) {
+      message += `\n\n*ORIGEM*\n`;
+      message += `utm_source: ${utmSource}\n`;
+      if (params.get('utm_medium')) message += `utm_medium: ${params.get('utm_medium')}\n`;
+      if (params.get('utm_campaign')) message += `utm_campaign: ${params.get('utm_campaign')}\n`;
+      if (params.get('utm_content')) message += `utm_content: ${params.get('utm_content')}\n`;
     }
 
     const url = `https://wa.me/${whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
@@ -586,6 +597,7 @@ const CartPage = () => {
           </div>
         </>
       )}
+      <WhatsAppFloat number={whatsappNumber} />
     </div>
   );
 };

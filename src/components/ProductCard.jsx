@@ -15,6 +15,8 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
     : 0;
 
   const isFlashSale = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date();
+  const flashDiscount = isFlashSale ? (product.flashSale?.discountPercent || 0) : 0;
+  const flashPrice = isFlashSale ? product.price * (1 - flashDiscount / 100) : product.price;
 
   const stars = product.rating || 4.5;
   const reviews = product.reviews || 0;
@@ -223,18 +225,27 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
 
         {/* Price */}
         <div className="space-y-0.5 sm:space-y-1 pt-0.5 sm:pt-1 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
-          {product.originalPrice && (
+          {isFlashSale ? (
+            <p className="text-[10px] sm:text-xs line-through" style={{ color: '#64748B' }}>
+              De: R$ {product.price.toFixed(2)}
+            </p>
+          ) : product.originalPrice ? (
             <p className="text-[10px] sm:text-xs line-through" style={{ color: '#64748B' }}>
               R$ {product.originalPrice.toFixed(2)}
             </p>
-          )}
+          ) : null}
           <div className="flex items-baseline gap-2">
+            {isFlashSale && (
+              <p className="text-[10px] sm:text-xs font-bold" style={{ color: '#EF4444' }}>
+                ⚡
+              </p>
+            )}
             <p className="text-base sm:text-2xl font-extrabold" style={{ color: '#1A2238' }}>
-              R$ {product.price.toFixed(2)}
+              R$ {isFlashSale ? flashPrice.toFixed(2) : product.price.toFixed(2)}
             </p>
           </div>
           <p className="text-[10px] sm:text-xs" style={{ color: '#64748B' }}>
-            ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
+            ou 3x de R$ {((isFlashSale ? flashPrice : product.price) / 3).toFixed(2)} sem juros
           </p>
           {isFlashSale && (
             <div className="flex items-center gap-1 mt-1">

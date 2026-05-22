@@ -658,6 +658,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory -mx-4 px-4">
               {flashProducts.map(p => {
                 const img = p.image || p.images?.[0];
+                const flashDisc = p.flashSale?.discountPercent || 0;
+                const flashPrice = p.price * (1 - flashDisc / 100);
                 return (
                   <div
                     key={p.id}
@@ -678,7 +680,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                           <Zap size={10} /> Relâmpago
                         </span>
                         <span className="px-2.5 py-1 rounded-full text-[10px] font-black" style={{ backgroundColor: '#FFB800', color: '#1A2238' }}>
-                          -{p.originalPrice ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0}%
+                          -{flashDisc}%
                         </span>
                       </div>
                     </div>
@@ -686,10 +688,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{p.category}</p>
                       <h3 className="font-bold text-xs sm:text-sm line-clamp-2" style={{ color: '#1A2238' }}>{p.name}</h3>
                       <div className="flex items-baseline gap-2 pt-1">
-                        <p className="text-base sm:text-lg font-extrabold" style={{ color: '#1A2238' }}>R$ {p.price?.toFixed(2)}</p>
-                        {p.originalPrice && (
-                          <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>R$ {p.originalPrice.toFixed(2)}</p>
-                        )}
+                        <p className="text-base sm:text-lg font-extrabold" style={{ color: '#EF4444' }}>R$ {flashPrice.toFixed(2)}</p>
+                        <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>De: R$ {p.price.toFixed(2)}</p>
                       </div>
                       {p.flashSale?.endsAt && (
                         <div className="flex items-center gap-1 pt-1">

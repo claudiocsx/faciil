@@ -5,6 +5,7 @@ import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import Storefront from '../components/Storefront';
 import LoadingScreen from '../components/LoadingScreen';
+import WhatsAppFloat from '../components/WhatsAppFloat';
 import { addDoc, collection, doc, getDoc, increment, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -67,6 +68,7 @@ const StorePage = () => {
         <meta name="twitter:title" content="Faciil - Acessórios de Tecnologia" />
         <meta name="twitter:description" content="Acessórios tech com entrega via Uber Flash no Crato-CE." />
       </Helmet>
+      <WhatsAppFloat number={whatsapp} />
       <Storefront
         products={products}
         cart={cart}

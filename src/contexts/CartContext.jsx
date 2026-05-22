@@ -1,6 +1,16 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
+const STORAGE_KEY = 'faciil_cart';
+
+const loadCart = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+};
 
 export const useCart = () => {
   const ctx = useContext(CartContext);
@@ -9,7 +19,11 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(loadCart);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (product, qty = 1) => {
     setCart(prev => {

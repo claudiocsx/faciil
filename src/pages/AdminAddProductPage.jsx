@@ -46,7 +46,8 @@ const AdminAddProductPage = () => {
     isNew: editingProduct?.isNew || false,
     comingSoon: editingProduct?.comingSoon || false,
     featured: editingProduct?.featured || false,
-    flashSaleEndsAt: editingProduct?.flashSale?.endsAt || ''
+    flashSaleEndsAt: editingProduct?.flashSale?.endsAt || '',
+    flashSaleDiscount: editingProduct?.flashSale?.discountPercent || ''
   });
   const [imagePreview, setImagePreview] = useState(editingProduct?.image || editingProduct?.images?.[0] || null);
   const [galleryPreviews, setGalleryPreviews] = useState(editingProduct?.images || []);
@@ -174,7 +175,12 @@ const AdminAddProductPage = () => {
         originalPrice: formData.originalPrice ? parseFloat(formData.originalPrice) : null,
         stock: parseInt(formData.stock),
         featured: formData.featured,
-        flashSale: formData.flashSaleEndsAt ? { endsAt: new Date(formData.flashSaleEndsAt).toISOString() } : null,
+        flashSale: formData.flashSaleEndsAt
+          ? {
+              endsAt: new Date(formData.flashSaleEndsAt).toISOString(),
+              discountPercent: parseFloat(formData.flashSaleDiscount) || 0
+            }
+          : null,
         rating: 5.0,
         reviews: 0
       };
@@ -314,28 +320,41 @@ const AdminAddProductPage = () => {
           <label className="text-sm font-medium text-text-dim flex items-center gap-1.5 mb-2">
             <span style={{ color: '#EF4444' }}>⚡</span> Oferta Relâmpago
           </label>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <input
               type="datetime-local"
               name="flashSaleEndsAt"
               value={formData.flashSaleEndsAt}
               onChange={handleChange}
-              className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
+              className="flex-1 min-w-[180px] px-3 py-2 rounded-xl text-sm outline-none"
               style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
             />
-            {formData.flashSaleEndsAt && (
-              <button
-                type="button"
-                onClick={() => setFormData(prev => ({ ...prev, flashSaleEndsAt: '' }))}
-                className="text-xs font-bold px-3 py-2 rounded-xl"
-                style={{ backgroundColor: '#FEE2E2', color: '#EF4444' }}
-              >
-                Remover
-              </button>
-            )}
+            <div className="flex items-center gap-1.5">
+              <input
+                type="number"
+                name="flashSaleDiscount"
+                placeholder="% desc."
+                min="1"
+                max="100"
+                value={formData.flashSaleDiscount}
+                onChange={handleChange}
+                className="w-20 px-3 py-2 rounded-xl text-sm outline-none text-center"
+                style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+              />
+              {formData.flashSaleEndsAt && (
+                <button
+                  type="button"
+                  onClick={() => setFormData(prev => ({ ...prev, flashSaleEndsAt: '', flashSaleDiscount: '' }))}
+                  className="text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap"
+                  style={{ backgroundColor: '#FEE2E2', color: '#EF4444' }}
+                >
+                  Remover
+                </button>
+              )}
+            </div>
           </div>
           {!formData.flashSaleEndsAt && (
-            <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>Preencha a data/hora de término para ativar. Precisa ter preço original (R$ anterior) preenchido.</p>
+            <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>Preencha data de término e % de desconto para ativar a oferta relâmpago.</p>
           )}
         </div>
 

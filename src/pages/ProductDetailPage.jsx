@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useCart } from '../contexts/CartContext';
 import { useProducts } from '../contexts/ProductContext';
 import ProductDetail from '../components/ProductDetail';
+import WhatsAppFloat from '../components/WhatsAppFloat';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const ProductDetailPage = () => {
   const navigate = useNavigate();
@@ -11,6 +14,20 @@ const ProductDetailPage = () => {
   const location = useLocation();
   const { addToCart } = useCart();
   const { products } = useProducts();
+
+  const [whatsapp, setWhatsapp] = useState('');
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'config', 'whatsapp'));
+        if (snap.exists()) setWhatsapp(snap.data().number);
+      } catch (err) {
+        console.error('Erro ao carregar WhatsApp:', err);
+      }
+    };
+    load();
+  }, []);
 
   const product = location.state || products.find(p => p.id === id);
 
@@ -68,10 +85,12 @@ const ProductDetailPage = () => {
           })}
         </script>
       </Helmet>
+      <WhatsAppFloat number={whatsapp} />
       <ProductDetail
         product={product}
         onBack={() => navigate('/')}
         onAddToCart={addToCart}
+        whatsappNumber={whatsapp}
       />
     </>
   );

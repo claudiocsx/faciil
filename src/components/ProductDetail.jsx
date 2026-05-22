@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, Zap, X } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, Zap, X, MessageCircle } from 'lucide-react';
 import Logo from './Logo';
 import CountdownTimer from './CountdownTimer';
 
-const ProductDetail = ({ product, onBack, onAddToCart }) => {
+const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
   const [quantity, setQuantity] = useState(1);
   const [liked, setLiked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -170,34 +170,47 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                 )}
               </div>
 
-              <div className="p-4 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
+              {(() => {
+                const isFlash = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date();
+                const flashDisc = isFlash ? (product.flashSale?.discountPercent || 0) : 0;
+                const flashPrice = isFlash ? product.price * (1 - flashDisc / 100) : product.price;
+                return (
+              <div className="p-4 rounded-xl" style={{ backgroundColor: isFlash ? '#FEF2F2' : '#F8FAFC', border: `1px solid ${isFlash ? 'rgba(239,68,68,0.2)' : 'rgba(0,0,0,0.04)'}` }}>
                 <div className="flex items-baseline gap-3">
-                  <p className="text-3xl font-extrabold" style={{ color: '#1A2238' }}>
-                    R$ {product.price.toFixed(2)}
+                  {isFlash && (
+                    <p className="text-sm font-bold" style={{ color: '#EF4444' }}>⚡</p>
+                  )}
+                  <p className="text-3xl font-extrabold" style={{ color: isFlash ? '#EF4444' : '#1A2238' }}>
+                    R$ {flashPrice.toFixed(2)}
                   </p>
                 </div>
-                {product.originalPrice && (
+                {isFlash ? (
+                  <p className="text-sm line-through" style={{ color: '#94A3B8' }}>
+                    De: R$ {product.price.toFixed(2)}
+                  </p>
+                ) : product.originalPrice ? (
                   <p className="text-sm line-through" style={{ color: '#94A3B8' }}>
                     De: R$ {product.originalPrice.toFixed(2)}
                   </p>
-                )}
+                ) : null}
                 <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>
-                  ou 3x de R$ {(product.price / 3).toFixed(2)} sem juros
+                  ou 3x de R$ {(flashPrice / 3).toFixed(2)} sem juros
                 </p>
-                {product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date() && (
-                  <div className="mt-2 p-3 rounded-xl flex items-center gap-2" style={{ backgroundColor: '#FEF2F2', border: '1px solid rgba(239,68,68,0.2)' }}>
-                    <Zap size={16} style={{ color: '#EF4444' }} />
-                    <div>
-                      <span className="text-xs font-bold" style={{ color: '#EF4444' }}>Oferta Relâmpago</span>
-                      <div className="flex items-center gap-1 mt-0.5">
-                        <Clock size={12} style={{ color: '#EF4444' }} />
-                        <span className="text-xs" style={{ color: '#EF4444' }}>Termina em </span>
-                        <CountdownTimer endsAt={product.flashSale.endsAt} />
-                      </div>
+                {isFlash && (
+                  <div className="mt-2 p-3 rounded-xl" style={{ backgroundColor: '#FEF2F2', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Zap size={16} style={{ color: '#EF4444' }} />
+                      <span className="text-sm font-bold" style={{ color: '#EF4444' }}>Oferta Relâmpago</span>
+                      <span className="text-xs font-black px-1.5 py-0.5 rounded-full" style={{ backgroundColor: '#FFB800', color: '#1A2238' }}>-{flashDisc}%</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock size={12} style={{ color: '#EF4444' }} />
+                      <span className="text-xs" style={{ color: '#EF4444' }}>Termina em </span>
+                      <CountdownTimer endsAt={product.flashSale.endsAt} />
                     </div>
                   </div>
                 )}
-              </div>
+              </div>)})()}
 
               {product.comingSoon ? (
                 <>
@@ -277,6 +290,20 @@ const ProductDetail = ({ product, onBack, onAddToCart }) => {
                   <><ShoppingCart size={18} /> Adicionar ao Carrinho</>
                 )}
               </button>
+
+              {whatsappNumber && (
+                <button
+                  onClick={() => {
+                    const clean = whatsappNumber.replace(/\D/g, '');
+                    const msg = `Olá! Quero comprar ${product.name} (R$ ${product.price.toFixed(2)})`;
+                    window.open(`https://wa.me/${clean}?text=${encodeURIComponent(msg)}`, '_blank');
+                  }}
+                  className="w-full py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                  style={{ backgroundColor: '#25D366', color: '#FFFFFF' }}
+                >
+                  <MessageCircle size={18} fill="white" /> Compre pelo WhatsApp
+                </button>
+              )}
               </>
               )}
 
