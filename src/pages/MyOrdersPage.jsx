@@ -98,7 +98,7 @@ const MyOrdersPage = () => {
                     <div key={i} className="flex items-center gap-3">
                       {item.image && (
                         <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
-                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          <img src={item.image} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">

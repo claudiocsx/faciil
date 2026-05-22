@@ -35,7 +35,7 @@ const AdminProductsPage = () => {
             <div key={p.id} className="glass-card p-4 rounded-xl flex items-center gap-4 group">
               <div className="relative shrink-0">
                 {img && !img.startsWith('blob:') ? (
-                  <img src={img} alt={p.name} className="w-16 h-16 rounded-lg object-cover bg-gray-100" />
+                  <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-16 h-16 rounded-lg object-cover bg-gray-100" />
                 ) : (
                   <div className="w-16 h-16 rounded-lg bg-gray-100 flex items-center justify-center">
                     <Upload size={20} className="text-gray-300" />

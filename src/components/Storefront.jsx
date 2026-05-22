@@ -330,7 +330,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         >
                           <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
                             {img && !img.startsWith('blob:') ? (
-                              <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                              <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Package size={14} style={{ color: '#CBD5E1' }} />
@@ -1127,7 +1127,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       >
                         <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
                           {img && !img.startsWith('blob:') ? (
-                            <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                            <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <Package size={14} style={{ color: '#CBD5E1' }} />

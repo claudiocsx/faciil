@@ -104,6 +104,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '' }) =>
             src={productImage} 
             alt={product.name}
             loading="lazy"
+            decoding="async"
             className={`w-full h-full object-cover ${isHovered ? 'md:scale-110 md:opacity-90 scale-100' : 'scale-100'}`}
           />
         ) : (

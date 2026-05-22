@@ -119,7 +119,7 @@ const Orders = ({ orders, onUpdateStatus, onViewReceipt }) => {
                         {(() => {
                           const img = item.image || item.images?.[0];
                           return img && !img.startsWith('blob:') ? (
-                            <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={img} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <Upload size={14} className="text-gray-300" />

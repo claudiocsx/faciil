@@ -280,7 +280,7 @@ const CartPage = () => {
                     <div className="flex gap-4">
                       <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0" style={{ backgroundColor: '#F8FAFC' }}>
                         {img && !img.startsWith('blob:') ? (
-                          <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                          <img src={img} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
                             <Package size={20} style={{ color: '#CBD5E1' }} />
@@ -453,7 +453,7 @@ const CartPage = () => {
                         <div key={p.id} className="flex-shrink-0 snap-start w-[130px] rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
                           <div className="w-full h-16 overflow-hidden" style={{ backgroundColor: '#F1F5F9' }}>
                             {img && !img.startsWith('blob:') ? (
-                              <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                              <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Package size={16} style={{ color: '#CBD5E1' }} />

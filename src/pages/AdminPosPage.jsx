@@ -203,7 +203,7 @@ const AdminPosPage = () => {
                   {(() => {
                     const img = p.image || p.images?.[0];
                     return img && !img.startsWith('blob:') ? (
-                      <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                      <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Upload size={24} className="text-gray-300" />

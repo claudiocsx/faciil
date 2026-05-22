@@ -228,7 +228,7 @@ const AdminBannersPage = () => {
                   {uploading && <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>Comprimindo imagem...</p>}
                   {offerForm.image && (
                     <div className="mt-2 relative inline-block">
-                      <img src={offerForm.image} alt="Preview" className="h-20 rounded-lg object-cover" />
+                      <img src={offerForm.image} alt="Preview" loading="lazy" decoding="async" className="h-20 rounded-lg object-cover" />
                       <button type="button" onClick={() => setOfferForm({ ...offerForm, image: '' })} className="absolute -top-2 -right-2 p-0.5 rounded-full bg-red-500 text-white" style={{ lineHeight: 0 }}>
                         <X size={12} />
                       </button>
@@ -309,7 +309,7 @@ const AdminBannersPage = () => {
         <div className="grid grid-cols-2 gap-3">
           {offers.map((offer) => (
             <div key={offer.id} className="flex gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.04)' }}>
-              <img src={offer.image} alt={offer.title} className="w-16 h-16 rounded-lg object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src={offer.image} alt={offer.title} loading="lazy" decoding="async" className="w-16 h-16 rounded-lg object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
               <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-sm truncate" style={{ color: '#1A2238' }}>{offer.title || 'Sem título'}</h4>
                 <p className="text-xs" style={{ color: '#FFB347' }}>{offer.subtitle}</p>

@@ -267,7 +267,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                     {(() => {
                       const img = item.image || item.images?.[0];
                       return img && !img.startsWith('blob:') ? (
-                        <img src={img} alt={item.name} className="w-full h-full object-cover" />
+                        <img src={img} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
                           <Upload size={20} className="text-gray-300" />
@@ -503,7 +503,7 @@ const CartSidebar = ({ isOpen, onClose, cart, onAddToCart, onUpdateQuantity, onR
                       >
                         <div className="w-full h-16 lg:h-20 overflow-hidden" style={{ backgroundColor: '#F8FAFC' }}>
                           {img && !img.startsWith('blob:') ? (
-                            <img src={img} alt={p.name} className="w-full h-full object-cover" />
+                            <img src={img} alt={p.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
                               <ShoppingBag size={16} style={{ color: '#CBD5E1' }} />

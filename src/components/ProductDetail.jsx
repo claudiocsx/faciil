@@ -74,6 +74,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                   alt={product.name} 
                   className="w-full h-full object-cover cursor-pointer"
                   onClick={() => setLightboxOpen(true)}
+                  decoding="async"
                 />
                 
                 {productImages.length > 1 && (
@@ -128,7 +129,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                         border: i === selectedImage ? 'none' : '1px solid rgba(0,0,0,0.08)'
                       }}
                     >
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <img src={img} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                     </button>
                   ))}
                 </div>
@@ -341,6 +342,8 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
             alt={product.name}
             className="max-w-[90vw] max-h-[90vh] object-contain"
             onClick={(e) => e.stopPropagation()}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       )}

@@ -93,14 +93,14 @@ const AdminAddProductPage = () => {
 
   const handleImageFile = async (file) => {
     if (!file || !file.type.startsWith('image/')) return;
-    const compressedBase64 = await compressImage(file);
+    const compressedBase64 = await compressImage(file, 700, 0.82);
     setImagePreview(compressedBase64);
     setFormData(prev => ({ ...prev, image: compressedBase64 }));
   };
 
   const handleGalleryFile = async (file, index) => {
     if (!file || !file.type.startsWith('image/')) return;
-    const compressedBase64 = await compressImage(file);
+    const compressedBase64 = await compressImage(file, 400, 0.7);
 
     const newPreviews = [...galleryPreviews];
     newPreviews[index] = compressedBase64;
@@ -209,7 +209,7 @@ const AdminAddProductPage = () => {
           <label className="block text-sm font-medium text-text-dim mb-2">Foto do Produto</label>
           {imagePreview ? (
             <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <img src={imagePreview} alt="Preview" className="w-full h-48 object-cover" />
+              <img src={imagePreview} alt="Preview" loading="lazy" decoding="async" className="w-full h-48 object-cover" />
               <button type="button" onClick={removeImage} className="absolute top-2 right-2 p-2 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
                 <X size={18} />
               </button>
@@ -236,7 +236,7 @@ const AdminAddProductPage = () => {
               <div key={i}>
                 {galleryPreviews[i] ? (
                   <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
-                    <img src={galleryPreviews[i]} alt="" className="w-full aspect-square object-cover" />
+                    <img src={galleryPreviews[i]} alt="" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
                     <button type="button" onClick={() => removeGalleryImage(i)} className="absolute top-1 right-1 p-1.5 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
                       <X size={14} />
                     </button>
