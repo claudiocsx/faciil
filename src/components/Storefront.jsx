@@ -696,13 +696,20 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                           <CountdownTimer endsAt={p.flashSale.endsAt} />
                         </div>
                       )}
+                      {p.comingSoon ? (
+                        <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
+                          Em breve
+                        </span>
+                      ) : (
                       <button
                         onClick={(e) => { e.stopPropagation(); onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
-                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                        disabled={p.stock === 0}
+                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{ backgroundColor: '#EF4444', color: '#FFFFFF' }}
                       >
-                        Adicionar
+                        {p.stock === 0 ? 'Esgotado' : 'Adicionar'}
                       </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -764,13 +771,20 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                           <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>R$ {p.originalPrice.toFixed(2)}</p>
                         )}
                       </div>
+                      {p.comingSoon ? (
+                        <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
+                          Em breve
+                        </span>
+                      ) : (
                       <button
                         onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
-                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                        disabled={p.stock === 0}
+                        className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                       >
-                        Adicionar
+                        {p.stock === 0 ? 'Esgotado' : 'Adicionar'}
                       </button>
+                      )}
                     </div>
                   </div>
                 );

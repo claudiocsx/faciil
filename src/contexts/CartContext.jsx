@@ -26,6 +26,7 @@ export const CartProvider = ({ children }) => {
   }, [cart]);
 
   const addToCart = (product, qty = 1) => {
+    if ((product.stock ?? 999) === 0) return;
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
       const stock = product.stock ?? 999;

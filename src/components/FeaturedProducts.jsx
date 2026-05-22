@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 const FeaturedProducts = ({ products, onAddToCart, onViewDetail }) => {
   const scrollRef = useRef(null);
-  const featured = products.filter(p => p.featured);
+  const featured = products.filter(p => p.featured && !p.comingSoon && p.stock !== 0);
 
   if (featured.length === 0) return null;
 
@@ -72,13 +72,20 @@ const FeaturedProducts = ({ products, onAddToCart, onViewDetail }) => {
                       <p className="text-[10px] line-through" style={{ color: '#94A3B8' }}>R$ {p.originalPrice.toFixed(2)}</p>
                     )}
                   </div>
+                  {p.comingSoon ? (
+                    <span className="block w-full mt-1.5 py-2 rounded-lg font-bold text-xs text-center" style={{ backgroundColor: '#F1F5F9', color: '#94A3B8' }}>
+                      Em breve
+                    </span>
+                  ) : (
                   <button
                     onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
-                    className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90"
+                    disabled={p.stock === 0}
+                    className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
                   >
-                    Adicionar
+                    {p.stock === 0 ? 'Esgotado' : 'Adicionar'}
                   </button>
+                  )}
                 </div>
               </div>
             );
