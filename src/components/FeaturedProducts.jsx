@@ -87,7 +87,7 @@ const FeaturedProducts = ({ products, onAddToCart, onViewDetail, whatsappNumber 
                     </button>
                   ) : (
                   <button
-                    onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
+                    onClick={(e) => { e.stopPropagation(); if (p.stock === 0) return; onAddToCart(p); }}
                     disabled={p.stock === 0}
                     className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                     style={{ backgroundColor: '#FFB347', color: '#1A2238' }}

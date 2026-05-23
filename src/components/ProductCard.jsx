@@ -7,14 +7,15 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
   const [liked, setLiked] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [userRating, setUserRating] = useState(0);
-
+  const [flashExpired, setFlashExpired] = useState(false);
+ 
   const productImage = [product.image, ...(product.images || [])].find(v => v && !v.startsWith('blob:')) || '';
 
   const discount = product.originalPrice 
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100) 
     : 0;
 
-  const isFlashSale = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date();
+  const isFlashSale = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date() && !flashExpired;
   const flashDiscount = isFlashSale ? (product.flashSale?.discountPercent || 0) : 0;
   const flashPrice = isFlashSale ? product.price * (1 - flashDiscount / 100) : product.price;
 
@@ -38,6 +39,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
+    if (product.stock === 0) return;
     onAddToCart(product);
     setJustAdded(true);
     animateToCart(e);
@@ -257,7 +259,7 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
           </p>
           {isFlashSale && (
             <div className="flex items-center gap-1 mt-1">
-              <CountdownTimer endsAt={product.flashSale.endsAt} compact />
+              <CountdownTimer endsAt={product.flashSale.endsAt} compact onExpired={() => setFlashExpired(true)} />
             </div>
           )}
         </div>

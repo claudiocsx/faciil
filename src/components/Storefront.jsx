@@ -58,6 +58,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   const [categoryIcons, setCategoryIcons] = useState({});
   const [banners, setBanners] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [expiredFlashIds, setExpiredFlashIds] = useState(new Set());
   const carouselInterval = useRef(null);
 
   // Carrega banners do Firestore
@@ -102,8 +103,8 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
   }, [products, banners]);
 
   const flashProducts = useMemo(() =>
-    products.filter(p => p.flashSale?.endsAt && new Date(p.flashSale.endsAt) > new Date()),
-    [products]
+    products.filter(p => p.flashSale?.endsAt && new Date(p.flashSale.endsAt) > new Date() && !expiredFlashIds.has(p.id)),
+    [products, expiredFlashIds]
   );
 
   const nextSlide = () => setCurrentSlide(prev => (prev + 1) % heroSlides.length);
@@ -702,7 +703,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                       </div>
                       {p.flashSale?.endsAt && (
                         <div className="flex items-center gap-1 pt-1">
-                          <CountdownTimer endsAt={p.flashSale.endsAt} />
+                          <CountdownTimer endsAt={p.flashSale.endsAt} onExpired={() => setExpiredFlashIds(prev => new Set([...prev, p.id]))} />
                         </div>
                       )}
                       {p.comingSoon ? (
@@ -720,7 +721,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         </button>
                       ) : (
                       <button
-                        onClick={(e) => { e.stopPropagation(); onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
+                        onClick={(e) => { e.stopPropagation(); if (p.stock === 0) return; onAddToCart(p); setToastMessage('Produto adicionado!'); setToastVisible(true); }}
                         disabled={p.stock === 0}
                         className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{ backgroundColor: '#EF4444', color: '#FFFFFF' }}
@@ -805,7 +806,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
                         </button>
                       ) : (
                       <button
-                        onClick={(e) => { e.stopPropagation(); onAddToCart(p); }}
+                        onClick={(e) => { e.stopPropagation(); if (p.stock === 0) return; onAddToCart(p); }}
                         disabled={p.stock === 0}
                         className="w-full mt-1.5 py-2 rounded-lg font-bold text-xs transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
                         style={{ backgroundColor: '#FFB347', color: '#1A2238' }}

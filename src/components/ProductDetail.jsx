@@ -11,6 +11,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [flashExpired, setFlashExpired] = useState(false);
 
   if (!product) return null;
 
@@ -172,7 +173,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
               </div>
 
               {(() => {
-                const isFlash = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date();
+                const isFlash = product.flashSale?.endsAt && new Date(product.flashSale.endsAt) > new Date() && !flashExpired;
                 const flashDisc = isFlash ? (product.flashSale?.discountPercent || 0) : 0;
                 const flashPrice = isFlash ? product.price * (1 - flashDisc / 100) : product.price;
                 return (
@@ -207,7 +208,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                     <div className="flex items-center gap-1">
                       <Clock size={12} style={{ color: '#EF4444' }} />
                       <span className="text-xs" style={{ color: '#EF4444' }}>Termina em </span>
-                      <CountdownTimer endsAt={product.flashSale.endsAt} />
+                      <CountdownTimer endsAt={product.flashSale.endsAt} onExpired={() => setFlashExpired(true)} />
                     </div>
                   </div>
                 )}
@@ -276,6 +277,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
               <button
                 type="button"
                 onClick={() => {
+                  if (availableStock === 0) return;
                   onAddToCart(product, quantity);
                   setJustAdded(true);
                   setTimeout(() => setJustAdded(false), 2000);
@@ -297,7 +299,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
                 )}
               </button>
 
-              {whatsappNumber && (
+              {whatsappNumber && availableStock > 0 && (
                 <button
                   onClick={() => {
                     const clean = whatsappNumber.replace(/\D/g, '');
