@@ -149,8 +149,8 @@ const ProductCard = ({ product, onAddToCart, onViewDetail, searchTerm = '', what
           )}
         </div>
 
-        {/* Quick Add to Cart - Desktop: full button */}
-        <div className="absolute bottom-4 left-3 right-3 hidden md:block">
+        {/* Quick Add to Cart - Desktop: full button (aparece no hover) */}
+        <div className={`absolute bottom-4 left-3 right-3 hidden md:block transition-all duration-200 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}>
           {product.comingSoon ? (
             <button
               onClick={(e) => {
