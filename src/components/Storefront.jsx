@@ -436,9 +436,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
             <button onClick={() => scrollToSection('cupons')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
               Cupons
             </button>
-            <button onClick={() => navigate('/admin')} className="hover:text-[#1A2238] transition-colors font-medium" style={{ color: '#64748B' }}>
-              Vender
-            </button>
+
           </div>
         </div>
       </header>
