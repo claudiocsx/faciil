@@ -36,20 +36,23 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber, shareUrl 
 
   const handleShare = async () => {
     const url = shareUrl || `https://faciil.vercel.app/produto/${product.id}`;
-    const shareData = {
-      title: `${product.name} - Faciil`,
-      text: `Confira ${product.name} por R$ ${product.price.toFixed(2)} na Faciil!`,
-      url,
-    };
+    const price = product.price.toFixed(2).replace('.', ',');
 
     if (navigator.share) {
-      try { await navigator.share(shareData); } catch {}
-    } else {
       try {
-        await navigator.clipboard.writeText(url);
+        await navigator.share({
+          title: product.name,
+          text: `💰 R$ ${price} — ${product.category}\n\n👇 Veja mais detalhes:`,
+          url,
+        });
+      } catch {}
+    } else {
+      const text = `*${product.name}* — R$ ${price}\n${url}`;
+      try {
+        await navigator.clipboard.writeText(text);
       } catch {
         const ta = document.createElement('textarea');
-        ta.value = url;
+        ta.value = text;
         document.body.appendChild(ta);
         ta.select();
         document.execCommand('copy');
