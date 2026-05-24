@@ -42,7 +42,7 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber, shareUrl 
       try {
         await navigator.share({
           title: product.name,
-          text: `💰 R$ ${price} — ${product.category}\n\n👇 Veja mais detalhes:`,
+          text: `${product.name}\n💰 R$ ${price} — ${product.category}\n\n👇 Veja mais detalhes:`,
           url,
         });
       } catch {}
