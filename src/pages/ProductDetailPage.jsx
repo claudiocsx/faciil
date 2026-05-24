@@ -91,6 +91,7 @@ const ProductDetailPage = () => {
         onBack={() => navigate('/')}
         onAddToCart={addToCart}
         whatsappNumber={whatsapp}
+        shareUrl={productUrl}
       />
     </>
   );

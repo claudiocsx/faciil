@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, Zap, X, MessageCircle } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Plus, Minus, ChevronLeft, ChevronRight, Check, Clock, Zap, X, MessageCircle, Share2 } from 'lucide-react';
 import Logo from './Logo';
 import CountdownTimer from './CountdownTimer';
 
-const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
+const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber, shareUrl }) => {
   const [quantity, setQuantity] = useState(1);
   const [liked, setLiked] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -34,6 +34,30 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
     setRatingSubmitted(true);
   };
 
+  const handleShare = async () => {
+    const url = shareUrl || `https://faciil.vercel.app/produto/${product.id}`;
+    const shareData = {
+      title: `${product.name} - Faciil`,
+      text: `Confira ${product.name} por R$ ${product.price.toFixed(2)} na Faciil!`,
+      url,
+    };
+
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch {}
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FDFDFD' }}>
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
@@ -53,6 +77,14 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber }) => {
               <span className="font-black text-lg hidden sm:block" style={{ color: '#1A2238' }}>faciil</span>
             </div>
 
+            <button
+              onClick={handleShare}
+              className="p-2 rounded-full transition-all hover:bg-black/5"
+              style={{ color: '#1A2238' }}
+              title="Compartilhar"
+            >
+              <Share2 size={18} />
+            </button>
             <button
               onClick={() => setLiked(!liked)}
               className={`p-2 rounded-full transition-all ${liked ? 'text-red-500' : 'hover:bg-black/5'}`}
