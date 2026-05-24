@@ -20,6 +20,18 @@ export default defineConfig({
         scope: '/',
         icons: [
           {
+            src: '/pwa-icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: '/pwa-icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable',
+          },
+          {
             src: '/Gemini_Generated_Image_mtu7qwmtu7qwmtu7.svg',
             sizes: 'any',
             type: 'image/svg+xml',
