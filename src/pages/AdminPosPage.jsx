@@ -143,6 +143,8 @@ const AdminPosPage = () => {
       await addDoc(collection(db, 'notifications'), {
         title: 'Venda Manual',
         message: `Venda para ${customerName} no valor de R$ ${total.toFixed(2)} (${paymentMethod})`,
+        type: 'manual_sale',
+        orderId: docRef.id,
         read: false,
         createdAt: new Date().toISOString()
       });

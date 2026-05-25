@@ -31,13 +31,15 @@ const StorePage = () => {
 
   const handleSaveOrder = async (orderData) => {
     try {
-      await addDoc(collection(db, 'orders'), {
+      const orderRef = await addDoc(collection(db, 'orders'), {
         ...orderData,
         status: 'pending'
       });
       await addDoc(collection(db, 'notifications'), {
         title: 'Novo Pedido',
         message: `${orderData.customerName} fez um pedido de R$ ${orderData.total.toFixed(2)}`,
+        type: 'new_order',
+        orderId: orderRef.id,
         read: false,
         createdAt: new Date().toISOString()
       });

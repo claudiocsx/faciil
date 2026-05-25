@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Check, Trash2 } from 'lucide-react';
 import { collection, onSnapshot, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 
 const NotificationPanel = ({ isOpen, onClose }) => {
   const [notifications, setNotifications] = useState([]);
   const panelRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'notifications'), (snap) => {
@@ -36,6 +38,18 @@ const NotificationPanel = ({ isOpen, onClose }) => {
     await deleteDoc(doc(db, 'notifications', id));
   };
 
+  const handleClickNotification = async (notif) => {
+    if (!notif.read) {
+      await markAsRead(notif.id);
+    }
+    onClose();
+    if (notif.orderId) {
+      navigate(`/admin/orders?orderId=${notif.orderId}`);
+    } else {
+      navigate('/admin/orders');
+    }
+  };
+
   const unreadCount = notifications.filter(n => !n.read).length;
 
   if (!isOpen) return null;
@@ -54,7 +68,11 @@ const NotificationPanel = ({ isOpen, onClose }) => {
           <p className="p-4 text-sm text-text-dim text-center">Nenhuma notificação</p>
         ) : (
           notifications.map(notif => (
-            <div key={notif.id} className={`p-3 border-b border-border-subtle hover:bg-white/5 ${!notif.read ? 'bg-white/5' : ''}`}>
+            <div
+              key={notif.id}
+              onClick={() => handleClickNotification(notif)}
+              className={`p-3 border-b border-border-subtle hover:bg-white/10 cursor-pointer transition-colors ${!notif.read ? 'bg-white/5' : ''}`}
+            >
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-text-primary">{notif.title}</p>
@@ -63,7 +81,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
                     {new Date(notif.createdAt).toLocaleString('pt-BR')}
                   </p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                   {!notif.read && (
                     <button onClick={() => markAsRead(notif.id)} className="p-1 hover:bg-white/10 rounded text-neon-cyan">
                       <Check size={14} />

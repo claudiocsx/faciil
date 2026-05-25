@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import Orders from '../components/Orders';
 import { collection, doc, getDoc, updateDoc, increment, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -13,6 +14,7 @@ const AdminOrdersPage = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [paymentFilter, setPaymentFilter] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
@@ -22,6 +24,21 @@ const AdminOrdersPage = () => {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    const orderId = searchParams.get('orderId');
+    if (orderId && orders.length > 0 && !selectedOrder) {
+      const found = orders.find(o => o.id === orderId);
+      if (found) {
+        setSelectedOrder(found);
+      }
+    }
+  }, [orders, searchParams]);
+
+  const handleCloseReceipt = () => {
+    setSelectedOrder(null);
+    setSearchParams({});
+  };
 
   useEffect(() => {
     let result = [...orders];
@@ -140,7 +157,7 @@ const AdminOrdersPage = () => {
       )}
 
       <Orders orders={filteredOrders} onUpdateStatus={handleUpdateStatus} onViewReceipt={setSelectedOrder} />
-      {selectedOrder && <ReceiptModal order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
+      {selectedOrder && <ReceiptModal order={selectedOrder} onClose={handleCloseReceipt} />}
     </div>
   );
 };
