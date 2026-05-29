@@ -1080,7 +1080,7 @@ const Storefront = ({ products, cart, onAddToCart, onUpdateQuantity, onRemoveIte
               <h4 className="font-bold text-sm mb-4 uppercase tracking-wider" style={{ color: '#FFFFFF' }}>Segurança</h4>
               <ul className="space-y-3">
                 {[
-                  { icon: Shield, text: '1 ano de garantia' },
+                  { icon: Shield, text: 'Garantia de fábrica' },
                   { icon: Truck, text: 'Entrega via Uber Flash' },
                   { icon: CreditCard, text: 'Pagamento na entrega' },
                 ].map(({ icon: Icon, text }) => (

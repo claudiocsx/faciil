@@ -353,8 +353,8 @@ const ProductDetail = ({ product, onBack, onAddToCart, whatsappNumber, shareUrl 
               <div className="flex flex-wrap gap-4 pt-4 border-t" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
                 {[
                   { icon: Truck, text: 'Frete grátis' },
-                  { icon: Shield, text: '1 ano garantia' },
-                  { icon: RotateCcw, text: '30 dias devolução' }
+                  { icon: Shield, text: 'Garantia de fábrica' },
+                  { icon: RotateCcw, text: '7 dias devolução' }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2 text-sm" style={{ color: '#94A3B8' }}>
                     <item.icon size={16} style={{ color: '#FFB347' }} />
