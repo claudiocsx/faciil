@@ -11,7 +11,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'notifications'), (snap) => {
-      const notifs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const notifs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
       notifs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setNotifications(notifs);
     });
@@ -50,12 +50,15 @@ const NotificationPanel = ({ isOpen, onClose }) => {
     }
   };
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   if (!isOpen) return null;
 
   return (
-    <div ref={panelRef} className="absolute right-0 top-full mt-2 w-80 glass-card rounded-xl shadow-2xl z-50 overflow-hidden">
+    <div
+      ref={panelRef}
+      className="absolute right-0 top-full mt-2 w-80 glass-card rounded-xl shadow-2xl z-50 overflow-hidden"
+    >
       <div className="p-4 border-b border-border-subtle flex items-center justify-between">
         <h3 className="font-bold text-text-primary">Notificações</h3>
         <button onClick={onClose} className="p-1 hover:bg-white/10 rounded">
@@ -67,7 +70,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
         {notifications.length === 0 ? (
           <p className="p-4 text-sm text-text-dim text-center">Nenhuma notificação</p>
         ) : (
-          notifications.map(notif => (
+          notifications.map((notif) => (
             <div
               key={notif.id}
               onClick={() => handleClickNotification(notif)}
@@ -83,11 +86,17 @@ const NotificationPanel = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                   {!notif.read && (
-                    <button onClick={() => markAsRead(notif.id)} className="p-1 hover:bg-white/10 rounded text-neon-cyan">
+                    <button
+                      onClick={() => markAsRead(notif.id)}
+                      className="p-1 hover:bg-white/10 rounded text-neon-cyan"
+                    >
                       <Check size={14} />
                     </button>
                   )}
-                  <button onClick={() => removeNotification(notif.id)} className="p-1 hover:bg-white/10 rounded text-red-400">
+                  <button
+                    onClick={() => removeNotification(notif.id)}
+                    className="p-1 hover:bg-white/10 rounded text-red-400"
+                  >
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -100,7 +109,7 @@ const NotificationPanel = ({ isOpen, onClose }) => {
       {unreadCount > 0 && (
         <div className="p-3 border-t border-border-subtle">
           <button
-            onClick={() => notifications.filter(n => !n.read).forEach(n => markAsRead(n.id))}
+            onClick={() => notifications.filter((n) => !n.read).forEach((n) => markAsRead(n.id))}
             className="w-full py-2 text-xs font-bold text-neon-cyan hover:bg-white/5 rounded-lg transition-colors"
           >
             Marcar todas como lidas

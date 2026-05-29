@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Esconder barra de rolagem */
 ::-webkit-scrollbar {
@@ -10,39 +10,43 @@
 }
 
 @theme {
-  --color-midnight: #1A2238;
-  --color-amber: #FFB347;
-  --color-amber-light: #FFE4B5;
-  --color-amber-dark: #E8922E;
-  --color-off-white: #FDFDFD;
-  --color-slate: #4A5568;
+  --color-midnight: #1a2238;
+  --color-amber: #ffb347;
+  --color-amber-light: #ffe4b5;
+  --color-amber-dark: #e8922e;
+  --color-off-white: #fdfdfd;
+  --color-slate: #4a5568;
 
-  --color-surface: #FFFFFF;
-  --color-surface-secondary: #F8FAFC;
-  --color-surface-hover: #F1F5F9;
+  --color-surface: #ffffff;
+  --color-surface-secondary: #f8fafc;
+  --color-surface-hover: #f1f5f9;
 
-  --color-text-primary: #1A2238;
-  --color-text-secondary: #4A5568;
-  --color-text-dim: #94A3B8;
-  --color-text-inverse: #FFFFFF;
+  --color-text-primary: #1a2238;
+  --color-text-secondary: #4a5568;
+  --color-text-dim: #94a3b8;
+  --color-text-inverse: #ffffff;
 
-  --color-bg-deep: #FDFDFD;
-  --color-bg-card: #FFFFFF;
-  --color-bg-elevated: #F8FAFC;
+  --color-bg-deep: #fdfdfd;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #f8fafc;
 
   --color-border: rgba(0, 0, 0, 0.06);
   --color-border-hover: rgba(0, 0, 0, 0.12);
   --color-border-glow: rgba(255, 179, 71, 0.3);
   --color-border-subtle: rgba(0, 0, 0, 0.06);
-  --color-neon-green: #10B981;
-  --color-neon-lime: #10B981;
+  --color-neon-green: #10b981;
+  --color-neon-lime: #10b981;
 }
 
 body {
   margin: 0;
   background-color: var(--color-bg-deep);
   color: var(--color-text-primary);
-  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'Nunito Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -52,18 +56,23 @@ body {
 }
 
 /* Transições suaves para elementos interativos */
-button, a, input, select {
+button,
+a,
+input,
+select {
   transition: all 0.2s ease;
 }
 
-button:not([class*="cursor"]) {
+button:not([class*='cursor']) {
   cursor: pointer;
 }
 
 .glass-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .glass-card:hover {
@@ -85,7 +94,7 @@ button:not([class*="cursor"]) {
 }
 
 :focus-visible {
-  outline: 2px solid #FFB347;
+  outline: 2px solid #ffb347;
   outline-offset: 2px;
 }
 
@@ -93,7 +102,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
-[role="button"]:focus-visible {
-  outline: 2px solid #FFB347;
+[role='button']:focus-visible {
+  outline: 2px solid #ffb347;
   outline-offset: 2px;
 }

@@ -33,7 +33,7 @@ const StorePage = () => {
     try {
       const orderRef = await addDoc(collection(db, 'orders'), {
         ...orderData,
-        status: 'pending'
+        status: 'pending',
       });
       await addDoc(collection(db, 'notifications'), {
         title: 'Novo Pedido',
@@ -41,7 +41,7 @@ const StorePage = () => {
         type: 'new_order',
         orderId: orderRef.id,
         read: false,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
       const stockUpdates = orderData.items.map((item) =>
         updateDoc(doc(db, 'products', item.id), { stock: increment(-item.quantity) })
@@ -61,14 +61,26 @@ const StorePage = () => {
     <>
       <Helmet>
         <title>Faciil - Acessórios de Tecnologia | Entrega via Uber Flash</title>
-        <meta name="description" content="Acessórios de tecnologia com entrega rápida via Uber Flash no Crato-CE. Smartwatches, fones Bluetooth, carregadores, cabos, capas e películas com o melhor preço." />
-        <meta name="keywords" content="acessórios tech, tecnologia, smartwatches, fones bluetooth, carregadores, capas celular, películas, Uber Flash, Crato, Ceará, loja online" />
+        <meta
+          name="description"
+          content="Acessórios de tecnologia com entrega rápida via Uber Flash no Crato-CE. Smartwatches, fones Bluetooth, carregadores, cabos, capas e películas com o melhor preço."
+        />
+        <meta
+          name="keywords"
+          content="acessórios tech, tecnologia, smartwatches, fones bluetooth, carregadores, capas celular, películas, Uber Flash, Crato, Ceará, loja online"
+        />
         <meta property="og:title" content="Faciil - Acessórios de Tecnologia" />
-        <meta property="og:description" content="Acessórios tech com entrega via Uber Flash no Crato-CE. Smartwatches, fones, carregadores e mais." />
+        <meta
+          property="og:description"
+          content="Acessórios tech com entrega via Uber Flash no Crato-CE. Smartwatches, fones, carregadores e mais."
+        />
         <meta property="og:url" content="https://faciil.vercel.app/" />
         <meta property="og:type" content="website" />
         <meta name="twitter:title" content="Faciil - Acessórios de Tecnologia" />
-        <meta name="twitter:description" content="Acessórios tech com entrega via Uber Flash no Crato-CE." />
+        <meta
+          name="twitter:description"
+          content="Acessórios tech com entrega via Uber Flash no Crato-CE."
+        />
       </Helmet>
       <WhatsAppFloat number={whatsapp} />
       <Storefront

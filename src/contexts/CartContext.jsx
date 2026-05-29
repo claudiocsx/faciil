@@ -27,13 +27,13 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product, qty = 1) => {
     if ((product.stock ?? 999) === 0) return;
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
       const stock = product.stock ?? 999;
       if (existing) {
         const newQty = existing.quantity + qty;
         if (newQty > stock) return prev;
-        return prev.map(item => item.id === product.id ? { ...item, quantity: newQty } : item);
+        return prev.map((item) => (item.id === product.id ? { ...item, quantity: newQty } : item));
       }
       return [...prev, { ...product, quantity: qty }];
     });
@@ -41,14 +41,14 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = (id, quantity, stock) => {
     if (quantity <= 0) {
-      setCart(prev => prev.filter(item => item.id !== id));
+      setCart((prev) => prev.filter((item) => item.id !== id));
     } else if (quantity <= stock) {
-      setCart(prev => prev.map(item => item.id === id ? { ...item, quantity } : item));
+      setCart((prev) => prev.map((item) => (item.id === id ? { ...item, quantity } : item)));
     }
   };
 
   const removeFromCart = (id) => {
-    setCart(prev => prev.filter(item => item.id !== id));
+    setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
   const clearCart = () => setCart([]);
@@ -57,7 +57,9 @@ export const CartProvider = ({ children }) => {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart, totalItems, subtotal }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, updateQuantity, removeFromCart, clearCart, totalItems, subtotal }}
+    >
       {children}
     </CartContext.Provider>
   );

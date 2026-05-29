@@ -1,7 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Orders from '../components/Orders';
-import { collection, doc, getDoc, updateDoc, increment, onSnapshot, query, orderBy } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  increment,
+  onSnapshot,
+  query,
+  orderBy,
+} from 'firebase/firestore';
 import { db } from '../firebase';
 import ReceiptModal from '../components/ReceiptModal';
 import { Search, Filter, X } from 'lucide-react';
@@ -19,7 +28,7 @@ const AdminOrdersPage = () => {
   useEffect(() => {
     const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const ordersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const ordersData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setOrders(ordersData);
     });
     return unsubscribe;
@@ -28,7 +37,7 @@ const AdminOrdersPage = () => {
   useEffect(() => {
     const orderId = searchParams.get('orderId');
     if (orderId && orders.length > 0 && !selectedOrder) {
-      const found = orders.find(o => o.id === orderId);
+      const found = orders.find((o) => o.id === orderId);
       if (found) {
         setSelectedOrder(found);
       }
@@ -42,22 +51,23 @@ const AdminOrdersPage = () => {
 
   useEffect(() => {
     let result = [...orders];
-    
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      result = result.filter(o => 
-        (o.customerName && o.customerName.toLowerCase().includes(term)) ||
-        o.id.toLowerCase().includes(term) ||
-        (o.customerPhone && o.customerPhone.includes(term))
+      result = result.filter(
+        (o) =>
+          (o.customerName && o.customerName.toLowerCase().includes(term)) ||
+          o.id.toLowerCase().includes(term) ||
+          (o.customerPhone && o.customerPhone.includes(term))
       );
     }
 
     if (statusFilter !== 'all') {
-      result = result.filter(o => o.status === statusFilter);
+      result = result.filter((o) => o.status === statusFilter);
     }
 
     if (paymentFilter !== 'all') {
-      result = result.filter(o => o.paymentMethod === paymentFilter);
+      result = result.filter((o) => o.paymentMethod === paymentFilter);
     }
 
     setFilteredOrders(result);
@@ -95,12 +105,17 @@ const AdminOrdersPage = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-text-primary">Pedidos</h2>
-          <p className="text-sm text-text-dim mt-1">{filteredOrders.length} de {orders.length} pedido{orders.length !== 1 ? 's' : ''}</p>
+          <p className="text-sm text-text-dim mt-1">
+            {filteredOrders.length} de {orders.length} pedido{orders.length !== 1 ? 's' : ''}
+          </p>
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all"
-          style={{ backgroundColor: showFilters ? '#FFB347' : 'rgba(255,255,255,0.05)', color: showFilters ? '#1A2238' : '#94A3B8' }}
+          style={{
+            backgroundColor: showFilters ? '#FFB347' : 'rgba(255,255,255,0.05)',
+            color: showFilters ? '#1A2238' : '#94A3B8',
+          }}
         >
           <Filter size={14} /> Filtros
         </button>
@@ -111,11 +126,15 @@ const AdminOrdersPage = () => {
           <div className="relative">
             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" />
             <input
-              type="text" placeholder="Buscar por cliente ou pedido..."
+              type="text"
+              placeholder="Buscar por cliente ou pedido..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
             />
           </div>
           <div className="flex flex-wrap gap-2">
@@ -123,7 +142,10 @@ const AdminOrdersPage = () => {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
             >
               <option value="all">Todos Status</option>
               <option value="pending">Pendente</option>
@@ -136,7 +158,10 @@ const AdminOrdersPage = () => {
               value={paymentFilter}
               onChange={(e) => setPaymentFilter(e.target.value)}
               className="px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-              style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+              }}
             >
               <option value="all">Todas Formas</option>
               <option value="pix">Pix</option>
@@ -156,7 +181,11 @@ const AdminOrdersPage = () => {
         </div>
       )}
 
-      <Orders orders={filteredOrders} onUpdateStatus={handleUpdateStatus} onViewReceipt={setSelectedOrder} />
+      <Orders
+        orders={filteredOrders}
+        onUpdateStatus={handleUpdateStatus}
+        onViewReceipt={setSelectedOrder}
+      />
       {selectedOrder && <ReceiptModal order={selectedOrder} onClose={handleCloseReceipt} />}
     </div>
   );

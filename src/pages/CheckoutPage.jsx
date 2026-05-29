@@ -7,13 +7,7 @@ const CheckoutPage = ({ onComplete }) => {
   const navigate = useNavigate();
   const { cart } = useCart();
 
-  return (
-    <Checkout
-      cart={cart}
-      onBack={() => navigate('/')}
-      onComplete={onComplete}
-    />
-  );
+  return <Checkout cart={cart} onBack={() => navigate('/')} onComplete={onComplete} />;
 };
 
 export default CheckoutPage;

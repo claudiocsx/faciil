@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, CreditCard, Barcode, Wallet, MapPin, Truck, ChevronRight, Upload } from 'lucide-react';
+import {
+  ArrowLeft,
+  Check,
+  CreditCard,
+  Barcode,
+  Wallet,
+  MapPin,
+  Truck,
+  ChevronRight,
+  Package,
+} from 'lucide-react';
 import Logo from './Logo';
 
 const Checkout = ({ cart, onBack, onComplete }) => {
@@ -7,21 +17,42 @@ const Checkout = ({ cart, onBack, onComplete }) => {
   const [paymentMethod, setPaymentMethod] = useState('pix');
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '', email: '', phone: '', cep: '', address: '', number: '', complement: '', neighborhood: '', city: '', state: ''
+    name: '',
+    email: '',
+    phone: '',
+    cep: '',
+    address: '',
+    number: '',
+    complement: '',
+    neighborhood: '',
+    city: '',
+    state: '',
   });
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = subtotal >= 299 ? 0 : 19.90;
+  const shipping = subtotal >= 299 ? 0 : 19.9;
   const total = subtotal + shipping;
 
-  const handleInputChange = (field, value) => setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (field, value) => setFormData((prev) => ({ ...prev, [field]: value }));
 
-  const requiredFields = ['name', 'email', 'phone', 'cep', 'address', 'number', 'neighborhood', 'city', 'state'];
+  const requiredFields = [
+    'name',
+    'email',
+    'phone',
+    'cep',
+    'address',
+    'number',
+    'neighborhood',
+    'city',
+    'state',
+  ];
   const [errors, setErrors] = useState({});
 
   const validateStep1 = () => {
     const newErrors = {};
-    requiredFields.forEach(f => { if (!formData[f]?.trim()) newErrors[f] = true; });
+    requiredFields.forEach((f) => {
+      if (!formData[f]?.trim()) newErrors[f] = true;
+    });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -32,25 +63,34 @@ const Checkout = ({ cart, onBack, onComplete }) => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setLoading(false);
     onComplete({ ...formData, cart, total, paymentMethod, date: new Date().toISOString() });
   };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#FDFDFD' }}>
-      <header className="border-b sticky top-0 z-40 backdrop-blur-xl" style={{ backgroundColor: 'rgba(5,5,5,0.8)', borderColor: 'rgba(59,139,185,0.1)' }}>
+      <header
+        className="border-b sticky top-0 z-40 backdrop-blur-xl bg-white"
+        style={{ borderColor: 'rgba(0,0,0,0.04)' }}
+      >
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <button onClick={onBack} className="flex items-center gap-2 text-text-secondary hover:text-neon-cyan transition-colors">
+            <button
+              onClick={onBack}
+              className="flex items-center gap-2 transition-colors"
+              style={{ color: '#4A5568' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#FFB347')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#4A5568')}
+            >
               <ArrowLeft size={20} />
               <span className="font-medium text-sm">Voltar</span>
             </button>
             <div className="flex items-center gap-3">
-              <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
+              <div className="drop-shadow-[0_0_6px rgba(255,179,71,0.3)]">
                 <Logo size={32} />
               </div>
-              <span className="font-black text-xl text-text-primary">Checkout</span>
+              <span className="font-black text-xl" style={{ color: '#1A2238' }}>Checkout</span>
             </div>
             <div className="w-20" />
           </div>
@@ -58,19 +98,39 @@ const Checkout = ({ cart, onBack, onComplete }) => {
       </header>
 
       {/* Steps */}
-      <div className="border-b" style={{ borderColor: 'rgba(59,139,185,0.1)' }}>
+      <div className="border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4">
           <div className="flex items-center justify-center gap-4">
-            {[{ num: 1, label: 'Dados' }, { num: 2, label: 'Pagamento' }, { num: 3, label: 'Confirmação' }].map((s, i) => (
+            {[
+              { num: 1, label: 'Dados' },
+              { num: 2, label: 'Pagamento' },
+              { num: 3, label: 'Confirmação' },
+            ].map((s, i) => (
               <React.Fragment key={s.num}>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
-                    style={step >= s.num ? { backgroundColor: '#FFB347', color: '#000',  } : { backgroundColor: 'rgba(255,255,255,0.05)', color: '#666' }}>
+                  <div
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all"
+                    style={
+                      step >= s.num
+                        ? { backgroundColor: '#FFB347', color: '#1A2238' }
+                        : { backgroundColor: '#F1F5F9', color: '#94A3B8' }
+                    }
+                  >
                     {step > s.num ? <Check size={16} /> : s.num}
                   </div>
-                  <span className="text-sm font-medium hidden sm:block" style={step >= s.num ? { color: '#FFB347' } : { color: '#666' }}>{s.label}</span>
+                  <span
+                    className="text-sm font-medium hidden sm:block"
+                    style={step >= s.num ? { color: '#FFB347' } : { color: '#94A3B8' }}
+                  >
+                    {s.label}
+                  </span>
                 </div>
-                {i < 2 && <div className="w-12 sm:w-20 h-0.5 transition-all" style={{ backgroundColor: step > s.num ? '#FFB347' : 'rgba(255,255,255,0.05)' }} />}
+                {i < 2 && (
+                  <div
+                    className="w-12 sm:w-20 h-0.5 transition-all"
+                    style={{ backgroundColor: step > s.num ? '#FFB347' : 'rgba(0,0,0,0.06)' }}
+                  />
+                )}
               </React.Fragment>
             ))}
           </div>
@@ -87,39 +147,92 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { field: 'name', label: 'Nome Completo', type: 'text', full: true, placeholder: 'Seu nome completo' },
+                    {
+                      field: 'name',
+                      label: 'Nome Completo',
+                      type: 'text',
+                      full: true,
+                      placeholder: 'Seu nome completo',
+                    },
                     { field: 'email', label: 'Email', type: 'email', placeholder: 'seu@email.com' },
-                    { field: 'phone', label: 'Telefone', type: 'tel', placeholder: '(00) 00000-0000' },
+                    {
+                      field: 'phone',
+                      label: 'Telefone',
+                      type: 'tel',
+                      placeholder: '(00) 00000-0000',
+                    },
                     { field: 'cep', label: 'CEP', type: 'text', placeholder: '00000-000' },
-                    { field: 'address', label: 'Endereço', type: 'text', full: true, placeholder: 'Rua, Avenida...' },
+                    {
+                      field: 'address',
+                      label: 'Endereço',
+                      type: 'text',
+                      full: true,
+                      placeholder: 'Rua, Avenida...',
+                    },
                     { field: 'number', label: 'Número', type: 'text', placeholder: '123' },
-                    { field: 'complement', label: 'Complemento', type: 'text', placeholder: 'Apto, Bloco...' },
+                    {
+                      field: 'complement',
+                      label: 'Complemento',
+                      type: 'text',
+                      placeholder: 'Apto, Bloco...',
+                    },
                     { field: 'neighborhood', label: 'Bairro', type: 'text', placeholder: 'Bairro' },
                     { field: 'city', label: 'Cidade', type: 'text', placeholder: 'Cidade' },
-                    { field: 'state', label: 'UF', type: 'text', placeholder: 'SP', max: 2 }
+                    { field: 'state', label: 'UF', type: 'text', placeholder: 'SP', max: 2 },
                   ].map(({ field, label, type, full, placeholder, max }) => (
                     <div key={field} className={full ? 'md:col-span-2' : ''}>
-                      <label className="block text-sm font-medium mb-1" style={{ color: errors[field] ? '#DC2626' : '#64748B' }}>{label}</label>
+                      <label
+                        className="block text-sm font-medium mb-1"
+                        style={{ color: errors[field] ? '#DC2626' : '#64748B' }}
+                      >
+                        {label}
+                      </label>
                       <input
                         type={type}
                         value={formData[field]}
-                        onChange={(e) => { handleInputChange(field, e.target.value); if (errors[field]) setErrors(prev => { const n = { ...prev }; delete n[field]; return n; }); }}
+                        onChange={(e) => {
+                          handleInputChange(field, e.target.value);
+                          if (errors[field])
+                            setErrors((prev) => {
+                              const n = { ...prev };
+                              delete n[field];
+                              return n;
+                            });
+                        }}
                         className={`w-full px-4 py-3 rounded-xl text-sm outline-none transition-all`}
-                        style={{ backgroundColor: '#F8FAFC', border: errors[field] ? '1.5px solid #DC2626' : '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
-                        onFocus={(e) => e.target.style.borderColor = '#FFB347'}
-                        onBlur={(e) => e.target.style.borderColor = errors[field] ? '#DC2626' : 'rgba(0,0,0,0.06)'}
+                        style={{
+                          backgroundColor: '#F8FAFC',
+                          border: errors[field]
+                            ? '1.5px solid #DC2626'
+                            : '1px solid rgba(0,0,0,0.06)',
+                          color: '#1A2238',
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = '#FFB347')}
+                        onBlur={(e) =>
+                          (e.target.style.borderColor = errors[field]
+                            ? '#DC2626'
+                            : 'rgba(0,0,0,0.06)')
+                        }
                         placeholder={placeholder}
                         maxLength={max}
                       />
                     </div>
                   ))}
                   {Object.keys(errors).length > 0 && (
-                    <div className="md:col-span-2 p-3 rounded-lg text-sm font-medium text-center" style={{ backgroundColor: '#FEF2F2', color: '#DC2626' }} role="alert">
+                    <div
+                      className="md:col-span-2 p-3 rounded-lg text-sm font-medium text-center"
+                      style={{ backgroundColor: '#FEF2F2', color: '#DC2626' }}
+                      role="alert"
+                    >
                       Preencha todos os campos obrigatórios
                     </div>
                   )}
                 </div>
-                <button onClick={handleStep1Next} className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#FFB347',  }}>
+                <button
+                  onClick={handleStep1Next}
+                  className="w-full py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                  style={{ backgroundColor: '#FFB347' }}
+                >
                   Continuar <ChevronRight size={18} />
                 </button>
               </div>
@@ -134,23 +247,49 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                   {[
                     { id: 'pix', icon: Wallet, label: 'PIX', desc: '5% desconto' },
                     { id: 'credit', icon: CreditCard, label: 'Cartão', desc: 'Até 3x' },
-                    { id: 'boleto', icon: Barcode, label: 'Boleto', desc: 'À vista' }
+                    { id: 'boleto', icon: Barcode, label: 'Boleto', desc: 'À vista' },
                   ].map((m) => (
                     <button
                       key={m.id}
                       onClick={() => setPaymentMethod(m.id)}
                       className="p-4 rounded-xl border-2 text-center transition-all"
-                      style={paymentMethod === m.id ? { borderColor: '#FFB347', backgroundColor: 'rgba(59,139,185,0.05)',  } : { borderColor: 'rgba(255,255,255,0.08)' }}
+                      style={
+                        paymentMethod === m.id
+                          ? { borderColor: '#FFB347', backgroundColor: 'rgba(255,179,71,0.05)' }
+                          : { borderColor: 'rgba(0,0,0,0.06)' }
+                      }
                     >
-                      <m.icon size={24} className="mx-auto mb-2" style={{ color: paymentMethod === m.id ? '#FFB347' : '#666' }} />
-                      <p className="text-sm font-bold" style={{ color: paymentMethod === m.id ? '#FFB347' : '#E0E0E0' }}>{m.label}</p>
+                      <m.icon
+                        size={24}
+                        className="mx-auto mb-2"
+                        style={{ color: paymentMethod === m.id ? '#FFB347' : '#94A3B8' }}
+                      />
+                      <p
+                        className="text-sm font-bold"
+                        style={{ color: paymentMethod === m.id ? '#FFB347' : '#4A5568' }}
+                      >
+                        {m.label}
+                      </p>
                       <p className="text-xs text-text-dim">{m.desc}</p>
                     </button>
                   ))}
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={() => setStep(1)} className="flex-1 py-4 glass-card text-text-secondary rounded-xl font-bold hover:border-neon-cyan/40 transition-all">Voltar</button>
-                  <button onClick={() => setStep(3)} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#FFB347',  }}>
+                  <button
+                    onClick={() => setStep(1)}
+                    className="flex-1 py-4 glass-card rounded-xl font-bold transition-all"
+                    style={{ color: '#4A5568' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#FFB347')}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
+                  >
+                    Voltar
+                  </button>
+                  <button
+                    onClick={() => setStep(3)}
+                    className="flex-1 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all"
+                    style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                    style={{ backgroundColor: '#FFB347' }}
+                  >
                     Revisar Pedido <ChevronRight size={18} />
                   </button>
                 </div>
@@ -162,29 +301,61 @@ const Checkout = ({ cart, onBack, onComplete }) => {
                 <h2 className="text-xl font-bold text-text-primary flex items-center gap-2">
                   <Check size={20} style={{ color: '#1A2238' }} /> Revisão do Pedido
                 </h2>
-                <div className="p-4 rounded-xl space-y-2" style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div className="flex items-center gap-2 text-sm font-bold text-text-secondary">
+                <div
+                  className="p-4 rounded-xl space-y-2"
+                  style={{
+                      backgroundColor: '#F8FAFC',
+                      border: '1px solid rgba(0,0,0,0.04)',
+                  }}
+                >
+                  <div className="flex items-center gap-2 text-sm font-bold" style={{ color: '#4A5568' }}>
                     <Truck size={16} style={{ color: '#FFB347' }} /> Entrega
                   </div>
-                  <p className="text-sm text-text-dim">{formData.name}</p>
-                  <p className="text-sm text-text-dim">{formData.address}, {formData.number} {formData.complement}</p>
-                  <p className="text-sm text-text-dim">{formData.neighborhood} - {formData.city}/{formData.state}</p>
+                  <p className="text-sm" style={{ color: '#94A3B8' }}>{formData.name}</p>
+                  <p className="text-sm" style={{ color: '#94A3B8' }}>
+                    {formData.address}, {formData.number} {formData.complement}
+                  </p>
+                  <p className="text-sm" style={{ color: '#94A3B8' }}>
+                    {formData.neighborhood} - {formData.city}/{formData.state}
+                  </p>
                 </div>
                 <div className="p-4 rounded-xl">
-                  <div className="flex items-center gap-2 text-sm font-bold text-text-secondary mb-1">
+                  <div className="flex items-center gap-2 text-sm font-bold mb-1" style={{ color: '#4A5568' }}>
                     <CreditCard size={16} style={{ color: '#FFB347' }} /> Pagamento
                   </div>
-                  <p className="text-sm text-text-dim">
-                    {paymentMethod === 'pix' ? 'PIX (5% desconto)' : paymentMethod === 'credit' ? 'Cartão de Crédito' : 'Boleto'}
+                  <p className="text-sm" style={{ color: '#94A3B8' }}>
+                    {paymentMethod === 'pix'
+                      ? 'PIX (5% desconto)'
+                      : paymentMethod === 'credit'
+                        ? 'Cartão de Crédito'
+                        : 'Boleto'}
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={() => setStep(2)} className="flex-1 py-4 glass-card text-text-secondary rounded-xl font-bold hover:border-neon-cyan/40 transition-all">Voltar</button>
-                  <button onClick={handleSubmit} disabled={loading} className="flex-1 py-4 text-black rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50" style={{ backgroundColor: '#1A2238',  }}>
+                  <button
+                    onClick={() => setStep(2)}
+                    className="flex-1 py-4 glass-card rounded-xl font-bold transition-all"
+                    style={{ color: '#4A5568' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#FFB347')}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = '')}
+                  >
+                    Voltar
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={loading}
+                    className="flex-1 py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                    style={{ backgroundColor: '#FFB347', color: '#1A2238' }}
+                  >
                     {loading ? (
-                      <><div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" /> Processando...</>
+                      <>
+                        <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />{' '}
+                        Processando...
+                      </>
                     ) : (
-                      <><Check size={18} /> Confirmar Pedido</>
+                      <>
+                        <Check size={18} /> Confirmar Pedido
+                      </>
                     )}
                   </button>
                 </div>
@@ -195,48 +366,78 @@ const Checkout = ({ cart, onBack, onComplete }) => {
           {/* Summary */}
           <div className="lg:col-span-1">
             <div className="glass-card rounded-xl p-6 sticky top-40 space-y-4">
-              <h3 className="text-lg font-bold text-text-primary">Resumo</h3>
+              <h3 className="text-lg font-bold" style={{ color: '#1A2238' }}>Resumo</h3>
               <div className="space-y-3 max-h-64 overflow-y-auto">
                 {cart.map((item) => (
                   <div key={item.id} className="flex gap-3">
-                    <div className="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                    <div                     className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0"
+                    style={{ backgroundColor: '#F1F5F9' }}>
                       {(() => {
                         const img = item.image || item.images?.[0];
                         return img && !img.startsWith('blob:') ? (
-                          <img src={img} alt={item.name} loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                          <img
+                            src={img}
+                            alt={item.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover"
+                          />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Upload size={16} className="text-gray-300" />
+                            <Package size={16} style={{ color: '#94A3B8' }} />
                           </div>
                         );
                       })()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-text-primary truncate">{item.name}</p>
-                      <p className="text-xs text-text-dim">Qtd: {item.quantity}</p>
+                  <p className="text-sm font-medium truncate" style={{ color: '#1A2238' }}>{item.name}</p>
+                  <p className="text-xs" style={{ color: '#94A3B8' }}>Qtd: {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-bold" style={{ color: '#FFB347' }}>R$ {(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-sm font-bold" style={{ color: '#FFB347' }}>
+                      R$ {(item.price * item.quantity).toFixed(2)}
+                    </p>
                   </div>
                 ))}
               </div>
-              <div className="space-y-2 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                <div className="flex justify-between text-sm text-text-dim">
-                  <span>Subtotal</span><span className="text-text-secondary">R$ {subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-sm" style={{ color: '#FFB347' }}>
-                  <span>Frete</span><span className="font-semibold">{shipping === 0 ? 'Grátis' : `R$ ${shipping.toFixed(2)}`}</span>
-                </div>
-                {paymentMethod === 'pix' && (
-                  <div className="flex justify-between text-sm" style={{ color: '#1A2238' }}>
-                    <span>Desconto PIX (5%)</span><span>- R$ {(total * 0.05).toFixed(2)}</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-lg font-bold text-text-primary pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                  <span>Total</span><span style={{ color: '#FFB347' }}>R$ {paymentMethod === 'pix' ? (total * 0.95).toFixed(2) : total.toFixed(2)}</span>
+              <div
+                className="space-y-2 pt-4 border-t"
+                    style={{ borderColor: 'rgba(0,0,0,0.04)' }}
+                  >
+                    <div className="flex justify-between text-sm" style={{ color: '#94A3B8' }}>
+                      <span>Subtotal</span>
+                      <span style={{ color: '#4A5568' }}>R$ {subtotal.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm" style={{ color: '#FFB347' }}>
+                      <span>Frete</span>
+                      <span className="font-semibold">
+                        {shipping === 0 ? 'Grátis' : `R$ ${shipping.toFixed(2)}`}
+                      </span>
+                    </div>
+                    {paymentMethod === 'pix' && (
+                      <div className="flex justify-between text-sm" style={{ color: '#1A2238' }}>
+                        <span>Desconto PIX (5%)</span>
+                        <span>- R$ {(total * 0.05).toFixed(2)}</span>
+                      </div>
+                    )}
+                    <div
+                      className="flex justify-between text-lg font-bold pt-2 border-t"
+                      style={{ borderColor: 'rgba(0,0,0,0.04)', color: '#1A2238' }}
+                >
+                  <span>Total</span>
+                  <span style={{ color: '#FFB347' }}>
+                    R$ {paymentMethod === 'pix' ? (total * 0.95).toFixed(2) : total.toFixed(2)}
+                  </span>
                 </div>
               </div>
               {shipping === 0 && (
-                <p className="text-xs font-semibold text-center p-3 rounded-lg" style={{ color: '#FFB347', backgroundColor: 'rgba(138,168,46,0.05)', border: '1px solid rgba(138,168,46,0.15)' }}>
+                <p
+                  className="text-xs font-semibold text-center p-3 rounded-lg"
+                  style={{
+                    color: '#FFB347',
+                    backgroundColor: 'rgba(138,168,46,0.05)',
+                    border: '1px solid rgba(138,168,46,0.15)',
+                  }}
+                >
                   Frete grátis!
                 </p>
               )}

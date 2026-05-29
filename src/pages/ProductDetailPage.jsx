@@ -29,14 +29,21 @@ const ProductDetailPage = () => {
     load();
   }, []);
 
-  const product = location.state || products.find(p => p.id === id);
+  const product = location.state || products.find((p) => p.id === id);
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#FDFDFD' }}>
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{ backgroundColor: '#FDFDFD' }}
+      >
         <div className="text-center">
           <h2 className="text-2xl font-bold text-text-primary mb-4">Produto não encontrado</h2>
-          <button onClick={() => navigate('/')} className="px-6 py-3 text-black rounded-xl font-bold" style={{ backgroundColor: '#FFB347' }}>
+          <button
+            onClick={() => navigate('/')}
+            className="px-6 py-3 text-black rounded-xl font-bold"
+            style={{ backgroundColor: '#FFB347' }}
+          >
             Voltar para a Loja
           </button>
         </div>
@@ -53,35 +60,48 @@ const ProductDetailPage = () => {
     <>
       <Helmet>
         <title>{product.name} - Faciil</title>
-        <meta name="description" content={`Comprar ${product.name} por R$ ${price}. ${product.category} com entrega via Uber Flash no Crato-CE.`} />
-        <meta name="keywords" content={`${product.name}, ${product.category}, acessorios tech, Faciil`} />
+        <meta
+          name="description"
+          content={`Comprar ${product.name} por R$ ${price}. ${product.category} com entrega via Uber Flash no Crato-CE.`}
+        />
+        <meta
+          name="keywords"
+          content={`${product.name}, ${product.category}, acessorios tech, Faciil`}
+        />
         <meta property="og:title" content={`${product.name} - Faciil`} />
-        <meta property="og:description" content={`Por R$ ${price}${originalPrice ? ` (de R$ ${originalPrice})` : ''} - ${product.category}`} />
+        <meta
+          property="og:description"
+          content={`Por R$ ${price}${originalPrice ? ` (de R$ ${originalPrice})` : ''} - ${product.category}`}
+        />
         <meta property="og:url" content={productUrl} />
         <meta property="og:type" content="product" />
         <meta property="og:image" content={productImage} />
         <meta property="product:price:amount" content={price} />
         <meta property="product:price:currency" content="BRL" />
-        <meta property="product:availability" content={product.stock > 0 ? 'in stock' : 'out of stock'} />
+        <meta
+          property="product:availability"
+          content={product.stock > 0 ? 'in stock' : 'out of stock'}
+        />
         <meta name="twitter:title" content={`${product.name} - Faciil`} />
         <meta name="twitter:description" content={`Por R$ ${price} - ${product.category}`} />
         <meta name="twitter:image" content={productImage} />
         <script type="application/ld+json">
           {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": product.name,
-            "description": `${product.name} - ${product.category}`,
-            "image": productImage,
-            "offers": {
-              "@type": "Offer",
-              "price": price,
-              "priceCurrency": "BRL",
-              "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-              "seller": { "@type": "Organization", "name": "Faciil" }
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.name,
+            description: `${product.name} - ${product.category}`,
+            image: productImage,
+            offers: {
+              '@type': 'Offer',
+              price: price,
+              priceCurrency: 'BRL',
+              availability:
+                product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+              seller: { '@type': 'Organization', name: 'Faciil' },
             },
-            "brand": { "@type": "Brand", "name": "Faciil" },
-            "category": product.category
+            brand: { '@type': 'Brand', name: 'Faciil' },
+            category: product.category,
           })}
         </script>
       </Helmet>

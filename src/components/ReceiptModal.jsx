@@ -33,12 +33,16 @@ const ReceiptModal = ({ order, onClose }) => {
           ${order.customerName ? `<div class="row"><span>Cliente:</span> <span>${order.customerName}</span></div>` : ''}
           <div class="line"></div>
           <h3>Itens:</h3>
-          ${order.items.map(item => `
+          ${order.items
+            .map(
+              (item) => `
             <div class="item">
               <div class="item-name">${item.name}</div>
               <div class="row"><span>${item.quantity}x R$ ${item.price.toFixed(2)}</span> <span>R$ ${(item.quantity * item.price).toFixed(2)}</span></div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
           <div class="line"></div>
           <div class="total">TOTAL: R$ ${(order.total || order.subtotal || 0).toFixed(2)}</div>
           <div class="line"></div>
@@ -61,7 +65,8 @@ const ReceiptModal = ({ order, onClose }) => {
       return;
     }
 
-    const customerDisplay = order.customerName && order.customerName !== 'Consumidor' ? order.customerName : 'Cliente';
+    const customerDisplay =
+      order.customerName && order.customerName !== 'Consumidor' ? order.customerName : 'Cliente';
     const hasDiscount = order.discount && order.discount > 0;
 
     let msg = `*FACIIL - RECIBO DE COMPRA*\n`;
@@ -71,7 +76,7 @@ const ReceiptModal = ({ order, onClose }) => {
     msg += `*Pagamento:* ${order.paymentMethod === 'pix' ? 'Pix' : order.paymentMethod === 'cash' ? 'Dinheiro' : 'Cartao'}\n`;
     msg += `==============================\n`;
     msg += `*ITENS:*\n`;
-    order.items.forEach(item => {
+    order.items.forEach((item) => {
       msg += `* ${item.quantity}x* ${item.name}\n`;
       msg += `   R$ ${(item.price * item.quantity).toFixed(2)}\n`;
     });
@@ -88,11 +93,20 @@ const ReceiptModal = ({ order, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)' }}>
-      <div className="w-full max-w-sm rounded-xl shadow-2xl overflow-hidden" style={{ backgroundColor: '#FDFDFD', border: '1px solid rgba(59,139,185,0.2)' }}>
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)' }}
+    >
+      <div
+        className="w-full max-w-sm rounded-xl shadow-2xl overflow-hidden"
+        style={{ backgroundColor: '#FDFDFD', border: '1px solid rgba(59,139,185,0.2)' }}
+      >
         <div className="flex items-center justify-between p-4 border-b border-border-subtle">
           <h3 className="text-lg font-bold text-text-primary">Recibo #{order.id}</h3>
-          <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-lg transition-colors text-text-secondary">
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-white/10 rounded-lg transition-colors text-text-secondary"
+          >
             <X size={20} />
           </button>
         </div>
@@ -104,16 +118,36 @@ const ReceiptModal = ({ order, onClose }) => {
           </div>
           <div className="border-t border-dashed border-text-dim my-2" />
           <div className="space-y-1 text-xs text-text-secondary">
-            <div className="flex justify-between"><span>Pedido:</span> <span>#{order.id}</span></div>
-            <div className="flex justify-between"><span>Data:</span> <span>{new Date(order.date).toLocaleDateString('pt-BR')}</span></div>
-            <div className="flex justify-between"><span>Pagamento:</span> <span>{order.paymentMethod === 'pix' ? 'Pix' : order.paymentMethod === 'cash' ? 'Dinheiro' : 'Cartão'}</span></div>
-            {order.customerName && order.customerName !== 'Consumidor' && <div className="flex justify-between"><span>Cliente:</span> <span className="truncate ml-2 max-w-[150px]">{order.customerName}</span></div>}
+            <div className="flex justify-between">
+              <span>Pedido:</span> <span>#{order.id}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Data:</span> <span>{new Date(order.date).toLocaleDateString('pt-BR')}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Pagamento:</span>{' '}
+              <span>
+                {order.paymentMethod === 'pix'
+                  ? 'Pix'
+                  : order.paymentMethod === 'cash'
+                    ? 'Dinheiro'
+                    : 'Cartão'}
+              </span>
+            </div>
+            {order.customerName && order.customerName !== 'Consumidor' && (
+              <div className="flex justify-between">
+                <span>Cliente:</span>{' '}
+                <span className="truncate ml-2 max-w-[150px]">{order.customerName}</span>
+              </div>
+            )}
           </div>
           <div className="border-t border-dashed border-text-dim my-2" />
           <div className="space-y-2">
             {order.items.map((item, i) => (
               <div key={i} className="flex justify-between">
-                <span>{item.quantity}x {item.name}</span>
+                <span>
+                  {item.quantity}x {item.name}
+                </span>
                 <span>R$ {(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}
@@ -132,10 +166,18 @@ const ReceiptModal = ({ order, onClose }) => {
         </div>
 
         <div className="p-4 bg-bg-elevated flex gap-2">
-          <button onClick={handleWhatsApp} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#1A2238', color: '#000' }}>
+          <button
+            onClick={handleWhatsApp}
+            className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all"
+            style={{ backgroundColor: '#1A2238', color: '#000' }}
+          >
             <MessageCircle size={16} /> WhatsApp
           </button>
-          <button onClick={handlePrint} className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all" style={{ backgroundColor: '#FFB347', color: '#000' }}>
+          <button
+            onClick={handlePrint}
+            className="flex-1 py-2 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all"
+            style={{ backgroundColor: '#FFB347', color: '#000' }}
+          >
             <Printer size={16} /> Imprimir
           </button>
         </div>

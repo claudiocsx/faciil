@@ -1,30 +1,64 @@
-# Contexto do Projeto
+# Meu PDV — Instruções para OpenCode
 
-## Sobre o Projeto
-- **Nome**: Meu PDV (Ponto de Venda)
-- **Local**: `C:\Users\Ana Claudia\Documents\meupdv\meu-pdv`
-- **Stack**: React 19 + Vite 8 + Tailwind CSS 4 + Firebase + React Router
+Idioma: **Português do Brasil** (preferência do usuário). Responda em pt-BR.
+Sem TypeScript — projeto **JavaScript puro** (JSX), sem TS configurado.
 
-## Deploy
-- Código subido no GitHub pelo usuário
-- Vercel configurado via `vercel.json` (build: npm run build, output: dist)
-- Deploy a ser feito via vercel.com importando o repositório GitHub
+## Stack verificada
 
-## Tecnologias
-- React 19.2.5
-- Vite 8.0.10
-- Tailwind CSS 4.2.4
-- Firebase 12.12.1 (banco de dados)
-- React Router DOM 7.14.2
-- React Hook Form + Zod (formulários)
-- Recharts (gráficos)
+- React 19, Vite 8, Tailwind CSS 4 (via `@tailwindcss/postcss`), Firebase (Auth + Firestore + Storage)
+- React Router v7, React Hook Form + Zod, Recharts, date-fns, lucide-react
+- PWA via `vite-plugin-pwa` (autoUpdate, workbox com runtime caching para Firebase)
+- Lint: ESLint flat config (`eslint.config.js`) + Prettier — pré-commit via husky + lint-staged
 
-## Comandos Úteis
-- `npm run dev` - Desenvolvimento
-- `npm run build` - Build para produção
-- `npm run lint` - Linter
+## Comandos
 
-## Notas
-- Usuário prefere comunicação em português do Brasil
-- Git e Vercel CLI foram instalados durante a sessão
-- variáveis de ambiente do Firebase devem ser configuradas no Vercel se necessário
+| Comando | Para que |
+|---|---|
+| `npm run dev` | Dev server Vite |
+| `npm run build` | Produção em `dist/` |
+| `npm run lint` | ESLint no projeto todo |
+| `npm run preview` | Preview local do build |
+| `npm run format` | Prettier em `src/` |
+| `npm run format:check` | Verifica formatação |
+| `npm run prepare` | Instala husky (obrigatório após `git clone`) |
+
+**Ordem de verificação sugerida:** `npm run lint` → `npm run build`
+
+## Pré-commit
+
+Husky executa `npx lint-staged` que roda:
+- `eslint --fix` + `prettier --write` em `*.{js,jsx}`
+- `prettier --write` em `*.{css,json,md}`
+
+## Variáveis de ambiente
+
+6 vars `VITE_FIREBASE_*` necessárias (ver `.env.example`). Firebase lê via `import.meta.env`.
+Criar `.env` na raiz baseado em `.env.example`. No Vercel, configurar no dashboard.
+
+## Arquitetura
+
+- **Entrypoint:** `src/main.jsx` → `src/App.jsx` (context providers aninhados)
+- **Contextos:** `AuthProvider` (admin) → `CustomerAuthProvider` → `ProductProvider` → `CartProvider` → `ThemeProvider` → `AlertProvider`
+- **Rotas:** `/` (loja), `/produto/:id`, `/pedidos`, `/meus-pedidos`, `/carrinho`, `/login`, `/admin/*` (protegido por `ProtectedRoute`)
+- **Admin** (rotas filhas de `/admin`): produtos, categorias, fornecedores, cupons, banners, pedidos, clientes, PDV, relatórios, perfil
+- **PWA:** service worker registrado manualmente em `main.jsx` + `vite-plugin-pwa` gera `dist/sw.js`. PwaInstallPrompt component na UI.
+
+## Deploy (Vercel)
+
+- Build: `npm run build` → output `dist/`
+- `vercel.json` com rewrite SPA (`/((?!api/|.*\\..*).*)` → `/index.html`)
+- Importar repo GitHub via vercel.com (não usar Vercel CLI)
+
+## Tailwind CSS 4
+
+Usa `@import 'tailwindcss'` + diretiva `@theme` em `src/index.css` para custom tokens.
+**Não** usa `@tailwind base/components/utilities` (sintaxe antiga).
+`postcss.config.js` usa `@tailwindcss/postcss` (não `tailwindcss`).
+`tailwind.config.js` existe mas pode ser migrado — o `@theme` em CSS é a fonte real.
+
+## Estilo de código
+
+- Prettier: `semi: true, singleQuote: true, tabWidth: 2, trailingComma: 'es5', printWidth: 100`
+- Sem pontos-e-vírgula ignorados (semi obrigatório)
+- Nomes de componentes em PascalCase, contextos/helpers em camelCase
+- CSS com variáveis CSS customizadas + classes utilitárias Tailwind

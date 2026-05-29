@@ -2,7 +2,20 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { FileText, Download, Calendar, TrendingUp, Package, X, Search } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  BarChart,
+  Bar,
+} from 'recharts';
 
 const AdminReportsPage = () => {
   const [orders, setOrders] = useState([]);
@@ -16,7 +29,7 @@ const AdminReportsPage = () => {
   useEffect(() => {
     const q = query(collection(db, 'orders'), orderBy('date', 'desc'));
     const unsubscribe = onSnapshot(q, (snap) => {
-      setOrders(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setOrders(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
       setLoading(false);
     });
     return unsubscribe;
@@ -27,7 +40,7 @@ const AdminReportsPage = () => {
     const startDate = new Date(now);
     startDate.setDate(startDate.getDate() - period);
 
-    return orders.filter(o => {
+    return orders.filter((o) => {
       const orderDate = new Date(o.date);
       if (orderDate < startDate) return false;
       if (statusFilter !== 'all' && o.status !== statusFilter) return false;
@@ -43,13 +56,16 @@ const AdminReportsPage = () => {
     let cancelled = 0;
     let delivered = 0;
     let pending = 0;
-    let pix = 0, cash = 0, card = 0;
-    let manual = 0, online = 0;
+    let pix = 0,
+      cash = 0,
+      card = 0;
+    let manual = 0,
+      online = 0;
 
     const dailyRevenue = {};
     const productSales = {};
 
-    filteredOrders.forEach(o => {
+    filteredOrders.forEach((o) => {
       const orderDate = new Date(o.date);
       const dayKey = orderDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
 
@@ -62,9 +78,9 @@ const AdminReportsPage = () => {
         if (o.type === 'manual') manual++;
         else online++;
 
-        o.items?.forEach(item => {
+        o.items?.forEach((item) => {
           const key = item.name || 'Produto';
-          productSales[key] = (productSales[key] || 0) + (item.quantity * item.price);
+          productSales[key] = (productSales[key] || 0) + item.quantity * item.price;
         });
       }
 
@@ -82,28 +98,39 @@ const AdminReportsPage = () => {
     const statusData = [
       { name: 'Entregues', value: delivered, color: '#10B981' },
       { name: 'Pendentes', value: pending, color: '#FFB800' },
-      { name: 'Cancelados', value: cancelled, color: '#EF4444' }
-    ].filter(d => d.value > 0);
+      { name: 'Cancelados', value: cancelled, color: '#EF4444' },
+    ].filter((d) => d.value > 0);
 
     const paymentData = [
       { name: 'Pix', value: pix, color: '#10B981' },
       { name: 'Dinheiro', value: cash, color: '#FFB347' },
-      { name: 'Cartão', value: card, color: '#3B82F6' }
-    ].filter(d => d.value > 0);
+      { name: 'Cartão', value: card, color: '#3B82F6' },
+    ].filter((d) => d.value > 0);
 
     const topProducts = Object.entries(productSales)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
-      .map(([name, revenue]) => ({ name: name.length > 25 ? name.substring(0, 22) + '...' : name, revenue }));
+      .map(([name, revenue]) => ({
+        name: name.length > 25 ? name.substring(0, 22) + '...' : name,
+        revenue,
+      }));
 
     return {
-      totalRevenue, totalOrders, cancelled, delivered, pending,
-      revenueData, statusData, paymentData, topProducts,
-      avgTicket: totalOrders > 0 ? totalRevenue / totalOrders : 0
+      totalRevenue,
+      totalOrders,
+      cancelled,
+      delivered,
+      pending,
+      revenueData,
+      statusData,
+      paymentData,
+      topProducts,
+      avgTicket: totalOrders > 0 ? totalRevenue / totalOrders : 0,
     };
   }, [filteredOrders]);
 
-  const formatCurrency = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+  const formatCurrency = (val) =>
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
   const clearFilters = () => {
     setStatusFilter('all');
@@ -138,7 +165,10 @@ const AdminReportsPage = () => {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
           >
             <option value="all">Todos Status</option>
             <option value="pending">Pendente</option>
@@ -149,7 +179,10 @@ const AdminReportsPage = () => {
             value={paymentFilter}
             onChange={(e) => setPaymentFilter(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
           >
             <option value="all">Todas Formas</option>
             <option value="pix">Pix</option>
@@ -160,7 +193,10 @@ const AdminReportsPage = () => {
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
             className="px-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-            style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}
           >
             <option value="all">Todos Tipos</option>
             <option value="manual">PDV</option>
@@ -181,7 +217,9 @@ const AdminReportsPage = () => {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="glass-card p-4 rounded-xl">
           <p className="text-xs font-medium text-text-dim uppercase">Receita Total</p>
-          <p className="text-xl font-black text-neon-green mt-1">{formatCurrency(stats.totalRevenue)}</p>
+          <p className="text-xl font-black text-neon-green mt-1">
+            {formatCurrency(stats.totalRevenue)}
+          </p>
         </div>
         <div className="glass-card p-4 rounded-xl">
           <p className="text-xs font-medium text-text-dim uppercase">Pedidos</p>
@@ -189,7 +227,9 @@ const AdminReportsPage = () => {
         </div>
         <div className="glass-card p-4 rounded-xl">
           <p className="text-xs font-medium text-text-dim uppercase">Ticket Médio</p>
-          <p className="text-xl font-black text-text-primary mt-1">{formatCurrency(stats.avgTicket)}</p>
+          <p className="text-xl font-black text-text-primary mt-1">
+            {formatCurrency(stats.avgTicket)}
+          </p>
         </div>
         <div className="glass-card p-4 rounded-xl">
           <p className="text-xs font-medium text-text-dim uppercase">Taxa Entrega</p>
@@ -206,10 +246,34 @@ const AdminReportsPage = () => {
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={stats.revenueData}>
-                  <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
-                  <YAxis tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} tickFormatter={(v) => `R$ ${v}`} />
-                  <Tooltip formatter={(value) => formatCurrency(value)} contentStyle={{ backgroundColor: '#1A2238', border: 'none', borderRadius: 8, color: '#fff' }} />
-                  <Line type="monotone" dataKey="revenue" stroke="#FFB347" strokeWidth={2} dot={false} />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 11, fill: '#94A3B8' }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: '#94A3B8' }}
+                    axisLine={false}
+                    tickLine={false}
+                    tickFormatter={(v) => `R$ ${v}`}
+                  />
+                  <Tooltip
+                    formatter={(value) => formatCurrency(value)}
+                    contentStyle={{
+                      backgroundColor: '#1A2238',
+                      border: 'none',
+                      borderRadius: 8,
+                      color: '#fff',
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#FFB347"
+                    strokeWidth={2}
+                    dot={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -224,7 +288,15 @@ const AdminReportsPage = () => {
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={stats.statusData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} dataKey="value" paddingAngle={4}>
+                  <Pie
+                    data={stats.statusData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={70}
+                    dataKey="value"
+                    paddingAngle={4}
+                  >
                     {stats.statusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
@@ -246,7 +318,10 @@ const AdminReportsPage = () => {
           {stats.paymentData.length > 0 ? (
             <div className="space-y-3">
               {stats.paymentData.map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-3 rounded-lg bg-white/5"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-sm text-text-primary">{item.name}</span>
@@ -265,12 +340,17 @@ const AdminReportsPage = () => {
           {stats.topProducts.length > 0 ? (
             <div className="space-y-2 max-h-64 overflow-y-auto">
               {stats.topProducts.map((p, i) => (
-                <div key={i} className="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-2 rounded-lg bg-white/5"
+                >
                   <div className="flex items-center gap-2 flex-1 min-w-0">
                     <span className="text-xs font-bold text-text-dim w-4">{i + 1}</span>
                     <span className="text-sm text-text-primary truncate">{p.name}</span>
                   </div>
-                  <span className="text-sm font-bold text-neon-green">{formatCurrency(p.revenue)}</span>
+                  <span className="text-sm font-bold text-neon-green">
+                    {formatCurrency(p.revenue)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -281,7 +361,9 @@ const AdminReportsPage = () => {
       </div>
 
       <div className="glass-card p-5 rounded-xl">
-        <h3 className="font-bold text-text-primary mb-4">Lista de Pedidos ({filteredOrders.length})</h3>
+        <h3 className="font-bold text-text-primary mb-4">
+          Lista de Pedidos ({filteredOrders.length})
+        </h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -295,29 +377,47 @@ const AdminReportsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.slice(0, 20).map(order => (
+              {filteredOrders.slice(0, 20).map((order) => (
                 <tr key={order.id} className="border-b border-border-subtle/50 hover:bg-white/5">
-                  <td className="py-3 px-2 text-text-secondary">{new Date(order.date).toLocaleDateString('pt-BR')}</td>
-                  <td className="py-3 px-2 text-text-primary font-medium">{order.customerName || 'Cliente'}</td>
+                  <td className="py-3 px-2 text-text-secondary">
+                    {new Date(order.date).toLocaleDateString('pt-BR')}
+                  </td>
+                  <td className="py-3 px-2 text-text-primary font-medium">
+                    {order.customerName || 'Cliente'}
+                  </td>
                   <td className="py-3 px-2">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${order.type === 'manual' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs font-bold ${order.type === 'manual' ? 'bg-purple-500/20 text-purple-400' : 'bg-blue-500/20 text-blue-400'}`}
+                    >
                       {order.type === 'manual' ? 'PDV' : 'Online'}
                     </span>
                   </td>
-                  <td className="py-3 px-2 text-text-secondary capitalize">{order.paymentMethod || '-'}</td>
+                  <td className="py-3 px-2 text-text-secondary capitalize">
+                    {order.paymentMethod || '-'}
+                  </td>
                   <td className="py-3 px-2">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${order.status === 'delivered' ? 'bg-green-500/20 text-green-400' : order.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}>
-                      {order.status === 'delivered' ? 'Entregue' : order.status === 'cancelled' ? 'Cancelado' : 'Pendente'}
+                    <span
+                      className={`px-2 py-0.5 rounded-full text-xs font-bold ${order.status === 'delivered' ? 'bg-green-500/20 text-green-400' : order.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}`}
+                    >
+                      {order.status === 'delivered'
+                        ? 'Entregue'
+                        : order.status === 'cancelled'
+                          ? 'Cancelado'
+                          : 'Pendente'}
                     </span>
                   </td>
-                  <td className="py-3 px-2 text-right font-bold text-neon-green">{formatCurrency(order.total || 0)}</td>
+                  <td className="py-3 px-2 text-right font-bold text-neon-green">
+                    {formatCurrency(order.total || 0)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
         {filteredOrders.length > 20 && (
-          <p className="text-center text-xs text-text-dim mt-3">Mostrando 20 de {filteredOrders.length} pedidos</p>
+          <p className="text-center text-xs text-text-dim mt-3">
+            Mostrando 20 de {filteredOrders.length} pedidos
+          </p>
         )}
       </div>
     </div>

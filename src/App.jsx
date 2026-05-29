@@ -87,16 +87,19 @@ export default function App() {
           <CartProvider>
             <ThemeProvider>
               <AlertProvider>
-              <BrowserRouter>
-                <Helmet>
-                  <meta name="theme-color" content="#FFB347" />
-                  <meta name="google-site-verification" content="Vd3nwJWGFRFdklONEFhsSMsXF4t3rJgfLRYrNQxRsg0" />
-                  <link rel="canonical" href="https://faciil.vercel.app" />
-                </Helmet>
-                <Analytics />
-                <AppRoutes />
-                <PwaInstallPrompt />
-              </BrowserRouter>
+                <BrowserRouter>
+                  <Helmet>
+                    <meta name="theme-color" content="#FFB347" />
+                    <meta
+                      name="google-site-verification"
+                      content="Vd3nwJWGFRFdklONEFhsSMsXF4t3rJgfLRYrNQxRsg0"
+                    />
+                    <link rel="canonical" href="https://faciil.vercel.app" />
+                  </Helmet>
+                  <Analytics />
+                  <AppRoutes />
+                  <PwaInstallPrompt />
+                </BrowserRouter>
               </AlertProvider>
             </ThemeProvider>
           </CartProvider>

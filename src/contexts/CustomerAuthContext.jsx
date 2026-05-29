@@ -3,7 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -50,7 +50,9 @@ export const CustomerAuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <CustomerAuthContext.Provider value={{ customer, customerLogin, customerSignup, customerLogout, loading }}>
+    <CustomerAuthContext.Provider
+      value={{ customer, customerLogin, customerSignup, customerLogout, loading }}
+    >
       {!loading && children}
     </CustomerAuthContext.Provider>
   );

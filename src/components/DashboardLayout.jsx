@@ -1,5 +1,22 @@
 import React, { useState } from 'react';
-import { BarChart3, Package, ShoppingCart, Users, Settings, Bell, Search, Menu, X, Home, TrendingUp, FileText, LogOut, Store, Sun, Moon } from 'lucide-react';
+import {
+  BarChart3,
+  Package,
+  ShoppingCart,
+  Users,
+  Settings,
+  Bell,
+  Search,
+  Menu,
+  X,
+  Home,
+  TrendingUp,
+  FileText,
+  LogOut,
+  Store,
+  Sun,
+  Moon,
+} from 'lucide-react';
 import Logo from './Logo';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -18,9 +35,15 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: '#FDFDFD' }}>
       {/* Sidebar Desktop */}
-      <div className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0" style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}>
+      <div
+        className="hidden lg:flex lg:flex-col lg:w-64 lg:border-r border-l-0"
+        style={{ borderColor: 'rgba(0,0,0,0.04)', backgroundColor: '#FFFFFF' }}
+      >
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-center h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+          <div
+            className="flex items-center justify-center h-16 px-6 border-b"
+            style={{ borderColor: 'rgba(0,0,0,0.04)' }}
+          >
             <div className="flex items-center gap-3">
               <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                 <Logo size={32} />
@@ -31,18 +54,25 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
 
           <div className="px-4 py-4 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold" style={{ backgroundColor: '#FFB347' }}>
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold"
+                style={{ backgroundColor: '#FFB347' }}
+              >
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-bold text-text-primary truncate">{user?.name}</p>
-                <p className="text-xs uppercase font-semibold" style={{ color: '#1A2238' }}>{user?.role}</p>
+                <p className="text-xs uppercase font-semibold" style={{ color: '#1A2238' }}>
+                  {user?.role}
+                </p>
               </div>
             </div>
           </div>
 
           <nav className="flex-1 px-3 py-4 space-y-1">
-            <p className="px-3 text-xs font-black text-text-dim uppercase tracking-widest mb-3">Menu</p>
+            <p className="px-3 text-xs font-black text-text-dim uppercase tracking-widest mb-3">
+              Menu
+            </p>
             {menuItems.map((item) => {
               const Icon = item.icon;
               return (
@@ -52,11 +82,25 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
                   className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
                   style={
                     currentModule === item.id
-                      ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347', border: '1px solid rgba(59,139,185,0.2)' }
-                      : { color: '#4A5568', backgroundColor: 'transparent', border: '1px solid transparent' }
+                      ? {
+                          backgroundColor: 'rgba(59,139,185,0.1)',
+                          color: '#FFB347',
+                          border: '1px solid rgba(59,139,185,0.2)',
+                        }
+                      : {
+                          color: '#4A5568',
+                          backgroundColor: 'transparent',
+                          border: '1px solid transparent',
+                        }
                   }
-                  onMouseEnter={(e) => { if (currentModule !== item.id) e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'; }}
-                  onMouseLeave={(e) => { if (currentModule !== item.id) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                  onMouseEnter={(e) => {
+                    if (currentModule !== item.id)
+                      e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (currentModule !== item.id)
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
                 >
                   <Icon size={18} />
                   {item.label}
@@ -85,15 +129,24 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/70" onClick={() => setSidebarOpen(false)} />
-          <div className="fixed inset-y-0 left-0 w-64" style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}>
-            <div className="flex items-center justify-between h-16 px-6 border-b" style={{ borderColor: 'rgba(0,0,0,0.04)' }}>
+          <div
+            className="fixed inset-y-0 left-0 w-64"
+            style={{ backgroundColor: '#FFFFFF', borderRight: '1px solid rgba(0,0,0,0.04)' }}
+          >
+            <div
+              className="flex items-center justify-between h-16 px-6 border-b"
+              style={{ borderColor: 'rgba(0,0,0,0.04)' }}
+            >
               <div className="flex items-center gap-3">
                 <div className="drop-shadow-[0_0_6px rgba(59,139,185,0.6)]">
                   <Logo size={32} />
                 </div>
                 <span className="font-black text-xl text-text-primary">Faciil</span>
               </div>
-              <button onClick={() => setSidebarOpen(false)} className="text-text-dim hover:text-text-secondary">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="text-text-dim hover:text-text-secondary"
+              >
                 <X size={20} />
               </button>
             </div>
@@ -103,9 +156,16 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
                 return (
                   <button
                     key={item.id}
-                    onClick={() => { onModuleChange(item.id); setSidebarOpen(false); }}
+                    onClick={() => {
+                      onModuleChange(item.id);
+                      setSidebarOpen(false);
+                    }}
                     className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all"
-                    style={currentModule === item.id ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347' } : { color: '#4A5568' }}
+                    style={
+                      currentModule === item.id
+                        ? { backgroundColor: 'rgba(59,139,185,0.1)', color: '#FFB347' }
+                        : { color: '#4A5568' }
+                    }
                   >
                     <Icon size={18} />
                     {item.label}
@@ -121,17 +181,32 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
       <div className="flex-1 flex flex-col">
         <header className="glass-header sticky top-0 z-30 px-4 lg:px-6 h-16">
           <div className="flex items-center justify-between h-full max-w-7xl mx-auto">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-slate-600 hover:text-neon-cyan transition-colors">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 text-slate-600 hover:text-neon-cyan transition-colors"
+            >
               <Menu size={20} />
             </button>
 
             <div className="flex-1 max-w-md mx-4 hidden sm:block">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                <input type="text" placeholder="Buscar..." className="w-full pl-10 pr-4 py-2 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none transition-all"
+                <Search
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                  size={18}
+                />
+                <input
+                  type="text"
+                  placeholder="Buscar..."
+                  className="w-full pl-10 pr-4 py-2 rounded-xl text-sm text-slate-900 placeholder-slate-400 outline-none transition-all"
                   style={{ backgroundColor: 'rgba(255,255,255,0.8)', border: '1px solid #E2E8F0' }}
-                  onFocus={(e) => { e.target.style.borderColor = '#FFB347'; e.target.style.boxShadow = '0 0 0 3px rgba(59,139,185,0.1)'; }}
-                  onBlur={(e) => { e.target.style.borderColor = '#E2E8F0'; e.target.style.boxShadow = 'none'; }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = '#FFB347';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(59,139,185,0.1)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#E2E8F0';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
             </div>
@@ -139,7 +214,12 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
             <div className="flex items-center gap-3">
               <button className="relative p-2 text-slate-600 hover:text-neon-cyan transition-colors">
                 <Bell size={20} />
-                <span className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center" style={{ backgroundColor: '#FFB800' }}>3</span>
+                <span
+                  className="absolute -top-1 -right-1 w-5 h-5 text-black text-xs font-bold rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: '#FFB800' }}
+                >
+                  3
+                </span>
               </button>
 
               <button
@@ -153,9 +233,7 @@ const DashboardLayout = ({ children, currentModule, onModuleChange, onLogout, us
           </div>
         </header>
 
-        <main className="flex-1 p-4 lg:p-8 overflow-y-auto">
-          {children}
-        </main>
+        <main className="flex-1 p-4 lg:p-8 overflow-y-auto">{children}</main>
       </div>
     </div>
   );

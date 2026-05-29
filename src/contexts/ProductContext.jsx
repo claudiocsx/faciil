@@ -13,9 +13,9 @@ export const ProductProvider = ({ children }) => {
   useEffect(() => {
     // Escuta mudanças em tempo real na coleção de produtos
     const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
-      const productsData = snapshot.docs.map(doc => ({
+      const productsData = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
+        ...doc.data(),
       }));
       setProducts(productsData);
       setLoading(false);
@@ -29,7 +29,7 @@ export const ProductProvider = ({ children }) => {
       console.log('addProduct called:', product?.name);
       const docRef = await addDoc(collection(db, 'products'), {
         ...product,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       });
       console.log('Produto salvo com ID:', docRef.id);
     } catch (error) {
@@ -52,7 +52,9 @@ export const ProductProvider = ({ children }) => {
   };
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, updateProduct, removeProduct, loading }}>
+    <ProductContext.Provider
+      value={{ products, addProduct, updateProduct, removeProduct, loading }}
+    >
       {children}
     </ProductContext.Provider>
   );

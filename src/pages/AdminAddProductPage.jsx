@@ -13,7 +13,7 @@ const AdminAddProductPage = () => {
   const { addProduct, updateProduct } = useProducts();
   const { showAlert } = useAlert();
   const fileInputRef = useRef(null);
-  
+
   const editingProduct = location.state;
   const [categories, setCategories] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
@@ -22,11 +22,11 @@ const AdminAddProductPage = () => {
     const loadCategories = async () => {
       const q = query(collection(db, 'categories'), orderBy('order', 'asc'));
       const snap = await getDocs(q);
-      setCategories(snap.docs.map(d => d.data().name));
+      setCategories(snap.docs.map((d) => d.data().name));
     };
     const loadSuppliers = async () => {
       const snap = await getDocs(collection(db, 'suppliers'));
-      setSuppliers(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setSuppliers(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     };
     loadCategories();
     loadSuppliers();
@@ -40,16 +40,18 @@ const AdminAddProductPage = () => {
     supplier: editingProduct?.supplier || '',
     originalPrice: editingProduct?.originalPrice || '',
     stock: editingProduct?.stock || '',
-    category: editingProduct?.category || (categories[0] || 'Smartwatches'),
+    category: editingProduct?.category || categories[0] || 'Smartwatches',
     image: editingProduct?.image || editingProduct?.images?.[0] || '',
     images: editingProduct?.images || [],
     isNew: editingProduct?.isNew || false,
     comingSoon: editingProduct?.comingSoon || false,
     featured: editingProduct?.featured || false,
     flashSaleEndsAt: editingProduct?.flashSale?.endsAt || '',
-    flashSaleDiscount: editingProduct?.flashSale?.discountPercent || ''
+    flashSaleDiscount: editingProduct?.flashSale?.discountPercent || '',
   });
-  const [imagePreview, setImagePreview] = useState(editingProduct?.image || editingProduct?.images?.[0] || null);
+  const [imagePreview, setImagePreview] = useState(
+    editingProduct?.image || editingProduct?.images?.[0] || null
+  );
   const [galleryPreviews, setGalleryPreviews] = useState(editingProduct?.images || []);
   const [dragActive, setDragActive] = useState(false);
   const [galleryDragActive, setGalleryDragActive] = useState(Array(3).fill(false));
@@ -58,7 +60,7 @@ const AdminAddProductPage = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const compressImage = (file, maxWidth = 400, quality = 0.7) => {
@@ -95,7 +97,7 @@ const AdminAddProductPage = () => {
     if (!file || !file.type.startsWith('image/')) return;
     const compressedBase64 = await compressImage(file, 700, 0.82);
     setImagePreview(compressedBase64);
-    setFormData(prev => ({ ...prev, image: compressedBase64 }));
+    setFormData((prev) => ({ ...prev, image: compressedBase64 }));
   };
 
   const handleGalleryFile = async (file, index) => {
@@ -108,12 +110,19 @@ const AdminAddProductPage = () => {
 
     const newFormImages = [...(formData.images || [])];
     newFormImages[index] = compressedBase64;
-    setFormData(prev => ({ ...prev, images: newFormImages }));
+    setFormData((prev) => ({ ...prev, images: newFormImages }));
   };
 
   const handleFileInput = (e) => handleImageFile(e.target.files[0]);
-  const handleDrop = (e) => { e.preventDefault(); setDragActive(false); handleImageFile(e.dataTransfer.files[0]); };
-  const handleDragOver = (e) => { e.preventDefault(); setDragActive(true); };
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragActive(false);
+    handleImageFile(e.dataTransfer.files[0]);
+  };
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDragActive(true);
+  };
   const handleDragLeave = () => setDragActive(false);
 
   const handleGalleryDrop = (e, index) => {
@@ -137,7 +146,7 @@ const AdminAddProductPage = () => {
 
   const removeImage = () => {
     setImagePreview(null);
-    setFormData(prev => ({ ...prev, image: '' }));
+    setFormData((prev) => ({ ...prev, image: '' }));
   };
 
   const removeGalleryImage = (index) => {
@@ -147,11 +156,11 @@ const AdminAddProductPage = () => {
 
     const newFormImages = [...(formData.images || [])];
     newFormImages[index] = undefined;
-    setFormData(prev => ({ ...prev, images: newFormImages }));
+    setFormData((prev) => ({ ...prev, images: newFormImages }));
   };
 
   const handleProfitChange = ({ costPrice, profitMargin, price }) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       costPrice: costPrice !== '' ? costPrice : prev.costPrice,
       profitMargin: profitMargin !== '' ? profitMargin : prev.profitMargin,
@@ -162,7 +171,7 @@ const AdminAddProductPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!editingProduct && !formData.image) return showAlert('Adicione uma imagem do produto.');
-    
+
     setSaving(true);
     try {
       const galleryImages = (formData.images || []).filter(Boolean);
@@ -178,11 +187,11 @@ const AdminAddProductPage = () => {
         flashSale: formData.flashSaleEndsAt
           ? {
               endsAt: new Date(formData.flashSaleEndsAt).toISOString(),
-              discountPercent: parseFloat(formData.flashSaleDiscount) || 0
+              discountPercent: parseFloat(formData.flashSaleDiscount) || 0,
             }
           : null,
         rating: 5.0,
-        reviews: 0
+        reviews: 0,
       };
 
       if (editingProduct) {
@@ -200,28 +209,56 @@ const AdminAddProductPage = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-text-primary">{editingProduct ? 'Editar Produto' : 'Novo Produto'}</h2>
-        <p className="text-text-dim">{editingProduct ? 'Atualize as informações do item' : 'Adicione um novo item ao catálogo'}</p>
+        <h2 className="text-2xl font-bold text-text-primary">
+          {editingProduct ? 'Editar Produto' : 'Novo Produto'}
+        </h2>
+        <p className="text-text-dim">
+          {editingProduct ? 'Atualize as informações do item' : 'Adicione um novo item ao catálogo'}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="glass-card p-6 rounded-2xl space-y-4">
         <div>
           <label className="block text-sm font-medium text-text-dim mb-2">Foto do Produto</label>
           {imagePreview ? (
-            <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <img src={imagePreview} alt="Preview" loading="lazy" decoding="async" className="w-full h-48 object-cover" />
-              <button type="button" onClick={removeImage} className="absolute top-2 right-2 p-2 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
+            <div
+              className="relative rounded-xl overflow-hidden"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            >
+              <img
+                src={imagePreview}
+                alt="Preview"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-48 object-cover"
+              />
+              <button
+                type="button"
+                onClick={removeImage}
+                className="absolute top-2 right-2 p-2 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+              >
                 <X size={18} />
               </button>
             </div>
           ) : (
             <div
-              onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
               onClick={() => fileInputRef.current?.click()}
               className="relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all hover:bg-white/5"
-              style={{ borderColor: dragActive ? '#1DF2FF' : 'rgba(0,0,0,0.12)', backgroundColor: dragActive ? 'rgba(29,242,255,0.05)' : '#F8FAFC' }}
+              style={{
+                borderColor: dragActive ? '#1DF2FF' : 'rgba(0,0,0,0.12)',
+                backgroundColor: dragActive ? 'rgba(29,242,255,0.05)' : '#F8FAFC',
+              }}
             >
-              <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileInput} className="hidden" />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileInput}
+                className="hidden"
+              />
               <Upload size={28} className="mx-auto mb-2" style={{ color: '#1DF2FF' }} />
               <p className="text-text-primary font-semibold">Clique ou arraste uma imagem</p>
             </div>
@@ -230,14 +267,29 @@ const AdminAddProductPage = () => {
 
         {/* Galeria de Imagens */}
         <div>
-          <label className="block text-sm font-medium text-text-dim mb-2">Imagens da Galeria (opcional — até 3)</label>
+          <label className="block text-sm font-medium text-text-dim mb-2">
+            Imagens da Galeria (opcional — até 3)
+          </label>
           <div className="grid grid-cols-3 gap-3">
             {[0, 1, 2].map((i) => (
               <div key={i}>
                 {galleryPreviews[i] ? (
-                  <div className="relative rounded-xl overflow-hidden" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
-                    <img src={galleryPreviews[i]} alt="" loading="lazy" decoding="async" className="w-full aspect-square object-cover" />
-                    <button type="button" onClick={() => removeGalleryImage(i)} className="absolute top-1 right-1 p-1.5 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors">
+                  <div
+                    className="relative rounded-xl overflow-hidden"
+                    style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+                  >
+                    <img
+                      src={galleryPreviews[i]}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full aspect-square object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeGalleryImage(i)}
+                      className="absolute top-1 right-1 p-1.5 bg-black/60 rounded-full text-white hover:bg-red-500 transition-colors"
+                    >
                       <X size={14} />
                     </button>
                   </div>
@@ -248,11 +300,24 @@ const AdminAddProductPage = () => {
                     onDragLeave={() => handleGalleryDragLeave(i)}
                     onClick={() => galleryRefs.current[i]?.click()}
                     className="relative border-2 border-dashed rounded-xl aspect-square flex flex-col items-center justify-center cursor-pointer transition-all hover:bg-white/5"
-                    style={{ borderColor: galleryDragActive[i] ? '#1DF2FF' : 'rgba(0,0,0,0.12)', backgroundColor: galleryDragActive[i] ? 'rgba(29,242,255,0.05)' : '#F8FAFC' }}
+                    style={{
+                      borderColor: galleryDragActive[i] ? '#1DF2FF' : 'rgba(0,0,0,0.12)',
+                      backgroundColor: galleryDragActive[i] ? 'rgba(29,242,255,0.05)' : '#F8FAFC',
+                    }}
                   >
-                    <input ref={(el) => { galleryRefs.current[i] = el; }} type="file" accept="image/*" onChange={(e) => handleGalleryFile(e.target.files[0], i)} className="hidden" />
+                    <input
+                      ref={(el) => {
+                        galleryRefs.current[i] = el;
+                      }}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleGalleryFile(e.target.files[0], i)}
+                      className="hidden"
+                    />
                     <ImagePlus size={22} style={{ color: '#94A3B8' }} />
-                    <span className="text-xs mt-1" style={{ color: '#94A3B8' }}>Foto {i + 1}</span>
+                    <span className="text-xs mt-1" style={{ color: '#94A3B8' }}>
+                      Foto {i + 1}
+                    </span>
                   </div>
                 )}
               </div>
@@ -263,15 +328,40 @@ const AdminAddProductPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
             <label className="text-sm font-medium text-text-dim">Nome do Produto</label>
-            <input type="text" name="name" required value={formData.name} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Preço (R$)</label>
-            <input type="number" name="price" required step="0.01" value={formData.price} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
+            <input
+              type="number"
+              name="price"
+              required
+              step="0.01"
+              value={formData.price}
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Preço Anterior</label>
-            <input type="number" name="originalPrice" step="0.01" value={formData.originalPrice} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
+            <input
+              type="number"
+              name="originalPrice"
+              step="0.01"
+              value={formData.originalPrice}
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            />
           </div>
           <div className="md:col-span-2">
             <ProfitCalculator
@@ -283,37 +373,88 @@ const AdminAddProductPage = () => {
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Fornecedor</label>
-            <input type="text" name="supplier" value={formData.supplier} onChange={handleChange} list="supplier-list" className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
+            <input
+              type="text"
+              name="supplier"
+              value={formData.supplier}
+              onChange={handleChange}
+              list="supplier-list"
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            />
             <datalist id="supplier-list">
-              {suppliers.map(s => <option key={s.id} value={s.name} />)}
+              {suppliers.map((s) => (
+                <option key={s.id} value={s.name} />
+              ))}
             </datalist>
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Estoque</label>
-            <input type="number" name="stock" required value={formData.stock} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }} />
+            <input
+              type="number"
+              name="stock"
+              required
+              value={formData.stock}
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            />
           </div>
           <div>
             <label className="text-sm font-medium text-text-dim">Categoria</label>
-            <select name="category" value={formData.category} onChange={handleChange} className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none" style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}>
-              {categories.map(c => <option key={c} value={c} className="bg-bg-elevated">{c}</option>)}
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className="w-full mt-1 px-4 py-3 rounded-xl text-sm text-text-primary outline-none"
+              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)' }}
+            >
+              {categories.map((c) => (
+                <option key={c} value={c} className="bg-bg-elevated">
+                  {c}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="isNew" checked={formData.isNew} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
+          <input
+            type="checkbox"
+            name="isNew"
+            checked={formData.isNew}
+            onChange={handleChange}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: '#FFB347' }}
+          />
           <span className="text-sm text-text-secondary">Marcar como Novo</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="comingSoon" checked={formData.comingSoon} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
+          <input
+            type="checkbox"
+            name="comingSoon"
+            checked={formData.comingSoon}
+            onChange={handleChange}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: '#FFB347' }}
+          />
           <span className="text-sm text-text-secondary">Produto a caminho (Em breve)</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} className="w-4 h-4 rounded" style={{ accentColor: '#FFB347' }} />
+          <input
+            type="checkbox"
+            name="featured"
+            checked={formData.featured}
+            onChange={handleChange}
+            className="w-4 h-4 rounded"
+            style={{ accentColor: '#FFB347' }}
+          />
           <Star size={16} style={{ color: '#FFB347' }} />
-          <span className="text-sm" style={{ color: '#1A2238' }}>Produto em Destaque (aparece no topo da loja)</span>
+          <span className="text-sm" style={{ color: '#1A2238' }}>
+            Produto em Destaque (aparece no topo da loja)
+          </span>
         </div>
 
         <div className="pt-2" style={{ borderTop: '1px solid rgba(0,0,0,0.04)' }}>
@@ -327,7 +468,11 @@ const AdminAddProductPage = () => {
               value={formData.flashSaleEndsAt}
               onChange={handleChange}
               className="flex-1 min-w-[180px] px-3 py-2 rounded-xl text-sm outline-none"
-              style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+              style={{
+                backgroundColor: '#F8FAFC',
+                border: '1px solid rgba(0,0,0,0.06)',
+                color: '#1A2238',
+              }}
             />
             <div className="flex items-center gap-1.5">
               <input
@@ -339,12 +484,18 @@ const AdminAddProductPage = () => {
                 value={formData.flashSaleDiscount}
                 onChange={handleChange}
                 className="w-20 px-3 py-2 rounded-xl text-sm outline-none text-center"
-                style={{ backgroundColor: '#F8FAFC', border: '1px solid rgba(0,0,0,0.06)', color: '#1A2238' }}
+                style={{
+                  backgroundColor: '#F8FAFC',
+                  border: '1px solid rgba(0,0,0,0.06)',
+                  color: '#1A2238',
+                }}
               />
               {formData.flashSaleEndsAt && (
                 <button
                   type="button"
-                  onClick={() => setFormData(prev => ({ ...prev, flashSaleEndsAt: '', flashSaleDiscount: '' }))}
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, flashSaleEndsAt: '', flashSaleDiscount: '' }))
+                  }
                   className="text-xs font-bold px-3 py-2 rounded-xl whitespace-nowrap"
                   style={{ backgroundColor: '#FEE2E2', color: '#EF4444' }}
                 >
@@ -354,14 +505,27 @@ const AdminAddProductPage = () => {
             </div>
           </div>
           {!formData.flashSaleEndsAt && (
-            <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>Preencha data de término e % de desconto para ativar a oferta relâmpago.</p>
+            <p className="text-xs mt-1" style={{ color: '#94A3B8' }}>
+              Preencha data de término e % de desconto para ativar a oferta relâmpago.
+            </p>
           )}
         </div>
 
         <div className="flex gap-3 pt-4">
-          <button type="button" onClick={() => navigate('/admin/products')} className="flex-1 py-3 glass-card rounded-xl font-bold text-text-secondary">Cancelar</button>
-          <button type="submit" disabled={saving} className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50" style={{ backgroundColor: '#FFB347' }}>
-            {saving ? 'Salvando...' : (editingProduct ? 'Atualizar' : 'Salvar Produto')}
+          <button
+            type="button"
+            onClick={() => navigate('/admin/products')}
+            className="flex-1 py-3 glass-card rounded-xl font-bold text-text-secondary"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex-1 py-3 text-black rounded-xl font-bold disabled:opacity-50"
+            style={{ backgroundColor: '#FFB347' }}
+          >
+            {saving ? 'Salvando...' : editingProduct ? 'Atualizar' : 'Salvar Produto'}
           </button>
         </div>
       </form>

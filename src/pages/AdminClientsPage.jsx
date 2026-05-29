@@ -11,15 +11,16 @@ const AdminClientsPage = () => {
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'customers'), (snap) => {
-      setClients(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+      setClients(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     });
     return unsub;
   }, []);
 
-  const filteredClients = clients.filter(c => 
-    c.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    c.phone?.includes(searchTerm) ||
-    c.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredClients = clients.filter(
+    (c) =>
+      c.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.phone?.includes(searchTerm) ||
+      c.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSave = async (e) => {
@@ -48,36 +49,58 @@ const AdminClientsPage = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-text-primary">Clientes</h2>
-          <p className="text-sm text-text-dim">{clients.length} cadastrado{clients.length !== 1 ? 's' : ''}</p>
+          <p className="text-sm text-text-dim">
+            {clients.length} cadastrado{clients.length !== 1 ? 's' : ''}
+          </p>
         </div>
       </div>
 
       <div className="relative">
         <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim" />
         <input
-          type="text" placeholder="Buscar por nome ou telefone..."
+          type="text"
+          placeholder="Buscar por nome ou telefone..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full pl-10 pr-3 py-2 rounded-lg text-sm text-text-primary outline-none"
-          style={{ backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+          style={{
+            backgroundColor: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
         />
       </div>
 
       <div className="space-y-2">
-        {filteredClients.map(client => (
-          <div key={client.id} className="glass-card p-4 rounded-xl flex items-center justify-between">
+        {filteredClients.map((client) => (
+          <div
+            key={client.id}
+            className="glass-card p-4 rounded-xl flex items-center justify-between"
+          >
             <div className="flex-1">
               <p className="text-sm font-bold text-text-primary">{client.name}</p>
               <div className="flex items-center gap-4 mt-1 text-xs text-text-dim">
-                {client.phone && <span className="flex items-center gap-1"><Phone size={12} /> {client.phone}</span>}
-                {client.email && <span className="flex items-center gap-1"><span style={{fontSize:'10px'}}>📧</span> {client.email}</span>}
+                {client.phone && (
+                  <span className="flex items-center gap-1">
+                    <Phone size={12} /> {client.phone}
+                  </span>
+                )}
+                {client.email && (
+                  <span className="flex items-center gap-1">
+                    <span style={{ fontSize: '10px' }}>📧</span> {client.email}
+                  </span>
+                )}
               </div>
               {client.createdAt && (
-                <p className="text-xs text-text-dim mt-1">Cadastrado em: {new Date(client.createdAt).toLocaleDateString('pt-BR')}</p>
+                <p className="text-xs text-text-dim mt-1">
+                  Cadastrado em: {new Date(client.createdAt).toLocaleDateString('pt-BR')}
+                </p>
               )}
             </div>
             <div className="flex items-center gap-1">
-              <button onClick={() => handleDelete(client.id)} className="p-1.5 hover:bg-red-500/10 rounded-lg transition-colors text-text-dim hover:text-red-400">
+              <button
+                onClick={() => handleDelete(client.id)}
+                className="p-1.5 hover:bg-red-500/10 rounded-lg transition-colors text-text-dim hover:text-red-400"
+              >
                 <Trash2 size={16} />
               </button>
             </div>
