@@ -1,0 +1,20 @@
+[
+  {
+    "termo": "smartwatch ultra series 9 nfc bluetooth",
+    "precoMaximo": 65,
+    "palavrasObrigatorias": ["smartwatch", "ultra"],
+    "palavrasProibidas": ["pulseira", "pelicula", "capa", "cabo"]
+  },
+  {
+    "termo": "fone bluetooth tws sem fio gamer",
+    "precoMaximo": 45,
+    "palavrasObrigatorias": ["fone", "bluetooth"],
+    "palavrasProibidas": ["capa", "case", "borrachinha"]
+  },
+  {
+    "termo": "carregador turbo 30w tipo c fonte rapida",
+    "precoMaximo": 38,
+    "palavrasObrigatorias": ["carregador", "turbo"],
+    "palavrasProibidas": ["cabo avulso", "suporte"]
+  }
+]

@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import AuthProvider, { useAuth } from './contexts/AuthContext';
@@ -28,6 +27,7 @@ import AdminBannersPage from './pages/AdminBannersPage';
 import AdminReportsPage from './pages/AdminReportsPage';
 import AdminCategoriesPage from './pages/AdminCategoriesPage';
 import AdminSuppliersPage from './pages/AdminSuppliersPage';
+import AdminRadarMLPage from './pages/AdminRadarMLPage';
 import ProfilePage from './pages/ProfilePage';
 import CartPage from './pages/CartPage';
 
@@ -71,6 +71,7 @@ function AppRoutes() {
         <Route path="clients" element={<AdminClientsPage />} />
         <Route path="pos" element={<AdminPosPage />} />
         <Route path="reports" element={<AdminReportsPage />} />
+        <Route path="radar-ml" element={<AdminRadarMLPage />} />
         <Route path="perfil" element={<ProfilePage />} />
       </Route>
 

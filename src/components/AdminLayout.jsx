@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import NotificationPanel from './NotificationPanel';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  BarChart3,
   Package,
   ShoppingCart,
   Users,
-  Settings,
   Bell,
   Search,
   Menu,
   X,
   Home,
-  TrendingUp,
   FileText,
   LogOut,
   Store,
   Ticket,
   PlusCircle,
-  Sun,
-  Moon,
   Image,
+  Radar,
   Tag,
   Truck,
 } from 'lucide-react';
@@ -28,7 +24,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import Logo from './Logo';
-import { useTheme } from '../contexts/ThemeContext';
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
@@ -38,7 +33,6 @@ const AdminLayout = () => {
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifCount, setNotifCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'notifications'), (snap) => {
@@ -61,6 +55,7 @@ const AdminLayout = () => {
     { id: 'clients', icon: Users, label: 'Clientes', path: '/admin/clients' },
     { id: 'orders', icon: ShoppingCart, label: 'Pedidos', path: '/admin/orders' },
     { id: 'reports', icon: FileText, label: 'Relatórios', path: '/admin/reports' },
+    { id: 'radar-ml', icon: Radar, label: 'Radar ML & Cariri', path: '/admin/radar-ml' },
   ];
 
   const isActive = (id) => currentModule === id || (id === 'dashboard' && currentModule === '');

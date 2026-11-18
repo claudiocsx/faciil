@@ -1,0 +1,46 @@
+name: Monitor de Preços
+
+on:
+  workflow_dispatch:
+  # Descomente para rodar automaticamente a cada hora:
+  # schedule:
+  #   - cron: '0 * * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  monitor:
+    name: Verificar fila de produtos
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ler e validar produtos.json
+        run: |
+          node -e '
+          const fs = require("fs");
+          const fila = JSON.parse(fs.readFileSync("produtos.json", "utf8"));
+          if (!Array.isArray(fila)) {
+            console.error("produtos.json precisa conter um array.");
+            process.exit(1);
+          }
+          console.log("Termos na fila: " + fila.length);
+          for (const [indice, item] of fila.entries()) {
+            console.log((indice + 1) + ". " + item.termo + " (ate R$ " + item.precoMaximo + ")");
+          }
+          '
+
+      - name: Consultar Mercado Livre e enviar alertas (TODO)
+        run: |
+          echo "::error::Integracao com a API do Mercado Livre e envio de alertas ainda nao configurada."
+          echo "Edite .github/workflows/monitor.yml e implemente a busca pelos termos de produtos.json."
+          exit 1

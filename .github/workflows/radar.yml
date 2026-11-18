@@ -1,0 +1,46 @@
+name: Radar de Oportunidades
+
+on:
+  workflow_dispatch:
+  # Descomente para rodar automaticamente todos os dias às 07:00 (UTC):
+  # schedule:
+  #   - cron: '0 7 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  radar:
+    name: Mapear oportunidades no Cariri
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ler e validar oportunidades_crato.json
+        run: |
+          node -e '
+          const fs = require("fs");
+          const oportunidades = JSON.parse(fs.readFileSync("oportunidades_crato.json", "utf8"));
+          if (!Array.isArray(oportunidades)) {
+            console.error("oportunidades_crato.json precisa conter um array.");
+            process.exit(1);
+          }
+          console.log("Oportunidades mapeadas: " + oportunidades.length);
+          for (const [indice, item] of oportunidades.entries()) {
+            console.log((indice + 1) + ". " + item.termoBusca + " | score " + item.scoreOportunidade);
+          }
+          '
+
+      - name: Gerar novas oportunidades (TODO)
+        run: |
+          echo "::error::Geracao automatica de oportunidades ainda nao configurada."
+          echo "Edite .github/workflows/radar.yml e implemente a coleta no Mercado Livre."
+          exit 1
