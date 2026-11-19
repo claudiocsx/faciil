@@ -105,7 +105,7 @@ const WORKFLOWS = [
     arquivo: 'monitor.yml',
     titulo: 'Monitor de Preços',
     descricao:
-      'Percorre a fila de produtos.json e avisa quando o preço fica abaixo do teto definido. Ideal para rodar de hora em hora.',
+      'Percorre a fila de produtos.json e avisa quando o preço fica abaixo do teto definido. Roda automaticamente a cada 2 horas.',
     icone: Activity,
   },
   {
@@ -1487,7 +1487,7 @@ export default function RadarMLAdmin() {
                   onChange={(evento) =>
                     setConfigForm((atual) => ({ ...atual, repo: evento.target.value }))
                   }
-                  placeholder="faciil"
+                  placeholder="robo-radar-ml"
                   autoComplete="off"
                   spellCheck={false}
                   className="w-full mt-1 px-3 py-2.5 rounded-xl text-sm outline-none"
