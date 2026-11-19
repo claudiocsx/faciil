@@ -47,6 +47,7 @@ const AdminLayout = () => {
   const menuItems = [
     { id: 'dashboard', icon: Home, label: 'Início', path: '/admin' },
     { id: 'pos', icon: PlusCircle, label: 'PDV', path: '/admin/pos' },
+    { id: 'radar-ml', icon: Radar, label: 'Radar ML & Cariri', path: '/admin/radar-ml' },
     { id: 'products', icon: Package, label: 'Produtos', path: '/admin/products' },
     { id: 'categories', icon: Tag, label: 'Categorias', path: '/admin/categories' },
     { id: 'suppliers', icon: Truck, label: 'Fornecedores', path: '/admin/suppliers' },
@@ -55,7 +56,6 @@ const AdminLayout = () => {
     { id: 'clients', icon: Users, label: 'Clientes', path: '/admin/clients' },
     { id: 'orders', icon: ShoppingCart, label: 'Pedidos', path: '/admin/orders' },
     { id: 'reports', icon: FileText, label: 'Relatórios', path: '/admin/reports' },
-    { id: 'radar-ml', icon: Radar, label: 'Radar ML & Cariri', path: '/admin/radar-ml' },
   ];
 
   const isActive = (id) => currentModule === id || (id === 'dashboard' && currentModule === '');
